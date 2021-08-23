@@ -1,0 +1,153 @@
+<div class="main-body fit-content stock-page card">
+    <div class="navegatable-view content">
+
+        <div class="top">
+            <div class="back-button">
+                <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
+            </div>
+
+            <div class="description">
+                <h3>Quantidade em stock de cada produto</h3>
+            </div>
+        </div>
+
+        <div class="middle">
+            <div class="search-field">
+                <span class="fa fa-search"></span>
+                <input type="text" placeholder="Pesquisar por Produtos" e-bind="search">
+            </div>
+        </div>
+
+        <div class="remain">
+
+            <div class="product-stock-container">
+                <div class="items-container nice-scroll">
+                    <div class="fit-content-nonspace nice-scroll">
+
+                        <div class="item-wrapper" e-for="item of produtoStocks">
+                            <a class="item" i:href="{{ '/buy?p=' + item.produto.codigo }}" e-skeleton="prods">
+                                <div class="icon">
+                                    <span e-content="{{ getAchronym(item.produto.nome) }}">#</span>
+                                </div>
+                                <div class="name" e-content="{{ item.produto.nome }}">
+                                    Loading...
+                                </div>
+                                <div class="value">
+                                    <h3
+                                        e-content="{{ item.quantidade + ' ' + (item.quantidade <= 1 ? 'Item' : 'Itens') }}">
+                                        Loading...
+                                    </h3>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="items-nav-button">
+                    <div class="nav-area">
+                        <span class="nav center-icon fa fa-angle-left" on:click="prevPage"></span>
+                        <span class="description"
+                            e-content="{{ paginationControls.page }} de {{ pagination.totalPages || '#' }}">
+                            # de #
+                        </span>
+                        <span class="nav center-icon fa fa-angle-right" on:click="nextPage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var easy = this.Easy;
+    var component = this;
+    var watch;
+
+    var getData = function getData(page, size, search, finished) {
+
+        var controls = component.data.paginationControls;
+        var pagination = component.data.pagination;
+
+        function finish() {
+            if (typeof finished === "function") finished();
+        }
+
+        if (page == 0)
+            return finish(controls.page = 1);
+
+        if (page > pagination.totalPages && pagination.totalPages != '')
+            return finish(controls.page = pagination.totalPages);
+
+        easy.get('compra?page=' + page + '&size=' + size + '&search=' + (search || ''))
+            .then(function (response) {
+                component.data.produtoStocks = response.result;
+                component.data.pagination = response.pagination;
+            })
+            .catch(function (error) {
+                notify({
+                    type: 'error',
+                    message: error.message || error
+                });
+            })
+            .finally(function () {
+                finish();
+
+                component.el.clearSkeleton("prods");
+            });
+    };
+
+    this.mounted = function (el) {
+        var input = el.node(".search-field input");
+        var controls = component.data.paginationControls;
+        getData(controls.page, controls.size);
+        
+        var lazyExecution = easy.lazy(function (value) {
+            input.classList.add('loading-input');
+            getData(controls.page = 1, controls.size, value, function () {
+                input.classList.remove('loading-input');
+            });
+        }, 1500);
+
+        watch = easy.watch('search', function (value) {
+            lazyExecution(value);
+        }, this.data);
+    }
+
+    this.loaded = function (el) {
+        easy.data.showSearchBar = false;
+        easy.data.currentPage = 'Stock';
+        
+        this.Easy.routing.markActive(
+            this.Easy.el.node('.dash-link')
+        );
+    }
+
+    this.destroyed = function () {
+        easy.data.showSearchBar = true;
+        if (watch) watch.destroy();
+    }
+
+    this.export({
+        search: '',
+        produtoStocks: [],
+        paginationControls: {
+            page: 1,
+            size: 10
+        },
+        pagination: {
+            pageNumber: '',
+            pageElements: '',
+            totalPages: '',
+            totalElements: ''
+        },
+
+        // Methods
+        nextPage: function () {
+            getData(++component.data.paginationControls.page, component.data.paginationControls.size);
+
+        },
+        prevPage: function () {
+            getData(--component.data.paginationControls.page, component.data.paginationControls.size);
+        }
+    });
+</script>

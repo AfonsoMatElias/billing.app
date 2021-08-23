@@ -1,0 +1,36 @@
+<div class="content nice-scroll">
+    <div class="header">
+        <h3>Nome</h3>
+        <p>Altere o nome do estabelimento</p>
+    </div>
+
+    <div class="input-area">
+        <inc src="address" data="{ actions: false }"></inc>
+
+        <div class="action-area">
+            <button on:click="destroyMe" type="reset" class="cancel-type">Cancelar</button>
+            <button type="button" class="submit-type">Salvar</button>
+        </div>
+    </div>
+</div>
+<script>
+    var $easy = this.Easy;
+    var component = this;
+
+    this.loaded = function (el) {
+
+    }
+
+    this.export({
+        // Variables
+        firstName: 'Loja Central',
+
+        // Methods
+        submit: function (evt) {
+
+        },
+        destroyMe: function () {
+            component.destroy();
+        }
+    })
+</script>

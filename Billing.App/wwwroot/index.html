@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" class="light-mode">
+
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing</title>
+    <link rel="shortcut icon" href="assets/images/logo/ico.svg" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> -->
+    <script src="assets/js/easy.js"></script>
+    <script src="assets/js/easy.ajax.js"></script>
+    <script src="assets/js/app.js"></script>
+</head>
+
+<body>
+    <div class="app-main-view">
+        <div e-class="{ 'page-loading': pageLoading }"></div>
+        <aside class="side-bar">
+            <div class="top logo-container">
+                <div class="logo">
+                    <a i:href="/">
+                        <img src="assets/images/logo/ico.svg" alt="Billing icon">
+                        <label>Billing </label>
+                    </a>
+                </div>
+            </div>
+            <div class="remain">
+                <nav class="menu nice-scroll">
+                    <ul>
+                        <li>
+                            <a class="dash-link" :href="/dashboard">
+                                <span class="center-icon fa fa-pie-chart"></span>
+                                <span> Dashboard </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="product-link" on:click="openable">
+                                <span class="center-icon fa fa-product-hunt"></span>
+                                <span> Produtos </span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a i:href="/products/create">
+                                        <span class="center-icon fa fa-plus-circle"></span>
+                                        <span> Criar </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a i:href="/products">
+                                        <span class="center-icon fa fa-list"></span>
+                                        <span> Listar </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="customer-link" on:click="openable">
+                                <span class="center-icon fa fa-user-o"></span>
+                                <span> Clientes </span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a i:href="/choose/customer">
+                                        <span class="center-icon fa fa-plus-circle"></span>
+                                        <span> Criar </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a i:href="/choose/customers">
+                                        <span class="center-icon fa fa-list"></span>
+                                        <span> Listar </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="provider-link" on:click="openable">
+                                <span class="center-icon fa fa-users"></span>
+                                <span> Fornecedores </span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a i:href="/choose/provider">
+                                        <span class="center-icon fa fa-plus-circle"></span>
+                                        <span> Criar </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a i:href="/choose/providers">
+                                        <span class="center-icon fa fa-list"></span>
+                                        <span> Listar </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a :href="/sell" class="sell-link">
+                                <span class="center-icon fa fa-money"></span>
+                                <span> Vender </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a :href="/buy" class="buy-link">
+                                <span class="center-icon fa fa-cube"></span>
+                                <span> Comprar </span>
+                            </a>
+                        </li>
+                        <li class="hide-it">
+                            <a :href="/reports">
+                                <span class="center-icon fa fa-area-chart"></span>
+                                <span> Relatórios </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a :href="/chat" class="chat-link">
+                                <span class="center-icon fa fa-wechat"></span>
+                                <span> Chat </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a :href="/settings" class="settings-link">
+                                <span class="center-icon fa fa-cog"></span>
+                                <span> Configurações </span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="top top-bar-container">
+                <div class="top-bar">
+                    <div class="page-detail">
+                        <h2 e-content="{{ currentPage }}"></h2>
+                    </div>
+                    <div class="controlls">
+                        <div class="search-field" e-show="showSearchBar">
+                            <span class="fa fa-search"></span>
+                            <input type="text" name="seacher" placeholder="Pesquisar por..." e-bind="search">
+                        </div>
+
+                        <div class="icon-field-container">
+                            <div class="icon-field">
+                                <div class="icon" on:click="showNotification=false; showConversation=!showConversation">
+                                    <span class="hide-it counter"
+                                        e-content="{{ conversations.length > 9 ? '9+' : conversations.length }}"
+                                        e-class="{ 'hide-it' : conversations.length == 0 }">0</span>
+                                    <span class="fa fa-comment-o"></span>
+                                </div>
+                                <div class="wrapper card hide-it" e-class="{ 'hide-it':!showConversation }">
+                                    <div class="content nice-scroll">
+                                        <div class="row high-light-row">
+                                            <span class="header-icon">
+                                                <span class="center-icon fa fa-comment-o"></span>
+                                            </span>
+                                            <span class="message">
+                                                <div>
+                                                    <p>Mensagens</p>
+                                                </div>
+                                            </span>
+                                            <span class="footer-icon"></span>
+                                        </div>
+
+                                        <div class="row" e-for="item of conversations">
+                                            <span class="header-icon">
+                                                <span class="center-icon fa fa-comments-o"></span>
+                                            </span>
+                                            <span class="message" e-title="{{ calculateNotificationPeriod(item.date) }}">
+                                                <small>
+                                                    <b e-content="{{ item.user }}">User</b>
+                                                </small>
+                                                <div>
+                                                    <small e-content="{{ item.message }}">Message </small>
+                                                </div>
+                                            </span>
+                                            <span class="footer-icon">
+                                                <span e-show="!item.seen" class="center-icon fa fa-circle"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <span class="header-icon">
+                                            <span class="center-icon fa fa-commenting-o"></span>
+                                        </span>
+                                        <a :href="/chat" class="message">
+                                            <div>
+                                                <p> Conversações </p>
+                                            </div>
+                                        </a>
+                                        <span class="footer-icon"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="icon-field">
+                                <div class="icon" on:click="showConversation=false; showNotification=!showNotification">
+                                    <span class="hide-it counter diff"
+                                        e-content="{{ notifications.length > 9 ? '9+' : notifications.length }}"
+                                        e-class="{ 'hide-it' : notifications.length == 0 }">0</span>
+                                    <span class="fa fa-bell-o"></span>
+                                </div>
+                                <div class="wrapper card hide-it" e-class="{ 'hide-it':!showNotification }">
+                                    <div class="content nice-scroll">
+                                        <div class="row high-light-row">
+                                            <span class="header-icon">
+                                                <span class="center-icon fa fa-bell-o"></span>
+                                            </span>
+                                            <span class="message">
+                                                <div>
+                                                    <p>Notificações</p>
+                                                </div>
+                                            </span>
+                                            <span class="footer-icon"></span>
+                                        </div>
+
+                                        <div class="row" e-for="item of notifications">
+                                            <span class="header-icon">
+                                                <span class="center-icon fa {{ item.type || 'fa-info' }}"></span>
+                                            </span>
+                                            <span class="message">
+                                                <div>
+                                                    <small>
+                                                        <p e-content="{{ item.message }}">Message</p>
+                                                    </small>
+                                                </div>
+                                                <div>
+                                                    <small e-content="{{ calculateNotificationPeriod(item.date) }}">Calculating...</small>
+                                                </div>
+                                            </span>
+                                            <span class="footer-icon"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <span class="header-icon">
+                                            <span class="center-icon fa fa-recycle"></span>
+                                        </span>
+                                        <span class="message">
+                                            <div>
+                                                <p>Limpar</p>
+                                            </div>
+                                        </span>
+                                        <span class="footer-icon"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mini-card card">
+                            <div class="card-button" on:click="showProfile = true">
+                                <div class="desc" e-content="{{ application.user.userName || 'Loading...' }}">Loading...</div>
+                                <div class="image"></div>
+                            </div>
+
+                            <div class="wrapper card hide-it" e-class="{ 'hide-it' : !showProfile }">
+                                <div class="header" on:click="showProfile = false">
+                                    <div class="desc">
+                                        <h3 e-content="{{ application.user.nome || 'Loading...' }}">Loading...</h3>
+                                        <p e-content="{{ application.role }}">Loading...</p>
+                                    </div>
+                                    <div class="image-container">
+                                        <div class="image"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <span class="header-icon">
+                                        <span class="center-icon fa fa-folder-open-o"></span>
+                                    </span>
+                                    <span class="message">
+                                        <div>
+                                            <p>Abrir Caixa</p>
+                                        </div>
+                                    </span>
+                                    <span class="footer-icon"></span>
+                                </div>
+                                <div class="row">
+                                    <span class="header-icon">
+                                        <span class="center-icon fa fa-folder-o"></span>
+                                    </span>
+                                    <span class="message">
+                                        <div>
+                                            <p>Fechar Caixa</p>
+                                        </div>
+                                    </span>
+                                    <span class="footer-icon"></span>
+                                </div>
+                                <div class="row">
+                                    <span class="header-icon">
+                                        <span class="center-icon fa fa-cog"></span>
+                                    </span>
+                                    <span class="message">
+                                        <a i:href="/settings">
+                                            <div>
+                                                <p>Configurações</p>
+                                            </div>
+                                        </a>
+                                    </span>
+                                    <span class="footer-icon"></span>
+                                </div>
+                                <div class="row">
+                                    <span class="header-icon">
+                                        <span class="center-icon fa fa-sign-out"></span>
+                                    </span>
+                                    <span class="message">
+                                        <div on:click="signOut">
+                                            <p>Sair</p>
+                                        </div>
+                                    </span>
+                                    <span class="footer-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-view nice-scroll" route-view></div>
+        </main>
+    </div>
+    <div class="popup-container"></div>
+</body>
+
+</html>

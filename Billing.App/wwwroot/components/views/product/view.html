@@ -1,0 +1,156 @@
+<div class="main-body create-product view-page base-divide-structure fit-content">
+    <div class="content">
+        <div class="input-side card">
+            <div class="left nice-scroll">
+
+                <div class="input-area">
+
+                    <div class="label-back-button">
+                        <div class="back-button">
+                            <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
+                        </div>
+                        <div class="text">
+                            <h3 class="info-section"> Informações Base </h3>
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        <label>Código</label>
+                        <input type="text" e-toggle:disabled="locked" e-value="{{ resultData.codigo || 'Loading...' }}"
+                            placeholder="Código de Barra" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Nome</label>
+                        <input type="text" e-toggle:disabled="locked" e-value="{{ resultData.nome || 'Loading...' }}"
+                            placeholder="Nome" />
+                    </div>
+                    <div class="input-field">
+                        <label>Nome Secundário</label>
+                        <input type="text" e-toggle:disabled="locked"
+                            e-value="{{ resultData.nomeSecundario || 'Loading...' }}" placeholder="Segundo Nome" />
+                    </div>
+                    <div class="input-field">
+                        <label>Preço Unitário</label>
+                        <input type="text" e-toggle:disabled="locked"
+                            e-value="{{ resultData.precoUnitario || 'Loading...' }}" placeholder="Preco Unitário" />
+                    </div>
+                    <div class="input-field">
+                        <label>SubCategoria</label>
+                        <input type="text" e-toggle:disabled="locked"
+                            value="{{ (resultData.subCategoria||{}).nome || 'Loading...' }}"
+                            placeholder="Preco Unitário" />
+                    </div>
+                </div>
+
+                <div class="field-space">
+                    <div class="check-field field-space">
+                        <input class="app-checkbox" e-toggle:disabled="locked"
+                            e-bind:checked="resultData.isPerecivel || false" type="checkbox">
+                        <label>Produto Perecível?</label>
+                    </div>
+
+                    <div class="check-field field-space">
+                        <input class="app-checkbox" e-toggle:disabled="locked"
+                            e-bind:checked="resultData.isStock || false" type="checkbox">
+                        <label>Controlar Stock do Produto?</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="right nice-scroll">
+                <div class="input-area">
+                    <h3 class="info-section"> Descrição </h3>
+
+                    <div class="input-container">
+                        <textarea class="description-field" e-toggle:disabled="locked" style="resize: none;"
+                            e-content="{{ resultData.descricao || 'N/A' }}">Loading...</textarea>
+
+                        <div class="action-container">
+                            <div class="main-body-action">
+                                <button type="reset" class="remove-type">Eliminar</button>
+                                <button type="button" class="blue-type" e-show="locked"
+                                    on:click="locked = false">Editar</button>
+                                <button type="button" class="submit-type" e-show="!locked"
+                                    on:click="null">Salvar</button>
+                                <button type="button" on:click="locked = true" class="cancel-type"
+                                    e-show="!locked">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="images-side default-side card nice-scroll">
+            <div class="top">
+                <h3 class="info-section"> Imagens </h3>
+            </div>
+            <div class="image-load-area">
+                <span class="image-loaded" e-style="background-image: {{ loadUrl(thumbnail) }};"></span>
+            </div>
+            <div class="action-area">
+                <div e-for="tn of thumbnails" on:click="thumbnail = tn.imageUrl" class="photo-thumbnail center-icon"
+                    e-style="background-image: url({{ tn.imageUrl }});">
+                    <span e-show="!locked" class="icon-type center-icon fa fa-remove" title="Remover Imagem"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var easy = this.Easy;
+    var component = this;
+
+    this.mounted = function (el) {
+        var params = this.getParams();
+
+        easy.getOne('produto', params.id)
+            .then(function (data) {
+                var resultData = data.result;
+
+                if (!resultData) {
+                    notify({
+                        message: 'Produto Não encontrado',
+                        type: 'warn'
+                    });
+
+                    return setTimeout(function () { window.location.href = '/'; }, 2500);
+                }
+
+                component.data.resultData = resultData;
+                component.data.thumbnails = resultData.produtoImagens;
+
+                var thumbnail = component.data.thumbnails[0];
+                if (thumbnail) component.data.thumbnail = thumbnail.imageUrl;
+            })
+            .catch(function (error) {
+                notify({
+                    message: error.message | error,
+                    type: 'error'
+                });
+
+                setTimeout(function () { window.location.href = '/'; }, 2500);
+            });
+    }
+
+    this.loaded = function (el) {
+        // Marking the menu
+        this.Easy.data.currentPage = 'Visualizar Produto';
+
+        this.Easy.routing.markActive(
+            this.Easy.el.node('.product-link')
+        );
+    }
+
+    this.export({
+        // Variables
+        locked: true,
+        thumbnail: '',
+        thumbnails: [],
+        resultData: {},
+        // Methods
+        loadUrl: function (data) {
+            return !data ? '' : ' url(' + data + ')';
+        }
+    });
+</script>

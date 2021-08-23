@@ -1,0 +1,51 @@
+<inc src="table">
+    <content ident="table-head">
+        <div class="table-cell"> Nome </div>
+        <div class="table-cell"> Nome Secundário </div>
+        <div class="table-cell"> Código </div>
+        <div class="table-cell"> Preço </div>
+        <div class="table-cell"> SubCategoria </div>
+        <div class="table-cell"> Estado </div>
+    </content>
+    <content ident="table-body">
+        <div class="table-row flex-it" e-tmp="produto" e-use="item">
+            <div class="card-cover" e-skeleton></div>
+            <div class="pointer table-cell" e-skeleton> 
+                <a i:href="/products/view/{{ item.uid }}" e-content="{{ item.nome }}">
+                    Loading... 
+                </a>
+            </div>
+            <div class="pointer table-cell" e-skeleton e-content="{{ item.nomeSecundario }}"> Loading... </div>
+            <div class="pointer table-cell hidable" e-skeleton e-content="{{ item.codigo }}"> Loading... </div>
+            <div class="pointer table-cell hidable" e-skeleton e-content="{{ item.precoUnitario }} Akz"> Loading... </div>
+            <div class="pointer table-cell hidable" e-skeleton e-content="{{ item.subCategoria.nome }}"> Loading... </div>
+            <div class="table-cell">
+                <span e-skeleton e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading... </span>
+                <div>
+                    <div class="item-options flex-it hide-it">
+                        <div>
+                            <a i:href="/products/view/{{ item.uid }}">
+                                <button class="see">Ver</button>
+                            </a>
+                        </div>
+                        <div>
+                            <button class="rem">Eliminar</button>
+                        </div>
+                    </div>
+                    <span title="Opções" onclick="event.target.previousElementSibling.classList.toggle('hide-it')" class="fa fa-dot-circle-o"></span>
+                </div>
+            </div>
+        </div>
+    </content>
+</inc>
+<script>
+    var $easy = this.Easy;
+    this.loaded = function (el) {
+        // Marking the menu
+        this.Easy.data.currentPage = 'Lista de Produtos';
+
+        this.Easy.routing.markActive(
+            this.Easy.el.node('.product-link')
+        );
+    }
+</script>

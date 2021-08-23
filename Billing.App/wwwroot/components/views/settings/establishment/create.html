@@ -1,0 +1,73 @@
+<inc src="settings-wrapper" data="{ active: 'establishment' }">
+    <content>
+        <div class="partial splitted-editing editable-left">
+            <form class="left nice-scroll" find-me>
+                <div class="description">
+                    <h3>Adicionar Estabelecimento</h3>
+                </div>
+
+                <div class="row column-type">
+                    <div class="input-field">
+                        <label>Nome</label>
+                        <input type="text" name="Nome" placeholder="Nome do Estabelecimento">
+                    </div>
+
+                    <div class="input-field">
+                        <label>Gerente</label>
+                        <select>
+                            <option selected>Seleccione um Gerente</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <label>Endereco</label>
+                    </div>
+
+                    <inc src="address" data="{ actions: false }"></inc>
+                </div>
+
+                <div class="row">
+                    <div class="action-area btn-ordered">
+                        <button type="reset" class="cancel-type" onclick="window.history.back()">Voltar</button>
+                        <button type="button" class="submit-type" on:click="submit">Criar</button>
+                    </div>
+                </div>
+            </form>
+            <div class="right" id="loadable"></div>
+        </div>
+    </content>
+</inc>
+<script>
+    var $easy = this.Easy;
+    var component = this;
+
+    this.export({
+        submit: function (evt) {
+            var btn = evt.base;
+            var form = btn.aboveMe('form');
+            
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            $easy.create('estabelecimento', $easy.toJsObj(form))
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Criado',
+                        run: function () {
+                            $easy.routing.navegate("/settings/establishment");
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    notify({
+                        type: 'error',
+                        message: error.message || error
+                    });
+                })
+                .finally(function () {
+                    addOrRemSpinner(btn, true);
+                });
+        }
+    });
+</script>

@@ -1,0 +1,113 @@
+<div class="card fit-content create-customer">
+    <div class="base-info">
+        <div class="content">
+            <div class="fit-content nice-scroll">
+                <!-- Photo -->
+                <div class="photo-field">
+                    <input type="file" name="Imagem" e-toggle:disabled="locked" accept="image/gif, image/jpeg, image/png, image/jpg"
+                        class="hide-it" />
+                    <div class="customer image">
+                        <span title="Clique para alterar a imagem"
+                            class="icon-type center-icon fa fa-camera"></span>
+                    </div>
+                </div>
+
+                <!-- Pessoa Singular -->
+                <div class="input-area" e-if="sectionToShow == 'tps'">
+                    <div class="input-field">
+                        <label>Primeiro Nome</label>
+                        <input type="text" name="PrimeiroNome" e-toggle:disabled="locked" validate="text"
+                            placeholder="Digite o seu Primeiro Nome" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Último Nome</label>
+                        <input type="text" name="UltimoNome" e-toggle:disabled="locked" validate="text"
+                            placeholder="Digite o seu Último Nome" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Identificação</label>
+                        <input type="text" name="UltimoNome" e-toggle:disabled="locked" validate="text"
+                            placeholder="Digite a sua Identificação" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Genero</label>
+                        <select name="GeneroId" e-toggle:disabled="locked" validate="select">
+                            <option selected value="#">None</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <label>Titulo</label>
+                        <select name="TituloId" e-toggle:disabled="locked" validate="select">
+                            <option selected value="#">None</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Pessoa Coletiva -->
+                <div class="input-area" e-if="sectionToShow == 'tpc'">
+                    <div class="input-field">
+                        <label>Nome</label>
+                        <input type="text" name="Nome" e-toggle:disabled="locked" validate="text"
+                            placeholder="Digite o Nome da Empresa" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>NIF</label>
+                        <input type="text" name="UltimoNome" e-toggle:disabled="locked" validate="text" placeholder="Digite o NIF" />
+                    </div>
+
+                    <div class="input-field">
+                        <label class="default-label block-it">Empregados</label>
+                        <div class="default-container"></div>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-field">
+                        <label>Nascimento</label>
+                        <input type="date" name="Nascimento" e-toggle:disabled="locked" validate="age" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-body-action">
+            <button type="reset" class="remove-type">Eliminar</button>
+            <button type="button" class="blue-type" e-show="locked" on:click="locked = false">Editar</button>
+            <button type="button" class="submit-type" e-show="!locked" on:click="null">Salvar</button>
+        </div>
+    </div>
+    <div class="address addables nice-scroll">
+        <div class="content fit-content">
+            <p class="high-light">Enderecos</p>
+            <inc src="address"></inc>
+        </div>
+    </div>
+    <div class="contacts addables nice-scroll">
+        <div class="content fit-content">
+            <p class="high-light">Contactos</p>
+            <inc src="contact"></inc>
+        </div>
+    </div>
+</div>
+<script>
+    var $easy = this.Easy;
+    this.loaded = function (el) {
+        this.Easy.data.currentPage = 'Visualizar Fornecedor';
+
+        this.Easy.routing.markActive(
+            this.Easy.el.node('.provider-link')
+        );
+
+        var params = this.getParams();
+        this.data.sectionToShow = params.type;
+    }
+
+    this.export({
+        locked: true,
+        sectionToShow: ''
+    });
+</script>

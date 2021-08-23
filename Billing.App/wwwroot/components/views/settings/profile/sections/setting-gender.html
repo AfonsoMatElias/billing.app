@@ -1,0 +1,42 @@
+<div class="content">
+    <div class="header">
+        <h3>Gênero</h3>
+        <p>Altere o Gênero que é apresentado no teu perfil</p>
+    </div>
+
+    <div class="input-area">
+        <div class="input-field cell">
+            <label>Gênero</label>
+            <select e-value="{{ selected }}">
+                <option value="1">Masculino</option>
+                <option value="2">Feminino</option>
+            </select>
+        </div>
+        
+        <div class="action-area">
+            <button on:click="destroyMe" type="reset" class="cancel-type">Cancelar</button>
+            <button type="button" class="submit-type">Salvar</button>
+        </div>
+    </div>
+</div>
+<script>
+    var $easy = this.Easy;
+    var component = this;
+    
+    this.loaded = function (el) {
+
+    }
+
+    this.export({
+        // Variables
+        selected:'1',
+
+        // Methods
+        submit: function (evt) {
+            
+        },
+        destroyMe: function () {
+            component.destroy();
+        }
+    })
+</script>

@@ -1,0 +1,169 @@
+<div class="card fit-content create-customer" post-form>
+    <div class="base-info">
+        <div class="content">
+            <div class="fit-content nice-scroll">
+                <!-- Photo -->
+                <div class="photo-field">
+                    <div class="back-button">
+                        <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
+                    </div>
+
+                    <input type="file" name="Imagem" id="image" accept="image/gif, image/jpeg, image/png, image/jpg"
+                        class="hide-it" />
+                    <div class="customer image" e-def="{ setfotoIcon: 'fa-plus' }">
+                        <span title="Clique para alterar a imagem"
+                            class="icon-type center-icon fa {{ setfotoIcon }}"></span>
+                    </div>
+                    <div class="description">
+                        <p> Carregue uma imagem para o {{ person }}.</p>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-field">
+                        <label>Tipo de Pessoa</label>
+                        <select disabled name="TipoPessoaId" validate="select" e-bind="type">
+
+                            <option e-tmp="TipoPessoa" e-use="item" e-value="{{ item.id }}" e-content="{{ item.nome }}"
+                                on:add="(function(event){
+                                        if (type === item.codigo)
+                                            event.base.selected = true;
+                                    })(event)">Loading...</option>
+
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <label>Identificação</label>
+                        <input type="text" name="Identificacao" validate="text"
+                            placeholder="Digite a sua Identificação" />
+                    </div>
+                </div>
+
+                <!-- Pessoa Singular -->
+                <div class="input-area" e-if="type === 'tps'">
+                    <div class="input-field">
+                        <label>Primeiro Nome</label>
+                        <input type="text" name="PrimeiroNome" validate="text"
+                            placeholder="Digite o seu Primeiro Nome" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Último Nome</label>
+                        <input type="text" name="UltimoNome" validate="text" placeholder="Digite o seu Último Nome" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Genero</label>
+                        <select name="GeneroId" validate="select">
+                            <option selected disabled value="">None</option>
+                            <option e-tmp="Genero" e-use="item" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                Loading...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <label>Titulo</label>
+                        <select name="TituloId" validate="select">
+                            <option selected disabled value="">None</option>
+                            <option e-tmp="Titulo" e-use="item" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                Loading...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Pessoa Coletiva -->
+                <div class="input-area" e-else-if="type === 'tpc'">
+                    <div class="input-field">
+                        <label>Nome</label>
+                        <input type="text" name="PrimeiroNome" validate="text" placeholder="Digite o Nome da Empresa" />
+                    </div>
+                </div>
+
+                <div style="display: none;" e-build=Entidade>
+                    <input type="text" name="TipoEntidadeCodigo" e-value="{{ typeEntity }}" />
+                    <input type="text" name="TipoPessoaCodigo" e-value="{{ type }}" />
+                </div>
+
+                <div class="input-area">
+                    <div class="input-field">
+                        <label>Nascimento</label>
+                        <input type="date" name="DataNascimento" validate="age" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-body-action">
+            <button type="reset" class="cancel-type">CANCELAR</button>
+            <button type="button" class="submit-type" on:click="submit">SUBMETER</button>
+        </div>
+    </div>
+    <div class="address addables nice-scroll">
+        <div class="content fit-content">
+            <p class="high-light"> Adicione Enderecos</p>
+            <inc e-build="Enderecos" e-array src="address"></inc>
+        </div>
+    </div>
+    <div class="contacts addables nice-scroll">
+        <div class="content fit-content">
+            <p class="high-light"> Adicione Contactos</p>
+            <inc e-build="Contactos" src="contact"></inc>
+        </div>
+    </div>
+</div>
+<script>
+    var easy = this.Easy;
+    var component = this;
+
+    // Exposing the data that will be used in the mais 
+    this.Easy.expose('shared-person-creation-methods', {
+        submitPerson: function (evt, url, redirectTo) {
+            var btn = evt.base;
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            var form = evt.base.aboveMe('[post-form]');
+            var formObj = easy.toJsObj(form);
+            var formData = new FormData();
+
+            formData.append("json", JSON.stringify(formObj));
+            for (var file of component.el.node('#image').files) {
+                formData.append("file", file);
+            }
+
+            // Undefining the content type
+            var headers = easy.dependencies['Connector'].conn.fetchOptions.headers;
+            var contentType = headers['Content-Type'];
+            var accept = headers['Accept'];
+
+            headers['Content-Type'] = undefined;
+            headers['Accept'] = undefined;
+
+            easy.create(url, formData)
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Efectuado'
+                    });
+
+                    // Waiting 2s to got the next page
+                    setTimeout(function () {
+                        easy.routing.navegate(redirectTo);
+                    }, 500);
+                })
+                .catch(function (error) {
+                    notify({
+                        type: 'error',
+                        message: error.message || error
+                    });
+                })
+                .finally(function () {
+                    headers['Accept'] = accept;
+                    headers['Content-Type'] = contentType;
+                    addOrRemSpinner(btn, true);
+                })
+        }
+    });
+
+    this.export(this.scope);
+</script>

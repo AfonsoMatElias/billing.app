@@ -1,0 +1,30 @@
+<div class="main-body">
+    <inc src="create-person"></inc>
+</div>
+<script>
+    var easy = this.Easy;
+    var sharedPersonCreation;
+    var params = this.getParams();
+    this.loaded = function (el) {
+        // Marking the menu
+        this.Easy.data.currentPage = 'Cadastrar um Fornecedor';
+
+        this.Easy.routing.markActive(
+            this.Easy.el.node('.provider-link')
+        );
+    }
+    this.export({
+        type: params.type,
+        typeEntity: params.typeEntity,
+        person: 'fornecedor',
+
+        // Methods
+        submit: function (evt) {
+            // Getting the exposed method
+            sharedPersonCreation = sharedPersonCreation || easy.retrieve('shared-person-creation-methods', true);
+
+            // Submiting
+            sharedPersonCreation.submitPerson(evt, "pessoa", "/providers/" + params.type);
+        }
+    })
+</script>

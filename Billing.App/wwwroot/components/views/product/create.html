@@ -1,0 +1,267 @@
+<div class="main-body create-product base-divide-structure fit-content">
+    <div class="content">
+        <form class="input-side card" post-form>
+            <div class="left nice-scroll">
+
+                <div class="input-area">
+                    <h3 class="info-section"> Informações Base </h3>
+
+                    <div class="input-field">
+                        <label>Nome</label>
+                        <input type="text" name="Nome" validate="text" placeholder="Nome" />
+                    </div>
+                    <div class="input-field">
+                        <label>Nome Secundário</label>
+                        <input type="text" name="NomeSecundario" validate="text" placeholder="Segundo Nome" />
+                    </div>
+                    <div class="input-field">
+                        <label>Preço Unitário</label>
+                        <input type="text" name="PrecoUnitario" validate="number" placeholder="Preco Unitário" />
+                    </div>
+                    <div class="input-field">
+                        <label>Categoria</label>
+                        <select validate="select" >
+                            <option selected on:click="selectCategoria()">None</option>
+                            <option e-tmp="Categoria" e-use="item" e-value="{{ item.id }}" 
+                                e-content="{{ item.nome }}" on:click="selectCategoria(item)">Loading...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field" e-show="subCategorias.length !== 0">
+                        <label>SubCategoria</label>
+                        <select name="SubCategoriaId" validate="select">
+                            <option selected value="">None</option>
+                            <option e-for="item of subCategorias" e-value="{{ item.id }}" 
+                                    e-content="{{ item.nome }}">None</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-area section-space">
+                    <h3 class="info-section"> Descreva o Produto </h3>
+
+                    <div class="input-field">
+                        <label>Descrição</label>
+                        <textarea name="Descricao"></textarea>
+                    </div>
+                </div>
+
+                <div class="main-body-action">
+                    <button type="reset" class="cancel-type">CANCELAR</button>
+                    <button type="button" class="submit-type" on:click="submit">SUBMETER</button>
+                </div>
+            </div>
+            <div class="right nice-scroll">
+                <div class="input-area">
+                    <h3 class="info-section"> Informações Especificas </h3>
+
+                    <div class="input-area">
+                        <div class="input-field">
+                            <label>Código</label>
+                            <input type="text" name="Codigo" validate="text" placeholder="Código de Barra" />
+                        </div>
+
+                        <div class="check-field field-space">
+                            <input class="app-checkbox" id="destroyable" e-bind:checked="isDestroyable"
+                                e-value="{{ isDestroyable }}" type="checkbox" name="IsPerecivel">
+                            <label for="destroyable">Produto Perecível?</label>
+                        </div>
+
+                        <div class="check-field field-space">
+                            <input class="app-checkbox" id="stock-check" type="checkbox" e-bind:checked="isStock"
+                                e-value="{{ isStock }}" name="IsStock">
+                            <label for="stock-check">Controlar Stock do Produto?</label>
+                        </div>
+                    </div>
+
+                    <div class="check-field field-space" e-def="{ buyInfo: true }">
+                        <input class="app-checkbox" id="buy-check" e-bind:checked="buyInfo" type="checkbox">
+                        <label for="buy-check">
+                            <h3 class="info-section section-space"> Informações de Compra </h3>
+                        </label>
+                    </div>
+
+                    <div class="input-area" e-if="buyInfo" e-build="Compras" e-array>
+                        <div class="input-field">
+                            <label>Fornecedor</label>
+                            <select name="FornecedorId" validate="select">
+                                <option value="" selected>None</option>
+                                <option e-tmp="Entidade" e-id="?codigoTipoEntidade=tef" e-use="item" e-value="{{ item.id }}" 
+                                        e-content="{{ item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : '') }}">Loading...</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Quantidade</label>
+                            <input type="number" name="Quantidade" validate="number" placeholder="Quantidade " />
+                        </div>
+
+                        <div class="input-field" e-if="isDestroyable">
+                            <label>Data de Validade</label>
+                            <input type="date" name="Validade" validate="date" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Data de Entrada</label>
+                            <input type="date" name="DataEntrada" validate="date" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Preço Unitário de Compra</label>
+                            <input type="text" name="PrecoUnitarioCompra" validate="number"
+                                placeholder="Preço de Compra" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Preço Unitário de Venda</label>
+                            <input type="text" name="PrecoUnitarioVenda" validate="number"
+                                placeholder="Preço de Venda" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="images-side default-side card nice-scroll">
+            <div class="top">
+                <h3 class="info-section"> Imagens </h3>
+            </div>
+            <div class="image-load-area" on:dragover.preventDefault="dragIn" on:dragleave.preventDefault="dragOut"
+                on:drop.preventDefault="drop" on:dragend.preventDefault="null" on:dragleave.preventDefault="null"></div>
+            <div class="action-area">
+                <div class="area center">
+                    <button type="button" onclick="event.target.nextElementSibling.click()" 
+                            class="primary-button">Carregar</button>
+                    <input id="product-images" type="file" on:change="load" style="display: none;" accept="image/png, image/jpeg" multiple>
+                </div>
+            </div>
+            <div class="description">
+                <p>
+                    Carregue imagens do produto simplesmente arrastando-as no espaço acinzentado ou clicando no botão
+                    dizendo <span style="color: var(--color-blue)">Carregar</span>.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var easy = this.Easy;
+    var component = this;
+    var imageArea = this.el.node('.image-load-area');
+
+    function image(data) {
+        return easy.toElement('<span e-compile class="image-loaded" style="background-image: url(' + data + ');">' +
+                                    '<span class="close fa fa-close center-icon" on:click="(function(evt){' +
+                                    "var el = evt.base.aboveMe('.image-loaded');" +
+                                    'el.parentNode.removeChild(el);' +
+                                    '})(event)"></span>' +
+                                '</span>');
+    }
+
+    this.loaded = function (el) {
+        // Marking the menu
+        this.Easy.data.currentPage = 'Cadastrar um Produto';
+
+        this.Easy.routing.markActive(
+            this.Easy.el.node('.product-link')
+        );
+    }
+    this.export({
+        // Variables
+        isStock: false,
+        isDestroyable: false,
+        subCategorias: [],
+
+        // Methods
+        selectCategoria: function (item) {
+            if (!item) return component.data.subCategorias = [];
+            component.data.subCategorias = item.subCategorias;
+        },
+        drop: function (evt) {
+            evt.base.classList.remove('drag-over');
+
+            var availableSpace = 3 - imageArea.children.length;
+            if (availableSpace === 0) return;
+
+            if (evt.dataTransfer) {
+                for (var item of evt.dataTransfer.files) {
+                    var reader = new FileReader();
+                    reader.addEventListener('load', function (data) {
+                        imageArea.appendChild(image(data.target.result));
+                    });
+                    if (availableSpace === 0) break;
+                    reader.readAsDataURL(item);
+                    availableSpace--;
+                }
+            }
+        },
+        dragIn: function (evt) {
+            evt.base.classList.add('drag-over');
+        },
+        dragOut: function (evt) {
+            evt.base.classList.remove('drag-over');
+        },
+        load: function (evt) {
+            evt.base.classList.remove('drag-over');
+
+            var availableSpace = 3 - imageArea.children.length;
+            if (availableSpace === 0) return;
+            
+            for (var item of evt.base.files) {
+                var reader = new FileReader();
+                reader.addEventListener('load', function (data) {
+                    imageArea.appendChild(image(data.target.result));
+                });
+                if (availableSpace === 0) break;
+                reader.readAsDataURL(item);
+                availableSpace--;
+            }
+        },
+        submit: function (evt) {
+
+            var btn = evt.base;
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            var form = evt.base.aboveMe('[post-form]');
+            var formObj = easy.toJsObj(form);
+            var formData = new FormData();
+
+            formData.append("json", JSON.stringify(formObj));
+            for (var file of component.el.node('#product-images').files) {
+                formData.append("files", file);
+            }
+
+            // Undefining the content type
+            var headers = easy.dependencies['Connector'].conn.fetchOptions.headers;
+            var contentType = headers['Content-Type'];
+            var accept = headers['Accept'];
+
+            headers['Content-Type'] = undefined;
+            headers['Accept'] = undefined;
+
+            easy.create('produto', formData)
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Efectuado'
+                    });
+                    component.data.cancel();
+                })
+                .catch(function (error) {
+                    notify({
+                        type: 'error',
+                        message: error.message || error
+                    });
+                })
+                .finally(function() {
+                    headers['Accept'] = accept;
+                    headers['Content-Type'] = contentType;
+                    addOrRemSpinner(btn, true);
+                })
+        },
+        cancel: function (evt) {
+            evt.base.aboveMe('[post-form]').reset();
+            imageArea.innerHTML = '';
+        }
+    });
+</script>

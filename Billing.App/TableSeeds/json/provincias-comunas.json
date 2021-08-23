@@ -1,0 +1,2587 @@
+[
+  {
+    "nome": "Bengo",
+    "municipios": [
+      {
+        "nome": "Ambriz",
+        "comunas": [
+          {
+            "nome": "Ambriz"
+          },
+          {
+            "nome": "Bela Vista"
+          },
+          {
+            "nome": "Tabi"
+          }
+        ]
+      },
+      {
+        "nome": "Dande",
+        "comunas": [
+          {
+            "nome": "Barra do Dande"
+          },
+          {
+            "nome": "Caxito"
+          },
+          {
+            "nome": "Mabubas"
+          },
+          {
+            "nome": "Quicabo"
+          },
+          {
+            "nome": "Úcua"
+          }
+        ]
+      },
+      {
+        "nome": "Dembos",
+        "comunas": [
+          {
+            "nome": "Paredes"
+          },
+          {
+            "nome": "Piri"
+          },
+          {
+            "nome": "Quibaxe"
+          },
+          {
+            "nome": "Quoxe (ex S. José das Matas)"
+          }
+        ]
+      },
+      {
+        "nome": "Bula Atumba",
+        "comunas": [
+          {
+            "nome": "Bula Atumba"
+          },
+          {
+            "nome": "Quiage"
+          }
+        ]
+      },
+      {
+        "nome": "Nambuangongo",
+        "comunas": [
+          {
+            "nome": "Cage"
+          },
+          {
+            "nome": "Canacassala"
+          },
+          {
+            "nome": "Gombe"
+          },
+          {
+            "nome": "Muxaluando"
+          },
+          {
+            "nome": "Quicunzo"
+          },
+          {
+            "nome": "Quixico"
+          },
+          {
+            "nome": "Zala"
+          }
+        ]
+      },
+      {
+        "nome": "Pango Aluquém (Pango Aluquêm)",
+        "comunas": [
+          {
+            "nome": "Cazuangongo"
+          },
+          {
+            "nome": "Pango Aluquém"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Benguela",
+    "municipios": [
+      {
+        "nome": "Balombo",
+        "comunas": [
+          {
+            "nome": "Balombo"
+          },
+          {
+            "nome": "Chigongo"
+          },
+          {
+            "nome": "Chindumbo"
+          },
+          {
+            "nome": "Maca Mombolo"
+          }
+        ]
+      },
+      {
+        "nome": "Baía Farta",
+        "comunas": [
+          {
+            "nome": "Baía Farta"
+          },
+          {
+            "nome": "Dombe Grande"
+          },
+          {
+            "nome": "Calohanga"
+          },
+          {
+            "nome": "Equimina"
+          }
+        ]
+      },
+      {
+        "nome": "Benguela",
+        "comunas": []
+      },
+      {
+        "nome": "Bocoio",
+        "comunas": [
+          {
+            "nome": "Bocoio"
+          },
+          {
+            "nome": "Cubal do Lumbo"
+          },
+          {
+            "nome": "Monte Belo"
+          },
+          {
+            "nome": "Chila"
+          },
+          {
+            "nome": "Passe"
+          }
+        ]
+      },
+      {
+        "nome": "Caimbambo",
+        "comunas": [
+          {
+            "nome": "Caimbambo"
+          },
+          {
+            "nome": "Catengue"
+          },
+          {
+            "nome": "Caiave"
+          },
+          {
+            "nome": "Canhamela"
+          },
+          {
+            "nome": "Viangombe"
+          }
+        ]
+      },
+      {
+        "nome": "Catumbela",
+        "comunas": [
+          {
+            "nome": "Catumbela"
+          },
+          {
+            "nome": "Biópio"
+          },
+          {
+            "nome": "Gama"
+          },
+          {
+            "nome": "Praia Bebé"
+          }
+        ]
+      },
+      {
+        "nome": "Chongoroi",
+        "comunas": [
+          {
+            "nome": "Chongoroi"
+          },
+          {
+            "nome": "Bolonguera"
+          },
+          {
+            "nome": "Camuine"
+          }
+        ]
+      },
+      {
+        "nome": "Cubal",
+        "comunas": [
+          {
+            "nome": "Cubal"
+          },
+          {
+            "nome": "Capupa"
+          },
+          {
+            "nome": "Tumbulo"
+          },
+          {
+            "nome": "Iambala"
+          }
+        ]
+      },
+      {
+        "nome": "Ganda",
+        "comunas": [
+          {
+            "nome": "Ganda"
+          },
+          {
+            "nome": "Ebanga"
+          },
+          {
+            "nome": "Chicuma"
+          },
+          {
+            "nome": "Babaera"
+          },
+          {
+            "nome": "Casseque"
+          }
+        ]
+      },
+      {
+        "nome": "Lobito",
+        "comunas": [
+          {
+            "nome": "Lobito"
+          },
+          {
+            "nome": "Canata"
+          },
+          {
+            "nome": "Canjala"
+          },
+          {
+            "nome": "Egito Praia"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Bié",
+    "municipios": [
+      {
+        "nome": "Andulo",
+        "comunas": [
+          {
+            "nome": "Andulo"
+          },
+          {
+            "nome": "Calucinga"
+          },
+          {
+            "nome": "Cassumbe"
+          },
+          {
+            "nome": "Chivaúlo"
+          }
+        ]
+      },
+      {
+        "nome": "Camacupa",
+        "comunas": [
+          {
+            "nome": "Camacupa"
+          },
+          {
+            "nome": "Ringoma"
+          },
+          {
+            "nome": "Muinha"
+          },
+          {
+            "nome": "Umpulo"
+          },
+          {
+            "nome": "Cuanza"
+          }
+        ]
+      },
+      {
+        "nome": "Catabola",
+        "comunas": [
+          {
+            "nome": "Catabola"
+          },
+          {
+            "nome": "Chipeta"
+          },
+          {
+            "nome": "Caiuera"
+          },
+          {
+            "nome": "Chiuca"
+          },
+          {
+            "nome": "Sande"
+          }
+        ]
+      },
+      {
+        "nome": "Chinguar",
+        "comunas": [
+          {
+            "nome": "Chinguar"
+          },
+          {
+            "nome": "Cutato"
+          },
+          {
+            "nome": "Cangote"
+          }
+        ]
+      },
+      {
+        "nome": "Chitembo",
+        "comunas": [
+          {
+            "nome": "Chitembo"
+          },
+          {
+            "nome": "Cachingues"
+          },
+          {
+            "nome": "Mutumbo"
+          },
+          {
+            "nome": "Mumbué"
+          },
+          {
+            "nome": "Malangue"
+          },
+          {
+            "nome": "Soma Cuanza"
+          }
+        ]
+      },
+      {
+        "nome": "Cuemba",
+        "comunas": [
+          {
+            "nome": "Cuemba"
+          },
+          {
+            "nome": "Sachinemuna"
+          },
+          {
+            "nome": "Luando"
+          },
+          {
+            "nome": "Munhango"
+          }
+        ]
+      },
+      {
+        "nome": "Cunhinga",
+        "comunas": [
+          {
+            "nome": "Cunhinga"
+          },
+          {
+            "nome": "Belo Horizonte"
+          }
+        ]
+      },
+      {
+        "nome": "Cuito (Kuito)",
+        "comunas": [
+          {
+            "nome": "Cuito"
+          },
+          {
+            "nome": "Chicala"
+          },
+          {
+            "nome": "Cunje"
+          },
+          {
+            "nome": "Trumba"
+          },
+          {
+            "nome": "Cambândua"
+          }
+        ]
+      },
+      {
+        "nome": "Nharêa",
+        "comunas": [
+          {
+            "nome": "Nharêa"
+          },
+          {
+            "nome": "Gamba"
+          },
+          {
+            "nome": "Lúbia"
+          },
+          {
+            "nome": "Caiei"
+          },
+          {
+            "nome": "Dando"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Cabinda",
+    "municipios": [
+      {
+        "nome": "Belize",
+        "comunas": [
+          {
+            "nome": "Belize"
+          },
+          {
+            "nome": "Miconje"
+          },
+          {
+            "nome": "Luali"
+          }
+        ]
+      },
+      {
+        "nome": "Buco-Zau",
+        "comunas": [
+          {
+            "nome": "Buco-Zau"
+          },
+          {
+            "nome": "Necuto"
+          },
+          {
+            "nome": "Inhuca"
+          }
+        ]
+      },
+      {
+        "nome": "Cabinda",
+        "comunas": [
+          {
+            "nome": "Cabinda"
+          },
+          {
+            "nome": "Malembo"
+          },
+          {
+            "nome": "Tando Zinze"
+          }
+        ]
+      },
+      {
+        "nome": "Cacongo",
+        "comunas": [
+          {
+            "nome": "Cacongo"
+          },
+          {
+            "nome": "Dinge"
+          },
+          {
+            "nome": "Massabi"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Cunene",
+    "municipios": [
+      {
+        "nome": "Cahama",
+        "comunas": [
+          {
+            "nome": "Cahama"
+          },
+          {
+            "nome": "Otchinjau"
+          }
+        ]
+      },
+      {
+        "nome": "Cuanhama (Kwanhama)",
+        "comunas": [
+          {
+            "nome": "Ondjiva"
+          },
+          {
+            "nome": "Nehone Cafima"
+          },
+          {
+            "nome": "Evale"
+          },
+          {
+            "nome": "Tchomporo Oximolo"
+          },
+          {
+            "nome": "Môngwa"
+          }
+        ]
+      },
+      {
+        "nome": "Curoca",
+        "comunas": [
+          {
+            "nome": "Oncócua"
+          },
+          {
+            "nome": "Chitado"
+          }
+        ]
+      },
+      {
+        "nome": "Cuvelai",
+        "comunas": [
+          {
+            "nome": "Mupa"
+          },
+          {
+            "nome": "Mukolongodjo"
+          },
+          {
+            "nome": "Cubati"
+          },
+          {
+            "nome": "Calonga"
+          }
+        ]
+      },
+      {
+        "nome": "Namacunde",
+        "comunas": [
+          {
+            "nome": "Namacunde (Santa Clara)"
+          },
+          {
+            "nome": "Chiede"
+          }
+        ]
+      },
+      {
+        "nome": "Ombadja",
+        "comunas": [
+          {
+            "nome": "Humbe"
+          },
+          {
+            "nome": "Mucope"
+          },
+          {
+            "nome": "Naulila"
+          },
+          {
+            "nome": "Ombala ya Mungu"
+          },
+          {
+            "nome": "Xangongo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Huambo",
+    "municipios": [
+      {
+        "nome": "Bailundo",
+        "comunas": [
+          {
+            "nome": "Bailundo"
+          },
+          {
+            "nome": "Bimbe"
+          },
+          {
+            "nome": "Lunge"
+          },
+          {
+            "nome": "Luvemba"
+          },
+          {
+            "nome": "Hengue"
+          }
+        ]
+      },
+      {
+        "nome": "Cachiungo (Catchiungo)",
+        "comunas": [
+          {
+            "nome": "Cachiungo"
+          },
+          {
+            "nome": "Chiumbo"
+          },
+          {
+            "nome": "Chinhama"
+          }
+        ]
+      },
+      {
+        "nome": "Caála",
+        "comunas": [
+          {
+            "nome": "Caála"
+          },
+          {
+            "nome": "Catata"
+          },
+          {
+            "nome": "Calenga"
+          },
+          {
+            "nome": "Cuima"
+          }
+        ]
+      },
+      {
+        "nome": "Ecunha (Ekunha)",
+        "comunas": [
+          {
+            "nome": "Ecunha"
+          },
+          {
+            "nome": "Quipeio"
+          }
+        ]
+      },
+      {
+        "nome": "Huambo",
+        "comunas": [
+          {
+            "nome": "Huambo"
+          },
+          {
+            "nome": "Calima"
+          },
+          {
+            "nome": "Chipipa"
+          }
+        ]
+      },
+      {
+        "nome": "Londuimbali",
+        "comunas": [
+          {
+            "nome": "Londuimbali"
+          },
+          {
+            "nome": "Cumbira"
+          },
+          {
+            "nome": "Galanga"
+          },
+          {
+            "nome": "Ussoque"
+          },
+          {
+            "nome": "Alto Hama"
+          }
+        ]
+      },
+      {
+        "nome": "Longonjo (Longongo)",
+        "comunas": [
+          {
+            "nome": "Longonjo"
+          },
+          {
+            "nome": "Lépi"
+          },
+          {
+            "nome": "Iava"
+          },
+          {
+            "nome": "Chilata"
+          }
+        ]
+      },
+      {
+        "nome": "Mungo",
+        "comunas": [
+          {
+            "nome": "Mungo"
+          },
+          {
+            "nome": "Cambuengo"
+          }
+        ]
+      },
+      {
+        "nome": "Chicala-Cholohanga (Tchicala-Tcholoanga)",
+        "comunas": [
+          {
+            "nome": "Sambo"
+          },
+          {
+            "nome": "Mbave"
+          },
+          {
+            "nome": "Chicala"
+          },
+          {
+            "nome": "Samboto"
+          }
+        ]
+      },
+      {
+        "nome": "Chinjenje (Tchindjenje)",
+        "comunas": [
+          {
+            "nome": "Chinjenje"
+          },
+          {
+            "nome": "Chiaca"
+          }
+        ]
+      },
+      {
+        "nome": "Ucuma",
+        "comunas": [
+          {
+            "nome": "Ucuma"
+          },
+          {
+            "nome": "Cacoma"
+          },
+          {
+            "nome": "Mundundo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Huíla",
+    "municipios": [
+      {
+        "nome": "Caconda",
+        "comunas": [
+          {
+            "nome": "Caconda"
+          },
+          {
+            "nome": "Gungue"
+          },
+          {
+            "nome": "Uaba"
+          },
+          {
+            "nome": "Cusse"
+          }
+        ]
+      },
+      {
+        "nome": "Cacula",
+        "comunas": [
+          {
+            "nome": "Cacula"
+          },
+          {
+            "nome": "Chituto"
+          },
+          {
+            "nome": "Viti Vivali"
+          },
+          {
+            "nome": "Tchicuaqueia"
+          }
+        ]
+      },
+      {
+        "nome": "Caluquembe",
+        "comunas": [
+          {
+            "nome": "Caluquembe"
+          },
+          {
+            "nome": "Ngola"
+          },
+          {
+            "nome": "Calepí"
+          }
+        ]
+      },
+      {
+        "nome": "Gambos",
+        "comunas": [
+          {
+            "nome": "Chiange"
+          },
+          {
+            "nome": "Chimbemba"
+          }
+        ]
+      },
+      {
+        "nome": "Chibia",
+        "comunas": [
+          {
+            "nome": "Chibia"
+          },
+          {
+            "nome": "Jau"
+          },
+          {
+            "nome": "Capunda Cavilongo"
+          },
+          {
+            "nome": "Quihita"
+          }
+        ]
+      },
+      {
+        "nome": "Chicomba",
+        "comunas": [
+          {
+            "nome": "Chicomba"
+          },
+          {
+            "nome": "Cutenda"
+          }
+        ]
+      },
+      {
+        "nome": "Chipindo",
+        "comunas": [
+          {
+            "nome": "Chipindo"
+          },
+          {
+            "nome": "Bambi"
+          }
+        ]
+      },
+      {
+        "nome": "Humpata",
+        "comunas": []
+      },
+      {
+        "nome": "Jamba",
+        "comunas": [
+          {
+            "nome": "Jamba"
+          },
+          {
+            "nome": "Dongo"
+          },
+          {
+            "nome": "Cassinga"
+          }
+        ]
+      },
+      {
+        "nome": "Cuvango (Kuvango)",
+        "comunas": [
+          {
+            "nome": "Cuvango"
+          },
+          {
+            "nome": "Galangue"
+          },
+          {
+            "nome": "Vicungo"
+          }
+        ]
+      },
+      {
+        "nome": "Lubango",
+        "comunas": [
+          {
+            "nome": "Lubango"
+          },
+          {
+            "nome": "Hoque"
+          },
+          {
+            "nome": "Arimba"
+          },
+          {
+            "nome": "Huíla"
+          }
+        ]
+      },
+      {
+        "nome": "Matala",
+        "comunas": [
+          {
+            "nome": "Matala"
+          },
+          {
+            "nome": "Capelongo"
+          },
+          {
+            "nome": "Mulondo"
+          }
+        ]
+      },
+      {
+        "nome": "Quilengues",
+        "comunas": [
+          {
+            "nome": "Quilengues"
+          },
+          {
+            "nome": "Impulo"
+          },
+          {
+            "nome": "Dinde"
+          }
+        ]
+      },
+      {
+        "nome": "Quipungo",
+        "comunas": []
+      }
+    ]
+  },
+  {
+    "nome": "Kuando Kubango",
+    "municipios": [
+      {
+        "nome": "Calai",
+        "comunas": [
+          {
+            "nome": "Calai"
+          },
+          {
+            "nome": "Maué"
+          },
+          {
+            "nome": "Mavengue"
+          }
+        ]
+      },
+      {
+        "nome": "Cuangar",
+        "comunas": [
+          {
+            "nome": "Cuangar"
+          },
+          {
+            "nome": "Savate"
+          },
+          {
+            "nome": "Caíla"
+          }
+        ]
+      },
+      {
+        "nome": "Cuchi",
+        "comunas": [
+          {
+            "nome": "Cuchi"
+          },
+          {
+            "nome": "Cutato"
+          },
+          {
+            "nome": "Chinguanja"
+          },
+          {
+            "nome": "Vissati"
+          }
+        ]
+      },
+      {
+        "nome": "Cuito Cuanavale (Kuito Kuanavale)",
+        "comunas": [
+          {
+            "nome": "Cuito Cuanavale"
+          },
+          {
+            "nome": "Lupire"
+          },
+          {
+            "nome": "Longa"
+          },
+          {
+            "nome": "Baixo Longa"
+          }
+        ]
+      },
+      {
+        "nome": "Dirico",
+        "comunas": [
+          {
+            "nome": "Dirico"
+          },
+          {
+            "nome": "Mucuso"
+          },
+          {
+            "nome": "Xamavera"
+          }
+        ]
+      },
+      {
+        "nome": "Nancova (Nankova)",
+        "comunas": [
+          {
+            "nome": "Nancova"
+          },
+          {
+            "nome": "Rito"
+          }
+        ]
+      },
+      {
+        "nome": "Mavinga",
+        "comunas": [
+          {
+            "nome": "Mavinga"
+          },
+          {
+            "nome": "Cutuile"
+          },
+          {
+            "nome": "Cunjamba"
+          },
+          {
+            "nome": "Luengue"
+          }
+        ]
+      },
+      {
+        "nome": "Menongue",
+        "comunas": [
+          {
+            "nome": "Menongue"
+          },
+          {
+            "nome": "Caiundo"
+          },
+          {
+            "nome": "Cueio"
+          },
+          {
+            "nome": "Missombo"
+          }
+        ]
+      },
+      {
+        "nome": "Rivungo",
+        "comunas": [
+          {
+            "nome": "Rivungo"
+          },
+          {
+            "nome": "Xipundo"
+          },
+          {
+            "nome": "Luiana"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Kwanza Norte",
+    "municipios": [
+      {
+        "nome": "Ambaca",
+        "comunas": [
+          {
+            "nome": "Camabatela"
+          },
+          {
+            "nome": "Tango"
+          },
+          {
+            "nome": "Máua"
+          },
+          {
+            "nome": "Bindo"
+          },
+          {
+            "nome": "Luínga"
+          }
+        ]
+      },
+      {
+        "nome": "Banga",
+        "comunas": [
+          {
+            "nome": "Banga"
+          },
+          {
+            "nome": "Caculo Cabaça"
+          },
+          {
+            "nome": "Aldeia Nova"
+          },
+          {
+            "nome": "Cariamba"
+          }
+        ]
+      },
+      {
+        "nome": "Bolongongo",
+        "comunas": [
+          {
+            "nome": "Bolongongo"
+          },
+          {
+            "nome": "Terreiro"
+          },
+          {
+            "nome": "Quiquiemba"
+          }
+        ]
+      },
+      {
+        "nome": "Cambambe",
+        "comunas": [
+          {
+            "nome": "Dondo"
+          },
+          {
+            "nome": "Massangano"
+          },
+          {
+            "nome": "Dange ya Menha"
+          },
+          {
+            "nome": "Zenza do Itombe"
+          },
+          {
+            "nome": "S. Pedro da Quilemba"
+          }
+        ]
+      },
+      {
+        "nome": "Cazengo",
+        "comunas": [
+          {
+            "nome": "Ndalatando"
+          },
+          {
+            "nome": "Canhoca"
+          }
+        ]
+      },
+      {
+        "nome": "Golungo Alto",
+        "comunas": [
+          {
+            "nome": "Golungo Alto"
+          },
+          {
+            "nome": "Cambondo"
+          },
+          {
+            "nome": "Cêrca"
+          },
+          {
+            "nome": "Quiluanje"
+          }
+        ]
+      },
+      {
+        "nome": "Ngonguembo (Gonguembo)",
+        "comunas": [
+          {
+            "nome": "Quilombo dos Dembos"
+          },
+          {
+            "nome": "Camame"
+          },
+          {
+            "nome": "Cavunga"
+          }
+        ]
+      },
+      {
+        "nome": "Lucala",
+        "comunas": [
+          {
+            "nome": "Lucala"
+          },
+          {
+            "nome": "Quiangombe"
+          }
+        ]
+      },
+      {
+        "nome": "Quiculungo",
+        "comunas": []
+      },
+      {
+        "nome": "Samba Caju",
+        "comunas": [
+          {
+            "nome": "Samba Caju"
+          },
+          {
+            "nome": "Samba Lucala"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Kwanza Sul",
+    "municipios": [
+      {
+        "nome": "Amboim",
+        "comunas": [
+          {
+            "nome": "Gabela"
+          },
+          {
+            "nome": "Assango"
+          }
+        ]
+      },
+      {
+        "nome": "Cassongue",
+        "comunas": [
+          {
+            "nome": "Cassongue"
+          },
+          {
+            "nome": "Pambangala"
+          },
+          {
+            "nome": "Dumbi"
+          },
+          {
+            "nome": "Atóme"
+          }
+        ]
+      },
+      {
+        "nome": "Conda",
+        "comunas": [
+          {
+            "nome": "Conda"
+          },
+          {
+            "nome": "Cunjo"
+          }
+        ]
+      },
+      {
+        "nome": "Ebo",
+        "comunas": [
+          {
+            "nome": "Ebo"
+          },
+          {
+            "nome": "Condé"
+          },
+          {
+            "nome": "Quissanje"
+          }
+        ]
+      },
+      {
+        "nome": "Libolo",
+        "comunas": [
+          {
+            "nome": "Calulo"
+          },
+          {
+            "nome": "Munenga"
+          },
+          {
+            "nome": "Cabuta"
+          },
+          {
+            "nome": "Quissongo"
+          }
+        ]
+      },
+      {
+        "nome": "Mussende",
+        "comunas": [
+          {
+            "nome": "Mussende"
+          },
+          {
+            "nome": "Quienha"
+          },
+          {
+            "nome": "São Lucas"
+          }
+        ]
+      },
+      {
+        "nome": "Porto Amboim",
+        "comunas": [
+          {
+            "nome": "Porto Amboim"
+          },
+          {
+            "nome": "Capolo"
+          }
+        ]
+      },
+      {
+        "nome": "Quibala",
+        "comunas": [
+          {
+            "nome": "Quibala"
+          },
+          {
+            "nome": "Dala Cachibo"
+          },
+          {
+            "nome": "Cariango"
+          },
+          {
+            "nome": "Lonhe"
+          }
+        ]
+      },
+      {
+        "nome": "Quilenda",
+        "comunas": [
+          {
+            "nome": "Quilenda"
+          },
+          {
+            "nome": "Quirimbo"
+          }
+        ]
+      },
+      {
+        "nome": "Seles",
+        "comunas": [
+          {
+            "nome": "Seles"
+          },
+          {
+            "nome": "Amboiva"
+          },
+          {
+            "nome": "Botera"
+          }
+        ]
+      },
+      {
+        "nome": "Sumbe",
+        "comunas": [
+          {
+            "nome": "Sumbe"
+          },
+          {
+            "nome": "Gungo"
+          },
+          {
+            "nome": "Gangula"
+          },
+          {
+            "nome": "Quicombo"
+          }
+        ]
+      },
+      {
+        "nome": "Cela",
+        "comunas": [
+          {
+            "nome": "Waku Kungo"
+          },
+          {
+            "nome": "Sanga"
+          },
+          {
+            "nome": "Quissanga Cunjo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Luanda",
+    "municipios": [
+      {
+        "nome": "Belas",
+        "comunas": [
+          {
+            "nome": "Barra do Kwanza"
+          },
+          {
+            "nome": "Quenguela"
+          },
+          {
+            "nome": "Morro dos Veados"
+          },
+          {
+            "nome": "Ramiros"
+          },
+          {
+            "nome": "Vila Verde"
+          },
+          {
+            "nome": "Cabolombo"
+          },
+          {
+            "nome": "Kilamba"
+          }
+        ]
+      },
+      {
+        "nome": "Cacuaco",
+        "comunas": [
+          {
+            "nome": "Funda"
+          },
+          {
+            "nome": "Cacuaco"
+          },
+          {
+            "nome": "Kikolo"
+          },
+          {
+            "nome": "Mulenvos de Baixo"
+          },
+          {
+            "nome": "Sequele"
+          }
+        ]
+      },
+      {
+        "nome": "Cazenga",
+        "comunas": [
+          {
+            "nome": "Cazenga"
+          },
+          {
+            "nome": "Hoji ya Henda"
+          },
+          {
+            "nome": "11 de Novembro"
+          },
+          {
+            "nome": "Kima Kieza"
+          },
+          {
+            "nome": "Tala Hadi"
+          },
+          {
+            "nome": "Kalawenda"
+          }
+        ]
+      },
+      {
+        "nome": "Icolo e Bengo",
+        "comunas": [
+          {
+            "nome": "Cassoneca"
+          },
+          {
+            "nome": "Cabiri"
+          },
+          {
+            "nome": "Bom Jesus"
+          },
+          {
+            "nome": "Caculo Cahango"
+          },
+          {
+            "nome": "Quiminha"
+          },
+          {
+            "nome": "Catete"
+          },
+          {
+            "nome": "Bela Vista"
+          }
+        ]
+      },
+      {
+        "nome": "Luanda",
+        "comunas": [
+          {
+            "nome": "Sambizanga"
+          },
+          {
+            "nome": "Rangel"
+          },
+          {
+            "nome": "Maianga"
+          },
+          {
+            "nome": "Ingombota"
+          },
+          {
+            "nome": "Samba"
+          },
+          {
+            "nome": "Neves Bendinha"
+          },
+          {
+            "nome": "Ngola Kiluanje"
+          }
+        ]
+      },
+      {
+        "nome": "Quiçama (Quissama)",
+        "comunas": [
+          {
+            "nome": "Muxima"
+          },
+          {
+            "nome": "Demba Chio"
+          },
+          {
+            "nome": "Quixinge"
+          },
+          {
+            "nome": "Mumbondo"
+          },
+          {
+            "nome": "Cabo Ledo"
+          }
+        ]
+      },
+      {
+        "nome": "Kilamba Kiaxi",
+        "comunas": [
+          {
+            "nome": "Golfe"
+          },
+          {
+            "nome": "Sapú"
+          },
+          {
+            "nome": "Palanca"
+          },
+          {
+            "nome": "Nova Vida"
+          }
+        ]
+      },
+      {
+        "nome": "Talatona",
+        "comunas": [
+          {
+            "nome": "Mussulo"
+          },
+          {
+            "nome": "Benfica"
+          },
+          {
+            "nome": "Futungo de Belas"
+          },
+          {
+            "nome": "Lar do Patriota"
+          },
+          {
+            "nome": "Talatona"
+          },
+          {
+            "nome": "Camama"
+          },
+          {
+            "nome": "Cidade Universitária"
+          }
+        ]
+      },
+      {
+        "nome": "Viana",
+        "comunas": [
+          {
+            "nome": "Calumbo"
+          },
+          {
+            "nome": "Viana"
+          },
+          {
+            "nome": "Estalagem"
+          },
+          {
+            "nome": "Baia"
+          },
+          {
+            "nome": "Kikuxi"
+          },
+          {
+            "nome": "Zango"
+          },
+          {
+            "nome": "Vila Flor"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Lunda Norte",
+    "municipios": [
+      {
+        "nome": "Cambulo",
+        "comunas": [
+          {
+            "nome": "Cambulo"
+          },
+          {
+            "nome": "Luia"
+          },
+          {
+            "nome": "Cachimo"
+          },
+          {
+            "nome": "Canzar"
+          }
+        ]
+      },
+      {
+        "nome": "Capenda Camulemba",
+        "comunas": [
+          {
+            "nome": "Capenda Camulemba"
+          },
+          {
+            "nome": "Xinge"
+          }
+        ]
+      },
+      {
+        "nome": "Caungula",
+        "comunas": [
+          {
+            "nome": "Caungula"
+          },
+          {
+            "nome": "Camaxilo"
+          }
+        ]
+      },
+      {
+        "nome": "Chitato (Tchitato)",
+        "comunas": [
+          {
+            "nome": "Chitato"
+          },
+          {
+            "nome": "Luachimo"
+          },
+          {
+            "nome": "Dundo"
+          },
+          {
+            "nome": "Chitato"
+          },
+          {
+            "nome": "Mussungue"
+          }
+        ]
+      },
+      {
+        "nome": "Cuango",
+        "comunas": [
+          {
+            "nome": "Cuango"
+          },
+          {
+            "nome": "Luremo"
+          }
+        ]
+      },
+      {
+        "nome": "Cuilo",
+        "comunas": [
+          {
+            "nome": "Cuilo"
+          },
+          {
+            "nome": "Caluango"
+          }
+        ]
+      },
+      {
+        "nome": "Lubalo",
+        "comunas": [
+          {
+            "nome": "Lubalo"
+          },
+          {
+            "nome": "Luange"
+          },
+          {
+            "nome": "Muvuluege"
+          }
+        ]
+      },
+      {
+        "nome": "Lucapa",
+        "comunas": [
+          {
+            "nome": "Lucapa"
+          },
+          {
+            "nome": "Capaia"
+          },
+          {
+            "nome": "Camissombo"
+          },
+          {
+            "nome": "Xa Cassau"
+          }
+        ]
+      },
+      {
+        "nome": "Xá Muteba",
+        "comunas": [
+          {
+            "nome": "Xá Muteba"
+          },
+          {
+            "nome": "Iongo"
+          },
+          {
+            "nome": "Cassanje Calucala"
+          }
+        ]
+      },
+      {
+        "nome": "Lóvua",
+        "comunas": []
+      }
+    ]
+  },
+  {
+    "nome": "Lunda Sul",
+    "municipios": [
+      {
+        "nome": "Cacolo",
+        "comunas": [
+          {
+            "nome": "Cacolo"
+          },
+          {
+            "nome": "Xassengue"
+          },
+          {
+            "nome": "Cucumbi"
+          },
+          {
+            "nome": "Alto Chicapa"
+          }
+        ]
+      },
+      {
+        "nome": "Dala",
+        "comunas": [
+          {
+            "nome": "Dala"
+          },
+          {
+            "nome": "Luma Cassai"
+          },
+          {
+            "nome": "Cazage"
+          }
+        ]
+      },
+      {
+        "nome": "Muconda",
+        "comunas": [
+          {
+            "nome": "Muconda"
+          },
+          {
+            "nome": "Chiluage"
+          },
+          {
+            "nome": "Cassai"
+          },
+          {
+            "nome": "Muriege"
+          }
+        ]
+      },
+      {
+        "nome": "Saurimo",
+        "comunas": [
+          {
+            "nome": "Saurimo"
+          },
+          {
+            "nome": "Mona Quimbundo"
+          },
+          {
+            "nome": "Sombo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Malange",
+    "municipios": [
+      {
+        "nome": "Cacuso",
+        "comunas": [
+          {
+            "nome": "Cacuso"
+          },
+          {
+            "nome": "Lombe"
+          },
+          {
+            "nome": "Quizenga"
+          },
+          {
+            "nome": "de Pungu a Ndongo"
+          },
+          {
+            "nome": "Soqueco"
+          }
+        ]
+      },
+      {
+        "nome": "Calandula",
+        "comunas": [
+          {
+            "nome": "Calandula"
+          },
+          {
+            "nome": "Cateco Cangola"
+          },
+          {
+            "nome": "Cota"
+          },
+          {
+            "nome": "Cuale"
+          },
+          {
+            "nome": "Quinje"
+          }
+        ]
+      },
+      {
+        "nome": "Cambundi Catembo",
+        "comunas": [
+          {
+            "nome": "Cambundi Catembo"
+          },
+          {
+            "nome": "Talamungongo"
+          },
+          {
+            "nome": "Quitapa"
+          },
+          {
+            "nome": "Dumba Cabango"
+          }
+        ]
+      },
+      {
+        "nome": "Cangandala",
+        "comunas": [
+          {
+            "nome": "Cangandala"
+          },
+          {
+            "nome": "Bembo"
+          },
+          {
+            "nome": "Culamagia"
+          },
+          {
+            "nome": "Caribo"
+          }
+        ]
+      },
+      {
+        "nome": "Cahombo (Caombo)",
+        "comunas": [
+          {
+            "nome": "Cahombo"
+          },
+          {
+            "nome": "Cambo Suinginge"
+          },
+          {
+            "nome": "Micanda"
+          },
+          {
+            "nome": "Mbanji ya Ngola"
+          }
+        ]
+      },
+      {
+        "nome": "Kiwaba Nzoji (Cuaba Nzogo)",
+        "comunas": [
+          {
+            "nome": "Kiwaba Nzoji"
+          },
+          {
+            "nome": "Mufuma"
+          }
+        ]
+      },
+      {
+        "nome": "Kunda dya Baze (Cunda-Diaza)",
+        "comunas": [
+          {
+            "nome": "Kunda dya Baze"
+          },
+          {
+            "nome": "Milando"
+          },
+          {
+            "nome": "Lemba"
+          }
+        ]
+      },
+      {
+        "nome": "Luquembo",
+        "comunas": [
+          {
+            "nome": "Luquembo"
+          },
+          {
+            "nome": "Quimbango"
+          },
+          {
+            "nome": "Capunda"
+          },
+          {
+            "nome": "Dombo wa Zanga"
+          },
+          {
+            "nome": "Cunga Palanga"
+          },
+          {
+            "nome": "Rimba"
+          }
+        ]
+      },
+      {
+        "nome": "Malange",
+        "comunas": [
+          {
+            "nome": "Malange"
+          },
+          {
+            "nome": "Ngola-Luiji"
+          },
+          {
+            "nome": "Cambaxe"
+          }
+        ]
+      },
+      {
+        "nome": "Marimba",
+        "comunas": [
+          {
+            "nome": "Marimba"
+          },
+          {
+            "nome": "Cabombo (Dala Samba)"
+          },
+          {
+            "nome": "Tembo Aluma"
+          }
+        ]
+      },
+      {
+        "nome": "Massango",
+        "comunas": [
+          {
+            "nome": "Massango"
+          },
+          {
+            "nome": "Quihuhu"
+          },
+          {
+            "nome": "Quinguengue"
+          }
+        ]
+      },
+      {
+        "nome": "Mucari",
+        "comunas": [
+          {
+            "nome": "Caculama"
+          },
+          {
+            "nome": "Catala"
+          },
+          {
+            "nome": "Caxinga"
+          },
+          {
+            "nome": "Muquixe"
+          }
+        ]
+      },
+      {
+        "nome": "Quela",
+        "comunas": [
+          {
+            "nome": "Quela"
+          },
+          {
+            "nome": "Xandel"
+          },
+          {
+            "nome": "Moma"
+          },
+          {
+            "nome": "Bângalas"
+          }
+        ]
+      },
+      {
+        "nome": "Quirima",
+        "comunas": [
+          {
+            "nome": "Quirima"
+          },
+          {
+            "nome": "Sautar"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Moxico",
+    "municipios": [
+      {
+        "nome": "Alto Zambeze",
+        "comunas": [
+          {
+            "nome": "Nana Candundo"
+          },
+          {
+            "nome": "Lumbala Caquengue"
+          },
+          {
+            "nome": "Cazombo"
+          },
+          {
+            "nome": "Macondo"
+          },
+          {
+            "nome": "Caianda"
+          },
+          {
+            "nome": "Calunda"
+          },
+          {
+            "nome": "Lóvua"
+          }
+        ]
+      },
+      {
+        "nome": "Bundas",
+        "comunas": [
+          {
+            "nome": "Chiume"
+          },
+          {
+            "nome": "Lutembo"
+          },
+          {
+            "nome": "Lumbaka Nguimbo"
+          },
+          {
+            "nome": "Luvuei"
+          },
+          {
+            "nome": "Ninda"
+          },
+          {
+            "nome": "Mussuma"
+          },
+          {
+            "nome": "Sessa"
+          }
+        ]
+      },
+      {
+        "nome": "Camanongue",
+        "comunas": []
+      },
+      {
+        "nome": "Cameia (Lumeji)",
+        "comunas": []
+      },
+      {
+        "nome": "Luau",
+        "comunas": []
+      },
+      {
+        "nome": "Luacano (Lucano)",
+        "comunas": [
+          {
+            "nome": "Luacano"
+          },
+          {
+            "nome": "Lago Dilolo"
+          }
+        ]
+      },
+      {
+        "nome": "Luchazes",
+        "comunas": [
+          {
+            "nome": "Cangombe"
+          },
+          {
+            "nome": "Cassamba"
+          },
+          {
+            "nome": "Tempué"
+          },
+          {
+            "nome": "Cangamba"
+          },
+          {
+            "nome": "Muié"
+          }
+        ]
+      },
+      {
+        "nome": "Léua",
+        "comunas": [
+          {
+            "nome": "Léua"
+          },
+          {
+            "nome": "Liangongo"
+          }
+        ]
+      },
+      {
+        "nome": "Moxico",
+        "comunas": [
+          {
+            "nome": "Luena"
+          },
+          {
+            "nome": "Lucusse"
+          },
+          {
+            "nome": "Cachipoque"
+          },
+          {
+            "nome": "Muangai"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Namibe",
+    "municipios": [
+      {
+        "nome": "Bibala",
+        "comunas": [
+          {
+            "nome": "Bibala"
+          },
+          {
+            "nome": "Caitou"
+          },
+          {
+            "nome": "Capangombe"
+          },
+          {
+            "nome": "Lola"
+          }
+        ]
+      },
+      {
+        "nome": "Camacuio (Camulo)",
+        "comunas": [
+          {
+            "nome": "Camacuio"
+          },
+          {
+            "nome": "Mamué"
+          },
+          {
+            "nome": "Chingo"
+          }
+        ]
+      },
+      {
+        "nome": "Moçâmedes (Namibe)",
+        "comunas": [
+          {
+            "nome": "Moçâmedes"
+          },
+          {
+            "nome": "Lucira"
+          },
+          {
+            "nome": "Bentiaba"
+          },
+          {
+            "nome": "Forte Santa Rita"
+          }
+        ]
+      },
+      {
+        "nome": "Tômbwa (Tômbua)",
+        "comunas": [
+          {
+            "nome": "Tômbwa"
+          },
+          {
+            "nome": "Iona"
+          },
+          {
+            "nome": "Baía dos Tigres"
+          }
+        ]
+      },
+      {
+        "nome": "Virei",
+        "comunas": [
+          {
+            "nome": "Virei"
+          },
+          {
+            "nome": "Cainde"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Uíge",
+    "municipios": [
+      {
+        "nome": "Alto Cauale",
+        "comunas": [
+          {
+            "nome": "Cangola"
+          },
+          {
+            "nome": "Bengo"
+          },
+          {
+            "nome": "Caiongo"
+          }
+        ]
+      },
+      {
+        "nome": "Ambuíla",
+        "comunas": [
+          {
+            "nome": "Nova Ambuíla"
+          },
+          {
+            "nome": "Quipedro"
+          }
+        ]
+      },
+      {
+        "nome": "Bembe",
+        "comunas": [
+          {
+            "nome": "Bembe"
+          },
+          {
+            "nome": "Mabaia"
+          },
+          {
+            "nome": "Lucunga"
+          }
+        ]
+      },
+      {
+        "nome": "Buengas",
+        "comunas": [
+          {
+            "nome": "Buenga Sul"
+          },
+          {
+            "nome": "Nova Esperança"
+          },
+          {
+            "nome": "Cuilo Camboso"
+          }
+        ]
+      },
+      {
+        "nome": "Bungo",
+        "comunas": []
+      },
+      {
+        "nome": "Damba",
+        "comunas": [
+          {
+            "nome": "Damba"
+          },
+          {
+            "nome": "Nsosso"
+          },
+          {
+            "nome": "Camatambo"
+          },
+          {
+            "nome": "Lêmboa"
+          },
+          {
+            "nome": "Petecusso"
+          }
+        ]
+      },
+      {
+        "nome": "Milunga",
+        "comunas": [
+          {
+            "nome": "Macocola (Santa Cruz)"
+          },
+          {
+            "nome": "Macolo"
+          },
+          {
+            "nome": "Milunga"
+          },
+          {
+            "nome": "Massau"
+          }
+        ]
+      },
+      {
+        "nome": "Mucaba",
+        "comunas": [
+          {
+            "nome": "Mucaba"
+          },
+          {
+            "nome": "Uando Mucaba"
+          }
+        ]
+      },
+      {
+        "nome": "Negage",
+        "comunas": [
+          {
+            "nome": "Negage"
+          },
+          {
+            "nome": "Dimuca"
+          },
+          {
+            "nome": "Quisseque"
+          }
+        ]
+      },
+      {
+        "nome": "Puri",
+        "comunas": []
+      },
+      {
+        "nome": "Quimbele",
+        "comunas": [
+          {
+            "nome": "Quimbele"
+          },
+          {
+            "nome": "Cuango"
+          },
+          {
+            "nome": "Icoca"
+          },
+          {
+            "nome": "Alto Zaza"
+          }
+        ]
+      },
+      {
+        "nome": "Dange-Quitexe",
+        "comunas": [
+          {
+            "nome": "Quitexe"
+          },
+          {
+            "nome": "Aldeia Viçosa"
+          },
+          {
+            "nome": "Cambamba"
+          },
+          {
+            "nome": "Vista Alegre"
+          }
+        ]
+      },
+      {
+        "nome": "Pombo",
+        "comunas": [
+          {
+            "nome": "Sanza Pombo"
+          },
+          {
+            "nome": "Cuilo Pombo"
+          },
+          {
+            "nome": "Uamba"
+          },
+          {
+            "nome": "Alfândega"
+          }
+        ]
+      },
+      {
+        "nome": "Songo",
+        "comunas": [
+          {
+            "nome": "Songo"
+          },
+          {
+            "nome": "Quivuenga"
+          }
+        ]
+      },
+      {
+        "nome": "Uíge",
+        "comunas": []
+      },
+      {
+        "nome": "Maquela do Zombo",
+        "comunas": [
+          {
+            "nome": "Maquela do Zombo"
+          },
+          {
+            "nome": "Quibocolo"
+          },
+          {
+            "nome": "Béu"
+          },
+          {
+            "nome": "Sacandica"
+          },
+          {
+            "nome": "Cuilo Futa"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "Zaire",
+    "municipios": [
+      {
+        "nome": "Cuimba",
+        "comunas": [
+          {
+            "nome": "Cuimba"
+          },
+          {
+            "nome": "Buela"
+          },
+          {
+            "nome": "Serra da Canda"
+          },
+          {
+            "nome": "Luvaca"
+          }
+        ]
+      },
+      {
+        "nome": "M'Banza Kongo",
+        "comunas": [
+          {
+            "nome": "M'Banza Kongo"
+          },
+          {
+            "nome": "Luvo"
+          },
+          {
+            "nome": "Caluca"
+          },
+          {
+            "nome": "Madimba"
+          },
+          {
+            "nome": "Quiende"
+          },
+          {
+            "nome": "Calambata"
+          }
+        ]
+      },
+      {
+        "nome": "Noqui",
+        "comunas": [
+          {
+            "nome": "Noqui"
+          },
+          {
+            "nome": "Lufico"
+          },
+          {
+            "nome": "Mpala"
+          }
+        ]
+      },
+      {
+        "nome": "N'Zeto",
+        "comunas": [
+          {
+            "nome": "N'Zeto"
+          },
+          {
+            "nome": "Quindeje"
+          },
+          {
+            "nome": "Mussera"
+          },
+          {
+            "nome": "Quibala Norte"
+          }
+        ]
+      },
+      {
+        "nome": "Soyo",
+        "comunas": [
+          {
+            "nome": "Soyo"
+          },
+          {
+            "nome": "Sumba"
+          },
+          {
+            "nome": "Pedra de Feitiço"
+          },
+          {
+            "nome": "Quêlo"
+          },
+          {
+            "nome": "Mangue Grande"
+          }
+        ]
+      },
+      {
+        "nome": "Tomboco",
+        "comunas": [
+          {
+            "nome": "Tomboco"
+          },
+          {
+            "nome": "Quinsimba"
+          },
+          {
+            "nome": "Quinzau"
+          }
+        ]
+      }
+    ]
+  }
+]

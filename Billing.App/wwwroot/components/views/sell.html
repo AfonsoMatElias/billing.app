@@ -1,0 +1,458 @@
+<div class="main-body sell-product base-divide-structure fit-content">
+    <div class="content">
+        <div class="input-side card">
+            <div class="up-side">
+                <div class="search-area" e-def="{ findProduct: '' }">
+                    <div class="search-field">
+                        <span class="fa fa-search"></span>
+                        <input type="text" tabindex="1" e-bind="findProduct" placeholder="Nome do Produto ou Codigo">
+                    </div>
+                    <div class="actions">
+                        <button id="reset" on:click="cancelSell" class="cancel-type">CANCELAR</button>
+                        <button class="next-type">PAUSAR</button>
+                    </div>
+                </div>
+                <div class="product-list product-card-container">
+                    <div class="item" e-tmp="produto/withStock" e-use="product" e-filter="findProduct:nome,codigo">
+                        <div class="cover"></div>
+                        <div class="description">
+                            <span class="main" e-content="{{ product.nome }}">Loading...</span>
+                            <span class="detail1" e-content="{{ product.precoUnitario }} Kz">Loading...</span>
+                            <span class="detail2"
+                                e-content="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
+                        </div>
+                        <div class="action-area">
+                            <span class="area center">
+                                <span class="center-icon icon-type fa fa-plus"
+                                    on:click="addProductToBusket(product)"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="down-side">
+                <inc src="table">
+                    <content ident="table-head">
+                        <div class="table-cell" style="flex: 2;"> Produto </div>
+                        <div class="table-cell"> Preço </div>
+                        <div class="table-cell"> Quantd. </div>
+                        <div class="table-cell"> Desc. </div>
+                        <div class="table-cell"> Subtotal </div>
+                        <div class="table-cell" style="flex: .5;"></div>
+                    </content>
+                    <content ident="table-body">
+                        <div class="table-row flex-it" e-for="product of $scope.busketProducts">
+                            <div class="card-cover" e-skeleton></div>
+                            <div class="pointer table-cell" style="flex: 2;" e-skeleton> {{ product.name }} </div>
+                            <div class="pointer table-cell" e-skeleton> {{ product.price }} kz </div>
+                            <div class="pointer table-cell" e-skeleton>
+                                <span class="complex-cell editable simple">
+                                    <input type="number" e-bind="product.qty" value="0">
+                                </span>
+                            </div>
+                            <div class="pointer table-cell" e-skeleton>
+                                <span class="complex-cell editable descount">
+                                    <input type="number" e-bind="product.descount" value="0"><label>%</label>
+                                </span>
+                            </div>
+                            <div class="pointer table-cell hidable" e-skeleton> {{ product.subtotal }} Kz </div>
+                            <div class="table-cell" style="flex: .5;">
+                                <span e-skeleton class="remove-line">
+                                    <span class="center-icon icon-type fa fa-remove"
+                                        on:click="$scope.removeProductFromBusket(product)"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </content>
+                </inc>
+            </div>
+        </div>
+        <div class="resume-side default-side card nice-scroll">
+            <!-- Customer mini card -->
+            <div class="customer-card">
+                <div class="left">
+                    <div class="start">
+                        <div class="image"></div>
+                    </div>
+                    <div class="remain">
+                        <div class="main-name" e-content="{{ customer.name }}">Selecione Um Cliente</div>
+                        <div class="detail" e-content="{{ customer.type }}">Clique em `?` para Selecionar</div>
+                    </div>
+                </div>
+                <div class="right">
+                    <span class="center-icon icon-type fa"
+                        e-class="{ 'fa-question': customer.id == '', 'fa-check': customer.id != '' }"
+                        on:click="handleCustomerSelection"></span>
+                </div>
+            </div>
+
+            <!-- Sale Resume -->
+            <div class="sell-resume">
+                <div class="row double">
+                    <div class="left">
+                        <h4>Subtotal</h4>
+                        <h3 e-content="{{ sellingResume.subtotal }} Kz">0 Kz</h3>
+                    </div>
+                    <div class="right">
+                        <h4>Desconto</h4>
+                        <h3 e-content="{{ sellingResume.descount }} Kz">0 Kz</h3>
+                    </div>
+                </div>
+
+                <div class="row total">
+                    <div class="left">
+                        <h3>Total</h3>
+                    </div>
+                    <div class="right">
+                        <h3 e-content="{{ sellingResume.total }} Kz">0 Kz</h3>
+                    </div>
+                </div>
+
+                <div class="row input">
+                    <div class="input-field">
+                        <label>Forma de Pagamento</label>
+                        <select name="FormaPagamentoId" validate="select">
+                            <option value="#">Dinheiro</option>
+                            <option value="#">Cartão Débito</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="calc">
+                    <div class="calc-screen">
+                        <div class="top">
+                            <h4>Valor Pago Em Kz</h4>
+                        </div>
+                        <div class="remain">
+                            <input type="text" e-bind="sellingResume.paid">
+                        </div>
+                    </div>
+                    <div class="calc-buttons">
+                        <div class="calc-btn" e-for="item of $calculatorButtons" e-content="{{ item }}"
+                            on:click="calcButtonClick" val="{{ item }}">?</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="left">
+                        <h3>Troco</h3>
+                    </div>
+                    <div class="right" data="sellingResume">
+                        <h3 e-class="{ 'negative' : exchange < 0 }" e-content="{{ exchange }} Kz">0 Kz</h3>
+                    </div>
+                </div>
+
+                <div class="row action-area">
+                    <div class="area center">
+                        <button on:click="submit" class="primary-button">FINALIZAR</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fit-content customers-container" e-def="{ findCustomer: '', showCustomerSelection: false }"
+                e-show="showCustomerSelection" e-anm="left">
+                <div class="label-back-button">
+                    <div class="back-button">
+                        <span class="center-icon fa fa-arrow-left" on:click="showCustomerSelection = false"></span>
+                    </div>
+                    <div class="text">
+                        <h3>Selecione um Cliente</h3>
+                    </div>
+                </div>
+
+                <div class="search-field">
+                    <span class="fa fa-search"></span>
+                    <input type="text" tabindex="1" e-bind="findCustomer" placeholder="Pesquise por Cliente">
+                </div>
+
+                <div class="list-container">
+                    <div class="list fit-content-nonspace nice-scroll">
+                        <div e-for="item of customers | findCustomer" class="item customer-card"
+                            on:click="handleCustomerItemClick(item)">
+                            <div class="left">
+                                <div class="start">
+                                    <div class="image"></div>
+                                </div>
+                                <div class="remain">
+                                    <div class="main-name" e-content="{{ item.name }}">Nome Cliente</div>
+                                    <div class="detail" e-content="{{ item.type }}">Tipo Pessoa</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var easy = this.Easy;
+    var component = this;
+    var calcScreen;
+    var watches = [];
+    var customer = {
+        id: '',
+        name: 'Cliente Não Selecionado',
+        type: 'Clique em `?` para Selecionar'
+    };
+    var calculateResume = (function () {
+        var subtotal = 0;
+        var descount = 0;
+        // Shortcut
+        var resume = component.data.sellingResume;
+        this.data.busketProducts.filter(function (item, acc) {
+            subtotal += item.price * item.qty;
+            descount += item.price * (item.descount / 100);
+        });
+
+        resume.subtotal = subtotal;
+        resume.descount = descount;
+        resume.total = subtotal - descount;
+        resume.exchange = resume.paid - resume.total;
+    }).bind(this)
+
+    this.mounted = function () {
+        easy.data.showSearchBar = false;
+
+        easy.get("entidade/?codigoTipoEntidade=tec")
+            .then(function (response) {
+                component.data.customers = response.result.map(function (item) {
+                    return {
+                        id: item.id,
+                        image: item.pessoa.profileImageUrl,
+                        name: item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : ''),
+                        type: item.tipoPessoa.nome
+                    };
+                });
+            })
+            .catch(function (error) {
+                notify({
+                    type: 'error',
+                    message: error.message || error
+                });
+            })
+
+    }
+
+    this.loaded = function (el) {
+        // Marking the menu
+        easy.data.currentPage = 'Venda';
+        calcScreen = el.node('.calc input');
+    }
+
+    this.destroyed = function () {
+        easy.data.showSearchBar = true;
+
+        // Destroying all watches
+        for (const watch of watches)
+            watch.destroy();
+    }
+    // Data Exportation
+    this.export({
+        // Variable
+        $calculatorButtons: [
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9,
+            'C', '0', '⇐'
+        ],
+        busketProducts: [],
+        sellingResume: {
+            subtotal: 0,
+            descount: 0,
+            exchange: 0,
+            total: 0,
+            paid: 0
+        },
+        customer: {
+            id: '',
+            name: customer.name,
+            type: customer.type
+        },
+        customers: [],
+        // Methods
+        calcButtonClick: function (evt) {
+            var value = evt.base.valueIn('val');
+            var data = component.data.sellingResume;
+            switch (value) {
+                case 'C': // Clear everything
+                    calcScreen.value = data.paid = 0;
+                    break;
+                case '⇐': // Remove the last digit
+                    if (calcScreen.value.length === 1)
+                        calcScreen.value = data.paid = 0;
+                    else {
+                        var $value = calcScreen.value;
+                        calcScreen.value = $value.substring(0, $value.length - 1);
+                        data.paid = calcScreen.value * 1;
+                    }
+                    break;
+                default: // Default add
+                    if (calcScreen.value === '0')
+                        calcScreen.value = data.paid = value * 1;
+                    else {
+                        calcScreen.value += value;
+                        data.paid = calcScreen.value * 1;
+                    }
+                    break;
+            }
+        },
+        addProductToBusket: function (product) {
+            var onBusket = component.data.busketProducts.find(function (x) {
+                return x.id === product.id;
+            });
+
+            if (onBusket)
+                return onBusket.qty++;
+
+            if (product.compras[0] == null || (product.compras[0].quantidade == 0 && product.isStock)) {
+                return;
+            }
+
+            // Creating the buckect object
+            var busketProduct = {
+                id: product.id,
+                busketId: 'removeId' + product.id,
+                name: product.nome,
+                price: product.precoUnitario,
+                stock: (product.compras[0] || {}).quantidade || 0,
+                subtotal: product.precoUnitario,
+                descount: 0,
+                qty: 1,
+            };
+
+            // Adding to the UI
+            component.data.busketProducts.push(busketProduct);
+
+            // Updating the resume fields
+            calculateResume();
+
+            // Decreasing the stock value
+            product.compras[0].quantidade--;
+
+            // Watching qty property
+            var $wQty = easy.watch("qty", function (qty, oldQuantity) {
+                // Shortcut
+                var b = busketProduct;
+                var newStock = b.stock - qty;
+
+                if (newStock < 0) {
+                    busketProduct.qty = b.stock;
+                    return notify({
+                        type: 'warn',
+                        message: 'Stock insuficiente'
+                    });
+                }
+
+                product.compras[0].quantidade = newStock;
+                b.subtotal = b.price * qty - (b.price * (b.descount / 100));
+                // Updating the resume fields
+                calculateResume();
+            }, busketProduct);
+
+            // Watching descount property
+            var $wDescount = easy.watch("descount", function (descount) {
+                // Shortcut
+                var b = busketProduct;
+                b.subtotal = b.price * b.qty - (b.price * (descount / 100));
+                // Updating the resume fields
+                calculateResume();
+            }, busketProduct);
+
+            // Watching paid property
+            var $wPaid = easy.watch("paid", function (paid) {
+                component.data.sellingResume.exchange = paid - component.data.sellingResume
+                    .total;
+            }, component.data.sellingResume);
+
+            watches.push($wQty, $wDescount, $wPaid);
+            // Addind the remove event emitter 
+            easy.on(busketProduct.busketId, function () {
+                $wQty.destroy();
+                $wPaid.destroy();
+                $wDescount.destroy();
+            });
+        },
+        removeProductFromBusket: function (busketProduct) {
+            // Rmemoving from the list
+            component.data.busketProducts.remove(busketProduct.id);
+
+            // Updating quantity
+            // It will resote the old value of the product
+            busketProduct.qty = 0;
+
+            // Destroying the busket watch
+            easy.emit(busketProduct.busketId, null, true);
+        },
+        cancelSell: function () {
+            while (component.data.busketProducts.length != 0)
+                component.data.removeProductFromBusket(component.data.busketProducts[0]);
+
+            component.data.sellingResume.keys(function (k) {
+                component.data.sellingResume[k] = 0;
+            });
+
+            component.data.handleCustomerSelection();
+        },
+        handleCustomerSelection: function (evt) {
+            if (!component.data.customer.id)
+                return component.data.showCustomerSelection = true;
+
+            component.data.customer.id = customer.id;
+            component.data.customer.name = customer.name;
+            component.data.customer.type = customer.type;
+        },
+        handleCustomerItemClick: function (item) {
+            component.data.customer.id = item.id;
+            component.data.customer.name = item.name;
+            component.data.customer.type = item.type;
+            component.data.showCustomerSelection = false;
+        },
+        submit: function (evt) {
+            var btn = evt.base;
+
+            if (component.data.busketProducts.length === 0)
+                return notify({
+                        type: 'warn',
+                        message: 'Carrinho Vazio!'
+                    });
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            var form = {
+                ClienteId: component.data.customer.id || undefined,
+                Total: component.data.sellingResume.total,
+                VendaItens: component.data.busketProducts
+                    .map(function (item) {
+                        return {
+                            ProdutoId: item.id,
+                            Quantidade: item.qty,
+                            Preco: item.price,
+                            Desconto: item.descount
+                        };
+                    })
+            }
+
+            easy.create('venda', form)
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Venda Efectuada'
+                    });
+
+                    component.data.busketProducts = [];
+                    component.el.node('#reset').click();
+                })
+                .catch(function (error) {
+                    notify({
+                        type: 'error',
+                        message: error.message || error
+                    });
+                })
+                .finally(function () {
+                    addOrRemSpinner(btn, true);
+                })
+        },
+    });
+</script>

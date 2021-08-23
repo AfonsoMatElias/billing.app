@@ -1,0 +1,161 @@
+<div class="main-body chat base-divide-structure fit-content">
+    <div class="content">
+        <div class="input-side card">
+            <div class="left conversations">
+                <div class="header">
+                    <h3>Conversações</h3>
+                </div>
+                <div class="body">
+                    <div class="conversations-container fit-content-nonspace nice-scroll">
+
+                        <div class="row is-selected">
+                            <div class="user-info">
+                                <div class="icon">
+                                    <p>AM</p>
+                                    <span class="is-online"></span>
+                                </div>
+                                <div class="info">
+                                    <h4>Afonso Matumona</h4>
+                                    <small>Loja Central</small>
+                                </div>
+                                <div class="time">
+                                    <small>12:03</small>
+                                </div>
+                            </div>
+                            <div class="message-info">
+                                Olá, tudo bem?
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="right message-container">
+                <div class="body">
+                    <div class="messages-container fit-content-nonspace nice-scroll">
+
+                        <div class="message-bubble-container">
+                            <div class="message-bubble">
+                                <div class="owner">
+                                    <span>AM</span>
+                                </div>
+                                <div class="message">
+                                    E aíí MatElias...
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="message-bubble-container">
+                            <div class="message-bubble">
+                                <div class="owner">
+                                    <span>AM</span>
+                                </div>
+                                <div class="message">
+                                    Viste como? Tudo em dia?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="message-bubble-container is-user">
+                            <div class="message-bubble">
+                                <div class="owner">
+                                    <span>ME</span>
+                                </div>
+                                <div class="message">
+                                    Fala aíí Afonso?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="message-bubble-container is-user">
+                            <div class="message-bubble">
+                                <div class="owner">
+                                    <span>MT</span>
+                                </div>
+                                <div class="message">
+                                    Aqui é só alegria, e no teu lado?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="message-bubble-container">
+                            <div class="message-bubble">
+                                <div class="owner">
+                                    <span class="unread">AM</span>
+                                </div>
+                                <div class="message">
+                                    Nas calmas meu mano!
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="compose-container">
+                    <div class="left">
+                        <span class="fa fa-plus" title="Adicionar Anexo"></span>
+                    </div>
+                    <div class="middle">
+                        <div class="composer nice-scroll" contenteditable="true" spellcheck="false" tabindex="-1"></div>
+                    </div>
+                    <div class="right">
+                        <span class="fa fa-paper-plane-o center-icon" title="Enviar Mensagem"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="images-side default-side ">
+            <div class="card user-info-v-card">
+                <div class="icon">
+                    <p>AM</p>
+                    <span class="is-online"></span>
+                </div>
+
+                <div class="info">
+                    <h4>Afonso Matumona</h4>
+                </div>
+
+                <div class="info">
+                    <label>Funcionario</label>
+                </div>
+
+                <div class="info">
+                    <small>Loja Central</small>
+                </div>
+            </div>
+            <div class="online-users card">
+                <div class="header">
+                    <h4>Usuários</h4>
+                </div>
+                <div class="body">
+                    <div class="users-container fit-content-nonspace nice-scroll">
+
+                        <div class="row">
+                            <div class="user-info">
+                                <div class="icon">
+                                    <p>AM</p>
+                                    <span class="is-online"></span>
+                                </div>
+                                <div class="info">
+                                    <h4>Afonso Matumona</h4>
+                                    <small>Loja Central</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var component = this;
+    var $easy = this.Easy;
+    this.loaded = function (el) {
+        this.Easy.data.currentPage = 'Chat';
+
+        if (this.Easy.data.showConversation)
+            this.Easy.data.showConversation = false;
+    }
+</script>

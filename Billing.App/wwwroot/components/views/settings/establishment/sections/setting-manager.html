@@ -1,0 +1,75 @@
+<div class="content">
+    <div class="header">
+        <h3>Gerente</h3>
+        <p>Altere o Gerente para o estabelimento</p>
+    </div>
+
+    <div form-post class="input-area">
+        <div class="input-field cell">
+            <label>Gerente</label>
+            <select name="GerenteId">
+                <option value="" selected disabled>Selecione a opção</option>
+                <option e-tmp="funcionario" e-use="item" on:add="onFuncionarioAdded" e-value="{{ item.id }}"
+                    e-content="{{ item.usuario.pessoa.primeiroNome + ' ' + item.usuario.pessoa.ultimoNome }}">
+                    Loading...
+                </option>
+            </select>
+        </div>
+
+        <div class="action-area">
+            <button on:click="destroyMe" type="reset" class="cancel-type">Cancelar</button>
+            <button type="button" class="submit-type" on:click="submit">Salvar</button>
+        </div>
+    </div>
+</div>
+<script>
+    var $easy = this.Easy;
+    var component = this;
+    
+    this.loaded = function (el) {
+        
+    }
+
+    this.export({
+        // Variables
+        selected:'1',
+
+        // Methods
+        submit: function (evt) {
+            var btn = evt.base;
+            var form = btn.aboveMe('[form-post]');
+            
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            $easy.update('estabelecimento/update-manager', 
+                $easy.toJsObj(form), component.data.input.id + '')
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Actualizado',
+                        run: function () {
+                            location.reload();
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    notify({
+                        type: 'error',
+                        message: error.message || error
+                    });
+                })
+                .finally(function () {
+                    addOrRemSpinner(btn, true);
+                });
+        },
+        destroyMe: function () {
+            component.destroy();
+        },
+        onFuncionarioAdded: function (evt) {
+            if (component.data.input.gerenteId && 
+                component.data.input.gerenteId == evt.$data.model.item.id)
+                evt.base.selected = true;
+        }
+    })
+</script>

@@ -1,0 +1,302 @@
+<div class="main-body buy-product base-divide-structure fit-content">
+    <div class="content">
+        <div class="input-side">
+            <div class="up-side card">
+                <div class="row">
+                    <h3>Informações da Compra</h3>
+                </div>
+                <div class="input-area h-space-between find-me">
+                    <div class="left">
+                        <div class="input-field">
+                            <div class="field-header">
+                                <label>Fornecedor</label>
+                            </div>
+                            <div class="field-body">
+                                <select name="FornecedorId" validate="select">
+                                    <option selected value="">None</option>
+                                    <option e-tmp="Entidade" e-id="?codigoTipoEntidade=tef" e-use="item"
+                                        e-value="{{ item.id }}"
+                                        e-content="{{ item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : '') }}">
+                                        Loading...</option>
+                                </select>
+                                <a :href="/choose/provider?src={{ location.href }}">Criar</a>
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Quantidade | <b style="color: var(--color-app);" name="ProdutoId"
+                                    field-value="{{ selectedProduct.id }}"
+                                    e-content="{{ selectedProduct.nome }}">?</b></label>
+                            <input type="number" name="Quantidade" validate="number" placeholder="Quantidade" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Preço Unitário de Compra</label>
+                            <input type="text" name="PrecoUnitarioCompra" validate="number"
+                                placeholder="Preço de Compra" />
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="input-field">
+                            <label>Preço Unitário de Venda</label>
+                            <input type="text" name="PrecoUnitarioVenda" validate="number"
+                                placeholder="Preço de Compra" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Data de Entrada</label>
+                            <input type="date" name="DataEntrada" validate="date" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Data de Validade (Opcional)</label>
+                            <input type="date" name="DataValidade" validate="date" />
+                        </div>
+                    </div>
+                </div>
+                <div class="action-area">
+                    <div class="area h-space-between">
+                        <button class="cancel-type" id="reset"
+                            on:click="cancelBuy(event.base.aboveMe('.up-side').node('.input-area'))">CANCELAR</button>
+                        <button class="primary-button"
+                            on:click="addBuy(event.base.aboveMe('.up-side').node('.input-area'))">ADICIONAR</button>
+                    </div>
+                    <div class="area">
+                        <button class="submit-type" on:click="submit">SUBMETER</button>
+                    </div>
+                </div>
+            </div>
+            <div class="down-side card">
+                <inc src="table">
+                    <content ident="table-head">
+                        <div class="table-cell"> Fornecedor </div>
+                        <div class="table-cell"> Produto </div>
+                        <div class="table-cell"> Preco (AKZ) </div>
+                        <div class="table-cell"> Quantd. </div>
+                        <div class="table-cell"> Data de Compra </div>
+                        <div class="table-cell"> Data de Validade </div>
+                        <div class="table-cell" style="flex: .5;"></div>
+                    </content>
+                    <content ident="table-body">
+
+                        <div class="table-row flex-it" e-for="buy of $scope.buyList">
+                            <div class="card-cover" e-skeleton></div>
+                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.row.Provider }}"> Loading...
+                            </div>
+                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.row.Product }}"> Loading...
+                            </div>
+                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.PrecoUnitarioCompra }}">
+                                Loading... </div>
+                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.Quantidade }}"> Loading...
+                            </div>
+                            <div class="pointer table-cell hidable" e-skeleton e-content="{{ buy.DataEntrada }}">
+                                Loading...</div>
+                            <div class="pointer table-cell hidable" e-skeleton
+                                e-content="{{ buy.DataValidade || 'N/A' }}">
+                                Loading... </div>
+                            <div class="table-cell" style="flex: .5;">
+                                <span e-skeleton class="remove-line">
+                                    <span class="center-icon icon-type fa fa-remove"
+                                        on:click="$scope.removeBuy(buy)"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                    </content>
+                </inc>
+            </div>
+        </div>
+
+        <div class="product-side default-side card nice-scroll">
+            <div class="row">
+                <h3>Productos</h3>
+            </div>
+
+            <div class="search-field">
+                <span class="fa fa-search"></span>
+                <input type="text" e-bind="findProduct" placeholder="Procure e Selecione">
+            </div>
+
+            <div class="product-list">
+                <div class="product-card-container fit-content-nonspace nice-scroll">
+
+                    <div class="item" e-tmp="produto/withStock" e-use="product" e-filter="findProduct:nome,codigo"
+                        on:click="chooseProduct(event.base, product)" on:add="markActive(event.base, product)">
+                        <div class="cover"></div>
+                        <div class="description">
+                            <span class="main" e-content="{{ product.nome }}">Loading...</span>
+                            <span class="detail1" e-content="{{ product.precoUnitario }} Kz">Loading...</span>
+                            <span class="detail2"
+                                e-content="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
+                        </div>
+                        <div class="action-area">
+                            <span class="area center">
+                                <span class="center-icon icon-type fa"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var params = this.getParams();
+    var component = this;
+    var easy = this.Easy;
+    var $selectedProduct;
+    var watches = [];
+
+    var clearForm = function (form) {
+        var elements = form.nodes('[name]');
+
+        // Unmarking the old selected product
+        if ($selectedProduct)
+            $selectedProduct.node('.fa').classList.remove('fa-check');
+
+        for (const element of elements) {
+            switch (element.tagName) {
+                case 'B':
+                    component.data.selectedProduct.id = 0;
+                    component.data.selectedProduct.nome = 'Seleccione um Produto';
+                    break;
+                case 'SELECT':
+                    element.selectedIndex = 0;
+                    break;
+                default:
+                    element.value = '';
+                    break;
+            }
+        }
+    }
+
+    this.mounted = function () {
+        easy.data.showSearchBar = false;
+    }
+
+    this.loaded = function (el) {
+        // Marking the menu
+        easy.data.currentPage = 'Compra';
+    }
+
+    this.destroyed = function () {
+        easy.data.showSearchBar = true;
+    }
+    // Data Exportation
+    this.export({
+        // Variables
+        findProduct: '',
+        buyList: [],
+        selectedProduct: {
+            id: 0,
+            nome: 'Seleccione um Produto',
+        },
+
+        // Methods
+        submit: function (evt) {
+            var btn = evt.base;
+            var form = component.data.buyList;
+
+            if (form.length === 0)
+                return notify({
+                    type: 'warn',
+                    message: 'Lista de Compras Vazia!'
+                });
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            easy.create('compra/massive', form)
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Efectuado'
+                    });
+
+                    easy.request('produto/withStock', function (request) {
+                        for (const item of request.$data) {
+                            form.findOne(function (formItem) {
+                                if ((item.id * 1) === (formItem.ProdutoId * 1)) {
+                                    if (item.compras.length === 0)
+                                        item.compras = [ { quantidade: formItem.Quantidade } ];
+                                    else
+                                        item.compras[0].quantidade += formItem.Quantidade;
+
+                                    item.precoUnitario = formItem.PrecoUnitarioVenda;
+                                }
+                            })
+                        }
+                        component.el.node('#reset').click();
+                    });
+                })
+                .catch(function (error) {
+                    notify({
+                        type: 'error',
+                        message: error.message || error
+                    });
+                })
+                .finally(function () {
+                    addOrRemSpinner(btn, true);
+                })
+        },
+        chooseProduct: function (el, product) {
+            // Applying the select value in the input area
+            component.data.selectedProduct.id = product.id;
+            component.data.selectedProduct.nome = product.nome;
+
+            // Unmarking the old selected product
+            if ($selectedProduct)
+                $selectedProduct.node('.fa').classList.remove('fa-check');
+
+            // Marking the selected product
+            el.node('.fa').classList.add('fa-check');
+            $selectedProduct = el;
+        },
+        addBuy: function (form) {
+            if (form.node('[field-value="0"]'))
+                return notify({
+                    type: 'warn',
+                    message: 'Selecione um produto!'
+                });
+
+            // Generating the objcet
+            var obj = easy.toJsObj(form, {
+                values: '[field-value],[value]'
+            });
+
+            var selected = form.node('[name="FornecedorId"]').selectedOptions[0].text;
+            // Adding some id
+            obj.$id = easy.code(5);
+            obj.row = {
+                Provider: selected !== 'None' ? selected : 'N/A',
+                Product: form.node('[name="ProdutoId"]').textContent
+            };
+
+            obj.EstabelecimentoId = this.data.application.user.estabelecimentoId;
+
+            // Addintg to the list
+            component.data.buyList.push(obj);
+
+            // Clearing the form
+            clearForm(form);
+        },
+        removeBuy: function (buy) {
+            component.data.buyList.remove(buy.$id);
+        },
+        cancelBuy: function (form) {
+            clearForm(form);
+            // Clearing the list
+            component.data.buyList = [];
+        },
+        markActive: function (el, product) {
+            if (component.data.selectedProduct.id == product.id) {
+                el.node('.fa').classList.add('fa-check');
+                $selectedProduct = el;
+            }
+
+            if (product.codigo == params.p)
+                component.data.chooseProduct(el, product);
+        }
+    });
+</script>

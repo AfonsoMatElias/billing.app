@@ -1,0 +1,53 @@
+<div class="main-body fit-content settings-page card">
+    <div class="inner-menu">
+        <div class="row" e-class="{ 'mark-point': active == 'profile' }">
+            <a i:href="/settings">
+                <p>Perfil</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'employees' }">
+            <a i:href="/settings/employees">
+                <p>Funcionários</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'apps' }">
+            <a i:href="/settings/apps">
+                <p>Aplicações</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'establishment' }">
+            <a i:href="/settings/establishment">
+                <p>Estabelecimento</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'preferences' }">
+            <a i:href="/settings/preferences">
+                <p>Preferências</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'license' }">
+            <a i:href="/settings/license">
+                <p>Licença</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'about' }">
+            <a i:href="/settings/about">
+                <p>Sobre</p>
+            </a>
+        </div>
+    </div>
+    <div class="inner-menu-content">
+        <content></content>
+    </div>
+</div>
+<script>
+    var $easy =  this.Easy;
+    var component = this;
+
+    this.loaded = function (el) {
+        $easy.data.currentPage = 'Configurações';
+        $easy.routing.markActive($easy.el.node('.settings-link'));
+    }
+    
+    this.export($easy.extend.obj(component.data.$scope));
+</script>
