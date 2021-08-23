@@ -4,7 +4,7 @@
             <div class="fit-content nice-scroll">
                 <!-- Photo -->
                 <div class="photo-field">
-                    <div class="back-button">
+                    <div class="back-button" e-show="typeof including === 'undefined'">
                         <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
                     </div>
 
@@ -98,13 +98,13 @@
             <button type="button" class="submit-type" on:click="submit">SUBMETER</button>
         </div>
     </div>
-    <div class="address addables nice-scroll">
+    <div class="address addables nice-scroll" e-if="typeof including !== 'undefined'">
         <div class="content fit-content">
             <p class="high-light"> Adicione Enderecos</p>
             <inc e-build="Enderecos" e-array src="address"></inc>
         </div>
     </div>
-    <div class="contacts addables nice-scroll">
+    <div class="contacts addables nice-scroll" e-if="typeof including !== 'undefined'">
         <div class="content fit-content">
             <p class="high-light"> Adicione Contactos</p>
             <inc e-build="Contactos" src="contact"></inc>
