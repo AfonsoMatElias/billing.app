@@ -1372,43 +1372,6 @@ namespace Billing.App.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            ConcurrencyStamp = "7fba62eb-867d-45c9-ae4c-0626e2b39ca8",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            ConcurrencyStamp = "8757423d-d974-4480-8d34-49147180d815",
-                            Name = "Gestor",
-                            NormalizedName = "GESTOR"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            ConcurrencyStamp = "c0feeb85-5b79-4810-9eb4-a9ba7ad48627",
-                            Name = "Funcionario",
-                            NormalizedName = "FUNCIONARIO"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            ConcurrencyStamp = "298f47a3-80c3-4d87-99f7-5240df721892",
-                            Name = "Vendedor",
-                            NormalizedName = "VENDEDOR"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            ConcurrencyStamp = "30a47e24-b3d3-4363-b7b9-e7a3400d2ba6",
-                            Name = "Entidade",
-                            NormalizedName = "ENTIDADE"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
