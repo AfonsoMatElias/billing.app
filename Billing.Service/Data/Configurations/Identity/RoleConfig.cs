@@ -11,18 +11,23 @@ namespace Billing.Service.Data.Configurations
         {
             builder.HasData(
                 (new[] {
-                    "Admin",
-                    "Gestor",
-                    "Funcionario",
-                    "Vendedor",
-                    "Entidade"
+                    "Admin:ce23b3ea-8d9a-4992-9ec8-b2d002accc9a",
+                    "Gestor:ce23b3ea-8d9a-4992-9ec8-b2d002accc9b",
+                    "Funcionario:ce23b3ea-8d9a-4992-9ec8-b2d002accc9c",
+                    "Vendedor:ce23b3ea-8d9a-4992-9ec8-b2d002accc9d",
+                    "Entidade:ce23b3ea-8d9a-4992-9ec8-b2d002accc9e"
                 }).Select((item, index) =>
                 {
+                    var splitted = item.Split(":");
+                    var name = splitted.FirstOrDefault();
+                    var concurrencyStamp = splitted.LastOrDefault();
+
                     return new IdentityRole<long>
                     {
                         Id = (index + 1),
-                        Name = item,
-                        NormalizedName = item.ToUpper()
+                        Name = name,
+                        NormalizedName = name.ToUpper(),
+                        ConcurrencyStamp = concurrencyStamp,
                     };
                 }).ToArray()
             );
