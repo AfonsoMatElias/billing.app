@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.App", "Billing.App.csproj", "{C43CADEA-0377-46BD-81C0-1F484DE6D7DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.App", ".\Billing.App.csproj", "{C43CADEA-0377-46BD-81C0-1F484DE6D7DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.Service", "..\Billing.Service\Billing.Service.csproj", "{3DDDB3F3-4DF3-4384-91CA-4F5DC215225A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.Service", ".\Billing.Service.csproj", "{3DDDB3F3-4DF3-4384-91CA-4F5DC215225A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.Shared", "..\Billing.Shared\Billing.Shared.csproj", "{E062D6EA-3FF3-4FE0-AA10-625B3EE98199}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.Shared", ".\Billing.Shared.csproj", "{E062D6EA-3FF3-4FE0-AA10-625B3EE98199}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scaffolder", "..\Scaffolder\Scaffolder.csproj", "{1468FAD5-41AB-43BE-8699-5F71377F2B05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scaffolder", ".\Scaffolder.csproj", "{1468FAD5-41AB-43BE-8699-5F71377F2B05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
