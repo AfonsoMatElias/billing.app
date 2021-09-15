@@ -50,9 +50,8 @@ namespace Billing.App.Mapping
                 }));
             CreateMap<CompraDto, Compra>();
 
-            CreateMap<Comuna, ComunaDto>()
-                .ForPath(dst => dst.Municipio, xps => xps.MapFrom(src => src.Municipio));
-            CreateMap<ComunaDto, Comuna>();
+            CreateMap<Pais, PaisDto>();
+            CreateMap<PaisDto, Pais>();
 
             CreateMap<Endereco, EnderecoDto>();
             CreateMap<EnderecoDto, Endereco>();
@@ -79,11 +78,14 @@ namespace Billing.App.Mapping
 
             CreateMap<Estabelecimento, EstabelecimentoDto>()
                 .ForPath(dst => dst.Gerente, xps => xps.MapFrom(src => src.Gerente))
-                .ForPath(dst => dst.Comuna, xps => xps.MapFrom(src => src.Comuna));
+                .ForPath(dst => dst.Endereco, xps => xps.MapFrom(src => src.Endereco));
             CreateMap<EstabelecimentoDto, Estabelecimento>();
 
             CreateMap<Factura, FacturaDto>();
             CreateMap<FacturaDto, Factura>();
+
+            CreateMap<FormaPagamento, FormaPagamentoDto>();
+            CreateMap<FormaPagamentoDto, FormaPagamento>();
 
             CreateMap<Funcionario, FuncionarioDto>()
                 .ForPath(dst => dst.Usuario, xps => xps.MapFrom(src => src.Usuario));
@@ -95,11 +97,8 @@ namespace Billing.App.Mapping
             CreateMap<License, LicenseDto>();
             CreateMap<LicenseDto, License>();
 
-            CreateMap<Municipio, MunicipioDto>()
-                .ForPath(dst => dst.Provincia, xps => xps.MapFrom(src => src.Provincia))
-                .ForPath(dst => dst.Comunas, xps => xps.MapFrom(src => src.Comunas));
-
-            CreateMap<MunicipioDto, Municipio>();
+            CreateMap<Pais, PaisDto>();
+            CreateMap<PaisDto, Pais>();
 
             CreateMap<Pessoa, PessoaDto>()
                 .ForPath(dst => dst.Genero, xps => xps.MapFrom(src => new Genero
@@ -157,10 +156,6 @@ namespace Billing.App.Mapping
             CreateMap<ProdutoImagem, ProdutoImagemDto>();
             CreateMap<ProdutoImagemDto, ProdutoImagem>();
 
-            CreateMap<Provincia, ProvinciaDto>()
-                .ForPath(dst => dst.Municipios, xps => xps.MapFrom(src => src.Municipios));
-            CreateMap<ProvinciaDto, Provincia>();
-
             CreateMap<SubCategoria, SubCategoriaDto>();
             CreateMap<SubCategoriaDto, SubCategoria>();
 
@@ -169,6 +164,9 @@ namespace Billing.App.Mapping
 
             CreateMap<TipoEntidade, TipoEntidadeDto>();
             CreateMap<TipoEntidadeDto, TipoEntidade>();
+
+            CreateMap<TipoContacto, TipoContactoDto>();
+            CreateMap<TipoContactoDto, TipoContacto>();
 
             CreateMap<Titulo, TituloDto>();
             CreateMap<TituloDto, Titulo>();

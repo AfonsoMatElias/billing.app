@@ -1090,7 +1090,7 @@
                 return "keyframes " + n + " { to { opacity: 1; transform: translate" + dir + "; } }"
             }
             
-            style.textCtent = ".hide-it { display: none !important; }" +
+            style.textContent = ".hide-it { display: none !important; }" +
                 "inc:not([no-replace]),[inc-src]:not([no-replace]) { display:none!important; }" + 
                 ".to-top, .to-bottom, .to-right, .to-left { opacity: 0; }" +
                 ".from-top, .from-bottom, .from-right, .from-left" +

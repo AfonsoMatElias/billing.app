@@ -28,11 +28,12 @@ namespace Billing.Service.Data.Configurations
             builder.HasOne(e => e.Gerente)
                     .WithOne(e => e.EstabelecimentoGerente)
                     .HasForeignKey<Estabelecimento>(e => e.GerenteId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired(false);
 
-            builder.HasOne(e => e.Comuna)
+            builder.HasOne(e => e.Endereco)
                     .WithMany(e => e.Estabelecimentos)
-                    .HasForeignKey(e => e.ComunaId)
+                    .HasForeignKey(e => e.EnderecoId)
                     .OnDelete(DeleteBehavior.NoAction);
         }
     }

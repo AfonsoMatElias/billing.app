@@ -2326,6 +2326,20 @@ button:active {
     background-color: var(--color-secondary);
 }
 
+.message-container .loading-section {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-container .loading-section .is-loading {
+    height: 30px;
+    width: 30px;
+    background-size: 24px;
+    margin-right: 4px;
+}
+
 .message-container .body {
     position: relative;
     flex: 1;
@@ -2398,6 +2412,34 @@ button:active {
     overflow-y: auto;
 }
 
+.message-container .messages-container .no-messages {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+}
+
+.message-container .messages-container .no-messages .icon-wrapper {
+    display: flex;
+    flex: 1;
+}
+
+.message-container .messages-container .no-messages .fa {
+    color: var(--color-soft-text);
+    font-size: 46pt;
+    margin: auto;
+    height: 62px;
+}
+
+.message-container .messages-container .no-messages p {
+    font-size: 14pt;
+    text-align: center;
+    color: var(--color-soft-text);
+    flex: 1;
+}
+
 .message-bubble-container {
     margin: 6px 0;
 }
@@ -2438,7 +2480,7 @@ button:active {
 
 .message-bubble-container .message-bubble .message {
     padding: 12px 18px;
-    border-radius: 20px;
+    border-radius: 14px;
     border-bottom-left-radius: 2px;
     background-color: var(--color-light);
     color: var(--color-chat-text);
@@ -2458,7 +2500,7 @@ button:active {
 }
 
 .message-bubble-container.is-user .message-bubble .message {
-    border-bottom-left-radius: 20px;
+    border-bottom-left-radius: 15px;
     border-bottom-right-radius: 2px;
 }
 

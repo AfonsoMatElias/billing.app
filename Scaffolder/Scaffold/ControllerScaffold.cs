@@ -7,16 +7,16 @@ namespace Scaffolder.Scaffold
     public class ControllerScaffold : GenerationConditions
     {
         static string tail = "Controller";
-        static string folderPath = @"Billing.App/Controllers/Api/";
-        static string tmpPathInput = SharedMethods.GlobalRootPath + @"Scaffolder/tmp/controller.txt";
-        static string tmpPathOutput = SharedMethods.GlobalRootPath + folderPath;
+        static string folderPath = Path.Combine("Billing.App", "Controllers", "Api");
+        static string tmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder", "tmp", "controller.txt");
+        static string tmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, folderPath);
         string tmp = File.Exists(tmpPathInput) ? File.ReadAllText(tmpPathInput) : null;
         
         public void Generate(string name)
         {
             try
             {
-                var filePath = tmpPathOutput + $"{name}{tail}.cs";
+                var filePath = Path.Combine(tmpPathOutput, $"{name}{tail}.cs");
                 var create = true;
                 if (File.Exists(filePath))
                     create  = this.Ask(name, tail);

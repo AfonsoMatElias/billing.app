@@ -8,9 +8,12 @@ namespace Billing.Service.Dto
         public string uid { get; set; }
         public long PessoaId { get; set; }
         public long TipoEntidadeId { get; set; }
-        public string TipoEntidadeCodigo { get; set; }
         public long TipoPessoaId { get; set; }
-        public string TipoPessoaCodigo { get; set; }
+        public string TipoEntidadeCodigo { get; internal set; }
+        public string TipoPessoaCodigo { get; internal set; }
+
+        public string NomeEmpresa { get; set; }
+        public string NomePessoaContactoEmpresa { get; set; }
 
         public virtual PessoaDto Pessoa { get; set; }
         public virtual TipoEntidadeDto TipoEntidade { get; set; }

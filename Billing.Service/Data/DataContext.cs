@@ -13,20 +13,19 @@ namespace Billing.Service.Data
         public DbSet<ChatMessage> ChatMessage { get; set; }
         public DbSet<ChatMessageAttachment> ChatMessageAttachment { get; set; }
         public DbSet<Compra> Compra { get; set; }
-        public DbSet<Comuna> Comuna { get; set; }
         public DbSet<Contacto> Contacto { get; set; }
         public DbSet<Endereco> Endereco { get; set; }
         public DbSet<Entidade> Entidade { get; set; }
         public DbSet<Estabelecimento> Estabelecimento { get; set; }
         public DbSet<Factura> Factura { get; set; }
         public DbSet<Funcionario> Funcionario { get; set; }
+        public DbSet<FormaPagamento> FormaPagamento { get; set; }
         public DbSet<Genero> Genero { get; set; }
         public DbSet<License> License { get; set; }
-        public DbSet<Municipio> Municipio { get; set; }
+        public DbSet<Pais> Pais { get; set; }
         public DbSet<Pessoa> Pessoa { get; set; }
         public DbSet<Produto> Produto { get; set; }
         public DbSet<ProdutoImagem> ProdutoImagem { get; set; }
-        public DbSet<Provincia> Provincia { get; set; }
         public DbSet<SubCategoria> SubCategoria { get; set; }
         public DbSet<TipoContacto> TipoContacto { get; set; }
         public DbSet<TipoEntidade> TipoEntidade { get; set; }

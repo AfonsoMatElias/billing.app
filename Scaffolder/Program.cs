@@ -70,8 +70,8 @@ namespace Scaffolder
 
     public class SharedMethods
     {
-        public static readonly string GlobalRootPath = BackFolder(AppDomain.CurrentDomain.BaseDirectory, 5) + "/"; // Project Name
-        public static string ModelsPath = GlobalRootPath + "Billing.Service/Models";
+        public static readonly string GlobalRootPath = BackFolder(AppDomain.CurrentDomain.BaseDirectory, 5); // Project Name
+        public static string ModelsPath = Path.Combine(GlobalRootPath, "Billing.Service", "Models");
         public static List<(string, string)> Models = new List<(string, string)>();
         public static bool IsLinux { get => RuntimeInformation.IsOSPlatform(OSPlatform.Linux); }
 
@@ -169,8 +169,8 @@ namespace Scaffolder
             if (!Models.Any())
                 Models = Directory.GetFiles(ModelsPath).Select(s =>
                 {
-                    var sp = s.Split('/');
-                    return (sp.LastOrDefault().Replace(".cs", ""), s);
+                    var fileInfo = new FileInfo(s);
+                    return (fileInfo.Name.Replace(".cs", ""), fileInfo.FullName);
                 }).ToList();
             return Models;
         }

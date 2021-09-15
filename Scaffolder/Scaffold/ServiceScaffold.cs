@@ -8,11 +8,11 @@ namespace Scaffolder.Scaffold
     {
         static string tail = "Service";
 
-        static string tmpPathInput = SharedMethods.GlobalRootPath + @"Scaffolder/tmp/service.txt";
-        static string itmpPathInput = SharedMethods.GlobalRootPath + @"Scaffolder/tmp/iservice.txt";
+        static string tmpPathInput = Path.Combine(SharedMethods.GlobalRootPath,"Scaffolder","tmp","service.txt");
+        static string itmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder","tmp","iservice.txt");
 
-        static string tmpPathOutput = SharedMethods.GlobalRootPath + @"Billing.Service/Services/Implementations/";
-        static string itmpPathOutput = SharedMethods.GlobalRootPath + @"Billing.Service/Services/Interfaces/";
+        static string tmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath,"Billing.Service","Services","Implementations");
+        static string itmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, "Billing.Service","Services","Interfaces");
 
         string tmp = File.Exists(tmpPathInput) ? File.ReadAllText(tmpPathInput) : null;
         string itmp = File.Exists(itmpPathInput) ? File.ReadAllText(itmpPathInput) : null;
@@ -21,8 +21,8 @@ namespace Scaffolder.Scaffold
         {
             try
             {
-                var filePath = tmpPathOutput + $"{name}{tail}.cs";
-                var ifilePath = itmpPathOutput + $"I{name}{tail}.cs";
+                var filePath = Path.Combine(tmpPathOutput, $"{name}{tail}.cs");
+                var ifilePath = Path.Combine(itmpPathOutput, $"I{name}{tail}.cs");
 
                 var create = true;
                 if (File.Exists(filePath) && File.Exists(ifilePath))

@@ -10,30 +10,30 @@ namespace Scaffolder.Scaffold
     public class ViewModelScaffold : GenerationConditions
     {
         static string tail = "Dto";
-        static string tmpPathInput = SharedMethods.GlobalRootPath + @"Scaffolder/tmp/viewmodel.txt";
-        static string tmpPathOutput = SharedMethods.GlobalRootPath + @"Billing.Service/Dto/";
-        
+        static string tmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder", "tmp", "viewmodel.txt");
+        static string tmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, "Billing.Service", "Dto");
+
         // Lines to be ignored
         List<(
             // ClassName
-            string, 
+            string,
             // List of lines
-            string[])> 
-            ignores = new List<(string, string[])> 
+            string[])>
+            ignores = new List<(string, string[])>
             {
                 ("*", new string[]{ "Visibility" }),
             };
-        
+
         public void Generate(string name)
         {
             try
             {
-                var filePath = tmpPathOutput + $"{name}{tail}.cs";
+                var filePath = Path.Combine(tmpPathOutput, $"{name}{tail}.cs");
                 var create = true;
                 if (File.Exists(filePath))
-                    create  = this.Ask(name, tail);
-                
-                if(create)
+                    create = this.Ask(name, tail);
+
+                if (create)
                 {
                     // Getting the model name and path
                     var model = SharedMethods.Models.FirstOrDefault(x => x.Item1 == name);
@@ -53,14 +53,15 @@ namespace Scaffolder.Scaffold
                     {
                         string editableLine = line;
 
-                        if (ignore.Item2 != null && ignore.Item2.Any(x => line.Contains(x))) continue;                        
+                        if (ignore.Item2 != null && ignore.Item2.Any(x => line.Contains(x))) continue;
 
                         // Changing the name space
                         if (editableLine.Contains(nameSpace))
                             editableLine = "namespace Billing.Service.Dto";
 
                         // Changing the class name
-                        if (editableLine.Contains("class")){
+                        if (editableLine.Contains("class"))
+                        {
                             if (name != "Usuario")
                                 editableLine = editableLine.Replace($" class {name}", $" class {name}Dto");
                             else
@@ -78,16 +79,20 @@ namespace Scaffolder.Scaffold
                         }
 
                         // Changing the model property type
-                        if (editableLine.Contains("public virtual")) {
+                        if (editableLine.Contains("public virtual"))
+                        {
                             var _line = editableLine.Trim();
-                            var lineSplited = _line.Split(" "); 
+                            var lineSplited = _line.Split(" ");
                             var type = lineSplited[2];
 
-                            
-                            if (type.StartsWith(nameof(ICollection))) {
+
+                            if (type.StartsWith(nameof(ICollection)))
+                            {
                                 type = type.Replace(nameof(ICollection) + "<", "").Replace(">", "");
                                 lineSplited[2] = $"{nameof(IEnumerable)}<{type}Dto>";
-                            } else {
+                            }
+                            else
+                            {
                                 lineSplited[2] = $"{type}Dto";
                             }
 
@@ -96,7 +101,7 @@ namespace Scaffolder.Scaffold
 
                         @out += editableLine + "\n";
                     }
-                    
+
                     File.WriteAllText(filePath, @out);
                     SharedMethods.ChangeColor(ConsoleColor.Green, () => Console.WriteLine($"file {name}{tail}.cs created."));
                 }
@@ -112,7 +117,7 @@ namespace Scaffolder.Scaffold
             Console.Clear();
             Console.WriteLine(@"Loading the models...");
             SharedMethods.LoadModels();
-            
+
             Console.Clear();
             Console.WriteLine(tail);
             Console.WriteLine(@"-> 1 Generate One By One");
@@ -144,7 +149,8 @@ namespace Scaffolder.Scaffold
                     break;
 
                 case GenerationOptions.Set:
-                    SharedMethods.ChangeColor(ConsoleColor.Yellow, () => {
+                    SharedMethods.ChangeColor(ConsoleColor.Yellow, () =>
+                    {
                         Console.WriteLine("Option unavailable!");
                     });
                     break;

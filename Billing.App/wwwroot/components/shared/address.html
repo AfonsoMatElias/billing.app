@@ -1,139 +1,40 @@
 <div find-me class="divider">
     <div class="input-field">
-        <label>Provincia</label>
-        <select on:change="setAddress(event.base.value, 'municipios')">
+        <label>Pais</label>
+        <select name="PaisId">
             <option selected value="">None</option>
-            <option e-for="item of address.provincias" value="{{ item.id }}" 
-                e-content="{{ item.nome }}">Loading...</option>
-        </select>
-    </div>
-    <div class="input-field" e-show="address.municipios.length">
-        <label>Municipio</label>
-        <select on:change="setAddress(event.base.value, 'comunas')">
-            <option selected value="">None</option>
-            <option e-for="item of address.municipios" value="{{ item.id }}" 
-                e-content="{{ item.nome }}">Loading...</option>
-        </select>
-    </div>
-    <div class="input-field" e-show="address.comunas.length">
-        <label>Comuna</label>
-        <select name="ComunaId">
-            <option selected value="">None</option>
-            <option e-for="item of address.comunas" value="{{ item.id }}" 
-                e-content="{{ item.nome }}">Loading...</option>
+            <option e-tmp="pais" 
+                    e-use="item" 
+                    value="{{ item.id }}" 
+                    e-content="{{ item.nome }}">Loading...</option>
         </select>
     </div>
 
     <div class="input-field">
-        <label>Bairro</label>
-        <input type="text" name="Bairro" placeholder="Digite a rua" />
+        <label>Cidade</label>
+        <input type="text" name="Cidade" placeholder="Digite a cidade" />
     </div>
 
     <div class="input-field">
         <label>Rua</label>
-        <input type="text" name="Rua" placeholder="Digite a rua" />
+        <input type="text" name="Rua" placeholder="Digite a Nome da Rua" />
     </div>
 
     <div class="input-field">
-        <label>Casa</label>
-        <input type="text" name="Casa" placeholder="Digite o numero da casa" />
+        <label>Porta</label>
+        <input type="text" name="Rua" placeholder="Digite o Numero da Porta" />
     </div>
 
-    <div class="action-area" e-if="typeof actions != 'undefined' ? actions : true">
-        <div class="area">
-            <div class="field-space check-field" data="{ forId: this.code(10) }">
-                <input type="checkbox" name="IsPrincipal" value="true" id="{{ forId }}" on:click="disableOtherCheck" />
-                <label for="{{ forId }}">É o endereco principal?</label>
-            </div>
-        </div>
-        <div class="area">
-            <div class="add-btn">
-                <span e-show="add" title="Clique para adicionar" on:click="addComponent"
-                    class="center-icon icon-type fa {{ ico }}"></span>
-            </div>
-        </div>
+    <div class="input-field">
+        <label>Detalhado</label>
+        <input type="text" name="Detalhado" placeholder="Digite Endereço Detalhado" />
+    </div>
+
+    <div class="input-field">
+        <label>CodigoPostal</label>
+        <input type="text" name="CodigoPostal" placeholder="Digite o Codigo Postal" />
     </div>
 </div>
 <script>
     var municipio = [], comuna = [], component = this;
-    this.created = function (el) {
-        if (component.data.address.provincias.length === 0)
-            // Getting the result 
-            this.Easy.read('provincia/all-in')
-                .then(function (data) {
-                    if (data.result)
-                        component.data.address.provincias = data.result;
-                }).catch(function (error) {
-                    notify({
-                        type: 'error',
-                        message: error.message || error
-                    });
-                });
-    }
-
-    this.export({
-        ico: 'fa-plus',
-        add: true,
-        address: {
-            provincias: [],
-            municipios: [],
-            comunas: []
-        },
-        setAddress: function (id, name) {
-            if (id === '') id = null;
-
-            var clear = function (array) {
-                component.data.address[array] = [];
-            }
-
-            var add = function (data) {
-                component.data.address[name] = data;
-                return data || [];
-            }
-
-            switch (name) {
-                case 'municipios':
-                    clear('comunas');
-                    clear(name);
-
-                    if (!id) return;
-
-                    var prov = component.data.address.provincias.get(id)
-                    municipio = add(prov ? prov[name] : []);
-                    break;
-                case 'comunas':
-                    clear('comunas');
-
-                    if (!id) return;
-
-                    var mun = municipio.get(id)
-                    comuna = add(mun ? mun[name] : []);
-                    break;
-
-                default: break;
-            }
-        },
-        addComponent: function (evt) {
-            var btn = evt.base;
-            var element = btn.aboveMe('[find-me]');
-            var container = element.parentNode;
-
-            // Remove the element
-            if (component.data.ico == "fa-close")
-                return component.el.parentNode.removeElement(component.el);
-
-            var inc = this.toElement('<inc src="'+ component.src +'"></inc>');
-            container.appendChild(inc);
-            component.data.ico = "fa-close";
-        },
-        disableOtherCheck: function (evt) {
-            var currentValue = evt.base.checked;
-            var container = evt.base.aboveMe(".addables");
-            var inputs = container.nodes('input[type="checkbox"]');
-            // Disabling every one
-            for (var item of inputs) item.checked = false;
-            // Activating only the current
-            evt.base.checked = currentValue;
-        }
-    });
 </script>

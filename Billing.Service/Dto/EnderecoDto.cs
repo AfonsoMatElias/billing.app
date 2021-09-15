@@ -1,16 +1,19 @@
+using System.Collections.Generic;
+
 namespace Billing.Service.Dto
 {
     public class EnderecoDto : Base.Properties
     {
         public string uid { get; set; }
+        public long PaisId { get; set; }
+        public string Porta { get; set; }
+        public string Cidade { get; set; }
         public string Rua { get; set; }
-        public string Casa { get; set; }
-        public string Bairro { get; set; }
-        public long ComunaId { get; set; }
-        public long PessoaId { get; set; }
-        public bool IsPrincipal { get; set; }
+        public string Detalhado { get; set; }
+        public string CodigoPostal { get; set; }
 
-        public virtual PessoaDto Pessoa { get; set; }
-        public virtual ComunaDto Comuna { get; set; }
+        public virtual PaisDto Pais { get; set; }
+        
+        public ICollection<EstabelecimentoDto> Estabelecimentos { get; internal set; }
     }
 }

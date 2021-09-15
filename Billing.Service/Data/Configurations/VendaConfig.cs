@@ -29,6 +29,11 @@ namespace Billing.Service.Models
                     .WithMany(e => e.Vendas)
                     .HasForeignKey(e => e.ClienteId)
                     .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(e => e.FormaPagamento)
+                    .WithMany(e => e.Vendas)
+                    .HasForeignKey(e => e.FormaPagamentoId)
+                    .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -34,63 +34,32 @@
                 <div class="body">
                     <div class="messages-container fit-content-nonspace nice-scroll">
 
-                        <div class="message-bubble-container">
-                            <div class="message-bubble">
-                                <div class="owner">
-                                    <span>AM</span>
-                                </div>
-                                <div class="message">
-                                    E aíí MatElias...
-                                </div>
-                            </div>
+                        <div class="no-messages" e-if="messages.length === 0">
+                            <span class="icon-wrapper">
+                                <span class="fa fa-comments center-icon"></span>
+                            </span>
+                            <p>Sem mensagens ainda</p>
                         </div>
 
-                        <div class="message-bubble-container">
+                        <div e-for="item of messages" e-class="{ 'is-user': item.usuarioFromId == ref }"
+                            class="message-bubble-container" e-anm="up">
                             <div class="message-bubble">
                                 <div class="owner">
-                                    <span>AM</span>
+                                    <span e-content="{{ getAchronym(item.usuarioToName) }}">##</span>
                                 </div>
-                                <div class="message">
-                                    Viste como? Tudo em dia?
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="message-bubble-container is-user">
-                            <div class="message-bubble">
-                                <div class="owner">
-                                    <span>ME</span>
-                                </div>
-                                <div class="message">
-                                    Fala aíí Afonso?
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="message-bubble-container is-user">
-                            <div class="message-bubble">
-                                <div class="owner">
-                                    <span>MT</span>
-                                </div>
-                                <div class="message">
-                                    Aqui é só alegria, e no teu lado?
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="message-bubble-container">
-                            <div class="message-bubble">
-                                <div class="owner">
-                                    <span class="unread">AM</span>
-                                </div>
-                                <div class="message">
-                                    Nas calmas meu mano!
+                                <div class="message" e-content="{{ item.content }}">
+                                    Loading...
                                 </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
+
+                <div class="loading-section" e-if="loadingMessages">
+                    <span class="is-loading"></span> <span>Loading Messages...</span>
+                </div>
+
                 <div class="compose-container">
                     <div class="left">
                         <span class="fa fa-plus" title="Adicionar Anexo"></span>
@@ -152,11 +121,32 @@
 <script>
     var component = this;
     var $easy = this.Easy;
-    this.loaded = function(el) {
+    this.loaded = function (el) {
         this.Easy.data.currentPage = 'Chat';
         $easy.routing.markActive($easy.el.node('.chat-link'));
 
         if (this.Easy.data.showConversation)
             this.Easy.data.showConversation = false;
     }
+
+    console.log(this.data);
+
+    this.export({
+        ref: 1, // The logged user Id
+        loadingMessages: false,
+        messages: [
+
+            // {
+            //     usuarioToName: 'Afonso Matumona',
+            //     usuarioToId: 2,
+            //     usuarioFromId: 1,
+            //     content: 'Fala aí, meu mano?'
+            // }, {
+            //     usuarioToName: 'Antonio Ferraz',
+            //     usuarioToId: 1,
+            //     usuarioFromId: 2,
+            //     content: 'Nas calmas, brozy. E aí?'
+            // }
+        ]
+    });
 </script>

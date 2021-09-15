@@ -9,6 +9,9 @@ namespace Billing.Service.Models
         public long TipoEntidadeId { get; set; }
         public long TipoPessoaId { get; set; }
 
+        public string NomeEmpresa { get; set; }
+        public string NomePessoaContactoEmpresa { get; set; }
+
         public virtual Pessoa Pessoa { get; set; }
         public virtual TipoEntidade TipoEntidade { get; set; }
         public virtual TipoPessoa TipoPessoa { get; set; }
