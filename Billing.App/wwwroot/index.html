@@ -18,7 +18,7 @@
 <body>
     <div class="app-main-view">
         <div e-class="{ 'page-loading': pageLoading }"></div>
-        <aside class="side-bar">
+        <aside class="side-bar collapse-menu">
             <div class="top logo-container">
                 <div class="logo">
                     <a i:href="/">
@@ -63,13 +63,13 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a i:href="/choose/customer">
+                                    <a i:href="/customers/create/tps/tec">
                                         <span class="center-icon fa fa-plus-circle"></span>
                                         <span> Criar </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a i:href="/choose/customers">
+                                    <a i:href="/customers/tps">
                                         <span class="center-icon fa fa-list"></span>
                                         <span> Listar </span>
                                     </a>
@@ -145,9 +145,7 @@
                         <div class="icon-field-container">
                             <div class="icon-field">
                                 <div class="icon" on:click="showNotification=false; showConversation=!showConversation">
-                                    <span class="hide-it counter"
-                                        e-content="{{ conversations.length > 9 ? '9+' : conversations.length }}"
-                                        e-class="{ 'hide-it' : conversations.length == 0 }">0</span>
+                                    <span class="hide-it counter" e-content="{{ conversations.length > 9 ? '9+' : conversations.length }}" e-class="{ 'hide-it' : conversations.length == 0 }">0</span>
                                     <span class="fa fa-comment-o"></span>
                                 </div>
                                 <div class="wrapper card hide-it" e-class="{ 'hide-it':!showConversation }">
@@ -196,9 +194,7 @@
                             </div>
                             <div class="icon-field">
                                 <div class="icon" on:click="showConversation=false; showNotification=!showNotification">
-                                    <span class="hide-it counter diff"
-                                        e-content="{{ notifications.length > 9 ? '9+' : notifications.length }}"
-                                        e-class="{ 'hide-it' : notifications.length == 0 }">0</span>
+                                    <span class="hide-it counter diff" e-content="{{ notifications.length > 9 ? '9+' : notifications.length }}" e-class="{ 'hide-it' : notifications.length == 0 }">0</span>
                                     <span class="fa fa-bell-o"></span>
                                 </div>
                                 <div class="wrapper card hide-it" e-class="{ 'hide-it':!showNotification }">

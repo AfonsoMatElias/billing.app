@@ -30,7 +30,7 @@ namespace Billing.App.Controllers.Api
             try
             {
                 var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size), 
-                    queryable => queryable.Include(x => x.SubCategorias.Where(y => y.Id == 1)));            
+                    queryable => queryable.Include(x => x.SubCategorias));            
 
                 return new Response
                 {

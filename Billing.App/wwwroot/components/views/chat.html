@@ -152,8 +152,9 @@
 <script>
     var component = this;
     var $easy = this.Easy;
-    this.loaded = function (el) {
+    this.loaded = function(el) {
         this.Easy.data.currentPage = 'Chat';
+        $easy.routing.markActive($easy.el.node('.chat-link'));
 
         if (this.Easy.data.showConversation)
             this.Easy.data.showConversation = false;

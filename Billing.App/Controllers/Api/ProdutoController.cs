@@ -141,10 +141,9 @@ namespace Billing.App.Controllers.Api
 
                 builtModel.ProdutoImagens = images;
 
-                if (builtModel.Compras.Any())
+                if (builtModel.Compras != null && builtModel.Compras.Any())
                 {
                     var compra = builtModel.Compras.FirstOrDefault();
-
                     var userId = long.Parse(HttpContext.GetUserId());
                     var funcionarioDto = await funcionarioService.Find(item => item.UsuarioId == userId);
 
