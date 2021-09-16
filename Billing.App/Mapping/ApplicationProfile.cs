@@ -65,14 +65,6 @@ namespace Billing.App.Mapping
                     CreatedAt = src.TipoEntidade.CreatedAt,
                     UpdatedAt = src.TipoEntidade.UpdatedAt,
                     Visibility = src.TipoEntidade.Visibility,
-                }))
-                .ForPath(dst => dst.TipoPessoa, xps => xps.MapFrom(src => new TipoPessoa
-                {
-                    Id = src.TipoPessoa.Id,
-                    Nome = src.TipoPessoa.Nome,
-                    CreatedAt = src.TipoPessoa.CreatedAt,
-                    UpdatedAt = src.TipoPessoa.UpdatedAt,
-                    Visibility = src.TipoPessoa.Visibility,
                 }));
             CreateMap<EntidadeDto, Entidade>();
 
@@ -158,9 +150,6 @@ namespace Billing.App.Mapping
 
             CreateMap<SubCategoria, SubCategoriaDto>();
             CreateMap<SubCategoriaDto, SubCategoria>();
-
-            CreateMap<TipoPessoa, TipoPessoaDto>();
-            CreateMap<TipoPessoaDto, TipoPessoa>();
 
             CreateMap<TipoEntidade, TipoEntidadeDto>();
             CreateMap<TipoEntidadeDto, TipoEntidade>();

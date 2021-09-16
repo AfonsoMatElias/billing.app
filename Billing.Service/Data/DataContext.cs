@@ -33,7 +33,6 @@ namespace Billing.Service.Data
         public DbSet<Venda> Venda { get; set; }
         public DbSet<VendaItem> VendaItem { get; set; }
         public DbSet<Titulo> Titulo { get; set; }
-        public DbSet<TipoPessoa> TipoPessoa { get; set; }
 
         public DataContext() {}
 

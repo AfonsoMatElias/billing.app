@@ -4,14 +4,16 @@ using Billing.Service.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Billing.App.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210916215801_TestNewChanges")]
+    partial class TestNewChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 124, DateTimeKind.Local).AddTicks(879));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 824, DateTimeKind.Local).AddTicks(2784));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -60,7 +62,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 124, DateTimeKind.Local).AddTicks(7241));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 825, DateTimeKind.Local).AddTicks(1740));
 
                     b.Property<long>("CriadorId")
                         .HasColumnType("bigint");
@@ -105,7 +107,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 126, DateTimeKind.Local).AddTicks(384));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 826, DateTimeKind.Local).AddTicks(5593));
 
                     b.Property<long>("UsuarioFromId")
                         .HasColumnType("bigint");
@@ -142,7 +144,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 125, DateTimeKind.Local).AddTicks(2764));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 825, DateTimeKind.Local).AddTicks(7465));
 
                     b.Property<string>("FileUrl")
                         .IsRequired()
@@ -174,7 +176,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 128, DateTimeKind.Local).AddTicks(7378));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 830, DateTimeKind.Local).AddTicks(2357));
 
                     b.Property<DateTime>("DataEntrada")
                         .HasColumnType("datetime2");
@@ -239,7 +241,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 130, DateTimeKind.Local).AddTicks(2338));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 831, DateTimeKind.Local).AddTicks(7821));
 
                     b.Property<long>("PessoaId")
                         .HasColumnType("bigint");
@@ -282,7 +284,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 130, DateTimeKind.Local).AddTicks(9852));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 832, DateTimeKind.Local).AddTicks(5638));
 
                     b.Property<string>("Detalhado")
                         .HasMaxLength(250)
@@ -324,13 +326,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 107, DateTimeKind.Local).AddTicks(2314));
-
-                    b.Property<long>("EnderecoExpedicaoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("EnderecoFacturacaoId")
-                        .HasColumnType("bigint");
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 812, DateTimeKind.Local).AddTicks(3361));
 
                     b.Property<string>("NomeEmpresa")
                         .IsRequired()
@@ -348,6 +344,9 @@ namespace Billing.App.Migrations
                     b.Property<long>("TipoEntidadeId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("TipoPessoaId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime");
 
@@ -358,14 +357,12 @@ namespace Billing.App.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EnderecoExpedicaoId");
-
-                    b.HasIndex("EnderecoFacturacaoId");
-
                     b.HasIndex("PessoaId")
                         .IsUnique();
 
                     b.HasIndex("TipoEntidadeId");
+
+                    b.HasIndex("TipoPessoaId");
 
                     b.ToTable("Entidade");
                 });
@@ -385,7 +382,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 131, DateTimeKind.Local).AddTicks(7590));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 833, DateTimeKind.Local).AddTicks(3978));
 
                     b.Property<long>("EnderecoId")
                         .HasColumnType("bigint");
@@ -432,7 +429,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 133, DateTimeKind.Local).AddTicks(6468));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 836, DateTimeKind.Local).AddTicks(5186));
 
                     b.Property<string>("Referencia")
                         .IsRequired()
@@ -478,7 +475,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 134, DateTimeKind.Local).AddTicks(1855));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 837, DateTimeKind.Local).AddTicks(827));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -508,7 +505,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 134, DateTimeKind.Local).AddTicks(7524));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 837, DateTimeKind.Local).AddTicks(6847));
 
                     b.Property<long>("EstabelecimentoId")
                         .HasColumnType("bigint");
@@ -544,7 +541,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 135, DateTimeKind.Local).AddTicks(2654));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 838, DateTimeKind.Local).AddTicks(2267));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -615,7 +612,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 147, DateTimeKind.Local).AddTicks(513));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 851, DateTimeKind.Local).AddTicks(8692));
 
                     b.Property<string>("Descricao")
                         .HasMaxLength(200)
@@ -654,7 +651,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 147, DateTimeKind.Local).AddTicks(3888));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 852, DateTimeKind.Local).AddTicks(2385));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -684,7 +681,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 148, DateTimeKind.Local).AddTicks(2094));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 853, DateTimeKind.Local).AddTicks(446));
 
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("datetime2");
@@ -745,7 +742,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 149, DateTimeKind.Local).AddTicks(3176));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 854, DateTimeKind.Local).AddTicks(3015));
 
                     b.Property<string>("Descricao")
                         .HasMaxLength(4056)
@@ -802,7 +799,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 150, DateTimeKind.Local).AddTicks(5399));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 855, DateTimeKind.Local).AddTicks(9695));
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -837,7 +834,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 151, DateTimeKind.Local).AddTicks(2704));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 856, DateTimeKind.Local).AddTicks(7072));
 
                     b.Property<long>("MotivoIsencaoId")
                         .HasColumnType("bigint");
@@ -875,7 +872,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 151, DateTimeKind.Local).AddTicks(9537));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 857, DateTimeKind.Local).AddTicks(3878));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -911,7 +908,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 152, DateTimeKind.Local).AddTicks(3946));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 857, DateTimeKind.Local).AddTicks(8618));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -971,7 +968,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 153, DateTimeKind.Local).AddTicks(887));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 858, DateTimeKind.Local).AddTicks(5422));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -1023,7 +1020,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 153, DateTimeKind.Local).AddTicks(9570));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 859, DateTimeKind.Local).AddTicks(2313));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -1061,6 +1058,58 @@ namespace Billing.App.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Billing.Service.Models.TipoPessoa", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Codigo")
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 859, DateTimeKind.Local).AddTicks(9782));
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool?>("Visibility")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TipoPessoa");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Codigo = "tps",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Pessoa Singular",
+                            Visibility = true
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Codigo = "tpc",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Pessoa Colectiva",
+                            Visibility = true
+                        });
+                });
+
             modelBuilder.Entity("Billing.Service.Models.TipoVenda", b =>
                 {
                     b.Property<long>("Id")
@@ -1075,7 +1124,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 154, DateTimeKind.Local).AddTicks(6500));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 860, DateTimeKind.Local).AddTicks(7766));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -1123,7 +1172,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 155, DateTimeKind.Local).AddTicks(3352));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 861, DateTimeKind.Local).AddTicks(7927));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -1181,7 +1230,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 139, DateTimeKind.Local).AddTicks(9383));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 843, DateTimeKind.Local).AddTicks(4903));
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -1257,14 +1306,14 @@ namespace Billing.App.Migrations
                             Id = 1L,
                             AccessFailedCount = 0,
                             Codigo = "Usuario0001",
-                            ConcurrencyStamp = "a4139b36-04a7-47df-8c51-681e6dbe2e3b",
+                            ConcurrencyStamp = "dc6a299f-7190-4a17-a00e-2329777d2f07",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Admin@Admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ61riVUzuOG0B+flKCGS77xVe7Y/DUtB5PiBjYcayR8r9kSgW9v+2obeqIaH2aTGQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGNMe7rkNBnP5eSwo68Mbn0TigIz1GuVev/t9UAADRj5kkszJbwMliU36Tj4GuVr2A==",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
                             TwoFactorEnabled = false,
@@ -1286,7 +1335,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 156, DateTimeKind.Local).AddTicks(3389));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 862, DateTimeKind.Local).AddTicks(9402));
 
                     b.Property<long?>("FormaPagamentoId")
                         .IsRequired()
@@ -1336,7 +1385,7 @@ namespace Billing.App.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 9, 16, 23, 46, 53, 157, DateTimeKind.Local).AddTicks(4370));
+                        .HasDefaultValue(new DateTime(2021, 9, 16, 22, 58, 0, 864, DateTimeKind.Local).AddTicks(1070));
 
                     b.Property<decimal>("Desconto")
                         .HasPrecision(18, 2)
@@ -1653,18 +1702,6 @@ namespace Billing.App.Migrations
 
             modelBuilder.Entity("Billing.Service.Models.Entidade", b =>
                 {
-                    b.HasOne("Billing.Service.Models.Endereco", "EnderecoExpedicao")
-                        .WithMany("EntidadeEnderecoExpedocao")
-                        .HasForeignKey("EnderecoExpedicaoId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Billing.Service.Models.Endereco", "EnderecoFacturacao")
-                        .WithMany("EntidadeEnderecoFacturacao")
-                        .HasForeignKey("EnderecoFacturacaoId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Billing.Service.Models.Pessoa", "Pessoa")
                         .WithOne("Entidade")
                         .HasForeignKey("Billing.Service.Models.Entidade", "PessoaId")
@@ -1677,13 +1714,17 @@ namespace Billing.App.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("EnderecoExpedicao");
-
-                    b.Navigation("EnderecoFacturacao");
+                    b.HasOne("Billing.Service.Models.TipoPessoa", "TipoPessoa")
+                        .WithMany("Pessoas")
+                        .HasForeignKey("TipoPessoaId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Pessoa");
 
                     b.Navigation("TipoEntidade");
+
+                    b.Navigation("TipoPessoa");
                 });
 
             modelBuilder.Entity("Billing.Service.Models.Estabelecimento", b =>
@@ -1934,10 +1975,6 @@ namespace Billing.App.Migrations
 
             modelBuilder.Entity("Billing.Service.Models.Endereco", b =>
                 {
-                    b.Navigation("EntidadeEnderecoExpedocao");
-
-                    b.Navigation("EntidadeEnderecoFacturacao");
-
                     b.Navigation("Estabelecimentos");
                 });
 
@@ -2018,6 +2055,11 @@ namespace Billing.App.Migrations
             modelBuilder.Entity("Billing.Service.Models.TipoFactura", b =>
                 {
                     b.Navigation("Facturas");
+                });
+
+            modelBuilder.Entity("Billing.Service.Models.TipoPessoa", b =>
+                {
+                    b.Navigation("Pessoas");
                 });
 
             modelBuilder.Entity("Billing.Service.Models.TipoVenda", b =>

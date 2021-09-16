@@ -30,15 +30,21 @@ namespace Billing.Service.Models
                     .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
-            builder.HasOne(e => e.TipoPessoa)
-                    .WithMany(e => e.Pessoas)
-                    .HasForeignKey(e => e.TipoPessoaId)
-                    .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired();
-
             builder.HasOne(e => e.Pessoa)
                     .WithOne(e => e.Entidade)
                     .HasForeignKey<Entidade>(e => e.PessoaId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+            builder.HasOne(e => e.EnderecoExpedicao)
+                    .WithMany(e => e.EntidadeEnderecoExpedocao)
+                    .HasForeignKey(e => e.EnderecoExpedicaoId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+            builder.HasOne(e => e.EnderecoFacturacao)
+                    .WithMany(e => e.EntidadeEnderecoFacturacao)
+                    .HasForeignKey(e => e.EnderecoFacturacaoId)
                     .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
         }

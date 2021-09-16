@@ -13,6 +13,9 @@ namespace Billing.Service.Models
 
         public virtual Pais Pais { get; set; }
         
+        public virtual ICollection<Entidade> EntidadeEnderecoFacturacao { get; internal set; }
+        public virtual ICollection<Entidade> EntidadeEnderecoExpedocao { get; internal set; }
+
         public virtual ICollection<Estabelecimento> Estabelecimentos { get; internal set; }
     }
 }

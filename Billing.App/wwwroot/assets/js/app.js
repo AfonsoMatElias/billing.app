@@ -255,44 +255,34 @@ new Easy("body", {
 
             // Customer
             "customer-create": {
-                route: "/customers/create/:type/:typeEntity",
+                route: "/customers/create/:typeEntity",
                 url: "/components/views/customer/create",
                 title: "Cliente • Cadastrar",
             },
-            "customers-singular": {
-                route: "/customers/tps",
-                url: "/components/views/customer/list-singular",
-                title: "Cliente • Listagem (Singulares)",
-            },
             "customers-company": {
-                route: "/customers/tpc",
-                url: "/components/views/customer/list-company",
-                title: "Cliente • Listagem (Colectivas)",
+                route: "/customers/tec",
+                url: "/components/views/customer/list",
+                title: "Cliente • Listagem",
             },
             "customers-view": {
-                route: "/customers/view/:type/:typeEntity/:id",
+                route: "/customers/view/:id",
                 url: "/components/views/customer/view",
                 title: "Cliente • Visualizar",
             },
 
             // Provider
             "provider-create": {
-                route: "/providers/create/:type/:typeEntity",
+                route: "/providers/create/:typeEntity",
                 url: "/components/views/provider/create",
                 title: "Cliente • Cadastrar",
             },
-            "providers-singular": {
-                route: "/providers/tps",
-                url: "/components/views/provider/list-singular",
-                title: "Fornecedor • Listagem (Singulares)",
-            },
             "providers-company": {
-                route: "/providers/tpc",
-                url: "/components/views/provider/list-company",
-                title: "Fornecedor • Listagem (Colectivas)",
+                route: "/providers/tef",
+                url: "/components/views/provider/list",
+                title: "Fornecedor • Listagem",
             },
             "providers-view": {
-                route: "/providers/view/:type/:typeEntity/:id",
+                route: "/providers/view/:id",
                 url: "/components/views/provider/view",
                 title: "Fornecedor • Visualizar",
             },
@@ -507,7 +497,7 @@ function calculateNotificationPeriod(input) {
             var _key = key.substr(2);
             message = buildMessage(
                 value,
-                _key == "mes" ? (value == 1 ? "mês" : "mese") : _key
+                _key == "mes" ? (value == 1 ? "mês" : "meses") : _key
             );
         }
     });

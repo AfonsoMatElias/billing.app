@@ -1,7 +1,7 @@
 <inc src="settings-wrapper" data="{ active: 'profile' }">
     <content>
         <div class="partial splitted-editing profile">
-            <div class="left" e-fill="sign/account" e-use="loggedUser">
+            <div class="left nice-scroll" e-fill="sign/account" e-use="loggedUser">
                 
                 <input type="hidden" id="user-id" e-value="{{ loggedUser.id }}">
 
@@ -110,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <div class="right" id="loadable"></div>
+            <div class="right nice-scroll" id="loadable"></div>
         </div>
     </content>
 </inc>

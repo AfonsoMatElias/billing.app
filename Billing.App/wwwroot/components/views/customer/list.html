@@ -1,0 +1,50 @@
+<inc src="table">
+    <content ident="table-head">
+        <div class="table-cell mid hidable"> Titulo </div>
+        <div class="table-cell"> Primeiro Nome </div>
+        <div class="table-cell"> Ultimo Nome </div>
+        <div class="table-cell"> Identificação </div>
+        <div class="table-cell hidable"> Gênero </div>
+        <div class="table-cell"> Estado </div>
+    </content>
+    <content ident="table-body">
+        <div class="table-row flex-it" e-skeleton e-tmp="Entidade" e-id="?codigoTipoEntidade=tec" e-use="item">
+            <div class="card-cover">
+                <span class="pointer shadow-it"> # </span>
+            </div>
+            <div class="pointer table-cell mid hidable" e-content="{{ item.pessoa.titulo.nome }}"> Loading... </div>
+            <div class="pointer table-cell" e-content="{{ item.pessoa.primeiroNome }}"> Loading... </div>
+            <div class="pointer table-cell" e-content="{{ item.pessoa.ultimoNome }}"> Loading... </div>
+            <div class="pointer table-cell" e-content="{{ item.pessoa.identificacao }}"> Loading... </div>
+            <div class="pointer table-cell hidable" e-content="{{ item.pessoa.genero.nome }}"> Loading... </div>
+            <div class="table-cell">
+                <span e-content="{{ 'Activo' }}"> Loading... </span>
+                <div>
+                    <div class="item-options flex-it hide-it">
+                        <div>
+                            <a i:href="/customers/view/{{ item.pessoa.uid }}">
+                                <button class="see">Ver</button>
+                            </a>
+                        </div>
+                        <div>
+                            <button class="rem">Eliminar</button>
+                        </div>
+                    </div>
+                    <span title="Opções" onclick="event.target.previousElementSibling.classList.toggle('hide-it')" class="fa fa-dot-circle-o"></span>
+                </div>
+            </div>
+        </div>
+    </content>
+</inc>
+<script>
+    var $easy = this.Easy;
+    var params = this.getParams();
+    this.loaded = function (el) {
+
+        this.Easy.data.currentPage = 'Lista de Clientes (Colectivos)';
+
+        this.Easy.routing.markActive(
+            this.Easy.el.node('.customer-link')
+        );
+    }
+</script>

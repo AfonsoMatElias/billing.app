@@ -27,8 +27,7 @@ namespace Billing.App.Controllers.Api
         // GET: api/Entidade
         [HttpGet]
         public async Task<Response> Get([FromQuery] PageableQueryParam pageableQuery, 
-                                        [FromQuery] string codigoTipoEntidade, 
-                                        [FromQuery] string codigoTipoPessoa)
+                                        [FromQuery] string codigoTipoEntidade)
         {
             try
             {
@@ -37,16 +36,12 @@ namespace Billing.App.Controllers.Api
                     // Including the default table
                     queryable = queryable.Include(x => x.Pessoa).ThenInclude(x => x.Genero)
                                          .Include(x => x.Pessoa).ThenInclude(x => x.Titulo)
-                                         .Include(x => x.TipoEntidade)
-                                         .Include(x => x.TipoPessoa);
+                                         .Include(x => x.TipoEntidade);
 
                     if (string.IsNullOrEmpty(codigoTipoEntidade))
                         return queryable;
 
                     queryable = queryable.Where(x => x.TipoEntidade.Codigo == codigoTipoEntidade);
-
-                    if (!string.IsNullOrEmpty(codigoTipoPessoa))
-                        queryable = queryable.Where(x => x.TipoPessoa.Codigo == codigoTipoPessoa);
 
                     return queryable;
                 });

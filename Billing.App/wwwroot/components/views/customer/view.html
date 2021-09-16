@@ -13,7 +13,7 @@
                 </div>
 
                 <!-- Pessoa Singular -->
-                <div class="input-area" e-if="sectionToShow == 'tps'">
+                <div class="input-area">
                     <div class="input-field">
                         <label>Primeiro Nome</label>
                         <input type="text" name="PrimeiroNome" e-toggle:disabled="locked" validate="text"
@@ -44,25 +44,6 @@
                         <select name="TituloId" e-toggle:disabled="locked" validate="select">
                             <option selected value="#">None</option>
                         </select>
-                    </div>
-                </div>
-
-                <!-- Pessoa Coletiva -->
-                <div class="input-area" e-if="sectionToShow == 'tpc'">
-                    <div class="input-field">
-                        <label>Nome</label>
-                        <input type="text" name="Nome" e-toggle:disabled="locked" validate="text"
-                            placeholder="Digite o Nome da Empresa" />
-                    </div>
-
-                    <div class="input-field">
-                        <label>NIF</label>
-                        <input type="text" name="UltimoNome" e-toggle:disabled="locked" validate="text" placeholder="Digite o NIF" />
-                    </div>
-
-                    <div class="input-field">
-                        <label class="default-label block-it">Empregados</label>
-                        <div class="default-container"></div>
                     </div>
                 </div>
 
