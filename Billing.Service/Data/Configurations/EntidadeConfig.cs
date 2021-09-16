@@ -15,27 +15,32 @@ namespace Billing.Service.Models
             builder.Property(e => e.PessoaId)
                     .IsRequired();
 
-            builder.Property(e => e.TipoEntidadeId)
+            builder.Property(e => e.NomeEmpresa)
+                    .HasMaxLength(200)
                     .IsRequired();
 
-            builder.Property(e => e.TipoPessoaId)
+            builder.Property(e => e.NomePessoaContactoEmpresa)
+                    .HasMaxLength(200)
                     .IsRequired();
 
             // Relations         
             builder.HasOne(e => e.TipoEntidade)
                     .WithMany(e => e.Entidades)
                     .HasForeignKey(e => e.TipoEntidadeId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
 
             builder.HasOne(e => e.TipoPessoa)
                     .WithMany(e => e.Pessoas)
                     .HasForeignKey(e => e.TipoPessoaId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
 
             builder.HasOne(e => e.Pessoa)
                     .WithOne(e => e.Entidade)
                     .HasForeignKey<Entidade>(e => e.PessoaId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
         }
     }
 }

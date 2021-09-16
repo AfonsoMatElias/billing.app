@@ -11,7 +11,7 @@ namespace Scaffolder.Scaffold
         static string tmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder", "tmp", "controller.txt");
         static string tmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, folderPath);
         string tmp = File.Exists(tmpPathInput) ? File.ReadAllText(tmpPathInput) : null;
-        
+
         public void Generate(string name)
         {
             try
@@ -19,42 +19,43 @@ namespace Scaffolder.Scaffold
                 var filePath = Path.Combine(tmpPathOutput, $"{name}{tail}.cs");
                 var create = true;
                 if (File.Exists(filePath))
-                    create  = this.Ask(name, tail);
-                
-                if(create)
+                    create = this.Ask(name, tail);
+
+                if (create)
                 {
                     var key = "@-Model-@";
                     var _tmp_ = tmp.Replace(key, name);
                     File.WriteAllText(filePath, _tmp_);
-                    SharedMethods.ChangeColor(ConsoleColor.Green, () => Console.WriteLine($"file {name}{tail}.cs created."));
+
+                    Logger.Done($"file {name}{tail}.cs created.");
                 }
             }
             catch (Exception ex)
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () => Console.WriteLine($"Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}"));
+                Logger.Error($"Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}");
             }
         }
 
         public ControllerScaffold()
         {
-            Begin:
+        Begin:
 
             Console.Clear();
-            Console.WriteLine(@"Loading the models...");
+            Logger.Log("Loading the models...");
             SharedMethods.LoadModels();
-            
+
             Console.Clear();
-            Console.WriteLine(tail);
-            Console.WriteLine(@"-> 1 Generate One By One");
-            Console.WriteLine(@"-> 2 Generate All");
-            Console.WriteLine(@"Choose an option above: ");
+            Logger.Log(tail);
+            Logger.Log("-> 1 Generate One By One");
+            Logger.Log("-> 2 Generate All");
+            Logger.Log("Choose an option above: ");
 
             var option = SharedMethods.KeyConverter<GenerationOptions>();
 
             switch (option)
             {
                 case GenerationOptions.One:
-                    Console.WriteLine("\nType the name of the Class: ");
+                    Logger.Log("\nType the name of the Class: ");
                     var name = Console.ReadLine();
 
                     void exec(string m)
@@ -75,9 +76,7 @@ namespace Scaffolder.Scaffold
                     break;
 
                 case GenerationOptions.Set:
-                    SharedMethods.ChangeColor(ConsoleColor.Yellow, () => {
-                        Console.WriteLine("Option unavailable!");
-                    });
+                    Logger.Warn("Option unavailable!");
                     goto Begin;
             }
         }

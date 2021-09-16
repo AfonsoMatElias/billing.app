@@ -13,22 +13,24 @@ namespace Billing.Service.Data.Configurations
                     .IsRequired()
                     .HasMaxLength(4056)
                     .IsUnicode(false);
-    
-            builder.Property(e => e.UsuarioFromId)
-                    .IsRequired();
-    
-            builder.Property(e => e.UsuarioToId)
-                    .IsRequired();
 
             builder.HasOne(e => e.UsuarioFrom)
                     .WithMany(e => e.ChatMessagesFrom)
                     .HasForeignKey(e => e.UsuarioFromId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
 
             builder.HasOne(e => e.UsuarioTo)
                     .WithMany(e => e.ChatMessagesTo)
                     .HasForeignKey(e => e.UsuarioToId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+            builder.HasOne(e => e.Chat)
+                    .WithMany(e => e.ChatMessages)
+                    .HasForeignKey(e => e.ChatId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
         }
     }
 }

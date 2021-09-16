@@ -103,33 +103,33 @@ namespace Scaffolder.Scaffold
                     }
 
                     File.WriteAllText(filePath, @out);
-                    SharedMethods.ChangeColor(ConsoleColor.Green, () => Console.WriteLine($"file {name}{tail}.cs created."));
+                    Logger.Done($"file {name}{tail}.cs created.");
                 }
             }
             catch (Exception ex)
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () => Console.WriteLine($"Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}"));
+                Logger.Error($"Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}");
             }
         }
 
         public ViewModelScaffold()
         {
             Console.Clear();
-            Console.WriteLine(@"Loading the models...");
+            Logger.Log("Loading the models...");
             SharedMethods.LoadModels();
 
             Console.Clear();
-            Console.WriteLine(tail);
-            Console.WriteLine(@"-> 1 Generate One By One");
-            Console.WriteLine(@"-> 2 Generate All");
-            Console.WriteLine(@"Choose an option above: ");
+            Logger.Log(tail);
+            Logger.Log("-> 1 Generate One By One");
+            Logger.Log("-> 2 Generate All");
+            Logger.Log("Choose an option above: ");
 
             var option = SharedMethods.KeyConverter<GenerationOptions>();
 
             switch (option)
             {
                 case GenerationOptions.One:
-                    Console.WriteLine("\nType the name of the Class: ");
+                    Logger.Log("\nType the name of the Class: ");
                     var name = Console.ReadLine();
 
                     void exec(string m)
@@ -149,10 +149,7 @@ namespace Scaffolder.Scaffold
                     break;
 
                 case GenerationOptions.Set:
-                    SharedMethods.ChangeColor(ConsoleColor.Yellow, () =>
-                    {
-                        Console.WriteLine("Option unavailable!");
-                    });
+                    Logger.Warn("Option unavailable!");
                     break;
             }
 

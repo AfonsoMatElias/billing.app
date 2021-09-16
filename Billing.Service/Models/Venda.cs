@@ -8,12 +8,15 @@ namespace Billing.Service.Models
         public long? FormaPagamentoId { get; set; }
         public decimal Total { get; set; }
         public string Referencia { get; set; }
+        public long TipoVendaId { get; internal set; }
         public bool? IsPausada { get; set; }
 
         public virtual Factura Factura { get; set; }
         public virtual FormaPagamento FormaPagamento { get; set; }
 
         public virtual Entidade Cliente { get; set; }
+        public virtual TipoVenda TipoVenda { get; internal set; }
+        
         public virtual ICollection<VendaItem> VendaItens { get; set; }
     }
 }

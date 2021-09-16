@@ -8,11 +8,11 @@ namespace Scaffolder.Scaffold
     {
         static string tail = "Service";
 
-        static string tmpPathInput = Path.Combine(SharedMethods.GlobalRootPath,"Scaffolder","tmp","service.txt");
-        static string itmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder","tmp","iservice.txt");
+        static string tmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder", "tmp", "service.txt");
+        static string itmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder", "tmp", "iservice.txt");
 
-        static string tmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath,"Billing.Service","Services","Implementations");
-        static string itmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, "Billing.Service","Services","Interfaces");
+        static string tmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, "Billing.Service", "Services", "Implementations");
+        static string itmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, "Billing.Service", "Services", "Interfaces");
 
         string tmp = File.Exists(tmpPathInput) ? File.ReadAllText(tmpPathInput) : null;
         string itmp = File.Exists(itmpPathInput) ? File.ReadAllText(itmpPathInput) : null;
@@ -27,8 +27,8 @@ namespace Scaffolder.Scaffold
                 var create = true;
                 if (File.Exists(filePath) && File.Exists(ifilePath))
                     create = this.Ask(name, tail);
-                
-                if(create)
+
+                if (create)
                 {
                     var key = "@-Model-@";
                     var _tmp_ = tmp.Replace(key, name);
@@ -37,34 +37,34 @@ namespace Scaffolder.Scaffold
                     File.WriteAllText(filePath, _tmp_);
                     File.WriteAllText(ifilePath, _itmp_);
 
-                    SharedMethods.ChangeColor(ConsoleColor.Green, () => Console.WriteLine($"files I{name}{tail}.cs and {name}{tail}.cs created."));
+                    Logger.Done($"files I{name}{tail}.cs and {name}{tail}.cs created.");
                 }
             }
             catch (Exception ex)
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () => Console.WriteLine($"Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}"));
+                Logger.Error($"Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}");
             }
         }
 
         public ServiceScaffold()
         {
             Console.Clear();
-            Console.WriteLine(@"Loading the models...");
+            Logger.Log("Loading the models...");
 
             SharedMethods.LoadModels();
 
             Console.Clear();
-            Console.WriteLine(tail);
-            Console.WriteLine(@"-> 1 Generate One By One");
-            Console.WriteLine(@"-> 2 Generate All");
-            Console.WriteLine(@"Choose an option above: ");
+            Logger.Log(tail);
+            Logger.Log("-> 1 Generate One By One");
+            Logger.Log("-> 2 Generate All");
+            Logger.Log("Choose an option above: ");
 
             var option = SharedMethods.KeyConverter<GenerationOptions>();
 
             switch (option)
             {
                 case GenerationOptions.One:
-                    Console.WriteLine("\nType the name of the Class: ");
+                    Logger.Log("\nType the name of the Class: ");
                     var name = Console.ReadLine();
 
                     void exec(string m)
@@ -85,13 +85,11 @@ namespace Scaffolder.Scaffold
                     break;
 
                 case GenerationOptions.Set:
-                    SharedMethods.ChangeColor(ConsoleColor.Yellow, () => {
-                        Console.WriteLine("Option unavailable!");
-                    });
+                    Logger.Warn("Option unavailable!");
                     break;
             }
 
         }
-        
+
     }
 }

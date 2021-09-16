@@ -22,18 +22,23 @@ namespace Billing.Service.Models
             builder.Property(e => e.IsPausada)
                     .IsRequired(false);
 
-            builder.Property(e => e.ClienteId)
-                    .IsRequired(false);
-
             builder.HasOne(e => e.Cliente)
                     .WithMany(e => e.Vendas)
                     .HasForeignKey(e => e.ClienteId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired(false);
+
+            builder.HasOne(e => e.TipoVenda)
+                    .WithMany(e => e.Vendas)
+                    .HasForeignKey(e => e.TipoVendaId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
 
             builder.HasOne(e => e.FormaPagamento)
                     .WithMany(e => e.Vendas)
                     .HasForeignKey(e => e.FormaPagamentoId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
         }
     }
 }

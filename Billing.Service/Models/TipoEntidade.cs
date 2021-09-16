@@ -7,7 +7,6 @@ namespace Billing.Service.Models
         public string Nome { get; set; }
         public string Codigo { get; set; }
 
-        public virtual ICollection<Pessoa> Pessoas { get; set; }
         public virtual ICollection<Entidade> Entidades { get; internal set; }
     }
 }

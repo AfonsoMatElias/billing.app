@@ -10,12 +10,6 @@ namespace Billing.Service.Models
         {
             new BaseConfig().Configure(builder);
 
-            builder.Property(e => e.VendaId)
-                    .IsRequired();
-
-            builder.Property(e => e.ProdutoId)
-                    .IsRequired();
-
             builder.Property(e => e.Quantidade)
                     .IsRequired();
 
@@ -30,12 +24,14 @@ namespace Billing.Service.Models
             builder.HasOne(e => e.Venda)
                     .WithMany(e => e.VendaItens)
                     .HasForeignKey(e => e.VendaId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
 
             builder.HasOne(e => e.Produto)
                     .WithMany(e => e.VendaItens)
                     .HasForeignKey(e => e.ProdutoId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
         }
     }
 }

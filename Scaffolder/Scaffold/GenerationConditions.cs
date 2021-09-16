@@ -11,12 +11,11 @@ namespace Scaffolder.Scaffold
         {
             if (YesForAll == null && NoForAll == null)
             {
-                Console.WriteLine("");
-                SharedMethods.ChangeColor(ConsoleColor.Yellow, () =>
-                    Console.WriteLine($"Do you want to remake '{name}{tail}.cs' ?"));
-                Console.Write("[y - (yes), n - (no), ya - (yes for all), na - (no for all)]: ");
+                Logger.Log("");
+                Logger.Warn($"Do you want to remake '{name}{tail}.cs' ?");
+                Logger.Log("[{y|Yellow} - (yes), {n|Yellow} - (no), {ya|Yellow} - (yes for all), {na|Yellow} - (no for all)]: ");
                 var op = Console.ReadLine();
-                Console.WriteLine("");
+                Logger.Log("");
 
                 switch (op)
                 {
@@ -25,15 +24,13 @@ namespace Scaffolder.Scaffold
                         YesForAll = true;
                         return true;
                     case "n":
-                        SharedMethods.ChangeColor(ConsoleColor.Yellow, () =>
-                            Console.WriteLine($"WARMING: File '{name}{tail}.cs' was not created!\n"));
+                        Logger.Warn($"WARMING: File '{name}{tail}.cs' was not created!\n");
                         return false;
                     case "na":
                         NoForAll = true;
                         return false;
                     default:
-                        SharedMethods.ChangeColor(ConsoleColor.Yellow, () =>
-                            Console.WriteLine($"WARMING: File '{name}{tail}.cs' was not created!\n"));
+                        Logger.Warn($"WARMING: File '{name}{tail}.cs' was not created!\n");
                         return false;
                 }
             }

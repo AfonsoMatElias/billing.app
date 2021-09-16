@@ -18,7 +18,6 @@ namespace Billing.Service.Models
         public virtual Genero Genero { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual Entidade Entidade { get; set; }
-        public virtual ICollection<Endereco> Enderecos { get; set; }
         public virtual ICollection<Contacto> Contactos { get; set; }
     }
 }

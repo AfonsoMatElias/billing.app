@@ -14,16 +14,16 @@ namespace Scaffolder
         static void Main(string[] args)
         {
             var optionsFields = typeof(Options).GetFields();
-            Console.WriteLine("... Welcome to Scaffolder ...");
+            Logger.Log("... Welcome to Scaffolder ...");
         Begining:
-            Console.WriteLine(@"");
+            Logger.Log(@"");
 
             for (int i = 0; i < optionsFields.Count(); i++)
             {
                 if (i == 0) continue;
-                Console.WriteLine($@"-> {i} {optionsFields[i].Name}");
+                Logger.Log($@"-> {i} {optionsFields[i].Name}");
             }
-            Console.WriteLine(@"Choose an option above: ");
+            Logger.Log(@"Choose an option above: ");
 
             Options option = SharedMethods.KeyConverter<Options>();
 
@@ -44,18 +44,15 @@ namespace Scaffolder
             }
             catch
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () =>
-                {
-                    Console.WriteLine("Unavailable option, try again!");
-                });
+                Logger.Log("Unavailable option, try again!",ConsoleColor.Red);
             }
 
             goto Begining;
 
         Ending:
 
-            Console.WriteLine("\nThanks a lot!!! ;-)");
-            Console.WriteLine("\nPress Any Key in Keyboard to Close the Window.");
+            Logger.Log("\nThanks a lot!!! ;-)");
+            Logger.Log("\nPress Any Key in Keyboard to Close the Window.");
             Console.ReadKey();
         }
 
@@ -140,7 +137,7 @@ namespace Scaffolder
         {
             // Getting the pressed key
             var op = Console.ReadKey();
-            Console.WriteLine(@"");
+            Logger.Log(@"");
 
             try
             {
@@ -148,7 +145,7 @@ namespace Scaffolder
             }
             catch (Exception ex)
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () => Console.WriteLine($"Invalid Option!. Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}"));
+                Logger.Error($"Invalid Option!. Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}");
                 Console.ReadKey();
                 return default(T);
             }
@@ -158,7 +155,7 @@ namespace Scaffolder
         {
             if (!Models.Any(m => m.Item1 == name))
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () => Console.WriteLine("Class not found."));
+                Logger.Error("Class not found.");
                 return false;
             }
             return true;
