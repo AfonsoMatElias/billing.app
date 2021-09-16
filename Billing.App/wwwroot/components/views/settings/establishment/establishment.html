@@ -89,6 +89,8 @@
 
         if ($easy.data.application.user.hasEstabelecimento == false) {
             estabelecimento.keys(function (k, v) {
+                if (k == 'id') return;
+
                 estabelecimento[k] = 'N/A';
             });
             return component.data.isLoading = false;
