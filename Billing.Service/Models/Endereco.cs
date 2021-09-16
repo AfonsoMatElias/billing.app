@@ -13,6 +13,6 @@ namespace Billing.Service.Models
 
         public virtual Pais Pais { get; set; }
         
-        public ICollection<Estabelecimento> Estabelecimentos { get; internal set; }
+        public virtual ICollection<Estabelecimento> Estabelecimentos { get; internal set; }
     }
 }

@@ -1,10 +1,15 @@
 .vs
 .vscode
+
 Billing.Service/bin
 Billing.Service/obj
+
 Billing.Shared/bin
 Billing.Shared/obj
+
 Billing.App/bin
 Billing.App/obj
+
 Scaffolder/bin
 Scaffolder/obj
+Scaffolder/.vscode

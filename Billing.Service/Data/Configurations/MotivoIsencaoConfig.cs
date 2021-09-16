@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Billing.Service.Data.Configurations;
+using Billing.Service.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Billing.Service.Models
+namespace Billing.Service.Data.Configurations
 {
     public class MotivoIsencaoConfig : IEntityTypeConfiguration<MotivoIsencao>
     {

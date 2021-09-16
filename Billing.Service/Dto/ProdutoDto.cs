@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 
 namespace Billing.Service.Dto
 {
     public class ProdutoDto : Base.Properties
     {
+        
         public string uid { get; set; }
         public string Nome { get; set; }
         public string NomeSecundario { get; set; }
@@ -16,7 +18,7 @@ namespace Billing.Service.Dto
         public bool IsStock { get; set; }
 
         public virtual SubCategoriaDto SubCategoria { get; set; }
-
+        
         public virtual IEnumerable<CompraDto> Compras { get; set; }
         public virtual IEnumerable<ProdutoImagemDto> ProdutoImagens { get; set; }
         public virtual IEnumerable<VendaItemDto> VendaItens { get; set; }

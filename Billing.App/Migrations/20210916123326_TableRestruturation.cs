@@ -103,7 +103,7 @@ namespace Billing.App.Migrations
                 table: "VendaItem",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 625, DateTimeKind.Local).AddTicks(5555),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 237, DateTimeKind.Local).AddTicks(4337),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 633, DateTimeKind.Local).AddTicks(3646));
@@ -132,7 +132,7 @@ namespace Billing.App.Migrations
                 table: "Venda",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 624, DateTimeKind.Local).AddTicks(1653),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 236, DateTimeKind.Local).AddTicks(1304),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 629, DateTimeKind.Local).AddTicks(8387));
@@ -158,7 +158,7 @@ namespace Billing.App.Migrations
                 table: "Usuario",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 643, DateTimeKind.Local).AddTicks(4099),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 253, DateTimeKind.Local).AddTicks(3895),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 676, DateTimeKind.Local).AddTicks(7286));
@@ -177,7 +177,7 @@ namespace Billing.App.Migrations
                 table: "Titulo",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 623, DateTimeKind.Local).AddTicks(527),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 234, DateTimeKind.Local).AddTicks(9597),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 626, DateTimeKind.Local).AddTicks(8466));
@@ -196,7 +196,7 @@ namespace Billing.App.Migrations
                 table: "TipoVenda",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 622, DateTimeKind.Local).AddTicks(4261),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 234, DateTimeKind.Local).AddTicks(3009),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 624, DateTimeKind.Local).AddTicks(5804));
@@ -215,7 +215,7 @@ namespace Billing.App.Migrations
                 table: "TipoPessoa",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 621, DateTimeKind.Local).AddTicks(7448),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 233, DateTimeKind.Local).AddTicks(6516),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 620, DateTimeKind.Local).AddTicks(2806));
@@ -234,7 +234,7 @@ namespace Billing.App.Migrations
                 table: "TipoFactura",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 621, DateTimeKind.Local).AddTicks(874),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 233, DateTimeKind.Local).AddTicks(15),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 617, DateTimeKind.Local).AddTicks(9521));
@@ -253,7 +253,7 @@ namespace Billing.App.Migrations
                 table: "TipoEntidade",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 620, DateTimeKind.Local).AddTicks(3142),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 232, DateTimeKind.Local).AddTicks(3350),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 616, DateTimeKind.Local).AddTicks(1100));
@@ -292,7 +292,7 @@ namespace Billing.App.Migrations
                 table: "TipoContacto",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 619, DateTimeKind.Local).AddTicks(5987),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 231, DateTimeKind.Local).AddTicks(6782),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2");
 
@@ -320,7 +320,7 @@ namespace Billing.App.Migrations
                 table: "SubCategoria",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 619, DateTimeKind.Local).AddTicks(917),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 231, DateTimeKind.Local).AddTicks(2256),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 614, DateTimeKind.Local).AddTicks(6577));
@@ -339,7 +339,7 @@ namespace Billing.App.Migrations
                 table: "ProdutoMotivoIsencao",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 618, DateTimeKind.Local).AddTicks(3640),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 230, DateTimeKind.Local).AddTicks(5781),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 612, DateTimeKind.Local).AddTicks(711));
@@ -358,7 +358,7 @@ namespace Billing.App.Migrations
                 table: "ProdutoImagem",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 617, DateTimeKind.Local).AddTicks(5571),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 229, DateTimeKind.Local).AddTicks(7465),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 609, DateTimeKind.Local).AddTicks(6879));
@@ -377,7 +377,7 @@ namespace Billing.App.Migrations
                 table: "Produto",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 616, DateTimeKind.Local).AddTicks(1112),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 228, DateTimeKind.Local).AddTicks(4201),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 605, DateTimeKind.Local).AddTicks(2860));
@@ -396,7 +396,7 @@ namespace Billing.App.Migrations
                 table: "Pessoa",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 614, DateTimeKind.Local).AddTicks(6080),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 227, DateTimeKind.Local).AddTicks(1737),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 600, DateTimeKind.Local).AddTicks(3360));
@@ -445,7 +445,7 @@ namespace Billing.App.Migrations
                 table: "MotivoIsencao",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 613, DateTimeKind.Local).AddTicks(6706),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 226, DateTimeKind.Local).AddTicks(3451),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2");
 
@@ -473,7 +473,7 @@ namespace Billing.App.Migrations
                 table: "Genero",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 610, DateTimeKind.Local).AddTicks(8972),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 224, DateTimeKind.Local).AddTicks(1907),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 589, DateTimeKind.Local).AddTicks(2380));
@@ -492,7 +492,7 @@ namespace Billing.App.Migrations
                 table: "Funcionario",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 639, DateTimeKind.Local).AddTicks(4227),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 249, DateTimeKind.Local).AddTicks(7033),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 665, DateTimeKind.Local).AddTicks(4925));
@@ -511,7 +511,7 @@ namespace Billing.App.Migrations
                 table: "Factura",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 638, DateTimeKind.Local).AddTicks(1090),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 248, DateTimeKind.Local).AddTicks(5639),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 663, DateTimeKind.Local).AddTicks(2898));
@@ -530,7 +530,7 @@ namespace Billing.App.Migrations
                 table: "Estabelecimento",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 635, DateTimeKind.Local).AddTicks(4870),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 246, DateTimeKind.Local).AddTicks(4289),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 658, DateTimeKind.Local).AddTicks(2010));
@@ -549,7 +549,7 @@ namespace Billing.App.Migrations
                 table: "Entidade",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 600, DateTimeKind.Local).AddTicks(5066),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 216, DateTimeKind.Local).AddTicks(3022),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 564, DateTimeKind.Local).AddTicks(4667));
@@ -584,7 +584,7 @@ namespace Billing.App.Migrations
                 table: "Endereco",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 634, DateTimeKind.Local).AddTicks(5396),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 245, DateTimeKind.Local).AddTicks(6047),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 655, DateTimeKind.Local).AddTicks(7725));
@@ -624,7 +624,7 @@ namespace Billing.App.Migrations
                 table: "Contacto",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 633, DateTimeKind.Local).AddTicks(6900),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 244, DateTimeKind.Local).AddTicks(7575),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 653, DateTimeKind.Local).AddTicks(5233));
@@ -643,7 +643,7 @@ namespace Billing.App.Migrations
                 table: "Compra",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 632, DateTimeKind.Local).AddTicks(4619),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 243, DateTimeKind.Local).AddTicks(6237),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 648, DateTimeKind.Local).AddTicks(8750));
@@ -662,7 +662,7 @@ namespace Billing.App.Migrations
                 table: "ChatMessageAttachment",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 627, DateTimeKind.Local).AddTicks(6562),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 239, DateTimeKind.Local).AddTicks(3540),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 638, DateTimeKind.Local).AddTicks(3179));
@@ -681,7 +681,7 @@ namespace Billing.App.Migrations
                 table: "ChatMessage",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 628, DateTimeKind.Local).AddTicks(6857),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 240, DateTimeKind.Local).AddTicks(1320),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 640, DateTimeKind.Local).AddTicks(5445));
@@ -710,7 +710,7 @@ namespace Billing.App.Migrations
                 table: "Chat",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 627, DateTimeKind.Local).AddTicks(200),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 238, DateTimeKind.Local).AddTicks(7789),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 636, DateTimeKind.Local).AddTicks(8044));
@@ -729,7 +729,7 @@ namespace Billing.App.Migrations
                 table: "Categoria",
                 type: "datetime",
                 nullable: false,
-                defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 626, DateTimeKind.Local).AddTicks(3219),
+                defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 238, DateTimeKind.Local).AddTicks(1220),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
                 oldDefaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 635, DateTimeKind.Local).AddTicks(1596));
@@ -742,7 +742,7 @@ namespace Billing.App.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Codigo = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 638, DateTimeKind.Local).AddTicks(6861)),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 249, DateTimeKind.Local).AddTicks(1182)),
                     UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true),
                     Visibility = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
                 },
@@ -759,7 +759,7 @@ namespace Billing.App.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Codigo = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 652, DateTimeKind.Local).AddTicks(3547)),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 260, DateTimeKind.Local).AddTicks(6520)),
                     UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: true),
                     Visibility = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
                 },
@@ -768,106 +768,22 @@ namespace Billing.App.Migrations
                     table.PrimaryKey("PK_Pais", x => x.Id);
                 });
 
-            migrationBuilder.UpdateData(
-                table: "Genero",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "Genero",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: null);
-
             migrationBuilder.InsertData(
                 table: "TipoContacto",
-                columns: new[] { "Id", "Codigo", "Nome", "UpdatedAt" },
+                columns: new[] { "Id", "Codigo", "Nome", "UpdatedAt", "Visibility" },
                 values: new object[,]
                 {
-                    { 1L, "01", "Telefone", null },
-                    { 2L, "02", "Email", null },
-                    { 3L, "03", "Fax", null }
+                    { 1L, "01", "Telefone", null, true },
+                    { 2L, "02", "Email", null, true },
+                    { 3L, "03", "Fax", null, true }
                 });
-
-            migrationBuilder.UpdateData(
-                table: "TipoEntidade",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "TipoEntidade",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "TipoFactura",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "TipoFactura",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "TipoPessoa",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "TipoPessoa",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "TipoVenda",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "TipoVenda",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "Titulo",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: null);
-
-            migrationBuilder.UpdateData(
-                table: "Titulo",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: null);
 
             migrationBuilder.UpdateData(
                 table: "Usuario",
                 keyColumn: "Id",
                 keyValue: 1L,
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "6b47499e-6535-47e5-9ee0-408088fc566c", "AQAAAAEAACcQAAAAEFIb6VmnKmlvpP7783nl66q2vgFf9BM7/jBzlpp0pl9CGdLcJir6Z8MHBq/TggoCfw==" });
+                values: new object[] { "01acf281-b717-4a79-af7e-6fee7dd5a4da", "AQAAAAEAACcQAAAAEFBrsF94buHOymApmukjlS0zxHE9uhWpOeXLVkWoYbwwQMlrdZ3q5/uXkpwcih0+9Q==" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Venda_FormaPagamentoId",
@@ -1023,7 +939,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 633, DateTimeKind.Local).AddTicks(3646),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 625, DateTimeKind.Local).AddTicks(5555));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 237, DateTimeKind.Local).AddTicks(4337));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1050,7 +966,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 629, DateTimeKind.Local).AddTicks(8387),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 624, DateTimeKind.Local).AddTicks(1653));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 236, DateTimeKind.Local).AddTicks(1304));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1069,7 +985,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 676, DateTimeKind.Local).AddTicks(7286),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 643, DateTimeKind.Local).AddTicks(4099));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 253, DateTimeKind.Local).AddTicks(3895));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1088,7 +1004,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 626, DateTimeKind.Local).AddTicks(8466),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 623, DateTimeKind.Local).AddTicks(527));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 234, DateTimeKind.Local).AddTicks(9597));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1107,7 +1023,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 624, DateTimeKind.Local).AddTicks(5804),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 622, DateTimeKind.Local).AddTicks(4261));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 234, DateTimeKind.Local).AddTicks(3009));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1126,7 +1042,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 620, DateTimeKind.Local).AddTicks(2806),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 621, DateTimeKind.Local).AddTicks(7448));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 233, DateTimeKind.Local).AddTicks(6516));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1145,7 +1061,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 617, DateTimeKind.Local).AddTicks(9521),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 621, DateTimeKind.Local).AddTicks(874));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 233, DateTimeKind.Local).AddTicks(15));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1164,7 +1080,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 616, DateTimeKind.Local).AddTicks(1100),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 620, DateTimeKind.Local).AddTicks(3142));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 232, DateTimeKind.Local).AddTicks(3350));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1200,7 +1116,7 @@ namespace Billing.App.Migrations
                 nullable: false,
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 619, DateTimeKind.Local).AddTicks(5987));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 231, DateTimeKind.Local).AddTicks(6782));
 
             migrationBuilder.AlterColumn<string>(
                 name: "Codigo",
@@ -1229,7 +1145,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 614, DateTimeKind.Local).AddTicks(6577),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 619, DateTimeKind.Local).AddTicks(917));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 231, DateTimeKind.Local).AddTicks(2256));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1248,7 +1164,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 612, DateTimeKind.Local).AddTicks(711),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 618, DateTimeKind.Local).AddTicks(3640));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 230, DateTimeKind.Local).AddTicks(5781));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1267,7 +1183,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 609, DateTimeKind.Local).AddTicks(6879),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 617, DateTimeKind.Local).AddTicks(5571));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 229, DateTimeKind.Local).AddTicks(7465));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1286,7 +1202,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 605, DateTimeKind.Local).AddTicks(2860),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 616, DateTimeKind.Local).AddTicks(1112));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 228, DateTimeKind.Local).AddTicks(4201));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1305,7 +1221,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 600, DateTimeKind.Local).AddTicks(3360),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 614, DateTimeKind.Local).AddTicks(6080));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 227, DateTimeKind.Local).AddTicks(1737));
 
             migrationBuilder.AddColumn<long>(
                 name: "TipoEntidadeId",
@@ -1357,7 +1273,7 @@ namespace Billing.App.Migrations
                 nullable: false,
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 613, DateTimeKind.Local).AddTicks(6706));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 226, DateTimeKind.Local).AddTicks(3451));
 
             migrationBuilder.AlterColumn<string>(
                 name: "Classificacao",
@@ -1386,7 +1302,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 589, DateTimeKind.Local).AddTicks(2380),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 610, DateTimeKind.Local).AddTicks(8972));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 224, DateTimeKind.Local).AddTicks(1907));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1405,7 +1321,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 665, DateTimeKind.Local).AddTicks(4925),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 639, DateTimeKind.Local).AddTicks(4227));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 249, DateTimeKind.Local).AddTicks(7033));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1424,7 +1340,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 663, DateTimeKind.Local).AddTicks(2898),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 638, DateTimeKind.Local).AddTicks(1090));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 248, DateTimeKind.Local).AddTicks(5639));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1443,7 +1359,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 658, DateTimeKind.Local).AddTicks(2010),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 635, DateTimeKind.Local).AddTicks(4870));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 246, DateTimeKind.Local).AddTicks(4289));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1462,7 +1378,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 564, DateTimeKind.Local).AddTicks(4667),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 600, DateTimeKind.Local).AddTicks(5066));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 216, DateTimeKind.Local).AddTicks(3022));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1481,7 +1397,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 655, DateTimeKind.Local).AddTicks(7725),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 634, DateTimeKind.Local).AddTicks(5396));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 245, DateTimeKind.Local).AddTicks(6047));
 
             migrationBuilder.AddColumn<string>(
                 name: "Bairro",
@@ -1522,7 +1438,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 653, DateTimeKind.Local).AddTicks(5233),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 633, DateTimeKind.Local).AddTicks(6900));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 244, DateTimeKind.Local).AddTicks(7575));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1541,7 +1457,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 648, DateTimeKind.Local).AddTicks(8750),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 632, DateTimeKind.Local).AddTicks(4619));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 243, DateTimeKind.Local).AddTicks(6237));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1560,7 +1476,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 638, DateTimeKind.Local).AddTicks(3179),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 627, DateTimeKind.Local).AddTicks(6562));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 239, DateTimeKind.Local).AddTicks(3540));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1579,7 +1495,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 640, DateTimeKind.Local).AddTicks(5445),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 628, DateTimeKind.Local).AddTicks(6857));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 240, DateTimeKind.Local).AddTicks(1320));
 
             migrationBuilder.AlterColumn<long>(
                 name: "ChatId",
@@ -1606,7 +1522,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 636, DateTimeKind.Local).AddTicks(8044),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 627, DateTimeKind.Local).AddTicks(200));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 238, DateTimeKind.Local).AddTicks(7789));
 
             migrationBuilder.AlterColumn<bool>(
                 name: "Visibility",
@@ -1625,7 +1541,7 @@ namespace Billing.App.Migrations
                 defaultValue: new DateTime(2021, 9, 8, 12, 46, 58, 635, DateTimeKind.Local).AddTicks(1596),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime",
-                oldDefaultValue: new DateTime(2021, 9, 16, 13, 15, 50, 626, DateTimeKind.Local).AddTicks(3219));
+                oldDefaultValue: new DateTime(2021, 9, 16, 13, 33, 26, 238, DateTimeKind.Local).AddTicks(1220));
 
             migrationBuilder.CreateTable(
                 name: "Provincia",
@@ -1686,90 +1602,6 @@ namespace Billing.App.Migrations
                         principalTable: "Municipio",
                         principalColumn: "Id");
                 });
-
-            migrationBuilder.UpdateData(
-                table: "Genero",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "Genero",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "TipoEntidade",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "TipoEntidade",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "TipoFactura",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "TipoFactura",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "TipoPessoa",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "TipoPessoa",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "TipoVenda",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "TipoVenda",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "Titulo",
-                keyColumn: "Id",
-                keyValue: 1L,
-                column: "Visibility",
-                value: true);
-
-            migrationBuilder.UpdateData(
-                table: "Titulo",
-                keyColumn: "Id",
-                keyValue: 2L,
-                column: "Visibility",
-                value: true);
 
             migrationBuilder.UpdateData(
                 table: "Usuario",
