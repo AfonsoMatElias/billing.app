@@ -1,34 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Scaffolder.Models;
 
 namespace Scaffolder.Scaffold
 {
     public class ControllerScaffold : GenerationConditions
     {
-        static string tail = "Controller";
-        static string folderPath = Path.Combine("Billing.App", "Controllers", "Api");
-        static string tmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder", "tmp", "controller.txt");
-        static string tmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, folderPath);
-        string tmp = File.Exists(tmpPathInput) ? File.ReadAllText(tmpPathInput) : null;
+        public List<Configuration> configs { get; set; }
+        private string template = null;
+        private string name;
 
-        public void Generate(string name)
+        public void Generate(string name, Configuration config)
         {
+            // Loading the template one if there is only one configuration
+            this.template = Shared.LoadTemplate(this.template, config, this.configs.Count);
+
             try
             {
-                var filePath = Path.Combine(tmpPathOutput, $"{name}{tail}.cs");
-                var create = true;
-                if (File.Exists(filePath))
-                    create = this.Ask(name, tail);
+                // Building the full path
+                var filePath = Path.Combine(config.Output, $"{config.Header}{name}{config.Trailer}.cs");
 
-                if (create)
-                {
-                    var key = "@-Model-@";
-                    var _tmp_ = tmp.Replace(key, name);
-                    File.WriteAllText(filePath, _tmp_);
+                if (!this.FileExistenceHandler(filePath, name, config.Trailer))
+                    return;
 
-                    Logger.Done($"file {name}{tail}.cs created.");
-                }
+                File.WriteAllText(filePath, template.Replace("@-Model-@", name));
+                Logger.Done($"file {config.Header}{name}{config.Trailer}.cs created.");
+                
             }
             catch (Exception ex)
             {
@@ -40,17 +39,17 @@ namespace Scaffolder.Scaffold
         {
         Begin:
 
-            Console.Clear();
-            Logger.Log("Loading the models...");
-            SharedMethods.LoadModels();
+            this.name = this.GetType().Name.Replace("Scaffold", "");
 
             Console.Clear();
-            Logger.Log(tail);
+            this.configs = Program.Config.Get(this.name);
+
+            Logger.Log(this.name);
             Logger.Log("-> 1 Generate One By One");
             Logger.Log("-> 2 Generate All");
             Logger.Log("Choose an option above: ");
 
-            var option = SharedMethods.KeyConverter<GenerationOptions>();
+            var option = Shared.KeyConverter<GenerationOptions>();
 
             switch (option)
             {
@@ -60,21 +59,28 @@ namespace Scaffolder.Scaffold
 
                     void exec(string m)
                     {
-                        if (!SharedMethods.ModelExists(m)) return;
-                        this.Generate(m);
+                        if (!Shared.ModelExists(m)) return;
+                        configs.ForEach(cf => this.Generate(m, cf));
                     }
 
                     if (!name.Contains(","))
                         exec(name);
                     else
-                        name.Split(",").Select(s => s.Trim()).ToList().ForEach(m => this.Generate(m));
+                        name.Split(",").Select(s => s.Trim()).ToList().ForEach(m =>
+                        {
+                            configs.ForEach(cf =>
+                            {
+                                this.Generate(m, cf);
+                            });
+                        });
 
                     break;
 
                 case GenerationOptions.All:
-                    SharedMethods.Models.ForEach(model => this.Generate(model.Item1));
+                    Program.Config.Models.ForEach(model => configs.ForEach(cf => this.Generate(model.Name, cf)));
                     break;
 
+                default:
                 case GenerationOptions.Set:
                     Logger.Warn("Option unavailable!");
                     goto Begin;

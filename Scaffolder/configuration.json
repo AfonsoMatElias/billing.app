@@ -1,0 +1,42 @@
+{
+    "Models": [
+        {
+            "Template": "Billing.Service/Models"
+        }
+    ],
+    "Controller": [
+        {
+            "Trailer": "Controller",
+            "Output": "Billing.App/Controllers/Api",
+            "Template": "Scaffolder/tmp/controller.txt"
+        }
+    ],
+    "Service": [
+        {
+            "Trailer": "Service",
+            "Output": "Billing.Service/Services/Implementations",
+            "Template": "Scaffolder/tmp/service.txt"
+        },
+        {
+            "Header": "I",
+            "Trailer": "Service",
+            "Output": "Billing.Service/Services/Interfaces",
+            "Template": "Scaffolder/tmp/iservice.txt"
+        }
+    ],
+    "ViewModel": [
+        {
+            "Trailer": "Dto",
+            "Output": "Billing.Service/Dto",
+            "Template": "Scaffolder/tmp/viewmodel.txt",
+            "Namespace": "Billing.Service.Dto"
+        }
+    ],
+    "EFCore": [
+        {
+            "Trailer": "Config",
+            "Output": "Billing.Service/Data",
+            "Template": "Scaffolder/tmp/efconfig.txt"
+        }
+    ]
+}

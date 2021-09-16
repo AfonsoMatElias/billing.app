@@ -1,44 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Scaffolder.Models;
 
 namespace Scaffolder.Scaffold
 {
     public class ServiceScaffold : GenerationConditions
     {
-        static string tail = "Service";
+        public List<Configuration> configs { get; set; }
+        private string template = null;
+        private string name;
 
-        static string tmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder", "tmp", "service.txt");
-        static string itmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder", "tmp", "iservice.txt");
-
-        static string tmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, "Billing.Service", "Services", "Implementations");
-        static string itmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, "Billing.Service", "Services", "Interfaces");
-
-        string tmp = File.Exists(tmpPathInput) ? File.ReadAllText(tmpPathInput) : null;
-        string itmp = File.Exists(itmpPathInput) ? File.ReadAllText(itmpPathInput) : null;
-
-        public void Generate(string name)
+        public void Generate(string name, Configuration config)
         {
+            this.template = Shared.LoadTemplate(this.template, config, this.configs.Count);
+
             try
             {
-                var filePath = Path.Combine(tmpPathOutput, $"{name}{tail}.cs");
-                var ifilePath = Path.Combine(itmpPathOutput, $"I{name}{tail}.cs");
+                var filePath = Path.Combine(config.Output, $"{config.Header}{name}{config.Trailer}.cs");
 
-                var create = true;
-                if (File.Exists(filePath) && File.Exists(ifilePath))
-                    create = this.Ask(name, tail);
+                if (!this.FileExistenceHandler(filePath, name, config.Trailer))
+                    return;
 
-                if (create)
-                {
-                    var key = "@-Model-@";
-                    var _tmp_ = tmp.Replace(key, name);
-                    var _itmp_ = itmp.Replace(key, name);
-
-                    File.WriteAllText(filePath, _tmp_);
-                    File.WriteAllText(ifilePath, _itmp_);
-
-                    Logger.Done($"files I{name}{tail}.cs and {name}{tail}.cs created.");
-                }
+                File.WriteAllText(filePath, template.Replace("@-Model-@", name));
+                Logger.Done($"file {config.Header}{name}{config.Trailer}.cs created.");
             }
             catch (Exception ex)
             {
@@ -48,18 +34,19 @@ namespace Scaffolder.Scaffold
 
         public ServiceScaffold()
         {
-            Console.Clear();
-            Logger.Log("Loading the models...");
+        Begin:
 
-            SharedMethods.LoadModels();
+            this.name = this.GetType().Name.Replace("Scaffold", "");
 
             Console.Clear();
-            Logger.Log(tail);
+            this.configs = Program.Config.Get(this.name);
+
+            Logger.Log(this.name);
             Logger.Log("-> 1 Generate One By One");
             Logger.Log("-> 2 Generate All");
             Logger.Log("Choose an option above: ");
 
-            var option = SharedMethods.KeyConverter<GenerationOptions>();
+            var option = Shared.KeyConverter<GenerationOptions>();
 
             switch (option)
             {
@@ -69,27 +56,32 @@ namespace Scaffolder.Scaffold
 
                     void exec(string m)
                     {
-                        if (!SharedMethods.ModelExists(m)) return;
-                        this.Generate(m);
+                        if (!Shared.ModelExists(m)) return;
+                        configs.ForEach(cf => this.Generate(m, cf));
                     }
 
                     if (!name.Contains(","))
                         exec(name);
                     else
-                        name.Split(",").Select(s => s.Trim()).ToList().ForEach(m => this.Generate(m));
+                        name.Split(",").Select(s => s.Trim()).ToList().ForEach(m =>
+                        {
+                            configs.ForEach(cf =>
+                            {
+                                this.Generate(m, cf);
+                            });
+                        });
 
                     break;
 
                 case GenerationOptions.All:
-                    SharedMethods.Models.ForEach(model => this.Generate(model.Item1));
+                    Program.Config.Models.ForEach(model => configs.ForEach(cf => this.Generate(model.Name, cf)));
                     break;
 
+                default:
                 case GenerationOptions.Set:
                     Logger.Warn("Option unavailable!");
-                    break;
+                    goto Begin;
             }
-
         }
-
     }
 }

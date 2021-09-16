@@ -3,108 +3,75 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
+using Scaffolder.Models;
 
 namespace Scaffolder.Scaffold
 {
     public class ViewModelScaffold : GenerationConditions
     {
-        static string tail = "Dto";
-        static string tmpPathInput = Path.Combine(SharedMethods.GlobalRootPath, "Scaffolder", "tmp", "viewmodel.txt");
-        static string tmpPathOutput = Path.Combine(SharedMethods.GlobalRootPath, "Billing.Service", "Dto");
+        public List<Configuration> configs { get; set; }
+        private string template = null;
+        private string name;
 
-        // Lines to be ignored
-        List<(
-            // ClassName
-            string,
-            // List of lines
-            string[])>
-            ignores = new List<(string, string[])>
-            {
-                ("*", new string[]{ "Visibility" }),
-            };
-
-        public void Generate(string name)
+        public void Generate(string name, Configuration config)
         {
+            this.template = Shared.LoadTemplate(this.template, config, this.configs.Count);
+
             try
             {
-                var filePath = Path.Combine(tmpPathOutput, $"{name}{tail}.cs");
-                var create = true;
-                if (File.Exists(filePath))
-                    create = this.Ask(name, tail);
+                var filePath = Path.Combine(config.Output, $"{config.Header}{name}{config.Trailer}.cs");
 
-                if (create)
+                if (!this.FileExistenceHandler(filePath, name, config.Trailer))
+                    return;
+
+                // Getting the model name and path
+                var model = Program.Config.Models.FirstOrDefault(x => x.Name == name);
+                // Reading the file by lines
+                var mTemplate = this.template.Replace("@-Namespace-@", config.Namespace)
+                                             .Replace("@-Model-@", model.Name);
+
+                var properties = Shared.GetModelProperties(model.Path);
+
+                var identation = "\n        ";
+                var baseProperty = "public string uid { get; set; }";
+                var propIndetifier = "@-Prop-@";
+
+                void setter(string value)
+                    => mTemplate = mTemplate.Replace(propIndetifier, $"{identation}{value}{propIndetifier}");
+
+                setter(baseProperty);
+
+                var count = properties.Count();
+                for (int i = 1; i <= count; i++)
                 {
-                    // Getting the model name and path
-                    var model = SharedMethods.Models.FirstOrDefault(x => x.Item1 == name);
-                    // Reading the file by lines
-                    var modelContent = File.ReadAllLines(model.Item2);
-                    // Defining how the namespace needs to look like
-                    var nameSpace = "namespace Billing.Service.Models";
-                    // The out variable
-                    var @out = "";
+                    // Getting the line
+                    var line = properties.ElementAt(i - 1).Trim();
 
-                    var ignore = ignores.FirstOrDefault(x => x.Item1 == name);
-
-                    var isBasePropAdded = false;
-
-                    // Looping all the lines
-                    foreach (var line in modelContent)
+                    // Changing the model property type
+                    if (line.Contains(" virtual "))
                     {
-                        string editableLine = line;
+                        var mLine = line.Trim();
+                        var lineSplited = mLine.Split(" ");
+                        var type = lineSplited[2];
 
-                        if (ignore.Item2 != null && ignore.Item2.Any(x => line.Contains(x))) continue;
-
-                        // Changing the name space
-                        if (editableLine.Contains(nameSpace))
-                            editableLine = "namespace Billing.Service.Dto";
-
-                        // Changing the class name
-                        if (editableLine.Contains("class"))
+                        if (type.StartsWith(nameof(ICollection)))
                         {
-                            if (name != "Usuario")
-                                editableLine = editableLine.Replace($" class {name}", $" class {name}Dto");
-                            else
-                                editableLine = $"    public class {name}Dto";
+                            type = type.Replace(nameof(ICollection) + "<", "").Replace(">", "");
+                            lineSplited[2] = $"{nameof(IEnumerable)}<{type}Dto>";
+                        }
+                        else
+                        {
+                            lineSplited[2] = $"{type}Dto";
                         }
 
-                        // Changing the constructor
-                        if (editableLine.Contains($"public {name}()"))
-                            continue;
-
-                        if (!isBasePropAdded && editableLine.Contains("get;") && name != "License")
-                        {
-                            @out += "        public string uid { get; set; }\n";
-                            isBasePropAdded = true;
-                        }
-
-                        // Changing the model property type
-                        if (editableLine.Contains("public virtual"))
-                        {
-                            var _line = editableLine.Trim();
-                            var lineSplited = _line.Split(" ");
-                            var type = lineSplited[2];
-
-
-                            if (type.StartsWith(nameof(ICollection)))
-                            {
-                                type = type.Replace(nameof(ICollection) + "<", "").Replace(">", "");
-                                lineSplited[2] = $"{nameof(IEnumerable)}<{type}Dto>";
-                            }
-                            else
-                            {
-                                lineSplited[2] = $"{type}Dto";
-                            }
-
-                            editableLine = "        " + string.Join(" ", lineSplited);
-                        }
-
-                        @out += editableLine + "\n";
+                        line = string.Join(" ", lineSplited);
                     }
 
-                    File.WriteAllText(filePath, @out);
-                    Logger.Done($"file {name}{tail}.cs created.");
+                    setter(line);
                 }
+
+                File.WriteAllText(filePath, mTemplate.Replace(propIndetifier, ""));
+                Logger.Done($"file {config.Header}{name}{config.Trailer}.cs created.");
             }
             catch (Exception ex)
             {
@@ -114,17 +81,19 @@ namespace Scaffolder.Scaffold
 
         public ViewModelScaffold()
         {
-            Console.Clear();
-            Logger.Log("Loading the models...");
-            SharedMethods.LoadModels();
+        Begin:
+
+            this.name = this.GetType().Name.Replace("Scaffold", "");
 
             Console.Clear();
-            Logger.Log(tail);
+            this.configs = Program.Config.Get(this.name);
+
+            Logger.Log(this.name);
             Logger.Log("-> 1 Generate One By One");
             Logger.Log("-> 2 Generate All");
             Logger.Log("Choose an option above: ");
 
-            var option = SharedMethods.KeyConverter<GenerationOptions>();
+            var option = Shared.KeyConverter<GenerationOptions>();
 
             switch (option)
             {
@@ -134,26 +103,32 @@ namespace Scaffolder.Scaffold
 
                     void exec(string m)
                     {
-                        if (!SharedMethods.ModelExists(m)) return;
-                        this.Generate(m);
+                        if (!Shared.ModelExists(m)) return;
+                        configs.ForEach(cf => this.Generate(m, cf));
                     }
 
                     if (!name.Contains(","))
                         exec(name);
                     else
-                        name.Split(",").Select(s => s.Trim()).ToList().ForEach(m => this.Generate(m));
+                        name.Split(",").Select(s => s.Trim()).ToList().ForEach(m =>
+                        {
+                            configs.ForEach(cf =>
+                            {
+                                this.Generate(m, cf);
+                            });
+                        });
+
                     break;
 
                 case GenerationOptions.All:
-                    SharedMethods.Models.ForEach(model => this.Generate(model.Item1));
+                    Program.Config.Models.ForEach(model => configs.ForEach(cf => this.Generate(model.Name, cf)));
                     break;
 
+                default:
                 case GenerationOptions.Set:
                     Logger.Warn("Option unavailable!");
-                    break;
+                    goto Begin;
             }
-
         }
-
     }
 }
