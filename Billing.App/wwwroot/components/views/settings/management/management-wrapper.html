@@ -1,0 +1,151 @@
+<div class="main-body fit-content settings-page card">
+    <div class="inner-menu nice-scroll">
+        <div class="row">
+            <a i:href="/settings">
+                <div class="back-button">
+                    <span class="center-icon fa fa-arrow-left"></span>
+                </div>
+                <p>Configurações</p>
+            </a>
+        </div>
+
+        <div e-for="menu of menus" class="row" eorder="asc:name" e-class="{ 'mark-point': active == menu.name }">
+            <a i:href="{{ menu.url }}">
+                <p e-content="{{ menu.name }}">Menu Name</p>
+            </a>
+        </div>
+
+    </div>
+    <div class="inner-menu-content">
+        <content></content>
+    </div>
+</div>
+<script>
+    var $easy = this.Easy;
+    var component = this;
+
+    this.loaded = function (el) {
+        $easy.data.currentPage = 'Gestão de Dados';
+        $easy.routing.markActive($easy.el.node('.settings-link'));
+    }
+
+    // Trying to recieve the data exposed 
+    var elWrapperData = $easy.retrieve('manag-section-data', true);
+    if (elWrapperData) $easy.setData({
+        active: elWrapperData.active
+    }, this.data);
+
+    // Exposing the wrapper data
+    $easy.expose('manag-wrapper-data', this.data);
+
+    this.export({
+        menus: [
+            {
+                name: 'FormaPagamento',
+                url: '/settings/management/formaPagamento'
+            },
+            {
+                name: 'Pais',
+                url: '/settings/management/pais'
+            },
+            {
+                name: 'Categoria',
+                url: '/settings/management/categoria'
+            },
+            {
+                name: 'SubCategoria',
+                url: '/settings/management/subcategoria'
+            },
+            {
+                name: 'TipoContacto',
+                url: '/settings/management/tipocontacto'
+            },
+            {
+                name: 'TipoEntidade',
+                url: '/settings/management/tipoentidade'
+            },
+            {
+                name: 'TipoFactura',
+                url: '/settings/management/tipofactura'
+            },
+            {
+                name: 'TipoVenda',
+                url: '/settings/management/tipovenda'
+            }
+        ],
+
+        // Methods
+        submitShared: function (evt, route, redirectTo) {
+            var btn = evt.base;
+            var form = btn.aboveMe('form');
+
+            var formData = $easy.toJsObj(form);
+            var valid = true;
+
+            formData.keys(function (k, v) {
+                if (valid == true && (v == '' || v == null))
+                    valid = false;
+            });
+
+            if (valid == false)
+                return notify({
+                    type: 'warn',
+                    message: 'Todos os campos devem ser preenchidos!'
+                });
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+
+            $easy.create(route, formData)
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Criado',
+                        run: function () {
+                            $easy.routing.navegate(redirectTo);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    notify({
+                        type: 'error',
+                        message: error.message || error
+                    });
+                })
+                .finally(function () {
+                    addOrRemSpinner(btn, true);
+                });
+        }
+    });
+</script>
+<style scoped>
+    .inner-menu-content {
+        position: relative;
+    }
+
+    .inner-menu-content content:empty::after {
+        content: 'Selecione um item no menu da lateral';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--color-soft-text);
+        margin-top: 80px;
+        text-align: center;
+    }
+
+    .inner-menu-content content:empty::before {
+        content: '';
+        background-image: url(../assets/images/select.svg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+    }
+</style>

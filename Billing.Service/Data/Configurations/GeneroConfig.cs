@@ -26,6 +26,7 @@ namespace Billing.Service.Data.Configurations
             return (new[] {
                 "Masculino",
                 "Feminino",
+                "N/A",
             }).Select((item, index) =>
                 {
                     return new Genero

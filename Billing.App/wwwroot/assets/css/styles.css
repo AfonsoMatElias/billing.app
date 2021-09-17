@@ -3251,10 +3251,10 @@ button:active {
 
 .btn-ordered {
     flex: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    grid-column-gap: 8px;
-    grid-row-gap: 8px;
+}
+
+.btn-ordered button:first-of-type {
+    margin-right: 12px;
 }
 
 .splitted-editing.partial .right .content .input-area .action-area button {

@@ -8,9 +8,11 @@
                         <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
                     </div>
 
-                    <input type="file" name="Imagem" id="image" accept="image/gif, image/jpeg, image/png, image/jpg" class="hide-it" />
+                    <input type="file" name="Imagem" id="image" accept="image/gif, image/jpeg, image/png, image/jpg"
+                        class="hide-it" />
                     <div class="customer image" e-def="{ setfotoIcon: 'fa-plus' }">
-                        <span title="Clique para alterar a imagem" class="icon-type center-icon fa {{ setfotoIcon }}"></span>
+                        <span title="Clique para alterar a imagem"
+                            class="icon-type center-icon fa {{ setfotoIcon }}"></span>
                     </div>
                     <div class="description">
                         <p> Carregue uma imagem para o {{ person }}.</p>
@@ -20,7 +22,8 @@
                 <div class="input-area">
                     <div class="input-field">
                         <label>Identificação</label>
-                        <input type="text" name="Identificacao" validate="text" placeholder="Digite a sua Identificação" />
+                        <input type="text" name="Identificacao" validate="text"
+                            placeholder="Digite a sua Identificação" />
                     </div>
                 </div>
 
@@ -28,18 +31,20 @@
                 <div class="input-area">
                     <div class="input-field">
                         <label>Primeiro Nome</label>
-                        <input type="text" name="PrimeiroNome" validate="text" placeholder="Digite o seu Primeiro Nome" />
+                        <input type="text" name="PrimeiroNome" validate="text"
+                            placeholder="Digite o seu Primeiro Nome" />
                     </div>
 
                     <div class="input-field">
                         <label>Último Nome</label>
-                        <input type="text" name="UltimoNome" validate="text" placeholder="Digite o seu Último Nome" />
+                        <input type="text" name="UltimoNome" validate="text"
+                            placeholder="Digite o seu Último Nome" />
                     </div>
 
                     <div class="input-field">
                         <label>Genero</label>
                         <select name="GeneroId" validate="select">
-                            <option selected disabled value="">None</option>
+                            <option selected disabled value="1">None</option>
                             <option e-tmp="Genero" e-use="item" e-value="{{ item.id }}" e-content="{{ item.nome }}">
                                 Loading...</option>
                         </select>
@@ -55,10 +60,6 @@
                     </div>
                 </div>
 
-                <div style="display: none;" e-build=Entidade>
-                    <input type="text" name="TipoEntidadeCodigo" e-value="{{ typeEntity }}" />
-                </div>
-
                 <div class="input-area">
                     <div class="input-field">
                         <label>Nascimento</label>
@@ -67,14 +68,16 @@
                 </div>
 
                 <div class="input-area" e-build="Entidade">
+
                     <div class="input-field">
                         <label>Nome da Empresa</label>
                         <input type="text" name="NomeEmpresa" validate="text" placeholder="Digite o Nome da Empresa" />
                     </div>
 
                     <div class="input-field">
-                        <label>Nomed da Pessoa de Contacto da Empresa</label>
-                        <input type="text" name="NomePessoaContactoEmpresa" validate="text" placeholder="Digite o seu o Nome" />
+                        <label>Nome da Pessoa de Contacto da Empresa</label>
+                        <input type="text" name="NomePessoaContactoEmpresa" validate="text"
+                            placeholder="Digite o seu o Nome" />
                     </div>
                 </div>
             </div>
@@ -84,7 +87,9 @@
             <button type="button" class="submit-type" on:click="submit">SUBMETER</button>
         </div>
     </div>
-    <div class="address addables nice-scroll">
+    <div class="address addables nice-scroll" e-build="Entidade">
+        <input type="text" name="TipoEntidadeCodigo" e-value="{{ typeEntity }}" />
+
         <div class="content fit-content">
             <p class="high-light"> Endereço de Facturação</p>
             <inc e-build="Entidade.EnderecoFacturacao" src="address"></inc>
@@ -96,7 +101,7 @@
     <div class="contacts addables nice-scroll">
         <div class="content fit-content">
             <p class="high-light"> Adicione Contactos</p>
-            <inc e-build="Contactos" src="contact"></inc>
+            <inc e-build="Contactos" e-array src="contact"></inc>
         </div>
     </div>
 </div>
@@ -106,13 +111,15 @@
 
     // Exposing the data that will be used in the mais 
     this.Easy.expose('shared-person-creation-methods', {
-        submitPerson: function(evt, url, redirectTo) {
+        submitPerson: function (evt, url, redirectTo) {
             var btn = evt.base;
-            if (hasSpinner(btn)) return;
-            addOrRemSpinner(btn);
 
             var form = evt.base.aboveMe('[post-form]');
             var formObj = easy.toJsObj(form);
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
             var formData = new FormData();
 
             formData.append("json", JSON.stringify(formObj));
@@ -129,24 +136,24 @@
             headers['Accept'] = undefined;
 
             easy.create(url, formData)
-                .then(function(data) {
+                .then(function (data) {
                     notify({
                         type: 'success',
                         message: 'Registro Efectuado'
                     });
 
                     // Waiting 2s to got the next page
-                    setTimeout(function() {
+                    setTimeout(function () {
                         easy.routing.navegate(redirectTo);
                     }, 500);
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     notify({
                         type: 'error',
                         message: error.message || error
                     });
                 })
-                .finally(function() {
+                .finally(function () {
                     headers['Accept'] = accept;
                     headers['Content-Type'] = contentType;
                     addOrRemSpinner(btn, true);

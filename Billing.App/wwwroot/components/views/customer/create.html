@@ -16,7 +16,6 @@
     }
 
     this.export({
-        type: params.type,
         typeEntity: params.typeEntity,
         person: 'cliente',
 
@@ -25,7 +24,7 @@
             // Getting the exposed method   
             sharedPersonCreation =  sharedPersonCreation || easy.retrieve('shared-person-creation-methods', true);
 
-            var redirectTo = "/providers/" + params.type;
+            var redirectTo = "/providers/" + params.typeEntity;
             redirectTo = params.src || redirectTo;
 
             // Submiting

@@ -40,23 +40,23 @@
                         <div class="table-cell" style="flex: .5;"></div>
                     </content>
                     <content ident="table-body">
-                        <div class="table-row flex-it" e-for="product of $scope.busketProducts">
-                            <div class="card-cover" e-skeleton></div>
-                            <div class="pointer table-cell" style="flex: 2;" e-skeleton> {{ product.name }} </div>
-                            <div class="pointer table-cell" e-skeleton> {{ product.price }} kz </div>
-                            <div class="pointer table-cell" e-skeleton>
+                        <div class="table-row flex-it" e-skeleton e-for="product of $scope.busketProducts">
+                            <div class="card-cover"></div>
+                            <div class="pointer table-cell" style="flex: 2;"> {{ product.name }} </div>
+                            <div class="pointer table-cell"> {{ product.price }} kz </div>
+                            <div class="pointer table-cell">
                                 <span class="complex-cell editable simple">
                                     <input type="number" e-bind="product.qty" value="0">
                                 </span>
                             </div>
-                            <div class="pointer table-cell" e-skeleton>
+                            <div class="pointer table-cell">
                                 <span class="complex-cell editable descount">
                                     <input type="number" e-bind="product.descount" value="0"><label>%</label>
                                 </span>
                             </div>
-                            <div class="pointer table-cell hidable" e-skeleton> {{ product.subtotal }} Kz </div>
+                            <div class="pointer table-cell hidable"> {{ product.subtotal }} Kz </div>
                             <div class="table-cell" style="flex: .5;">
-                                <span e-skeleton class="remove-line">
+                                <span class="remove-line">
                                     <span class="center-icon icon-type fa fa-remove"
                                         on:click="$scope.removeProductFromBusket(product)"></span>
                                 </span>

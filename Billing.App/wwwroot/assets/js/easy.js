@@ -3820,7 +3820,7 @@
                         if (path && $name === ':href') path.links.push(base);
     
                         // if it's the active one, mark
-                        if (!isNull(RouteHandler.lastActivePath) && RouteHandler.lastActivePath === path)
+                        if (!isNull(RouteHandler.lastActivePath) && RouteHandler.lastActivePath === path && $name === ':href')
                             $easy.routing.markActive( base );
 
                         base.removeAttribute($name);

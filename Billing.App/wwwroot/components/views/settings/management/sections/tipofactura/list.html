@@ -1,0 +1,80 @@
+<inc src="settings-management-wrapper" e-def="{ active: 'TipoFactura' }">
+    <content>
+        <div class="partial settings-list-page employees">
+            <div class="header">
+                <h3>Tipo de Factura</h3>
+
+                <div class="search-area">
+                    <div class="search-field">
+                        <span class="fa fa-search"></span>
+                        <input type="text" placeholder="Pesquisar por..." e-def="{ search: '' }" e-bind="search">
+                    </div>
+                    <div class="button-area">
+                        <a i:href="/settings/management/tipofactura/create" class="blue-type">Adicionar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="remain">
+
+                <inc src="table">
+                    <content ident="table-head">
+                        <div class="table-cell mid"> Codigo </div>
+                        <div class="table-cell"> Nome </div>
+                        <div class="table-cell"> Data de Criacao </div>
+                        <div class="table-cell"> Estado </div>
+                    </content>
+                    <content ident="table-body">
+                        <div class="table-row flex-it" e-skeleton e-tmp="tipoFactura" e-use="item" e-filter="$scope.search:nome">
+                            <div class="card-cover" e-content="{{ getAchronym(item.nome) }}"></div>
+
+                            <div class="pointer table-cell mid" e-content="{{ item.codigo }}">Loading...
+                            </div>
+
+                            <div class="pointer table-cell" e-content="{{ item.nome }}">Loading...
+                            </div>
+
+                            <div class="pointer table-cell hidable"
+                                e-content="{{ toDate(item.createdAt) }}"> Loading...</div>
+
+                            <div class="table-cell">
+                                <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
+                                </span>
+                                <div class="buttons-area" data="{}">
+                                    <div class="item-options flex-it hide-it" 
+                                         e-def="{ showOptions: false }" 
+                                         e-class="{ 'hide-it': !showOptions }">
+                                        <div>
+                                            <button class="see">Ver</button>
+                                        </div>
+                                        <div>
+                                            <button class="rem">Desactivar</button>
+                                        </div>
+                                    </div>
+                                    <span title="Opções" on:click="showOptions = !showOptions" class="fa fa-dot-circle-o"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </content>
+                </inc>
+
+            </div>
+        </div>
+    </content>
+</inc>
+<script>
+    var $easy = this.Easy;
+    var component = this;
+
+    this.loaded = function (el) {
+        $easy.data.showSearchBar = false;
+    }
+
+    this.destroyed = function (el) {
+        $easy.data.showSearchBar = true;
+    }
+    
+    // Exposing the section data
+    $easy.expose('manag-section-data', this.data);
+</script>

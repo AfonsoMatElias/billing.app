@@ -22,7 +22,8 @@ namespace Billing.Service.Data.Configurations
         {
             return (new[]{
                 "Sr.",
-                "Sra."
+                "Sra.",
+                "N/A",
             }).Select((item, index) => {
                 return new Titulo {
                     Id = (index + 1),

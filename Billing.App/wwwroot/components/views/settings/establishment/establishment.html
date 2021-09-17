@@ -104,13 +104,7 @@
                 var comuna = _data.comuna || {};
                 estabelecimento.id = _data.id;
                 estabelecimento.nome = _data.nome;
-                estabelecimento.endereco = [
-                    _data.rua, 
-                    _data.bairro, 
-                    comuna.nome, 
-                    (comuna.municipio || {}).nome, 
-                    ((comuna.municipio || {}).provincia||{}).nome
-                ].join(', ');
+                estabelecimento.endereco = "N/A";
 
                 if (!_data.gerente)
                     return estabelecimento.gerente = 'Indefinido';

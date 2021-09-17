@@ -8,19 +8,19 @@
         <div class="table-cell"> Estado </div>
     </content>
     <content ident="table-body">
-        <div class="table-row flex-it" e-tmp="produto" e-use="item">
-            <div class="card-cover" e-skeleton></div>
-            <div class="pointer table-cell" e-skeleton> 
+        <div class="table-row flex-it" e-skeleton e-tmp="produto" e-use="item">
+            <div class="card-cover"></div>
+            <div class="pointer table-cell"> 
                 <a i:href="/products/view/{{ item.uid }}" e-content="{{ item.nome }}">
                     Loading... 
                 </a>
             </div>
-            <div class="pointer table-cell" e-skeleton e-content="{{ item.nomeSecundario }}"> Loading... </div>
-            <div class="pointer table-cell hidable" e-skeleton e-content="{{ item.codigo }}"> Loading... </div>
-            <div class="pointer table-cell hidable" e-skeleton e-content="{{ item.precoUnitario }} Akz"> Loading... </div>
-            <div class="pointer table-cell hidable" e-skeleton e-content="{{ item.subCategoria.nome }}"> Loading... </div>
+            <div class="pointer table-cell" e-content="{{ item.nomeSecundario }}"> Loading... </div>
+            <div class="pointer table-cell hidable" e-content="{{ item.codigo }}"> Loading... </div>
+            <div class="pointer table-cell hidable" e-content="{{ item.precoUnitario }} Akz"> Loading... </div>
+            <div class="pointer table-cell hidable" e-content="{{ item.subCategoria.nome }}"> Loading... </div>
             <div class="table-cell">
-                <span e-skeleton e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading... </span>
+                <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading... </span>
                 <div>
                     <div class="item-options flex-it hide-it">
                         <div>

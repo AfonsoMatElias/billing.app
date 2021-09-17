@@ -209,7 +209,7 @@ new Easy("body", {
                 });
             });
 
-        var jwtObj =  JSON.parse(atob(sessionStorage.token.split(' ')[1].split('.')[1]))
+        var jwtObj = JSON.parse(atob(sessionStorage.token.split(' ')[1].split('.')[1]))
 
         this.data.application.role = Array.isArray(jwtObj.role) ? jwtObj.role[0] : jwtObj.role;
     },
@@ -225,14 +225,14 @@ new Easy("body", {
             preload: true,
         },
         elements: {
-            table: "/components/elements/table",
-            popup: "/components/elements/popup",
-            address: "/components/shared/address",
-            contact: "/components/shared/contact",
+            "table": "/components/elements/table",
+            "popup": "/components/elements/popup",
+            "address": "/components/shared/address",
+            "contact": "/components/shared/contact",
             "create-person": "/components/shared/create-person",
 
             // # Views
-            dashboard: {
+            "dashboard": {
                 route: "/dashboard",
                 url: "/components/views/dashboards/dashboard",
                 title: "Dashboard",
@@ -245,12 +245,6 @@ new Easy("body", {
                         //keepAlive: true
                     },
                 },
-            },
-
-            "choose-page": {
-                route: "/choose/:type",
-                url: "/components/shared/choose-page",
-                title: "Escolha o Tipo",
             },
 
             // Customer
@@ -288,7 +282,7 @@ new Easy("body", {
             },
 
             // Product
-            products: {
+            "products": {
                 route: "/products",
                 url: "/components/views/product/list",
                 title: "Produto • Listagem",
@@ -308,7 +302,7 @@ new Easy("body", {
             },
 
             // Sell
-            sell: {
+            "sell": {
                 route: "/sell",
                 url: "/components/views/sell",
                 title: "Venda",
@@ -316,7 +310,7 @@ new Easy("body", {
             },
 
             // Buy
-            buy: {
+            "buy": {
                 route: "/buy",
                 url: "/components/views/buy",
                 title: "Compra",
@@ -324,21 +318,21 @@ new Easy("body", {
             },
 
             // Chat
-            chat: {
+            "chat": {
                 route: "/chat",
                 url: "/components/views/chat",
                 title: "Chat",
             },
 
             // Report
-            reports: {
+            "reports": {
                 route: "/reports",
                 url: "/components/views/reports",
                 title: "Relatórios",
             },
 
             // Settings
-            settings: {
+            "settings": {
                 route: "/settings",
                 url: "/components/views/settings/profile/profile",
                 title: "Config • Perfil",
@@ -378,14 +372,117 @@ new Easy("body", {
                         },
                     },
                     "settings-license": {
-                        title: "Licença",
+                        title: "Config • Licença",
                         route: "/license",
                         url: "/components/views/settings/license/license",
                     },
                     "settings-about": {
-                        title: "Sobre",
+                        title: "Config • Sobre",
                         route: "/about",
                         url: "/components/views/settings/about",
+                    },
+                    "settings-management-wrapper": {
+                        title: "Config • Dados de Referência",
+                        route: "/management",
+                        url: "/components/views/settings/management/management-wrapper",
+                        children: {
+                            "settings-management-categoria": {
+                                title: "Config • Lista de Categorias",
+                                route: "/categoria",
+                                url: "/components/views/settings/management/sections/categoria/list",
+                                children: {
+                                    "settings-management-categoria-create": {
+                                        title: "Config • Criar Categoria",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/categoria/create",
+                                    }
+                                }
+                            },
+                            "settings-management-formaPagamento": {
+                                title: "Config • Lista de Formas de Pagamento",
+                                route: "/formaPagamento",
+                                url: "/components/views/settings/management/sections/formaPagamento/list",
+                                children: {
+                                    "settings-management-formaPagamento-create": {
+                                        title: "Config • Criar Forma de Pagamento",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/formaPagamento/create",
+                                    }
+                                }
+                            },
+                            "settings-management-pais": {
+                                title: "Config • Lista de Paises",
+                                route: "/pais",
+                                url: "/components/views/settings/management/sections/pais/list",
+                                children: {
+                                    "settings-management-pais-create": {
+                                        title: "Config • Criar Pais",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/pais/create",
+                                    }
+                                }
+                            },
+                            "settings-management-subcategoria": {
+                                title: "Config • Lista de SubCategorias",
+                                route: "/subcategoria",
+                                url: "/components/views/settings/management/sections/subcategoria/list",
+                                children: {
+                                    "settings-management-subcategoria-create": {
+                                        title: "Config • Criar Subcategoria",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/subcategoria/create",
+                                    }
+                                }
+                            },
+                            "settings-management-tipovenda": {
+                                title: "Config • Lista de Tipo de Venda",
+                                route: "/tipovenda",
+                                url: "/components/views/settings/management/sections/tipovenda/list",
+                                children: {
+                                    "settings-management-tipovenda-create": {
+                                        title: "Config • Criar Tipo de Venda",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/tipovenda/create",
+                                    }
+                                }
+                            },
+                            "settings-management-tipofactura": {
+                                title: "Config • Lista de Tipo de Factura",
+                                route: "/tipofactura",
+                                url: "/components/views/settings/management/sections/tipofactura/list",
+                                children: {
+                                    "settings-management-tipofactura-create": {
+                                        title: "Config • Criar Tipo de Factura",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/tipofactura/create",
+                                    }
+                                }
+                            },
+                            "settings-management-tipocontacto": {
+                                title: "Config • Lista de Tipo de Contacto",
+                                route: "/tipocontacto",
+                                url: "/components/views/settings/management/sections/tipocontacto/list",
+                                children: {
+                                    "settings-management-tipocontacto-create": {
+                                        title: "Config • Criar Tipo de Contacto",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/tipocontacto/create",
+                                    }
+                                }
+                            },
+                            "settings-management-tipoentidade": {
+                                title: "Config • Lista de Tipo de Entidade",
+                                route: "/tipoentidade",
+                                url: "/components/views/settings/management/sections/tipoentidade/list",
+                                children: {
+                                    "settings-management-tipoentidade-create": {
+                                        title: "Config • Criar Tipo de Entidade",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/tipoentidade/create",
+                                    }
+                                }
+                            },
+                        }
                     },
                 },
             },
@@ -414,7 +511,7 @@ new Easy("body", {
                 "/components/views/settings/establishment/sections/setting-manager",
 
             // Not found page
-            notfound: {
+            "notfound": {
                 route: "/notfound",
                 url: "/components/views/not-found",
                 title: "404 Page Not Found",

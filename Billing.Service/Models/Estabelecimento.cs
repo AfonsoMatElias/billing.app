@@ -5,8 +5,6 @@ namespace Billing.Service.Models
     public class Estabelecimento : Base.Properties
     {
         public string Nome { get; set; }
-        public string Rua { get; set; }
-        public string Bairro { get; set; }
         public long EnderecoId { get; set; }
         public long? GerenteId { get; set; }
 

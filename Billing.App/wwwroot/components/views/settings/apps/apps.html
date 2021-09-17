@@ -20,18 +20,18 @@
                         <div class="table-cell"> Estado </div>
                     </content>
                     <content ident="table-body">
-                        <div class="table-row flex-it" e-tmp="estabelecimento" e-use="item">
-                            <div class="card-cover" e-skeleton e-content="{{ getAchronym(item.nome) }}"></div>
-                            <div class="pointer table-cell" e-skeleton e-content="{{ item.nome }}"> Loading... </div>
-                            <div class="pointer table-cell" e-skeleton
+                        <div class="table-row flex-it" e-skeleton e-tmp="estabelecimento" e-use="item">
+                            <div class="card-cover" e-content="{{ getAchronym(item.nome) }}"></div>
+                            <div class="pointer table-cell" e-content="{{ item.nome }}"> Loading... </div>
+                            <div class="pointer table-cell"
                                 e-content="{{ (item.id + '').padStart(4, '0') }}"> Loading... </div>
-                            <div class="pointer table-cell hidable" e-skeleton
+                            <div class="pointer table-cell hidable"
                                 e-content="{{ getPessoa(item.gerente) }}"> Loading...
                             </div>
-                            <div class="pointer table-cell hidable" e-skeleton e-content="{{ toDate(item.createdAt) }}">
+                            <div class="pointer table-cell hidable" e-content="{{ toDate(item.createdAt) }}">
                                 Loading... </div>
                             <div class="table-cell">
-                                <span e-skeleton e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
+                                <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
                                 </span>
                                 <div class="buttons-area" data="{}">
                                     <div class="item-options flex-it hide-it" e-def="{ showOptions: false }"

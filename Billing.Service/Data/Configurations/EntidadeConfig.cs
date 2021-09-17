@@ -17,11 +17,11 @@ namespace Billing.Service.Models
 
             builder.Property(e => e.NomeEmpresa)
                     .HasMaxLength(200)
-                    .IsRequired();
+                    .IsRequired(false);
 
             builder.Property(e => e.NomePessoaContactoEmpresa)
                     .HasMaxLength(200)
-                    .IsRequired();
+                    .IsRequired(false);
 
             // Relations         
             builder.HasOne(e => e.TipoEntidade)

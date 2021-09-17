@@ -19,7 +19,7 @@
                                         e-content="{{ item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : '') }}">
                                         Loading...</option>
                                 </select>
-                                <a :href="/choose/provider?src={{ '/buy' }}">Criar</a>
+                                <a :href="/providers/create/tef?src={{ '/buy' }}">Criar</a>
                             </div>
                         </div>
 
@@ -79,23 +79,23 @@
                     </content>
                     <content ident="table-body">
 
-                        <div class="table-row flex-it" e-for="buy of $scope.buyList">
-                            <div class="card-cover" e-skeleton></div>
-                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.row.Provider }}"> Loading...
+                        <div class="table-row flex-it" e-skeleton e-for="buy of $scope.buyList">
+                            <div class="card-cover" ></div>
+                            <div class="pointer table-cell" e-content="{{ buy.row.Provider }}"> Loading...
                             </div>
-                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.row.Product }}"> Loading...
+                            <div class="pointer table-cell" e-content="{{ buy.row.Product }}"> Loading...
                             </div>
-                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.PrecoUnitarioCompra }}">
+                            <div class="pointer table-cell" e-content="{{ buy.PrecoUnitarioCompra }}">
                                 Loading... </div>
-                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.Quantidade }}"> Loading...
+                            <div class="pointer table-cell" e-content="{{ buy.Quantidade }}"> Loading...
                             </div>
-                            <div class="pointer table-cell hidable" e-skeleton e-content="{{ buy.DataEntrada }}">
+                            <div class="pointer table-cell hidable" e-content="{{ buy.DataEntrada }}">
                                 Loading...</div>
-                            <div class="pointer table-cell hidable" e-skeleton
+                            <div class="pointer table-cell hidable"
                                 e-content="{{ buy.DataValidade || 'N/A' }}">
                                 Loading... </div>
                             <div class="table-cell" style="flex: .5;">
-                                <span e-skeleton class="remove-line">
+                                <span class="remove-line">
                                     <span class="center-icon icon-type fa fa-remove"
                                         on:click="$scope.removeBuy(buy)"></span>
                                 </span>

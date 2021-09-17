@@ -26,23 +26,23 @@
                         <div class="table-cell"> Estado </div>
                     </content>
                     <content ident="table-body">
-                        <div class="table-row flex-it" e-tmp="funcionario" e-use="item">
-                            <div class="card-cover" e-skeleton e-content="{{ getAchronym(item.usuario.codigo) }}"></div>
+                        <div class="table-row flex-it" e-skeleton e-tmp="funcionario" e-use="item">
+                            <div class="card-cover" e-content="{{ getAchronym(item.usuario.pessoa.primeiroNome) }}"></div>
 
-                            <div class="pointer table-cell" e-skeleton e-content="{{ item.usuario.codigo }}">Loading...
+                            <div class="pointer table-cell" e-content="{{ item.usuario.codigo }}">Loading...
                             </div>
 
-                            <div class="pointer table-cell" e-skeleton data="item.usuario.pessoa"
+                            <div class="pointer table-cell" data="item.usuario.pessoa"
                                 e-content="{{ [primeiroNome, ultimoNome].join(' ') }}">Loading... </div>
 
-                            <div class="pointer table-cell" e-skeleton data="item.usuario.pessoa"
+                            <div class="pointer table-cell" data="item.usuario.pessoa"
                                 e-content="{{ genero.nome }}"> Loading... </div>
 
-                            <div class="pointer table-cell hidable" e-skeleton data="item.usuario.pessoa"
+                            <div class="pointer table-cell hidable" data="item.usuario.pessoa"
                                 e-content="{{ toDate(dataNascimento) }}"> Loading...</div>
 
                             <div class="table-cell">
-                                <span e-skeleton e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
+                                <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
                                 </span>
                                 <div class="buttons-area" data="{}">
                                     <div class="item-options flex-it hide-it" 

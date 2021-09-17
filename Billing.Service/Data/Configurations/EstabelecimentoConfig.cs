@@ -16,14 +16,6 @@ namespace Billing.Service.Data.Configurations
             builder.Property(e => e.Nome)
                     .HasMaxLength(200)
                     .IsRequired();
-    
-            builder.Property(e => e.Rua)
-                    .HasMaxLength(200)
-                    .IsRequired();
-    
-            builder.Property(e => e.Bairro)
-                    .HasMaxLength(500)
-                    .IsRequired();
 
             builder.HasOne(e => e.Gerente)
                     .WithOne(e => e.EstabelecimentoGerente)

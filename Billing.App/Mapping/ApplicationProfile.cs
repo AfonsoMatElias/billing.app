@@ -32,7 +32,8 @@ namespace Billing.App.Mapping
             CreateMap<ChatMessageDto, ChatMessage>();
 
             CreateMap<Compra, CompraDto>()
-                .ForPath(dst => dst.Produto, xps => xps.MapFrom(src => new Produto {
+                .ForPath(dst => dst.Produto, xps => xps.MapFrom(src => new Produto
+                {
                     Id = src.Produto.Id,
                     Codigo = src.Produto.Codigo,
                     CreatedAt = src.Produto.CreatedAt,
@@ -49,6 +50,9 @@ namespace Billing.App.Mapping
                     Visibility = src.Produto.Visibility
                 }));
             CreateMap<CompraDto, Compra>();
+
+            CreateMap<Contacto, ContactoDto>();
+            CreateMap<ContactoDto, Contacto>();
 
             CreateMap<Pais, PaisDto>();
             CreateMap<PaisDto, Pais>();
@@ -148,7 +152,14 @@ namespace Billing.App.Mapping
             CreateMap<ProdutoImagem, ProdutoImagemDto>();
             CreateMap<ProdutoImagemDto, ProdutoImagem>();
 
-            CreateMap<SubCategoria, SubCategoriaDto>();
+            CreateMap<SubCategoria, SubCategoriaDto>()
+                .ForPath(dst => dst.Categoria, src => src.MapFrom(x => new Categoria {
+                    Id = x.Categoria.Id,
+                    Nome = x.Categoria.Nome,
+                    CreatedAt = x.Categoria.CreatedAt,
+                    UpdatedAt = x.Categoria.UpdatedAt,
+                    Visibility = x.Categoria.Visibility
+                }));
             CreateMap<SubCategoriaDto, SubCategoria>();
 
             CreateMap<TipoEntidade, TipoEntidadeDto>();
@@ -156,6 +167,12 @@ namespace Billing.App.Mapping
 
             CreateMap<TipoContacto, TipoContactoDto>();
             CreateMap<TipoContactoDto, TipoContacto>();
+
+            CreateMap<TipoVenda, TipoVendaDto>();
+            CreateMap<TipoVendaDto, TipoVenda>();
+
+            CreateMap<TipoFactura, TipoFacturaDto>();
+            CreateMap<TipoFacturaDto, TipoFactura>();
 
             CreateMap<Titulo, TituloDto>();
             CreateMap<TituloDto, Titulo>();
