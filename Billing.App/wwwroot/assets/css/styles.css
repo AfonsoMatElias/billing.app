@@ -3025,6 +3025,10 @@ button:active {
     cursor: pointer;
 }
 
+.nav-area .nav:active {
+    opacity: .6;
+}
+
 .nav-area .description {
     display: flex;
     align-items: center;
