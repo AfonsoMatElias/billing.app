@@ -798,8 +798,9 @@ button:active {
     justify-content: flex-end;
 }
 
-.controlls .search-field {
-    width: 345px;
+.app-table .search-field {
+    max-width: 410px;
+    flex: 1;
 }
 
 .search-field {
@@ -3381,9 +3382,9 @@ button:active {
     flex: 1;
 }
 
-.employees .search-area .blue-type {
-    height: 35px;
-    width: 90px;
+.blue-type {
+    height: 30px;
+    width: 80px;
     display: inline-block;
     border-radius: 4px;
     margin: 0 4px;
@@ -3391,6 +3392,29 @@ button:active {
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow);
+    font-size: 9pt;
+}
+
+.vertical-spreader {
+    flex: 1;
+    display: flex;
+}
+
+.vertical-spreader>div {
+    flex: 1;
+    display: flex;
+}
+
+.vertical-spreader>div:first-of-type {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.vertical-spreader>div:last-of-type {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 
@@ -3525,8 +3549,7 @@ button:active {
 
 @media only screen and (max-width: 710px) {
     /* Dashboard */
-    .main-content .page-detail,
-    .controlls .search-field {
+    .main-content .page-detail {
         display: none;
     }
     /* Settings */
@@ -3559,11 +3582,6 @@ button:active {
 
 @media only screen and (max-width: 900px) {
     /* Dashboard */
-    .controlls .search-field {
-        margin-left: 20px;
-        width: unset;
-        flex: 1;
-    }
     .dashboard .first-section .total-collected .element-label {
         flex-direction: column;
     }

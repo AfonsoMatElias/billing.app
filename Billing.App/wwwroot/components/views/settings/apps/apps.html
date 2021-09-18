@@ -59,14 +59,6 @@
     var $easy = this.Easy;
     var component = this;
 
-    this.loaded = function (el) {
-        $easy.data.showSearchBar = false;
-    }
-
-    this.destroyed = function (el) {
-        $easy.data.showSearchBar = true;
-    }
-
     this.export({
         getPessoa: function (obj) {
             if (!obj)

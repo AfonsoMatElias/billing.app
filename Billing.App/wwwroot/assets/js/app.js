@@ -2,7 +2,6 @@ new Easy("body", {
     data: {
         // Variables
         search: "",
-        showSearchBar: true,
         currentPage: "None",
         pageLoading: false,
         showNotification: false,

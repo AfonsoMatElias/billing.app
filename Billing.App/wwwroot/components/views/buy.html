@@ -171,18 +171,11 @@
         }
     }
 
-    this.mounted = function () {
-        easy.data.showSearchBar = false;
-    }
-
     this.loaded = function (el) {
         // Marking the menu
         easy.data.currentPage = 'Compra';
     }
 
-    this.destroyed = function () {
-        easy.data.showSearchBar = true;
-    }
     // Data Exportation
     this.export({
         // Variables

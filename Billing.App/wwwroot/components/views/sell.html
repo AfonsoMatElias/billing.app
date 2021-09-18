@@ -206,7 +206,6 @@
     }).bind(this)
 
     this.mounted = function() {
-        easy.data.showSearchBar = false;
 
         easy.get("entidade/?codigoTipoEntidade=tec")
             .then(function(response) {
@@ -235,8 +234,6 @@
     }
 
     this.destroyed = function() {
-            easy.data.showSearchBar = true;
-
             // Destroying all watches
             for (const watch of watches)
                 watch.destroy();

@@ -2,15 +2,14 @@
     <content>
         <div class="partial settings-list-page employees">
             <div class="header">
-                <h3>Funcionários</h3>
-
-                <div class="search-area">
-                    <div class="search-field">
-                        <span class="fa fa-search"></span>
-                        <input type="text" placeholder="Pesquisar por Funcionarios">
+                <div class="vertical-spreader">
+                    <div class="left">
+                        <h3>Funcionários</h3>
                     </div>
-                    <div class="button-area">
-                        <a i:href="/settings/employees/create" class="blue-type">Adicionar</a>
+                    <div class="right">
+                        <div class="button-area">
+                            <a i:href="/settings/employees/create" class="blue-type">Adicionar</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -27,7 +26,8 @@
                     </content>
                     <content ident="table-body">
                         <div class="table-row flex-it" e-skeleton e-tmp="funcionario" e-use="item">
-                            <div class="card-cover" e-content="{{ getAchronym(item.usuario.pessoa.primeiroNome) }}"></div>
+                            <div class="card-cover" e-content="{{ getAchronym(item.usuario.pessoa.primeiroNome) }}">
+                            </div>
 
                             <div class="pointer table-cell" e-content="{{ item.usuario.codigo }}">Loading...
                             </div>
@@ -35,8 +35,8 @@
                             <div class="pointer table-cell" data="item.usuario.pessoa"
                                 e-content="{{ [primeiroNome, ultimoNome].join(' ') }}">Loading... </div>
 
-                            <div class="pointer table-cell" data="item.usuario.pessoa"
-                                e-content="{{ genero.nome }}"> Loading... </div>
+                            <div class="pointer table-cell" data="item.usuario.pessoa" e-content="{{ genero.nome }}">
+                                Loading... </div>
 
                             <div class="pointer table-cell hidable" data="item.usuario.pessoa"
                                 e-content="{{ toDate(dataNascimento) }}"> Loading...</div>
@@ -45,9 +45,8 @@
                                 <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
                                 </span>
                                 <div class="buttons-area" data="{}">
-                                    <div class="item-options flex-it hide-it" 
-                                         e-def="{ showOptions: false }" 
-                                         e-class="{ 'hide-it': !showOptions }">
+                                    <div class="item-options flex-it hide-it" e-def="{ showOptions: false }"
+                                        e-class="{ 'hide-it': !showOptions }">
                                         <div>
                                             <button class="see">Ver</button>
                                         </div>
@@ -55,7 +54,8 @@
                                             <button class="rem">Desactivar</button>
                                         </div>
                                     </div>
-                                    <span title="Opções" on:click="showOptions = !showOptions" class="fa fa-dot-circle-o"></span>
+                                    <span title="Opções" on:click="showOptions = !showOptions"
+                                        class="fa fa-dot-circle-o"></span>
                                 </div>
                             </div>
 
@@ -67,14 +67,3 @@
         </div>
     </content>
 </inc>
-<script>
-    var $easy = this.Easy;
-    var component = this;
-    this.loaded = function (el) {
-        $easy.data.showSearchBar = false;
-    }
-
-    this.destroyed = function (el) {
-        $easy.data.showSearchBar = true;
-    }
-</script>

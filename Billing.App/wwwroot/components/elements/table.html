@@ -1,23 +1,71 @@
 <div class="main-body card inner-css has-search-bar nice-scroll">
     <div class="app-table">
+        <div class="table-top">
+            <div class="table-row flex-it">
+                <div class="search-field">
+                    <span class="fa fa-search"></span>
+                    <input type="text" name="seacher" placeholder="Pesquisar por..." e-bind="search">
+                </div>
+            </div>
+        </div>
         <div class="table-head">
             <div class="table-row flex-it">
                 <content ident="table-head"></content>
             </div>
         </div>
-        <div class="table-body limit-height">
+        <div class="table-body nice-scroll">
             <content ident="table-body"></content>
         </div>
+
+        <div class="table-nav">
+            <div class="items-nav-button">
+                <div class="nav-area">
+                    <span class="nav center-icon fa fa-angle-left" on:click="prevPage"></span>
+                    <span class="description"
+                        e-content="{{ paginationControls.page }} de {{ pagination.totalPages || '#' }}">
+                        # de #
+                    </span>
+                    <span class="nav center-icon fa fa-angle-right" on:click="nextPage"></span>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+
+<script>
+    this.export({
+        search: '',
+        paginationControls: {
+            page: 1,
+            size: 10
+        },
+        pagination: {
+            pageNumber: '',
+            pageElements: '',
+            totalPages: '',
+            totalElements: ''
+        },
+
+        // Methods
+        nextPage: function () { },
+        prevPage: function () { }
+    });
+</script>
 
 <style scoped>
     .app-table {
         color: var(--color-text);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
     }
 
     .app-table .table-head {
         text-transform: uppercase;
+        text-transform: uppercase;
+        font-size: 10.5pt;
+        margin: 2px 0;
     }
 
     .app-table .table-cell {
@@ -37,13 +85,12 @@
         flex: .5;
     }
 
-    .app-table .table-head {
-        text-transform: uppercase;
-        font-size: 10.5pt;
-    }
-
     .app-table .table-row {
         padding: 4px 0;
+    }
+
+    .app-table .table-body {
+        flex: 1;
     }
 
     .app-table .table-body .table-row {

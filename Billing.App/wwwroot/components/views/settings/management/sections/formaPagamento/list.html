@@ -2,22 +2,21 @@
     <content>
         <div class="partial settings-list-page employees">
             <div class="header">
-                <h3>Formas de Pagamento</h3>
-
-                <div class="search-area">
-                    <div class="search-field">
-                        <span class="fa fa-search"></span>
-                        <input type="text" placeholder="Pesquisar por..." e-def="{ search: '' }" e-bind="search">
+                <div class="vertical-spreader">
+                    <div class="left">
+                        <h3>Formas de Pagamento</h3>
                     </div>
-                    <div class="button-area">
-                        <a i:href="/settings/management/formaPagamento/create" class="blue-type">Adicionar</a>
+                    <div class="right">
+                        <div class="button-area">
+                            <a i:href="/settings/management/formapagamento/create" class="blue-type">Adicionar</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="remain">
 
-                <inc src="table">
+                <inc src="table" class="search-off">
                     <content ident="table-head">
                         <div class="table-cell mid"> Codigo </div>
                         <div class="table-cell"> Nome </div>
@@ -67,15 +66,6 @@
 <script>
     var $easy = this.Easy;
     var component = this;
-
-    this.loaded = function (el) {
-        $easy.data.showSearchBar = false;
-    }
-
-    this.destroyed = function (el) {
-        $easy.data.showSearchBar = true;
-    }
-
     // Exposing the section data
     $easy.expose('manag-section-data', this.data);
 </script>

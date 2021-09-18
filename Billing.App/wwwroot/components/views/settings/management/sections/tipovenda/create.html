@@ -36,14 +36,8 @@
     var submit = function () {};
 
     this.loaded = function (el) {
-        $easy.data.showSearchBar = false;
-
         var elWrapperData = $easy.retrieve('manag-wrapper-data', true);
         if (elWrapperData) submit = elWrapperData.submitShared;
-    }
-
-    this.destroyed = function (el) {
-        $easy.data.showSearchBar = true;
     }
 
     // Exposing the section data

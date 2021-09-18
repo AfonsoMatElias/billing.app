@@ -31,8 +31,9 @@
 
     // Trying to recieve the data exposed 
     var elWrapperData = $easy.retrieve('manag-section-data', true);
-    if (elWrapperData) $easy.setData({
-        active: elWrapperData.active
+    var activeValue = elWrapperData ? elWrapperData.active : '';
+    $easy.setData({
+        active: activeValue
     }, this.data);
 
     // Exposing the wrapper data
