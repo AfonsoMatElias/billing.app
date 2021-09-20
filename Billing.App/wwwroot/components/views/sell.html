@@ -18,7 +18,8 @@
                         <div class="description">
                             <span class="main" e-content="{{ product.nome }}">Loading...</span>
                             <span class="detail1" e-content="{{ product.precoUnitario }} Kz">Loading...</span>
-                            <span class="detail2" e-content="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
+                            <span class="detail2"
+                                e-content="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
                         </div>
                         <div class="action-area">
                             <span class="area center">
@@ -67,6 +68,9 @@
             </div>
         </div>
         <div class="resume-side default-side card nice-scroll">
+            <span title="Fechar Resumo" class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
+                onclick="event.target.aboveMe().style.right = '-150%'"></span>
+
             <!-- Customer mini card -->
             <div class="customer-card">
                 <div class="left">
@@ -79,7 +83,9 @@
                     </div>
                 </div>
                 <div class="right">
-                    <span class="center-icon icon-type fa" e-class="{ 'fa-question': customer.id == '', 'fa-check': customer.id != '' }" on:click="handleCustomerSelection"></span>
+                    <span class="center-icon icon-type fa"
+                        e-class="{ 'fa-question': customer.id == '', 'fa-check': customer.id != '' }"
+                        on:click="handleCustomerSelection"></span>
                 </div>
             </div>
 
@@ -108,7 +114,7 @@
                 <div class="row input">
                     <div class="input-field">
                         <label>Forma de Pagamento</label>
-                        <select name="FormaPagamentoId" validate="select">                            
+                        <select name="FormaPagamentoId" validate="select">
                             <option value="">Selecione a Forma</option>
                             <option e-tmp="FormaPagamento" value="{{ id }}" e-content="{{ nome }}">Loading...</option>
                         </select>
@@ -125,7 +131,8 @@
                         </div>
                     </div>
                     <div class="calc-buttons">
-                        <div class="calc-btn" e-for="item of $calculatorButtons" e-content="{{ item }}" on:click="calcButtonClick" val="{{ item }}">?</div>
+                        <div class="calc-btn" e-for="item of $calculatorButtons" e-content="{{ item }}"
+                            on:click="calcButtonClick" val="{{ item }}">?</div>
                     </div>
                 </div>
 
@@ -145,7 +152,8 @@
                 </div>
             </div>
 
-            <div class="fit-content customers-container" e-def="{ findCustomer: '', showCustomerSelection: false }" e-show="showCustomerSelection" e-anm="left">
+            <div class="fit-content customers-container" e-def="{ findCustomer: '', showCustomerSelection: false }"
+                e-show="showCustomerSelection" e-anm="left">
                 <div class="label-back-button">
                     <div class="back-button">
                         <span class="center-icon fa fa-arrow-left" on:click="showCustomerSelection = false"></span>
@@ -162,7 +170,8 @@
 
                 <div class="list-container">
                     <div class="list fit-content-nonspace nice-scroll">
-                        <div e-for="item of customers | findCustomer" class="item customer-card" on:click="handleCustomerItemClick(item)">
+                        <div e-for="item of customers | findCustomer" class="item customer-card"
+                            on:click="handleCustomerItemClick(item)">
                             <div class="left">
                                 <div class="start">
                                     <div class="image"></div>
@@ -177,6 +186,12 @@
                 </div>
             </div>
         </div>
+
+        <span title="Resumo da Venda" class="reduced-screen-button center-icon fa fa-calculator resume-calculador"
+            onclick="(function(evt){
+                var section = evt.target.previousElementSibling;
+                section.style.right = '8px';
+            })(event)"></span>
     </div>
 </div>
 <script>
@@ -189,12 +204,12 @@
         name: 'Cliente Não Selecionado',
         type: 'Clique em `?` para Selecionar'
     };
-    var calculateResume = (function() {
+    var calculateResume = (function () {
         var subtotal = 0;
         var descount = 0;
         // Shortcut
         var resume = component.data.sellingResume;
-        this.data.busketProducts.filter(function(item, acc) {
+        this.data.busketProducts.filter(function (item, acc) {
             subtotal += item.price * item.qty;
             descount += item.price * (item.descount / 100);
         });
@@ -205,11 +220,11 @@
         resume.exchange = resume.paid - resume.total;
     }).bind(this)
 
-    this.mounted = function() {
+    this.mounted = function () {
 
         easy.get("entidade/?codigoTipoEntidade=tec")
-            .then(function(response) {
-                component.data.customers = response.result.map(function(item) {
+            .then(function (response) {
+                component.data.customers = response.result.map(function (item) {
                     return {
                         id: item.id,
                         image: item.pessoa.profileImageUrl,
@@ -218,7 +233,7 @@
                     };
                 });
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 notify({
                     type: 'error',
                     message: error.message || error
@@ -227,18 +242,18 @@
 
     }
 
-    this.loaded = function(el) {
+    this.loaded = function (el) {
         // Marking the menu
         easy.data.currentPage = 'Venda';
         calcScreen = el.node('.calc input');
     }
 
-    this.destroyed = function() {
-            // Destroying all watches
-            for (const watch of watches)
-                watch.destroy();
-        }
-        // Data Exportation
+    this.destroyed = function () {
+        // Destroying all watches
+        for (const watch of watches)
+            watch.destroy();
+    }
+    // Data Exportation
     this.export({
         // Variable
         $calculatorButtons: [
@@ -262,7 +277,7 @@
         },
         customers: [],
         // Methods
-        calcButtonClick: function(evt) {
+        calcButtonClick: function (evt) {
             var value = evt.base.valueIn('val');
             var data = component.data.sellingResume;
             switch (value) {
@@ -288,8 +303,8 @@
                     break;
             }
         },
-        addProductToBusket: function(product) {
-            var onBusket = component.data.busketProducts.find(function(x) {
+        addProductToBusket: function (product) {
+            var onBusket = component.data.busketProducts.find(function (x) {
                 return x.id === product.id;
             });
 
@@ -322,7 +337,7 @@
             product.compras[0].quantidade--;
 
             // Watching qty property
-            var $wQty = easy.watch("qty", function(qty, oldQuantity) {
+            var $wQty = easy.watch("qty", function (qty, oldQuantity) {
                 // Shortcut
                 var b = busketProduct;
                 var newStock = b.stock - qty;
@@ -342,7 +357,7 @@
             }, busketProduct);
 
             // Watching descount property
-            var $wDescount = easy.watch("descount", function(descount) {
+            var $wDescount = easy.watch("descount", function (descount) {
                 // Shortcut
                 var b = busketProduct;
                 b.subtotal = b.price * b.qty - (b.price * (descount / 100));
@@ -351,20 +366,20 @@
             }, busketProduct);
 
             // Watching paid property
-            var $wPaid = easy.watch("paid", function(paid) {
+            var $wPaid = easy.watch("paid", function (paid) {
                 component.data.sellingResume.exchange = paid - component.data.sellingResume
                     .total;
             }, component.data.sellingResume);
 
             watches.push($wQty, $wDescount, $wPaid);
             // Addind the remove event emitter 
-            easy.on(busketProduct.busketId, function() {
+            easy.on(busketProduct.busketId, function () {
                 $wQty.destroy();
                 $wPaid.destroy();
                 $wDescount.destroy();
             });
         },
-        removeProductFromBusket: function(busketProduct) {
+        removeProductFromBusket: function (busketProduct) {
             // Rmemoving from the list
             component.data.busketProducts.remove(busketProduct.id);
 
@@ -375,17 +390,17 @@
             // Destroying the busket watch
             easy.emit(busketProduct.busketId, null, true);
         },
-        cancelSell: function() {
+        cancelSell: function () {
             while (component.data.busketProducts.length != 0)
                 component.data.removeProductFromBusket(component.data.busketProducts[0]);
 
-            component.data.sellingResume.keys(function(k) {
+            component.data.sellingResume.keys(function (k) {
                 component.data.sellingResume[k] = 0;
             });
 
             component.data.handleCustomerSelection();
         },
-        handleCustomerSelection: function(evt) {
+        handleCustomerSelection: function (evt) {
             if (!component.data.customer.id)
                 return component.data.showCustomerSelection = true;
 
@@ -393,13 +408,13 @@
             component.data.customer.name = customer.name;
             component.data.customer.type = customer.type;
         },
-        handleCustomerItemClick: function(item) {
+        handleCustomerItemClick: function (item) {
             component.data.customer.id = item.id;
             component.data.customer.name = item.name;
             component.data.customer.type = item.type;
             component.data.showCustomerSelection = false;
         },
-        submit: function(evt) {
+        submit: function (evt) {
             var btn = evt.base;
 
             if (component.data.busketProducts.length === 0)
@@ -415,7 +430,7 @@
                 ClienteId: component.data.customer.id || undefined,
                 Total: component.data.sellingResume.total,
                 VendaItens: component.data.busketProducts
-                    .map(function(item) {
+                    .map(function (item) {
                         return {
                             ProdutoId: item.id,
                             Quantidade: item.qty,
@@ -426,7 +441,7 @@
             }
 
             easy.create('venda', form)
-                .then(function(data) {
+                .then(function (data) {
                     notify({
                         type: 'success',
                         message: 'Venda Efectuada'
@@ -435,13 +450,13 @@
                     component.data.busketProducts = [];
                     component.el.node('#reset').click();
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     notify({
                         type: 'error',
                         message: error.message || error
                     });
                 })
-                .finally(function() {
+                .finally(function () {
                     addOrRemSpinner(btn, true);
                 })
         },

@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <div class="down-side card">
+            <div class="down-side">
                 <inc src="table" class="search-off nav-off">
                     <content ident="table-head">
                         <div class="table-cell"> Fornecedor </div>
@@ -80,7 +80,7 @@
                     <content ident="table-body">
 
                         <div class="table-row flex-it" e-skeleton e-for="buy of $scope.buyList">
-                            <div class="card-cover" ></div>
+                            <div class="card-cover"></div>
                             <div class="pointer table-cell" e-content="{{ buy.row.Provider }}"> Loading...
                             </div>
                             <div class="pointer table-cell" e-content="{{ buy.row.Product }}"> Loading...
@@ -91,8 +91,7 @@
                             </div>
                             <div class="pointer table-cell hidable" e-content="{{ buy.DataEntrada }}">
                                 Loading...</div>
-                            <div class="pointer table-cell hidable"
-                                e-content="{{ buy.DataValidade || 'N/A' }}">
+                            <div class="pointer table-cell hidable" e-content="{{ buy.DataValidade || 'N/A' }}">
                                 Loading... </div>
                             <div class="table-cell" style="flex: .5;">
                                 <span class="remove-line">
@@ -108,6 +107,9 @@
         </div>
 
         <div class="product-side default-side card nice-scroll">
+            <span title="Fechar Resumo" class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
+                onclick="event.target.aboveMe().classList.remove('show-right')"></span>
+
             <div class="row">
                 <h3>Productos</h3>
             </div>
@@ -139,6 +141,9 @@
                 </div>
             </div>
         </div>
+
+        <span title="Produtos" class="reduced-screen-button center-icon fa fa-product-hunt resume-product"
+            onclick="event.target.previousElementSibling.classList.add('show-right');"></span>
     </div>
 </div>
 <script>
@@ -212,7 +217,7 @@
                             form.findOne(function (formItem) {
                                 if ((item.id * 1) === (formItem.ProdutoId * 1)) {
                                     if (item.compras.length === 0)
-                                        item.compras = [ { quantidade: formItem.Quantidade } ];
+                                        item.compras = [{ quantidade: formItem.Quantidade }];
                                     else
                                         item.compras[0].quantidade += formItem.Quantidade;
 

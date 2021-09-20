@@ -68,7 +68,7 @@ select {
     --color-light-gray: #efefef88;
     --color-primary: #f9f9f9;
     --color-secondary: #f0f0f0;
-    --color-shadow: #e6e6e6;
+    --color-shadow: #eaeaea;
     --color-text: #696970;
     --color-soft-text: #9999a0;
     --color-soft-text-transparent: #9999a096;
@@ -113,7 +113,7 @@ select {
     --color-scroll-track: #242526;
     --color-row: #2a2b2c;
     --color-text-shadow: transparent;
-    --color-shadow: transparent;
+    --color-shadow: #12131a;
     --color-border: #3e4042;
     --color-border-lighter: #393b3d;
     --color-switch: #a5a1a1;
@@ -192,9 +192,9 @@ select {
 .next-type,
 .blue-type {
     height: 35px;
+    width: 120px;
     color: var(--color-white-text);
     background-color: var(--color-app);
-    width: 120px;
     font-size: var(--font-main);
     font-size: 10.5pt;
     text-transform: uppercase;
@@ -1234,6 +1234,7 @@ button:active {
 .base-divide-structure .content {
     flex: 1;
     display: flex;
+    position: relative;
 }
 
 .base-divide-structure .content>div {
@@ -2130,6 +2131,51 @@ button:active {
 
 .chat .input-side>.left .body .conversations-container {
     overflow-y: auto;
+}
+
+.chat .user-description-bar {
+    display: none;
+    height: 40px;
+}
+
+.chat .user-description-bar>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat .user-description-bar .middle {
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.chat .user-description-bar .middle .user-presentation {
+    background-color: var(--color-light);
+    padding: 4px 15px;
+    border-radius: 20px;
+}
+
+.chat .user-description-bar .left,
+.chat .user-description-bar .right{
+    width: 50px;
+}
+
+.chat .user-description-bar .fa {
+    width: 32px;
+    height: 32px;
+    color: 9pt;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--color-border);
+}
+
+.chat .user-description-bar .left .fa {
+    color: var(--color-app);
+}
+
+.chat .user-description-bar .right .fa {
+    color: var(--color-blue);
 }
 
 .conversations-container .row {
@@ -3394,8 +3440,8 @@ button:active {
 }
 
 .blue-type {
-    height: 30px;
-    width: 80px;
+    height: 35px;
+    width: 120px;
     display: inline-block;
     border-radius: 4px;
     margin: 0 4px;
@@ -3404,6 +3450,11 @@ button:active {
     justify-content: center;
     box-shadow: var(--shadow);
     font-size: 9pt;
+}
+
+.partial .blue-type {
+    height: 30px;
+    width: 80px;
 }
 
 .vertical-spreader {
@@ -3428,6 +3479,16 @@ button:active {
     justify-content: flex-end;
 }
 
+.reduced-screen-button {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    display: none;
+}
+
+.hide-right {}
+.hide-left {}
 
 /* Animations classes */
 
@@ -3632,19 +3693,110 @@ button:active {
     .create-product.base-divide-structure .default-side .image-load-area {
         background-size: 35%;
     }
+    .create-product.base-divide-structure .content {
+        flex-direction: column;
+        display: flex;
+    }
+    .create-product.base-divide-structure .input-side {
+        margin-right: 0
+    }
+    .create-product.base-divide-structure .default-side {
+        position: unset;
+        width: unset!important;
+        flex: 1;
+    }
     .base-divide-structure .default-side {
         position: fixed;
         transition: right .2s;
         right: -150%;
     }
+
+    .reduced-screen-button.resume-product,
+    .reduced-screen-button.resume-calculador {
+        display: unset;
+        width: 40px;
+        height: 40px;
+        bottom: 30px;
+        right: 30px;
+        background-color: var(--color-app);
+        color: var(--color-white-text);
+    }
+    
+    .reduced-screen-button.resume-product {
+        position: fixed;
+    }
+    
+    .reduced-screen-button.resume-calculador-closer {
+        display: unset;
+        width: 24px;
+        height: 24px;
+        top: 1px;
+        left: 1px;
+        background-color: var(--color-red);
+        color: var(--color-white-text);
+        font-size: 10pt;
+    }
     /* Chat */
     .chat .input-side>.left.conversations {
-        display: none;
         z-index: 200;
+        position: absolute;
+        left: 0;
+        background-color: var(--color-light);
+        top: 0;
+        bottom: 0;
+        width: 280px;
+        left: -150%;
+        transition: left .2s;
     }
+
+    .chat .input-side>.left.conversations .resume-calculador-closer{
+        left: auto;
+        right: 0;
+    }
+
+    .chat.base-divide-structure .default-side {
+        top: 82px;
+        bottom: 8px;
+        box-shadow: var(--shadow);
+    }
+
+    .chat .user-description-bar {
+        display: flex;
+    }
+
     /* Settings */
     .settings-page .splitted-editing.partial .right {
         display: none;
+    }
+    /* Sell */
+    .sell-product.base-divide-structure .default-side {
+        position: fixed;
+        bottom: 8px;
+        top: 82px;
+        transition: right .2s;
+        z-index: 3; 
+    }
+    /* Buy */
+    .buy-product .input-side .down-side {
+        min-height: 200px;
+    }
+
+    .buy-product .input-side .down-side>div {
+        margin-bottom: 10px;
+    }
+    .buy-product.base-divide-structure .default-side {
+        position: fixed;
+        bottom: 8px;
+        top: 82px;
+        transition: right .2s;
+        z-index: 3; 
+    }
+
+    .show-left {
+        left:2px!important;
+    }
+    .show-right {
+        right:16px!important;
     }
 }
 
