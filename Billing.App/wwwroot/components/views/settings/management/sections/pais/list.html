@@ -16,7 +16,7 @@
 
             <div class="remain">
 
-                <inc src="table">
+                <inc src="table" class="nav-of">
                     <content ident="table-head">
                         <div class="table-cell mid"> Codigo </div>
                         <div class="table-cell"> Nome </div>
@@ -24,7 +24,7 @@
                         <div class="table-cell"> Estado </div>
                     </content>
                     <content ident="table-body">
-                        <div class="table-row flex-it" e-skeleton e-tmp="pais" e-use="item"
+                        <div class="table-row flex-it" e-skeleton e-tmp="pais" e-filter="search:nome" e-use="item"
                             e-filter="$scope.search:nome">
                             <div class="card-cover" e-content="{{ getAchronym(item.nome) }}"></div>
 

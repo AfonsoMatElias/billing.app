@@ -1,7 +1,6 @@
 new Easy("body", {
     data: {
         // Variables
-        search: "",
         currentPage: "None",
         pageLoading: false,
         showNotification: false,
@@ -658,3 +657,50 @@ function signOut() {
     sessionStorage.removeItem('token');
     window.location.href = '/sign.in.html';
 }
+
+function getPartialData(input = {
+    url: '',
+    search: '',
+    controls: null,
+    pagination: null,
+    search: '',
+    beforeRequest: function () { },
+    onReponse: function () { },
+    onCatch: function () { },
+    onFinish: function () { }
+}) {
+
+    // `this` keyword is the easy instance
+
+    if (!input.controls || !input.pagination)
+        return console.log("controls and pagination need to be defined");
+    
+    (input.beforeRequest || function (){}).call(this);
+
+    if (input.controls.page == 0)
+        return finish(input.controls.page = 1);
+
+    if (input.controls.page > input.pagination.totalPages && input.pagination.totalPages != '')
+        return input.onFinish(input.controls.page = input.pagination.totalPages);
+
+    if (!input.url.includes("?"))
+        input.url += '?';
+    else
+        input.url += '&';
+
+
+    this.get(input.url + 'page=' + input.controls.page + '&size=' + input.controls.size + '&search=' + (input.search || ''))
+        .then(function (response) {
+            input.onReponse(response);
+        })
+        .catch(function (error) {
+            (input.onCatch || function (){}).call(this);
+            notify({
+                type: 'error',
+                message: error.message || error
+            });
+        })
+        .finally(function () {
+            (input.onFinish || function (){}).call(this);
+        });
+};

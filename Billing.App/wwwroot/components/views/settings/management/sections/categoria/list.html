@@ -16,7 +16,7 @@
 
             <div class="remain">
 
-                <inc src="table">
+                <inc src="table" class="nav-off">
                     <content ident="table-head">
                         <div class="table-cell mid"> Codigo </div>
                         <div class="table-cell"> Nome </div>
@@ -25,7 +25,7 @@
                     </content>
                     <content ident="table-body">
                         <div class="table-row flex-it" e-skeleton e-tmp="categoria" e-use="item"
-                            e-filter="$scope.search:nome">
+                            e-filter="search:nome">
                             <div class="card-cover" e-content="{{ getAchronym(item.nome) }}"></div>
 
                             <div class="pointer table-cell mid" e-content="{{ (item.id + '').padStart(3, '0') }}">

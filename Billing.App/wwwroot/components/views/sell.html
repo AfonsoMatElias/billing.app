@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="down-side">
-                <inc src="table">
+                <inc src="table" class="search-off nav-off">
                     <content ident="table-head">
                         <div class="table-cell" style="flex: 2;"> Produto </div>
                         <div class="table-cell"> Preço </div>
@@ -108,9 +108,9 @@
                 <div class="row input">
                     <div class="input-field">
                         <label>Forma de Pagamento</label>
-                        <select name="FormaPagamentoId" validate="select">
-                            <option value="#">Dinheiro</option>
-                            <option value="#">Cartão Débito</option>
+                        <select name="FormaPagamentoId" validate="select">                            
+                            <option value="">Selecione a Forma</option>
+                            <option e-tmp="FormaPagamento" value="{{ id }}" e-content="{{ nome }}">Loading...</option>
                         </select>
                     </div>
                 </div>

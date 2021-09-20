@@ -3020,7 +3020,7 @@ button:active {
 
 .nav-area .nav {
     width: 50px;
-    height: 35px;
+    height: 30px;
     border-radius: 4px;
     cursor: pointer;
 }
@@ -3248,10 +3248,17 @@ button:active {
 
 .splitted-editing.partial .right .content .input-area .action-area {
     margin: 40px 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    grid-column-gap: 8px;
-    grid-row-gap: 8px;
+}
+.splitted-editing.partial .right .content .input-area .action-area>*:last-child {
+    margin-left: 8px;
+}
+
+.search-off .search-field {
+    display: none;
+}
+
+.nav-off .table-nav {
+    display: none;
 }
 
 .btn-ordered {

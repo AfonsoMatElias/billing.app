@@ -34,12 +34,34 @@
 </div>
 
 <script>
+    var watch = null;
+    var compontent = this;
+    var scope = this.data.$scope;
+    var execFunction = function (fun, param1, param2) {
+        if (fun && typeof fun === "function") fun(param1, param2);
+    }
+
+    this.Easy.expose('table-exposition', this.data);
+
+    this.loaded = function (el) {
+        // Watching the search field value change
+        watch = this.Easy.watch('search', function (str) {
+            execFunction(scope.onSearch, str, el.node('[name="seacher"]'));
+        }, this.data);
+    }
+
+    this.destroyed = function () {
+        if (watch) watch.destroy();
+    }
+
     this.export({
         search: '',
+
         paginationControls: {
             page: 1,
-            size: 10
+            size: 13
         },
+
         pagination: {
             pageNumber: '',
             pageElements: '',
@@ -48,8 +70,24 @@
         },
 
         // Methods
-        nextPage: function () { },
-        prevPage: function () { }
+        updatePagination: function (data) {
+            if (!data) return;
+            compontent.data.pagination = data;
+        },
+        nextPage: function () {
+            execFunction(
+                scope.onNextPage, 
+                compontent.data.paginationControls,
+                compontent.data.pagination
+            );
+        },
+        prevPage: function () {
+            execFunction(
+                scope.onPrevPage, 
+                compontent.data.paginationControls,
+                compontent.data.pagination
+            );
+        }
     });
 </script>
 
@@ -124,6 +162,10 @@
         padding-left: 5px;
         cursor: pointer;
         z-index: 3;
+    }
+
+    .app-table .table-body .table-nav {
+        padding-top: 6px;
     }
 
     .card-cover {
