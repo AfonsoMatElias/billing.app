@@ -69,7 +69,7 @@
         </div>
         <div class="resume-side default-side card nice-scroll">
             <span title="Fechar Resumo" class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
-                onclick="event.target.aboveMe().style.right = '-150%'"></span>
+                onclick="event.target.aboveMe().classList.remove('show-right')"></span>
 
             <!-- Customer mini card -->
             <div class="customer-card">
@@ -188,10 +188,7 @@
         </div>
 
         <span title="Resumo da Venda" class="reduced-screen-button center-icon fa fa-calculator resume-calculador"
-            onclick="(function(evt){
-                var section = evt.target.previousElementSibling;
-                section.style.right = '8px';
-            })(event)"></span>
+            onclick="event.target.previousElementSibling.classList.add('show-right');"></span>
     </div>
 </div>
 <script>
