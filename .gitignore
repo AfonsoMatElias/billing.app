@@ -10,6 +10,9 @@ Billing.Shared/obj
 Billing.App/bin
 Billing.App/obj
 
+Billing.Tests/bin
+Billing.Tests/obj
+
 Scaffolder/bin
 Scaffolder/obj
 Scaffolder/.vscode
