@@ -7,8 +7,7 @@ new Easy("body", {
         showConversation: false,
         showProfile: false,
 
-        products: [
-            {
+        products: [{
                 id: 1,
                 code: "prod1",
                 name: "Água",
@@ -49,8 +48,7 @@ new Easy("body", {
                 estado: "Activo",
             },
         ],
-        conversations: [
-            {
+        conversations: [{
                 id: 1,
                 user: "António Ferraz Lopes",
                 message: "Rato, viste como?",
@@ -65,8 +63,7 @@ new Easy("body", {
                 date: "2020-09-09T20:30:50.10Z",
             },
         ],
-        notifications: [
-            {
+        notifications: [{
                 id: 1,
                 message: "Stock de `Água` está em 5 itens!",
                 date: "2020-09-09T18:41:50.102",
@@ -129,6 +126,48 @@ new Easy("body", {
                     current.classList.remove(cls);
                 }
             });
+        },
+        loadSectionShared: function (loadableComponents, name, data) {
+            // Checking if the name is ok
+            if (!name) return;
+
+            // Getting the container
+            var container = this.el.node('#loadable');
+
+            // Checking if the container is ok
+            if (!container) return;
+
+            // Checking if the component is valid
+            if (!loadableComponents[name]) {
+                return notify({
+                    message: 'Secção Inexistente ou em criação.',
+                    type: 'warn'
+                });
+            }
+
+            // Clearing the container
+            container.innerHTML = '';
+
+            // Creating the INC element
+            var inc = document.createElement('inc');
+
+            // Setting the name
+            inc.src = name;
+
+            // Set data if it was defined
+            if (data) inc.valueIn('data', JSON.stringify(data));
+
+            if (!this.el.node('.setting-panel-closer')) {
+                var element = this.toElement('<span title="Fechar Painel" class="reduced-screen-button center-icon fa fa-remove setting-panel-closer"' +
+                'onclick="event.target.previousElementSibling.classList.remove(\'show-right-zero\')"></span>');
+                container.aboveMe().appendChild(element);
+            }
+
+            if (!container.classList.contains('show-right-zero')) 
+                container.classList.add('show-right-zero');
+            
+            // Adding in the container
+            container.appendChild(inc);
         }
     },
     mounted: function () {
@@ -151,6 +190,7 @@ new Easy("body", {
 
         // Is loading something
         var pagesLoading = 0;
+
         function decreasePageLoaded() {
             pagesLoading--;
             if ($easy.data.pageLoading == true && pagesLoading === 0)
@@ -489,24 +529,16 @@ new Easy("body", {
             "settings-wrapper": "/components/views/settings/settings",
 
             // # Profile Partials
-            "setting-profile-name":
-                "/components/views/settings/profile/sections/setting-name",
-            "setting-profile-birth":
-                "/components/views/settings/profile/sections/setting-birth",
-            "setting-profile-photo":
-                "/components/views/settings/profile/sections/setting-photo",
-            "setting-profile-password":
-                "/components/views/settings/profile/sections/setting-password",
-            "setting-profile-gender":
-                "/components/views/settings/profile/sections/setting-gender",
+            "setting-profile-name": "/components/views/settings/profile/sections/setting-name",
+            "setting-profile-birth": "/components/views/settings/profile/sections/setting-birth",
+            "setting-profile-photo": "/components/views/settings/profile/sections/setting-photo",
+            "setting-profile-password": "/components/views/settings/profile/sections/setting-password",
+            "setting-profile-gender": "/components/views/settings/profile/sections/setting-gender",
 
             // # Establishment Partials
-            "setting-establishment-name":
-                "/components/views/settings/establishment/sections/setting-name",
-            "setting-establishment-address":
-                "/components/views/settings/establishment/sections/setting-address",
-            "setting-establishment-manager":
-                "/components/views/settings/establishment/sections/setting-manager",
+            "setting-establishment-name": "/components/views/settings/establishment/sections/setting-name",
+            "setting-establishment-address": "/components/views/settings/establishment/sections/setting-address",
+            "setting-establishment-manager": "/components/views/settings/establishment/sections/setting-manager",
 
             // Not found page
             "notfound": {
@@ -664,18 +696,18 @@ function getPartialData(input = {
     controls: null,
     pagination: null,
     search: '',
-    beforeRequest: function () { },
-    onReponse: function () { },
-    onCatch: function () { },
-    onFinish: function () { }
+    beforeRequest: function () {},
+    onReponse: function () {},
+    onCatch: function () {},
+    onFinish: function () {}
 }) {
 
     // `this` keyword is the easy instance
 
     if (!input.controls || !input.pagination)
         return console.log("controls and pagination need to be defined");
-    
-    (input.beforeRequest || function (){}).call(this);
+
+    (input.beforeRequest || function () {}).call(this);
 
     if (input.controls.page == 0)
         return finish(input.controls.page = 1);
@@ -694,13 +726,13 @@ function getPartialData(input = {
             input.onReponse(response);
         })
         .catch(function (error) {
-            (input.onCatch || function (){}).call(this);
+            (input.onCatch || function () {}).call(this);
             notify({
                 type: 'error',
                 message: error.message || error
             });
         })
         .finally(function () {
-            (input.onFinish || function (){}).call(this);
+            (input.onFinish || function () {}).call(this);
         });
 };

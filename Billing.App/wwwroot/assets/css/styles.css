@@ -3487,9 +3487,6 @@ button:active {
     display: none;
 }
 
-.hide-right {}
-.hide-left {}
-
 /* Animations classes */
 
 .page-loading {
@@ -3638,12 +3635,11 @@ button:active {
         width: 35px;
         height: 35px;
         bottom: 30px;
-        right: 30px;
         background-color: var(--color-white-text);
         color: var(--color-blue);
         box-shadow: var(--shadow);
         display: unset;
-        z-index: 2;
+        z-index: 5;
     }
 
     .settings-page .inner-menu {
@@ -3654,7 +3650,7 @@ button:active {
         top: 0;
         bottom: 0;
         background-color: var(--color-light);
-        z-index: 2; 
+        z-index: 5; 
         transition: left .2s;
         padding-top: 30px;
         left: -150%;
@@ -3793,9 +3789,34 @@ button:active {
     }
 
     /* Settings */
-    .settings-page .splitted-editing.partial .right {
-        display: none;
+    .settings-page .splitted-editing {
+        position: relative;
     }
+    .settings-page .splitted-editing.partial .right {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+        background-color: var(--color-light);
+        transition: right .2s;
+        right: -150%;
+        z-index: 6;
+    }
+    .settings-page .splitted-editing.partial .right.show-right-zero+.setting-panel-closer {
+        position: absolute;
+        top: 4px;
+        right: 6px;
+        width: 35px;
+        height: 35px;
+        bottom: 30px;
+        background-color: var(--color-white-text);
+        color: var(--color-red);
+        box-shadow: var(--shadow);
+        display: unset;
+        z-index: 6;
+    }
+
     /* Sell */
     .sell-product.base-divide-structure .default-side {
         position: fixed;
@@ -3825,6 +3846,9 @@ button:active {
     }
     .show-right {
         right:16px!important;
+    }
+    .show-right-zero {
+        right:0!important;
     }
 }
 

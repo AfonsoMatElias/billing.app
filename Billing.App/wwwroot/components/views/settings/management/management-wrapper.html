@@ -9,7 +9,7 @@
             </a>
         </div>
 
-        <div e-for="menu of menus" class="row" eorder="asc:name" e-class="{ 'mark-point': active == menu.name }">
+        <div e-for="menu of menus" class="row" e-order="asc:name" e-class="{ 'mark-point': active == menu.name }">
             <a i:href="{{ menu.url }}">
                 <p e-content="{{ menu.name }}">Menu Name</p>
             </a>
@@ -17,6 +17,8 @@
 
     </div>
     <div class="inner-menu-content">
+        <span title="Menu" class="reduced-screen-button center-icon fa fa-bars setting-menu-btn"
+            on:click="event.base.aboveMe('.settings-page').node('.inner-menu').classList.toggle('show-left')"></span>
         <content></content>
     </div>
 </div>

@@ -13,7 +13,9 @@
                             <p>Identificador</p>
                         </div>
                         <div class="value">
-                            <p e-content="{{ (establishment.id !== 'N/A' ? establishment.id : '0').toString().padStart(4, 0) }}">0000</p>
+                            <p
+                                e-content="{{ (establishment.id !== 'N/A' ? establishment.id : '0').toString().padStart(4, 0) }}">
+                                0000</p>
                         </div>
                     </div>
                     <div class="icon-area">
@@ -78,11 +80,6 @@
 <script>
     var $easy = this.Easy;
     var component = this;
-    var loadableComponents = {
-        'setting-establishment-name': true,
-        'setting-establishment-address': true,
-        'setting-establishment-manager': true,
-    };
 
     this.mounted = function (el) {
         var estabelecimento = component.data.establishment;
@@ -133,37 +130,11 @@
             gerente: ''
         },
         loadSection: function (name, data) {
-            // Checking if the name is ok
-            if (!name) return;
-
-            // Getting the container
-            var container = $easy.el.node('#loadable');
-
-            // Checking if the container is ok
-            if (!container) return;
-
-            // Checking if the component is valid
-            if (!loadableComponents[name]) {
-                return notify({
-                    message: 'Secção Inexistente ou em criação.',
-                    type: 'warn'
-                });
-            }
-
-            // Clearing the container
-            container.innerHTML = '';
-
-            // Creating the INC element
-            var inc = document.createElement('inc');
-
-            // Setting the name
-            inc.src = name;
-
-            // Set data if it was defined
-            if (data) inc.valueIn('data', JSON.stringify(data))
-
-            // Adding in the container
-            container.appendChild(inc);
+            return loadSectionShared({
+                'setting-establishment-name': true,
+                'setting-establishment-address': true,
+                'setting-establishment-manager': true,
+            }, name, data);
         }
     });
 </script>

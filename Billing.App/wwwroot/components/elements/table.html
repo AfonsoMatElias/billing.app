@@ -76,14 +76,14 @@
         },
         nextPage: function () {
             execFunction(
-                scope.onNextPage, 
+                scope.onNextPage,
                 compontent.data.paginationControls,
                 compontent.data.pagination
             );
         },
         prevPage: function () {
             execFunction(
-                scope.onPrevPage, 
+                scope.onPrevPage,
                 compontent.data.paginationControls,
                 compontent.data.pagination
             );
@@ -113,6 +113,7 @@
         padding: 0 4px;
         white-space: nowrap;
         text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     .app-table .table-head .table-cell {
