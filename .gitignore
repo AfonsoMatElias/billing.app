@@ -13,3 +13,5 @@ Billing.App/obj
 Scaffolder/bin
 Scaffolder/obj
 Scaffolder/.vscode
+.fake
+.ionide
