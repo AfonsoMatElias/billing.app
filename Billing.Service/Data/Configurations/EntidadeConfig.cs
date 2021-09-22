@@ -15,27 +15,38 @@ namespace Billing.Service.Models
             builder.Property(e => e.PessoaId)
                     .IsRequired();
 
-            builder.Property(e => e.TipoEntidadeId)
-                    .IsRequired();
+            builder.Property(e => e.NomeEmpresa)
+                    .HasMaxLength(200)
+                    .IsRequired(false);
 
-            builder.Property(e => e.TipoPessoaId)
-                    .IsRequired();
+            builder.Property(e => e.NomePessoaContactoEmpresa)
+                    .HasMaxLength(200)
+                    .IsRequired(false);
 
             // Relations         
             builder.HasOne(e => e.TipoEntidade)
                     .WithMany(e => e.Entidades)
                     .HasForeignKey(e => e.TipoEntidadeId)
-                    .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasOne(e => e.TipoPessoa)
-                    .WithMany(e => e.Pessoas)
-                    .HasForeignKey(e => e.TipoPessoaId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
 
             builder.HasOne(e => e.Pessoa)
                     .WithOne(e => e.Entidade)
                     .HasForeignKey<Entidade>(e => e.PessoaId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+            builder.HasOne(e => e.EnderecoExpedicao)
+                    .WithMany(e => e.EntidadeEnderecoExpedocao)
+                    .HasForeignKey(e => e.EnderecoExpedicaoId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+            builder.HasOne(e => e.EnderecoFacturacao)
+                    .WithMany(e => e.EntidadeEnderecoFacturacao)
+                    .HasForeignKey(e => e.EnderecoFacturacaoId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
         }
     }
 }

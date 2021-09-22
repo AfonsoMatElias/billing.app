@@ -1,9 +1,7 @@
 <inc src="settings-wrapper" data="{ active: 'profile' }">
     <content>
         <div class="partial splitted-editing profile">
-            <div class="left" e-fill="sign/account" e-use="loggedUser">
-                
-                <input type="hidden" id="user-id" e-value="{{ loggedUser.id }}">
+            <div class="left nice-scroll" e-fill="sign/account" e-use="loggedUser">
 
                 <div class="description">
                     <h3>Informações Pessoais</h3>
@@ -110,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            <div class="right" id="loadable"></div>
+            <div class="right nice-scroll" id="loadable"></div>
         </div>
     </content>
 </inc>
@@ -118,47 +116,15 @@
     var $easy = this.Easy;
     var component = this;
 
-    var loadableComponents = {
-        'setting-profile-name': true,
-        'setting-profile-birth': true,
-        'setting-profile-photo': true,
-        'setting-profile-password': true,
-        'setting-profile-gender': true,
-    };
-    
     this.export({
         loadSection: function (name, data) {
-            // Checking if the name is ok
-            if (!name) return;
-
-            // Getting the container
-            var container = $easy.el.node('#loadable');
-
-            // Checking if the container is ok
-            if (!container) return;
-
-            // Checking if the component is valid
-            if (!loadableComponents[name]) {
-                return notify({
-                    message: 'Secção Inexistente ou em criação.',
-                    type: 'warn'
-                });
-            }
-
-            // Clearing the container
-            container.innerHTML = '';
-
-            // Creating the INC element
-            var inc = document.createElement('inc');
-
-            // Setting the name
-            inc.src = name;
-
-            // Set data if it was defined
-            if (data) inc.valueIn('data', JSON.stringify(data))
-
-            // Adding in the container
-            container.appendChild(inc);
+            return loadSectionShared({
+                'setting-profile-name': true,
+                'setting-profile-birth': true,
+                'setting-profile-photo': true,
+                'setting-profile-password': true,
+                'setting-profile-gender': true,
+            }, name, data);
         }
     });
 </script>

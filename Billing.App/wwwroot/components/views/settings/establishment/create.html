@@ -15,7 +15,7 @@
                     <div class="input-field">
                         <label>Gerente</label>
                         <select>
-                            <option selected>Seleccione um Gerente</option>
+                            <option value="" selected>Seleccione um Gerente</option>
                         </select>
                     </div>
 
@@ -23,7 +23,7 @@
                         <label>Endereco</label>
                     </div>
 
-                    <inc src="address" data="{ actions: false }"></inc>
+                    <inc src="address" e-build="Endereco" data="{ actions: false }"></inc>
                 </div>
 
                 <div class="row">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </form>
-            <div class="right" id="loadable"></div>
+            <div class="right nice-scroll" id="loadable"></div>
         </div>
     </content>
 </inc>
@@ -55,7 +55,7 @@
                         type: 'success',
                         message: 'Registro Criado',
                         run: function () {
-                            $easy.routing.navegate("/settings/establishment");
+                            $easy.routing.navegate("/settings/apps");
                         }
                     });
                 })

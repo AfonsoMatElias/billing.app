@@ -68,7 +68,7 @@ select {
     --color-light-gray: #efefef88;
     --color-primary: #f9f9f9;
     --color-secondary: #f0f0f0;
-    --color-shadow: #e6e6e6;
+    --color-shadow: #eaeaea;
     --color-text: #696970;
     --color-soft-text: #9999a0;
     --color-soft-text-transparent: #9999a096;
@@ -113,7 +113,7 @@ select {
     --color-scroll-track: #242526;
     --color-row: #2a2b2c;
     --color-text-shadow: transparent;
-    --color-shadow: transparent;
+    --color-shadow: #12131a;
     --color-border: #3e4042;
     --color-border-lighter: #393b3d;
     --color-switch: #a5a1a1;
@@ -192,9 +192,9 @@ select {
 .next-type,
 .blue-type {
     height: 35px;
+    width: 120px;
     color: var(--color-white-text);
     background-color: var(--color-app);
-    width: 120px;
     font-size: var(--font-main);
     font-size: 10.5pt;
     text-transform: uppercase;
@@ -315,7 +315,7 @@ select {
 }
 
 .input-field textarea {
-    min-height: 135px;
+    min-height: 90px;
     resize: none;
     padding: 10px 0;
 }
@@ -798,8 +798,9 @@ button:active {
     justify-content: flex-end;
 }
 
-.controlls .search-field {
-    width: 345px;
+.app-table .search-field {
+    max-width: 410px;
+    flex: 1;
 }
 
 .search-field {
@@ -1233,6 +1234,7 @@ button:active {
 .base-divide-structure .content {
     flex: 1;
     display: flex;
+    position: relative;
 }
 
 .base-divide-structure .content>div {
@@ -1277,7 +1279,7 @@ button:active {
 }
 
 .create-product .images-side .image-load-area {
-    height: 440px;
+    height: 410px;
     margin: 20px 0;
 }
 
@@ -1469,13 +1471,13 @@ button:active {
 }
 
 .create-product .images-side .action-area button {
-    width: 160px;
-    height: 38px;
+    width: 146px;
+    height: 32px;
 }
 
 .create-product .images-side .description {
     margin: 20px 0;
-    font-size: 13pt;
+    font-size: 12pt;
 }
 
 .sell-product .input-side {
@@ -2131,6 +2133,51 @@ button:active {
     overflow-y: auto;
 }
 
+.chat .user-description-bar {
+    display: none;
+    height: 40px;
+}
+
+.chat .user-description-bar>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat .user-description-bar .middle {
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.chat .user-description-bar .middle .user-presentation {
+    background-color: var(--color-light);
+    padding: 4px 15px;
+    border-radius: 20px;
+}
+
+.chat .user-description-bar .left,
+.chat .user-description-bar .right{
+    width: 50px;
+}
+
+.chat .user-description-bar .fa {
+    width: 32px;
+    height: 32px;
+    color: 9pt;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--color-border);
+}
+
+.chat .user-description-bar .left .fa {
+    color: var(--color-app);
+}
+
+.chat .user-description-bar .right .fa {
+    color: var(--color-blue);
+}
+
 .conversations-container .row {
     display: flex;
     flex-flow: column;
@@ -2326,6 +2373,20 @@ button:active {
     background-color: var(--color-secondary);
 }
 
+.message-container .loading-section {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-container .loading-section .is-loading {
+    height: 30px;
+    width: 30px;
+    background-size: 24px;
+    margin-right: 4px;
+}
+
 .message-container .body {
     position: relative;
     flex: 1;
@@ -2398,6 +2459,34 @@ button:active {
     overflow-y: auto;
 }
 
+.message-container .messages-container .no-messages {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+}
+
+.message-container .messages-container .no-messages .icon-wrapper {
+    display: flex;
+    flex: 1;
+}
+
+.message-container .messages-container .no-messages .fa {
+    color: var(--color-soft-text);
+    font-size: 46pt;
+    margin: auto;
+    height: 62px;
+}
+
+.message-container .messages-container .no-messages p {
+    font-size: 14pt;
+    text-align: center;
+    color: var(--color-soft-text);
+    flex: 1;
+}
+
 .message-bubble-container {
     margin: 6px 0;
 }
@@ -2438,7 +2527,7 @@ button:active {
 
 .message-bubble-container .message-bubble .message {
     padding: 12px 18px;
-    border-radius: 20px;
+    border-radius: 14px;
     border-bottom-left-radius: 2px;
     background-color: var(--color-light);
     color: var(--color-chat-text);
@@ -2458,7 +2547,7 @@ button:active {
 }
 
 .message-bubble-container.is-user .message-bubble .message {
-    border-bottom-left-radius: 20px;
+    border-bottom-left-radius: 15px;
     border-bottom-right-radius: 2px;
 }
 
@@ -2977,9 +3066,13 @@ button:active {
 
 .nav-area .nav {
     width: 50px;
-    height: 35px;
+    height: 30px;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.nav-area .nav:active {
+    opacity: .6;
 }
 
 .nav-area .description {
@@ -3201,18 +3294,25 @@ button:active {
 
 .splitted-editing.partial .right .content .input-area .action-area {
     margin: 40px 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    grid-column-gap: 8px;
-    grid-row-gap: 8px;
+}
+.splitted-editing.partial .right .content .input-area .action-area>*:last-child {
+    margin-left: 8px;
+}
+
+.search-off .search-field {
+    display: none;
+}
+
+.nav-off .table-nav {
+    display: none;
 }
 
 .btn-ordered {
     flex: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    grid-column-gap: 8px;
-    grid-row-gap: 8px;
+}
+
+.btn-ordered button:first-of-type {
+    margin-right: 12px;
 }
 
 .splitted-editing.partial .right .content .input-area .action-area button {
@@ -3339,9 +3439,9 @@ button:active {
     flex: 1;
 }
 
-.employees .search-area .blue-type {
+.blue-type {
     height: 35px;
-    width: 90px;
+    width: 120px;
     display: inline-block;
     border-radius: 4px;
     margin: 0 4px;
@@ -3349,8 +3449,43 @@ button:active {
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow);
+    font-size: 9pt;
 }
 
+.partial .blue-type {
+    height: 30px;
+    width: 80px;
+}
+
+.vertical-spreader {
+    flex: 1;
+    display: flex;
+}
+
+.vertical-spreader>div {
+    flex: 1;
+    display: flex;
+}
+
+.vertical-spreader>div:first-of-type {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.vertical-spreader>div:last-of-type {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.reduced-screen-button {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    display: none;
+}
 
 /* Animations classes */
 
@@ -3483,17 +3618,42 @@ button:active {
 
 @media only screen and (max-width: 710px) {
     /* Dashboard */
-    .main-content .page-detail,
-    .controlls .search-field {
+    .main-content .page-detail {
         display: none;
     }
     /* Settings */
     .settings-page .inner-menu {
         width: unset;
         flex: 1;
-    }
-    .settings-page .inner-menu-content {
         display: none;
+    }
+
+    .settings-page .setting-menu-btn {
+        position: absolute;
+        top: 4px;
+        left: 6px;
+        width: 35px;
+        height: 35px;
+        bottom: 30px;
+        background-color: var(--color-white-text);
+        color: var(--color-blue);
+        box-shadow: var(--shadow);
+        display: unset;
+        z-index: 5;
+    }
+
+    .settings-page .inner-menu {
+        flex: 1;
+        width: 100%!important;
+        display: unset;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        background-color: var(--color-light);
+        z-index: 5; 
+        transition: left .2s;
+        padding-top: 30px;
+        left: -150%;
     }
 }
 
@@ -3517,11 +3677,6 @@ button:active {
 
 @media only screen and (max-width: 900px) {
     /* Dashboard */
-    .controlls .search-field {
-        margin-left: 20px;
-        width: unset;
-        flex: 1;
-    }
     .dashboard .first-section .total-collected .element-label {
         flex-direction: column;
     }
@@ -3561,19 +3716,139 @@ button:active {
     .create-product.base-divide-structure .default-side .image-load-area {
         background-size: 35%;
     }
+    .create-product.base-divide-structure .content {
+        flex-direction: column;
+        display: flex;
+    }
+    .create-product.base-divide-structure .input-side {
+        margin-right: 0
+    }
+    .create-product.base-divide-structure .default-side {
+        position: unset;
+        width: unset!important;
+        flex: 1;
+    }
     .base-divide-structure .default-side {
         position: fixed;
         transition: right .2s;
         right: -150%;
     }
+
+    .reduced-screen-button.resume-product,
+    .reduced-screen-button.resume-calculador {
+        display: unset;
+        width: 40px;
+        height: 40px;
+        bottom: 30px;
+        right: 30px;
+        background-color: var(--color-white-text);
+        color: var(--color-app);
+        box-shadow: var(--shadow);
+    }
+    
+    .reduced-screen-button.resume-product {
+        position: fixed;
+    }
+    
+    .reduced-screen-button.resume-calculador-closer {
+        display: unset;
+        width: 24px;
+        height: 24px;
+        top: 1px;
+        left: 1px;
+        background-color: var(--color-white-text);
+        color: var(--color-red);
+        font-size: 10pt;
+    }
     /* Chat */
     .chat .input-side>.left.conversations {
-        display: none;
         z-index: 200;
+        position: absolute;
+        left: 0;
+        background-color: var(--color-light);
+        top: 0;
+        bottom: 0;
+        width: 280px;
+        left: -150%;
+        transition: left .2s;
     }
+
+    .chat .input-side>.left.conversations .resume-calculador-closer{
+        left: auto;
+        right: 0;
+    }
+
+    .chat.base-divide-structure .default-side {
+        top: 82px;
+        bottom: 8px;
+        box-shadow: var(--shadow);
+    }
+
+    .chat .user-description-bar {
+        display: flex;
+    }
+
     /* Settings */
+    .settings-page .splitted-editing {
+        position: relative;
+    }
     .settings-page .splitted-editing.partial .right {
-        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+        background-color: var(--color-light);
+        transition: right .2s;
+        right: -150%;
+        z-index: 6;
+    }
+    .settings-page .splitted-editing.partial .right.show-right-zero+.setting-panel-closer {
+        position: absolute;
+        top: 4px;
+        right: 6px;
+        width: 35px;
+        height: 35px;
+        bottom: 30px;
+        background-color: var(--color-white-text);
+        color: var(--color-red);
+        box-shadow: var(--shadow);
+        display: unset;
+        z-index: 6;
+    }
+
+    /* Sell */
+    .sell-product.base-divide-structure .default-side {
+        position: fixed;
+        bottom: 8px;
+        top: 82px;
+        transition: right .2s;
+        z-index: 3; 
+    }
+    /* Buy */
+    .buy-product .input-side .down-side {
+        min-height: 200px;
+    }
+
+    .buy-product .input-side .down-side>div {
+        margin-bottom: 10px;
+    }
+    .buy-product.base-divide-structure .default-side {
+        position: fixed;
+        bottom: 8px;
+        top: 82px;
+        transition: right .2s;
+        z-index: 3; 
+    }
+
+    .show-left {
+        left:2px!important;
+    }
+    .show-right {
+        right:16px!important;
+    }
+    .show-right-zero {
+        right:0!important;
     }
 }
 

@@ -9,7 +9,7 @@ namespace Billing.Service.Models
         public string Codigo { get; set; }
         public string Descricao { get; set; }
         public decimal PrecoUnitario { get; set; }
-        public decimal IVA { get; set; }
+        public decimal IVA { get; set; } = 0;
         public long SubCategoriaId { get; set; }
         public bool IsPerecivel { get; set; }
         public bool IsStock { get; set; }

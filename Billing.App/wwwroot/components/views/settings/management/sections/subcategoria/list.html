@@ -1,0 +1,72 @@
+<inc src="settings-management-wrapper" e-def="{ active: 'SubCategoria' }">
+    <content>
+        <div class="partial settings-list-page employees">
+            <div class="header">
+                <div class="vertical-spreader">
+                    <div class="left">
+                        <h3>SubCategorias</h3>
+                    </div>
+                    <div class="right">
+                        <div class="button-area">
+                            <a i:href="/settings/management/subcategoria/create" class="blue-type">Adicionar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="remain">
+
+                <inc src="table" class="nav-off">
+                    <content ident="table-head">
+                        <div class="table-cell"> Nome </div>
+                        <div class="table-cell"> Categoria </div>
+                        <div class="table-cell"> Data de Criacao </div>
+                        <div class="table-cell"> Estado </div>
+                    </content>
+                    <content ident="table-body">
+                        <div class="table-row flex-it" e-skeleton 
+                            e-tmp="subcategoria" e-filter="search:nome,categoria.nome" e-use="item"
+                            e-filter="$scope.search:nome">
+                            <div class="card-cover" e-content="{{ getAchronym(item.nome) }}"></div>
+
+                            <div class="pointer table-cell" e-content="{{ item.nome }}">Loading...
+                            </div>
+
+                            <div class="pointer table-cell" e-content="{{ item.categoria.nome }}">Loading...
+                            </div>
+
+                            <div class="pointer table-cell hidable" e-content="{{ toDate(item.createdAt) }}"> Loading...
+                            </div>
+
+                            <div class="table-cell">
+                                <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
+                                </span>
+                                <div class="buttons-area" data="{}">
+                                    <div class="item-options flex-it hide-it" e-def="{ showOptions: false }"
+                                        e-class="{ 'hide-it': !showOptions }">
+                                        <div>
+                                            <button class="see">Ver</button>
+                                        </div>
+                                        <div>
+                                            <button class="rem">Desactivar</button>
+                                        </div>
+                                    </div>
+                                    <span title="Opções" on:click="showOptions = !showOptions"
+                                        class="fa fa-dot-circle-o"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </content>
+                </inc>
+
+            </div>
+        </div>
+    </content>
+</inc>
+<script>
+    var $easy = this.Easy;
+    var component = this;
+    // Exposing the section data
+    $easy.expose('manag-section-data', this.data);
+</script>

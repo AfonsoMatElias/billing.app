@@ -91,15 +91,11 @@ namespace Billing.Service.Services.Implementations
 
                 if (tipoEntidade == null)
                     throw new AppException("Código do Tipo de Entidade inválido");
-                
-                var tipoPessoa = await mContext.TipoPessoa
-                    .FirstOrDefaultAsync(x => x.Codigo == model.Entidade.TipoPessoaCodigo);
 
                 if (tipoEntidade == null)
                     throw new AppException("Código do Tipo de Entidade inválido");
                 
                 dbModel.Entidade.TipoEntidadeId = tipoEntidade.Id;
-                dbModel.Entidade.TipoPessoaId = tipoPessoa.Id;
             }
 
             // Adding the result to the local storage

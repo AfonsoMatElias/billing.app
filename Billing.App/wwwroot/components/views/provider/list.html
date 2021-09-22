@@ -1,0 +1,136 @@
+<inc src="table" class="fit-content">
+    <content ident="table-head">
+        <div class="table-cell mid hidable"> Titulo </div>
+        <div class="table-cell"> Primeiro Nome </div>
+        <div class="table-cell"> Ultimo Nome </div>
+        <div class="table-cell"> Identificação </div>
+        <div class="table-cell hidable"> Gênero </div>
+        <div class="table-cell"> Estado </div>
+    </content>
+
+    <content ident="table-body">
+        <div class="table-row flex-it" e-skeleton="data-loading" 
+            e-for="item of $scope.dataList | $scope.search:pessoa.titulo.nome,pessoa.primeiroNome,pessoa.ultimoNome,pessoa.identificacao">
+            <div class="card-cover">
+                <span class="pointer shadow-it"> # </span>
+            </div>
+            <div class="pointer table-cell mid hidable" e-content="{{ item.pessoa.titulo.nome }}"> Loading... </div>
+            <div class="pointer table-cell" e-content="{{ item.pessoa.primeiroNome }}"> Loading... </div>
+            <div class="pointer table-cell" e-content="{{ item.pessoa.ultimoNome }}"> Loading... </div>
+            <div class="pointer table-cell" e-content="{{ item.pessoa.identificacao }}"> Loading... </div>
+            <div class="pointer table-cell hidable" e-content="{{ item.pessoa.genero.nome }}"> Loading... </div>
+            <div class="table-cell">
+                <span e-content="{{ 'Activo' }}"> Loading... </span>
+                <div>
+                    <div class="item-options flex-it hide-it">
+                        <div>
+                            <a i:href="/providers/view/{{ item.pessoa.uid }}">
+                                <button class="see">Ver</button>
+                            </a>
+                        </div>
+                        <div>
+                            <button class="rem">Eliminar</button>
+                        </div>
+                    </div>
+                    <span title="Opções" onclick="event.target.previousElementSibling.classList.toggle('hide-it')"
+                        class="fa fa-dot-circle-o"></span>
+                </div>
+            </div>
+        </div>
+    </content>
+</inc>
+<script>
+    var url = 'Entidade?codigoTipoEntidade=tef';
+    var table;
+    var $easy = this.Easy;
+    var component = this;
+
+    this.loaded = function (el) {
+        this.Easy.data.currentPage = 'Lista de Fornecedores';
+
+        this.Easy.routing.markActive(
+            this.Easy.el.node('.provider-link')
+        );
+
+        table = this.Easy.retrieve('table-exposition', true);
+
+        getPartialData.call(this.Easy, {
+            url: url,
+            controls: table.paginationControls,
+            pagination: table.pagination,
+            onReponse: function (response) {
+                component.data.dataList = response.result;
+                table.pagination = response.pagination;
+            },
+            onFinish: function () {
+                component.el.__e__.$base.clearSkeleton('data-loading');
+            }
+        });
+    }
+
+    this.export({
+        search: '',
+        dataList: [],
+        onSearch: function (str, searcher) {
+            component.data.search = str;
+            component.el.__e__.$base.clearSkeleton('data-loading');
+            return; // TODO: Request in the server
+            
+            getPartialData.call(this.Easy, {
+                url: url,
+                search: component.data.search,
+                controls: table.paginationControls = { page: 1, size: 13 },
+                pagination: table.pagination,
+                beforeRequest: function() {
+                    searcher.classList.add('loading-input');
+                },
+                onReponse: function (response) {
+                    component.data.dataList = response.result;
+                    table.pagination = response.pagination;
+                },
+                onFinish: function () {
+                    searcher.classList.remove('loading-input');
+                }
+            });
+        },
+        onNextPage: function (control) {
+            table.paginationControls++;
+            getPartialData.call(this.Easy, {
+                url: url,
+                search: component.data.search,
+                controls: table.paginationControls,
+                pagination: table.pagination,
+                beforeRequest: function() {
+                    searcher.classList.add('loading-input');
+                },
+                onReponse: function (response) {
+                    component.data.dataList = response.result;
+                    table.pagination = response.pagination;
+                },
+                onFinish: function () {
+                    searcher.classList.remove('loading-input');
+                }
+            });
+
+        },
+        onPrevPage: function (control) {
+            table.paginationControls--;
+            getPartialData.call(this.Easy, {
+                url: url,
+                search: component.data.search,
+                controls: table.paginationControls,
+                pagination: table.pagination,
+                beforeRequest: function() {
+                    searcher.classList.add('loading-input');
+                },
+                onReponse: function (response) {
+                    component.data.dataList = response.result;
+                    table.pagination = response.pagination;
+                },
+                onFinish: function () {
+                    searcher.classList.remove('loading-input');
+                }
+            });
+        }
+    });
+</script>

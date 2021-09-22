@@ -32,7 +32,8 @@ namespace Billing.App.Mapping
             CreateMap<ChatMessageDto, ChatMessage>();
 
             CreateMap<Compra, CompraDto>()
-                .ForPath(dst => dst.Produto, xps => xps.MapFrom(src => new Produto {
+                .ForPath(dst => dst.Produto, xps => xps.MapFrom(src => new Produto
+                {
                     Id = src.Produto.Id,
                     Codigo = src.Produto.Codigo,
                     CreatedAt = src.Produto.CreatedAt,
@@ -50,9 +51,11 @@ namespace Billing.App.Mapping
                 }));
             CreateMap<CompraDto, Compra>();
 
-            CreateMap<Comuna, ComunaDto>()
-                .ForPath(dst => dst.Municipio, xps => xps.MapFrom(src => src.Municipio));
-            CreateMap<ComunaDto, Comuna>();
+            CreateMap<Contacto, ContactoDto>();
+            CreateMap<ContactoDto, Contacto>();
+
+            CreateMap<Pais, PaisDto>();
+            CreateMap<PaisDto, Pais>();
 
             CreateMap<Endereco, EnderecoDto>();
             CreateMap<EnderecoDto, Endereco>();
@@ -66,24 +69,19 @@ namespace Billing.App.Mapping
                     CreatedAt = src.TipoEntidade.CreatedAt,
                     UpdatedAt = src.TipoEntidade.UpdatedAt,
                     Visibility = src.TipoEntidade.Visibility,
-                }))
-                .ForPath(dst => dst.TipoPessoa, xps => xps.MapFrom(src => new TipoPessoa
-                {
-                    Id = src.TipoPessoa.Id,
-                    Nome = src.TipoPessoa.Nome,
-                    CreatedAt = src.TipoPessoa.CreatedAt,
-                    UpdatedAt = src.TipoPessoa.UpdatedAt,
-                    Visibility = src.TipoPessoa.Visibility,
                 }));
             CreateMap<EntidadeDto, Entidade>();
 
             CreateMap<Estabelecimento, EstabelecimentoDto>()
                 .ForPath(dst => dst.Gerente, xps => xps.MapFrom(src => src.Gerente))
-                .ForPath(dst => dst.Comuna, xps => xps.MapFrom(src => src.Comuna));
+                .ForPath(dst => dst.Endereco, xps => xps.MapFrom(src => src.Endereco));
             CreateMap<EstabelecimentoDto, Estabelecimento>();
 
             CreateMap<Factura, FacturaDto>();
             CreateMap<FacturaDto, Factura>();
+
+            CreateMap<FormaPagamento, FormaPagamentoDto>();
+            CreateMap<FormaPagamentoDto, FormaPagamento>();
 
             CreateMap<Funcionario, FuncionarioDto>()
                 .ForPath(dst => dst.Usuario, xps => xps.MapFrom(src => src.Usuario));
@@ -95,11 +93,8 @@ namespace Billing.App.Mapping
             CreateMap<License, LicenseDto>();
             CreateMap<LicenseDto, License>();
 
-            CreateMap<Municipio, MunicipioDto>()
-                .ForPath(dst => dst.Provincia, xps => xps.MapFrom(src => src.Provincia))
-                .ForPath(dst => dst.Comunas, xps => xps.MapFrom(src => src.Comunas));
-
-            CreateMap<MunicipioDto, Municipio>();
+            CreateMap<Pais, PaisDto>();
+            CreateMap<PaisDto, Pais>();
 
             CreateMap<Pessoa, PessoaDto>()
                 .ForPath(dst => dst.Genero, xps => xps.MapFrom(src => new Genero
@@ -157,18 +152,27 @@ namespace Billing.App.Mapping
             CreateMap<ProdutoImagem, ProdutoImagemDto>();
             CreateMap<ProdutoImagemDto, ProdutoImagem>();
 
-            CreateMap<Provincia, ProvinciaDto>()
-                .ForPath(dst => dst.Municipios, xps => xps.MapFrom(src => src.Municipios));
-            CreateMap<ProvinciaDto, Provincia>();
-
-            CreateMap<SubCategoria, SubCategoriaDto>();
+            CreateMap<SubCategoria, SubCategoriaDto>()
+                .ForPath(dst => dst.Categoria, src => src.MapFrom(x => new Categoria {
+                    Id = x.Categoria.Id,
+                    Nome = x.Categoria.Nome,
+                    CreatedAt = x.Categoria.CreatedAt,
+                    UpdatedAt = x.Categoria.UpdatedAt,
+                    Visibility = x.Categoria.Visibility
+                }));
             CreateMap<SubCategoriaDto, SubCategoria>();
-
-            CreateMap<TipoPessoa, TipoPessoaDto>();
-            CreateMap<TipoPessoaDto, TipoPessoa>();
 
             CreateMap<TipoEntidade, TipoEntidadeDto>();
             CreateMap<TipoEntidadeDto, TipoEntidade>();
+
+            CreateMap<TipoContacto, TipoContactoDto>();
+            CreateMap<TipoContactoDto, TipoContacto>();
+
+            CreateMap<TipoVenda, TipoVendaDto>();
+            CreateMap<TipoVendaDto, TipoVenda>();
+
+            CreateMap<TipoFactura, TipoFacturaDto>();
+            CreateMap<TipoFacturaDto, TipoFactura>();
 
             CreateMap<Titulo, TituloDto>();
             CreateMap<TituloDto, Titulo>();

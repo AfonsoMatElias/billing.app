@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Billing.App.Models
 {
@@ -11,8 +12,12 @@ namespace Billing.App.Models
         [Required]
         public string Json { get; set; }
 
-        public TModel Build<TModel>() where TModel : class 
-            => Newtonsoft.Json.JsonConvert.DeserializeObject<TModel>(this.Json);
+        public TModel Build<TModel>() where TModel : class
+            => Newtonsoft.Json.JsonConvert.DeserializeObject<TModel>(this.Json,
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
     }
 
     public class Attachment : AttachmentBase
@@ -25,7 +30,11 @@ namespace Billing.App.Models
             if (this.Json == null)
                 return null;
 
-            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<TModel>(this.Json);
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<TModel>(this.Json,
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
 
             byte[] bytes = null;
             if (this.File == null)

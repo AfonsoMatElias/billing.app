@@ -19,15 +19,12 @@ namespace Billing.App.Controllers.Api
     public class FuncionarioController : ControllerBase
     {
         private IFuncionarioService service = null;
-        private ITipoPessoaService tipoPessoaService = null;
         private IAuth auth = null;
 
         public FuncionarioController(
             IFuncionarioService service, 
-            ITipoPessoaService tipoPessoaService, 
             IAuth auth)
         {
-            this.tipoPessoaService = tipoPessoaService;
             this.service = service;
             this.auth = auth;
         }
@@ -89,9 +86,6 @@ namespace Billing.App.Controllers.Api
             {
                 if (model == null)
                     throw new AppException("Objecto inválido!", true);
-
-                var singular = IoC.Configuration["CodePessoa:Singular"];
-                var tipoPessoa = await tipoPessoaService.Find(query => query.Codigo == singular);
 
                 model.Roles = model.Roles ?? new [] { AppRoles.funcionario };
 

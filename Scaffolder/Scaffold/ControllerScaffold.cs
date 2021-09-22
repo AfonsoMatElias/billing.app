@@ -1,83 +1,88 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Scaffolder.Models;
 
 namespace Scaffolder.Scaffold
 {
     public class ControllerScaffold : GenerationConditions
     {
-        static string tail = "Controller";
-        static string folderPath = @"Billing.App/Controllers/Api/";
-        static string tmpPathInput = SharedMethods.GlobalRootPath + @"Scaffolder/tmp/controller.txt";
-        static string tmpPathOutput = SharedMethods.GlobalRootPath + folderPath;
-        string tmp = File.Exists(tmpPathInput) ? File.ReadAllText(tmpPathInput) : null;
-        
-        public void Generate(string name)
+        public List<Configuration> configs { get; set; }
+        private string template = null;
+        private string name;
+
+        public void Generate(string name, Configuration config)
         {
+            // Loading the template one if there is only one configuration
+            this.template = Shared.LoadTemplate(this.template, config, this.configs.Count);
+
             try
             {
-                var filePath = tmpPathOutput + $"{name}{tail}.cs";
-                var create = true;
-                if (File.Exists(filePath))
-                    create  = this.Ask(name, tail);
+                // Building the full path
+                var filePath = Path.Combine(config.Output, $"{config.Header}{name}{config.Trailer}.cs");
+
+                if (!this.FileExistenceHandler(filePath, name, config.Trailer))
+                    return;
+
+                File.WriteAllText(filePath, template.Replace("@-Model-@", name));
+                Logger.Done($"file {config.Header}{name}{config.Trailer}.cs created.");
                 
-                if(create)
-                {
-                    var key = "@-Model-@";
-                    var _tmp_ = tmp.Replace(key, name);
-                    File.WriteAllText(filePath, _tmp_);
-                    SharedMethods.ChangeColor(ConsoleColor.Green, () => Console.WriteLine($"file {name}{tail}.cs created."));
-                }
             }
             catch (Exception ex)
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () => Console.WriteLine($"Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}"));
+                Logger.Error($"Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}");
             }
         }
 
         public ControllerScaffold()
         {
-            Begin:
+        Begin:
+
+            this.name = this.GetType().Name.Replace("Scaffold", "");
 
             Console.Clear();
-            Console.WriteLine(@"Loading the models...");
-            SharedMethods.LoadModels();
-            
-            Console.Clear();
-            Console.WriteLine(tail);
-            Console.WriteLine(@"-> 1 Generate One By One");
-            Console.WriteLine(@"-> 2 Generate All");
-            Console.WriteLine(@"Choose an option above: ");
+            this.configs = Program.Config.Get(this.name);
 
-            var option = SharedMethods.KeyConverter<GenerationOptions>();
+            Logger.Log(this.name);
+            Logger.Log("-> 1 Generate One By One");
+            Logger.Log("-> 2 Generate All");
+            Logger.Log("Choose an option above: ");
+
+            var option = Shared.KeyConverter<GenerationOptions>();
 
             switch (option)
             {
                 case GenerationOptions.One:
-                    Console.WriteLine("\nType the name of the Class: ");
+                    Logger.Log("\nType the name of the Class: ");
                     var name = Console.ReadLine();
 
                     void exec(string m)
                     {
-                        if (!SharedMethods.ModelExists(m)) return;
-                        this.Generate(m);
+                        if (!Shared.ModelExists(m)) return;
+                        configs.ForEach(cf => this.Generate(m, cf));
                     }
 
                     if (!name.Contains(","))
                         exec(name);
                     else
-                        name.Split(",").Select(s => s.Trim()).ToList().ForEach(m => this.Generate(m));
+                        name.Split(",").Select(s => s.Trim()).ToList().ForEach(m =>
+                        {
+                            configs.ForEach(cf =>
+                            {
+                                this.Generate(m, cf);
+                            });
+                        });
 
                     break;
 
                 case GenerationOptions.All:
-                    SharedMethods.Models.ForEach(model => this.Generate(model.Item1));
+                    Program.Config.Models.ForEach(model => configs.ForEach(cf => this.Generate(model.Name, cf)));
                     break;
 
+                default:
                 case GenerationOptions.Set:
-                    SharedMethods.ChangeColor(ConsoleColor.Yellow, () => {
-                        Console.WriteLine("Option unavailable!");
-                    });
+                    Logger.Warn("Option unavailable!");
                     goto Begin;
             }
         }

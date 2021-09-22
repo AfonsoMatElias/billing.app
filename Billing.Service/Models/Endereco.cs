@@ -1,15 +1,21 @@
+using System.Collections.Generic;
+
 namespace Billing.Service.Models
 {
     public class Endereco : Base.Properties
     {
+        public long PaisId { get; set; }
+        public string Porta { get; set; }
+        public string Cidade { get; set; }
         public string Rua { get; set; }
-        public string Casa { get; set; }
-        public string Bairro { get; set; }
-        public long ComunaId { get; set; }
-        public long PessoaId { get; set; }
-        public bool IsPrincipal { get; set; }
+        public string Detalhado { get; set; }
+        public string CodigoPostal { get; set; }
 
-        public virtual Pessoa Pessoa { get; set; }
-        public virtual Comuna Comuna { get; set; }
+        public virtual Pais Pais { get; set; }
+        
+        public virtual ICollection<Entidade> EntidadeEnderecoFacturacao { get; internal set; }
+        public virtual ICollection<Entidade> EntidadeEnderecoExpedocao { get; internal set; }
+
+        public virtual ICollection<Estabelecimento> Estabelecimentos { get; internal set; }
     }
 }

@@ -6,26 +6,33 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Scaffolder.Models;
 
 namespace Scaffolder
 {
     class Program
     {
+
+        public static ConfigProvider Config;
+
         static void Main(string[] args)
         {
+            // Initializing the configurations
+            Program.Config = new ConfigProvider();
+
             var optionsFields = typeof(Options).GetFields();
-            Console.WriteLine("... Welcome to Scaffolder ...");
+            Logger.Log("... Welcome to Scaffolder ...");
         Begining:
-            Console.WriteLine(@"");
+            Logger.Log(@"");
 
             for (int i = 0; i < optionsFields.Count(); i++)
             {
                 if (i == 0) continue;
-                Console.WriteLine($@"-> {i} {optionsFields[i].Name}");
+                Logger.Log($@"-> {i} {optionsFields[i].Name}");
             }
-            Console.WriteLine(@"Choose an option above: ");
+            Logger.Log(@"Choose an option above: ");
 
-            Options option = SharedMethods.KeyConverter<Options>();
+            Options option = Shared.KeyConverter<Options>();
 
             if (option == Options.Exit) goto Ending;
             var chosen = option.ToString();
@@ -35,7 +42,7 @@ namespace Scaffolder
                 IEnumerable<Type> types = Assembly.GetExecutingAssembly().ExportedTypes;
 
                 var type = types.FirstOrDefault(x => x.Name == $"{chosen}Scaffold");
-            
+
                 if (type == null)
                     throw new Exception("Not Found");
 
@@ -44,18 +51,15 @@ namespace Scaffolder
             }
             catch
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () =>
-                {
-                    Console.WriteLine("Unavailable option, try again!");
-                });
+                Logger.Error("Unavailable option, try again!");
             }
 
             goto Begining;
 
         Ending:
 
-            Console.WriteLine("\nThanks a lot!!! ;-)");
-            Console.WriteLine("\nPress Any Key in Keyboard to Close the Window.");
+            Logger.Log("\nThanks a lot!!! ;-)");
+            Logger.Log("\nPress Any Key in Keyboard to Close the Window.");
             Console.ReadKey();
         }
 
@@ -64,16 +68,14 @@ namespace Scaffolder
             Controller = 1,
             Service,
             ViewModel,
+            EFCore,
             Exit,
         }
     }
 
-    public class SharedMethods
+    public class Shared
     {
-        public static readonly string GlobalRootPath = BackFolder(AppDomain.CurrentDomain.BaseDirectory, 5) + "/"; // Project Name
-        public static string ModelsPath = GlobalRootPath + "Billing.Service/Models";
-        public static List<(string, string)> Models = new List<(string, string)>();
-        public static bool IsLinux { get => RuntimeInformation.IsOSPlatform(OSPlatform.Linux); }
+        public static readonly string GlobalRootPath = BackFolder(AppDomain.CurrentDomain.BaseDirectory, 5); // Project Name
 
         static string BackFolder(string path, int n)
         {
@@ -81,66 +83,11 @@ namespace Scaffolder
             return path;
         }
 
-        public static void ChangeColor(ConsoleColor color, Action action)
-        {
-            Console.ForegroundColor = color;
-            action.Invoke();
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
-        public static string PascalCase(string str)
-        {
-            string text = "";
-            bool upper = false;
-            bool forceUpper = false;
-
-            for (int i = 0; i < str.Length; i++)
-            {
-                var c = str[i];
-                var isNumber = ((int)c >= 48 && (int)c <= 57);
-                var ch = str[i].ToString();
-                var chUpper = ch.ToUpper();
-
-                if (i == 0)
-                {
-                    upper = false;
-                    forceUpper = true;
-                }
-
-                if (ch == "_")
-                {
-                    forceUpper = true;
-                    continue;
-                }
-
-                if (ch == chUpper && !upper || forceUpper)
-                {
-                    upper = true;
-                    forceUpper = false;
-                    text += chUpper;
-                }
-                else if (ch == chUpper && upper)
-                {
-                    text += ch.ToLower();
-                }
-                else
-                {
-                    upper = false;
-                    text += ch;
-                }
-
-                if (isNumber) forceUpper = true;
-
-            }
-
-            return text;
-        }
-
         public static T KeyConverter<T>() where T : Enum
         {
             // Getting the pressed key
             var op = Console.ReadKey();
-            Console.WriteLine(@"");
+            Logger.Log(@"");
 
             try
             {
@@ -148,7 +95,7 @@ namespace Scaffolder
             }
             catch (Exception ex)
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () => Console.WriteLine($"Invalid Option!. Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}"));
+                Logger.Error($"Invalid Option!. Error: {ex.Message} ; {ex.InnerException?.Message ?? ""}");
                 Console.ReadKey();
                 return default(T);
             }
@@ -156,24 +103,29 @@ namespace Scaffolder
 
         public static bool ModelExists(string name)
         {
-            if (!Models.Any(m => m.Item1 == name))
+            if (!Program.Config.Models.Any(m => m.Name == name))
             {
-                SharedMethods.ChangeColor(ConsoleColor.Red, () => Console.WriteLine("Class not found."));
+                Logger.Error("Class not found.");
                 return false;
             }
             return true;
         }
 
-        public static List<(string, string)> LoadModels()
+        public static string LoadTemplate(string templ, Configuration config, int count)
         {
-            if (!Models.Any())
-                Models = Directory.GetFiles(ModelsPath).Select(s =>
-                {
-                    var sp = s.Split('/');
-                    return (sp.LastOrDefault().Replace(".cs", ""), s);
-                }).ToList();
-            return Models;
+            if (File.Exists(config.Template) && templ == null)
+                templ = File.ReadAllText(config.Template);
+            else if (count > 1)
+                templ = File.ReadAllText(config.Template);
+
+            return templ;
         }
 
+        public static List<string> GetModelProperties(string filePath)
+        {
+            return File.ReadAllLines(filePath)
+                       .Where(x => x.Trim().StartsWith("public") && x.Trim().Contains("get;"))
+                       .ToList();
+        }
     }
 }

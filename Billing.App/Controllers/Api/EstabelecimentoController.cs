@@ -85,7 +85,7 @@ namespace Billing.App.Controllers.Api
 
                 var dbData = await service.Find(predicate => predicate.Funcionarios.Any(x => x.UsuarioId == userId),
                     queryable => queryable.Include(x => x.Gerente.Usuario.Pessoa)
-                                          .Include(x => x.Comuna.Municipio.Provincia));
+                                          .Include(x => x.Endereco.Pais));
 
                 return new Response
                 {

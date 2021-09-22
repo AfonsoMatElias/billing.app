@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="main-body-action">
-                    <button type="reset" class="cancel-type">CANCELAR</button>
+                    <button type="reset" class="cancel-type" on:click="cancel">CANCELAR</button>
                     <button type="button" class="submit-type" on:click="submit">SUBMETER</button>
                 </div>
             </div>
@@ -245,7 +245,7 @@
                         type: 'success',
                         message: 'Registro Efectuado'
                     });
-                    component.data.cancel();
+                    component.data.cancel(evt);
                 })
                 .catch(function (error) {
                     notify({

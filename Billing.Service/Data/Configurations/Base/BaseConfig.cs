@@ -24,7 +24,8 @@ namespace Billing.Service.Data.Configurations
 
             if (typeof(TModel).GetProperty(nameof(Models.Base.Properties.Visibility)) != null)
                 builder.Property(nameof(Models.Base.Properties.Visibility))
-                    .IsRequired();
+                    .HasDefaultValue(true)
+                    .IsRequired(false);
         }
     }
 }

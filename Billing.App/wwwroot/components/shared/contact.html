@@ -3,6 +3,10 @@
         <label>Tipo de Contacto</label>
         <select name="TipoContactoId">
             <option selected value="">None</option>
+            <option e-tmp="tipocontacto" 
+                    e-use="item"
+                    value="{{ item.id }}" 
+                    e-content="{{ item.nome }}">Loading...</option>
         </select>
     </div>
 

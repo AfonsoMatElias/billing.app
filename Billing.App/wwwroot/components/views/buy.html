@@ -19,7 +19,7 @@
                                         e-content="{{ item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : '') }}">
                                         Loading...</option>
                                 </select>
-                                <a :href="/choose/provider?src={{ '/buy' }}">Criar</a>
+                                <a :href="/providers/create/tef?src={{ '/buy' }}">Criar</a>
                             </div>
                         </div>
 
@@ -66,8 +66,8 @@
                     </div>
                 </div>
             </div>
-            <div class="down-side card">
-                <inc src="table">
+            <div class="down-side">
+                <inc src="table" class="search-off nav-off">
                     <content ident="table-head">
                         <div class="table-cell"> Fornecedor </div>
                         <div class="table-cell"> Produto </div>
@@ -79,23 +79,22 @@
                     </content>
                     <content ident="table-body">
 
-                        <div class="table-row flex-it" e-for="buy of $scope.buyList">
-                            <div class="card-cover" e-skeleton></div>
-                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.row.Provider }}"> Loading...
+                        <div class="table-row flex-it" e-skeleton e-for="buy of $scope.buyList">
+                            <div class="card-cover"></div>
+                            <div class="pointer table-cell" e-content="{{ buy.row.Provider }}"> Loading...
                             </div>
-                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.row.Product }}"> Loading...
+                            <div class="pointer table-cell" e-content="{{ buy.row.Product }}"> Loading...
                             </div>
-                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.PrecoUnitarioCompra }}">
+                            <div class="pointer table-cell" e-content="{{ buy.PrecoUnitarioCompra }}">
                                 Loading... </div>
-                            <div class="pointer table-cell" e-skeleton e-content="{{ buy.Quantidade }}"> Loading...
+                            <div class="pointer table-cell" e-content="{{ buy.Quantidade }}"> Loading...
                             </div>
-                            <div class="pointer table-cell hidable" e-skeleton e-content="{{ buy.DataEntrada }}">
+                            <div class="pointer table-cell hidable" e-content="{{ buy.DataEntrada }}">
                                 Loading...</div>
-                            <div class="pointer table-cell hidable" e-skeleton
-                                e-content="{{ buy.DataValidade || 'N/A' }}">
+                            <div class="pointer table-cell hidable" e-content="{{ buy.DataValidade || 'N/A' }}">
                                 Loading... </div>
                             <div class="table-cell" style="flex: .5;">
-                                <span e-skeleton class="remove-line">
+                                <span class="remove-line">
                                     <span class="center-icon icon-type fa fa-remove"
                                         on:click="$scope.removeBuy(buy)"></span>
                                 </span>
@@ -108,6 +107,9 @@
         </div>
 
         <div class="product-side default-side card nice-scroll">
+            <span title="Fechar Resumo" class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
+                onclick="event.target.aboveMe().classList.remove('show-right')"></span>
+
             <div class="row">
                 <h3>Productos</h3>
             </div>
@@ -139,6 +141,9 @@
                 </div>
             </div>
         </div>
+
+        <span title="Produtos" class="reduced-screen-button center-icon fa fa-product-hunt resume-product"
+            onclick="event.target.previousElementSibling.classList.add('show-right');"></span>
     </div>
 </div>
 <script>
@@ -171,18 +176,11 @@
         }
     }
 
-    this.mounted = function () {
-        easy.data.showSearchBar = false;
-    }
-
     this.loaded = function (el) {
         // Marking the menu
         easy.data.currentPage = 'Compra';
     }
 
-    this.destroyed = function () {
-        easy.data.showSearchBar = true;
-    }
     // Data Exportation
     this.export({
         // Variables
@@ -219,7 +217,7 @@
                             form.findOne(function (formItem) {
                                 if ((item.id * 1) === (formItem.ProdutoId * 1)) {
                                     if (item.compras.length === 0)
-                                        item.compras = [ { quantidade: formItem.Quantidade } ];
+                                        item.compras = [{ quantidade: formItem.Quantidade }];
                                     else
                                         item.compras[0].quantidade += formItem.Quantidade;
 

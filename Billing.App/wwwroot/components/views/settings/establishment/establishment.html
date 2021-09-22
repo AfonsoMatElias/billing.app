@@ -1,7 +1,7 @@
 <inc src="settings-wrapper" data="{ active: 'establishment' }">
     <content>
         <div class="partial splitted-editing establishment">
-            <div class="left">
+            <div class="left nice-scroll">
 
                 <div class="description">
                     <h3>Informações do Estabelecimento</h3>
@@ -13,7 +13,9 @@
                             <p>Identificador</p>
                         </div>
                         <div class="value">
-                            <p e-content="{{ (establishment.id !== 'N/A' ? establishment.id : '0').toString().padStart(4, 0) }}">0000</p>
+                            <p
+                                e-content="{{ (establishment.id !== 'N/A' ? establishment.id : '0').toString().padStart(4, 0) }}">
+                                0000</p>
                         </div>
                     </div>
                     <div class="icon-area">
@@ -71,24 +73,21 @@
                     </div>
                 </div>
             </div>
-            <div class="right" id="loadable"></div>
+            <div class="right nice-scroll" id="loadable"></div>
         </div>
     </content>
 </inc>
 <script>
     var $easy = this.Easy;
     var component = this;
-    var loadableComponents = {
-        'setting-establishment-name': true,
-        'setting-establishment-address': true,
-        'setting-establishment-manager': true,
-    };
 
     this.mounted = function (el) {
         var estabelecimento = component.data.establishment;
 
         if ($easy.data.application.user.hasEstabelecimento == false) {
             estabelecimento.keys(function (k, v) {
+                if (k == 'id') return;
+
                 estabelecimento[k] = 'N/A';
             });
             return component.data.isLoading = false;
@@ -102,13 +101,7 @@
                 var comuna = _data.comuna || {};
                 estabelecimento.id = _data.id;
                 estabelecimento.nome = _data.nome;
-                estabelecimento.endereco = [
-                    _data.rua, 
-                    _data.bairro, 
-                    comuna.nome, 
-                    (comuna.municipio || {}).nome, 
-                    ((comuna.municipio || {}).provincia||{}).nome
-                ].join(', ');
+                estabelecimento.endereco = "N/A";
 
                 if (!_data.gerente)
                     return estabelecimento.gerente = 'Indefinido';
@@ -137,37 +130,11 @@
             gerente: ''
         },
         loadSection: function (name, data) {
-            // Checking if the name is ok
-            if (!name) return;
-
-            // Getting the container
-            var container = $easy.el.node('#loadable');
-
-            // Checking if the container is ok
-            if (!container) return;
-
-            // Checking if the component is valid
-            if (!loadableComponents[name]) {
-                return notify({
-                    message: 'Secção Inexistente ou em criação.',
-                    type: 'warn'
-                });
-            }
-
-            // Clearing the container
-            container.innerHTML = '';
-
-            // Creating the INC element
-            var inc = document.createElement('inc');
-
-            // Setting the name
-            inc.src = name;
-
-            // Set data if it was defined
-            if (data) inc.valueIn('data', JSON.stringify(data))
-
-            // Adding in the container
-            container.appendChild(inc);
+            return loadSectionShared({
+                'setting-establishment-name': true,
+                'setting-establishment-address': true,
+                'setting-establishment-manager': true,
+            }, name, data);
         }
     });
 </script>

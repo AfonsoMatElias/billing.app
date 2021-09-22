@@ -91,7 +91,6 @@
             })
             .finally(function () {
                 finish();
-
                 component.el.clearSkeleton("prods");
             });
     };
@@ -114,7 +113,6 @@
     }
 
     this.loaded = function (el) {
-        easy.data.showSearchBar = false;
         easy.data.currentPage = 'Stock';
         
         this.Easy.routing.markActive(
@@ -123,7 +121,6 @@
     }
 
     this.destroyed = function () {
-        easy.data.showSearchBar = true;
         if (watch) watch.destroy();
     }
 
@@ -134,6 +131,7 @@
             page: 1,
             size: 10
         },
+        
         pagination: {
             pageNumber: '',
             pageElements: '',

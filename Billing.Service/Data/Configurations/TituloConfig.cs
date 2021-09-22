@@ -1,9 +1,9 @@
 using System.Linq;
-using Billing.Service.Data.Configurations;
+using Billing.Service.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Billing.Service.Models
+namespace Billing.Service.Data.Configurations
 {
     public class TituloConfig : IEntityTypeConfiguration<Titulo>
     {
@@ -22,7 +22,8 @@ namespace Billing.Service.Models
         {
             return (new[]{
                 "Sr.",
-                "Sra."
+                "Sra.",
+                "N/A",
             }).Select((item, index) => {
                 return new Titulo {
                     Id = (index + 1),

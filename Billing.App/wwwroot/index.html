@@ -30,13 +30,13 @@
             <div class="remain">
                 <nav class="menu nice-scroll">
                     <ul>
-                        <li>
+                        <li title="Dashboard">
                             <a class="dash-link" :href="/dashboard">
                                 <span class="center-icon fa fa-pie-chart"></span>
                                 <span> Dashboard </span>
                             </a>
                         </li>
-                        <li>
+                        <li title="Produtos">
                             <a class="product-link" on:click="openable">
                                 <span class="center-icon fa fa-product-hunt"></span>
                                 <span> Produtos </span>
@@ -56,59 +56,59 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li title="Clientes">
                             <a class="customer-link" on:click="openable">
                                 <span class="center-icon fa fa-user-o"></span>
                                 <span> Clientes </span>
                             </a>
                             <ul>
                                 <li>
-                                    <a i:href="/customers/create/tps/tec">
+                                    <a i:href="/customers/create/tec">
                                         <span class="center-icon fa fa-plus-circle"></span>
                                         <span> Criar </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a i:href="/customers/tps">
+                                    <a i:href="/customers/tec">
                                         <span class="center-icon fa fa-list"></span>
                                         <span> Listar </span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li title="Fornecedores">
                             <a class="provider-link" on:click="openable">
                                 <span class="center-icon fa fa-users"></span>
                                 <span> Fornecedores </span>
                             </a>
                             <ul>
                                 <li>
-                                    <a i:href="/choose/provider">
+                                    <a i:href="/providers/create/tef">
                                         <span class="center-icon fa fa-plus-circle"></span>
                                         <span> Criar </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a i:href="/choose/providers">
+                                    <a i:href="/providers/tef">
                                         <span class="center-icon fa fa-list"></span>
                                         <span> Listar </span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li title="Vender">
                             <a :href="/sell" class="sell-link">
                                 <span class="center-icon fa fa-money"></span>
                                 <span> Vender </span>
                             </a>
                         </li>
-                        <li>
+                        <li title="Comprar">
                             <a :href="/buy" class="buy-link">
                                 <span class="center-icon fa fa-cube"></span>
                                 <span> Comprar </span>
                             </a>
                         </li>
-                        <li class="hide-it">
+                        <li title="Relatórios" class="hide-it">
                             <a :href="/reports">
                                 <span class="center-icon fa fa-area-chart"></span>
                                 <span> Relatórios </span>
@@ -120,7 +120,7 @@
                                 <span> Chat </span>
                             </a>
                         </li>
-                        <li>
+                        <li title="Configurações">
                             <a :href="/settings" class="settings-link">
                                 <span class="center-icon fa fa-cog"></span>
                                 <span> Configurações </span>
@@ -137,11 +137,6 @@
                         <h2 e-content="{{ currentPage }}"></h2>
                     </div>
                     <div class="controlls">
-                        <div class="search-field" e-show="showSearchBar">
-                            <span class="fa fa-search"></span>
-                            <input type="text" name="seacher" placeholder="Pesquisar por..." e-bind="search">
-                        </div>
-
                         <div class="icon-field-container">
                             <div class="icon-field">
                                 <div class="icon" on:click="showNotification=false; showConversation=!showConversation">
@@ -287,7 +282,7 @@
                                         <span class="center-icon fa fa-cog"></span>
                                     </span>
                                     <span class="message">
-                                        <a i:href="/settings">
+                                        <a i:href="/settings" on:click="showProfile = false">
                                             <div>
                                                 <p>Configurações</p>
                                             </div>

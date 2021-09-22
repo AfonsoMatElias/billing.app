@@ -7,7 +7,7 @@ namespace Billing.Service.Models
         public long ProdutoId { get; set; }
         public long MotivoIsencaoId { get; set; }
 
-        public Produto Produto { get; set; }
-        public MotivoIsencao MotivoIsencao { get; set; }
+        public virtual Produto Produto { get; set; }
+        public virtual MotivoIsencao MotivoIsencao { get; set; }
     }
 }

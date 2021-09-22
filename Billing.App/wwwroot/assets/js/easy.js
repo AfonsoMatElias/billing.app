@@ -1090,7 +1090,7 @@
                 return "keyframes " + n + " { to { opacity: 1; transform: translate" + dir + "; } }"
             }
             
-            style.textCtent = ".hide-it { display: none !important; }" +
+            style.textContent = ".hide-it { display: none !important; }" +
                 "inc:not([no-replace]),[inc-src]:not([no-replace]) { display:none!important; }" + 
                 ".to-top, .to-bottom, .to-right, .to-left { opacity: 0; }" +
                 ".from-top, .from-bottom, .from-right, .from-left" +
@@ -3820,7 +3820,7 @@
                         if (path && $name === ':href') path.links.push(base);
     
                         // if it's the active one, mark
-                        if (!isNull(RouteHandler.lastActivePath) && RouteHandler.lastActivePath === path)
+                        if (!isNull(RouteHandler.lastActivePath) && RouteHandler.lastActivePath === path && $name === ':href')
                             $easy.routing.markActive( base );
 
                         base.removeAttribute($name);
