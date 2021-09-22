@@ -56,6 +56,23 @@
                             <option e-tmp="estabelecimento" e-content="{{ nome }}" value="{{ id }}">Loading...</option>
                         </select>
                     </div>
+
+                    <div class="input-field">
+                        <label class="default-label block-it">Papeis a desempenhar</label>
+                        <div class="default-container">
+
+                            <span class="check-field" e-tmp="sign/roles" e-use="item" on:add="(function(evt){
+                                if (evt.$data.model.item == 'funcionario')
+                                    evt.base.node('.app-checkbox').checked = true;
+                            })(event)">
+                                <span data="{ item: item, code: this.code(5) }">
+                                    <input class="app-checkbox" e-array name="Roles" id="check-{{ code }}" value="{{ item }}" type="checkbox">
+                                    <label for="check-{{ code }}" e-content="{{ item }}">Loading...</label>
+                                </span>
+							</span>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">

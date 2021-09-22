@@ -11,7 +11,7 @@
 
         <div e-for="menu of menus" class="row" e-order="asc:name" e-class="{ 'mark-point': active == menu.name }">
             <a i:href="{{ menu.url }}">
-                <p e-content="{{ menu.name }}">Menu Name</p>
+                <p e-content="{{ menu.text }}">Menu Name</p>
             </a>
         </div>
 
@@ -45,35 +45,43 @@
         menus: [
             {
                 name: 'FormaPagamento',
-                url: '/settings/management/formaPagamento'
+                url: '/settings/management/formaPagamento',
+                text: 'Formas de Pagamento'
             },
             {
                 name: 'Pais',
-                url: '/settings/management/pais'
+                url: '/settings/management/pais',
+                text: 'Paises'
             },
             {
                 name: 'Categoria',
-                url: '/settings/management/categoria'
+                url: '/settings/management/categoria',
+                text: 'Categorias'
             },
             {
                 name: 'SubCategoria',
-                url: '/settings/management/subcategoria'
+                url: '/settings/management/subcategoria',
+                text: 'SubCategorias'
             },
             {
                 name: 'TipoContacto',
-                url: '/settings/management/tipocontacto'
+                url: '/settings/management/tipocontacto',
+                text: 'Tipos de Contacto'
             },
             {
                 name: 'TipoEntidade',
-                url: '/settings/management/tipoentidade'
+                url: '/settings/management/tipoentidade',
+                text: 'Tipos de Entidade'
             },
             {
                 name: 'TipoFactura',
-                url: '/settings/management/tipofactura'
+                url: '/settings/management/tipofactura',
+                text: 'Tipos de Factura'
             },
             {
                 name: 'TipoVenda',
-                url: '/settings/management/tipovenda'
+                url: '/settings/management/tipovenda',
+                text: 'Tipos de Venda'
             }
         ],
 

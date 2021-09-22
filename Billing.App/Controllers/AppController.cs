@@ -114,6 +114,7 @@ namespace Billing.App.Controllers
             {
                 Data = typeof(AppRoles).GetFields()
                     .Select(role => role.GetValue(role) as string)
+                    .Where(x => x != AppRoles.superadmin)
                     .ToList()
             }));
         }

@@ -1038,7 +1038,7 @@
                                 lastLayer[part] = value;
                             else
                                 // Build array if the object already exists
-                                lastLayer[part] = extend.array( (isEmptyObj(propertyValue) ? null : propertyValue), value);
+                                lastLayer[part] = extend.obj(propertyValue, value);
                         } else {
                             // Handle Array
                             if ( isObj(propertyValue) && !isEmptyObj(propertyValue)) {
