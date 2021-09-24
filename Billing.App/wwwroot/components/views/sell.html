@@ -178,7 +178,7 @@
                                 </div>
                                 <div class="remain">
                                     <div class="main-name" e-content="{{ item.name }}">Nome Cliente</div>
-                                    <div class="detail" e-content="{{ item.type }}">Tipo Pessoa</div>
+                                    <div class="detail" e-content="{{ item.company }}">Empresa</div>
                                 </div>
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                         id: item.id,
                         image: item.pessoa.profileImageUrl,
                         name: item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : ''),
-                        type: item.tipoPessoa.nome
+                        company: item.nomeEmpresa
                     };
                 });
             })
