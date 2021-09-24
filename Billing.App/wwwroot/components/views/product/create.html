@@ -20,10 +20,11 @@
                     </div>
                     <div class="input-field">
                         <label>Categoria</label>
-                        <select validate="select" >
-                            <option selected on:click="selectCategoria()">None</option>
-                            <option e-tmp="Categoria" e-use="item" e-value="{{ item.id }}" 
-                                e-content="{{ item.nome }}" on:click="selectCategoria(item)">Loading...</option>
+                        <select validate="select" on:change="selectCategoria(event.base.selectedOptions[0])">
+                            <option selected value="">None</option>
+                            <option e-for="item of categorias" 
+                                    e-value="{{ item.id }}" 
+                                    e-content="{{ item.nome }}">Loading...</option>
                         </select>
                     </div>
 
@@ -31,8 +32,8 @@
                         <label>SubCategoria</label>
                         <select name="SubCategoriaId" validate="select">
                             <option selected value="">None</option>
-                            <option e-for="item of subCategorias" e-value="{{ item.id }}" 
-                                    e-content="{{ item.nome }}">None</option>
+                            <option e-for="item of subCategorias" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                None</option>
                         </select>
                     </div>
                 </div>
@@ -86,8 +87,10 @@
                             <label>Fornecedor</label>
                             <select name="FornecedorId" validate="select">
                                 <option value="" selected>None</option>
-                                <option e-tmp="Entidade" e-id="?codigoTipoEntidade=tef" e-use="item" e-value="{{ item.id }}" 
-                                        e-content="{{ item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : '') }}">Loading...</option>
+                                <option e-tmp="Entidade" e-id="?codigoTipoEntidade=tef" e-use="item"
+                                    e-value="{{ item.id }}"
+                                    e-content="{{ item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : '') }}">
+                                    Loading...</option>
                             </select>
                         </div>
 
@@ -129,9 +132,10 @@
                 on:drop.preventDefault="drop" on:dragend.preventDefault="null" on:dragleave.preventDefault="null"></div>
             <div class="action-area">
                 <div class="area center">
-                    <button type="button" onclick="event.target.nextElementSibling.click()" 
-                            class="primary-button">Carregar</button>
-                    <input id="product-images" type="file" on:change="load" style="display: none;" accept="image/png, image/jpeg" multiple>
+                    <button type="button" onclick="event.target.nextElementSibling.click()"
+                        class="primary-button">Carregar</button>
+                    <input id="product-images" type="file" on:change="load" style="display: none;"
+                        accept="image/png, image/jpeg" multiple>
                 </div>
             </div>
             <div class="description">
@@ -150,11 +154,11 @@
 
     function image(data) {
         return easy.toElement('<span e-compile class="image-loaded" style="background-image: url(' + data + ');">' +
-                                    '<span class="close fa fa-close center-icon" on:click="(function(evt){' +
-                                    "var el = evt.base.aboveMe('.image-loaded');" +
-                                    'el.parentNode.removeChild(el);' +
-                                    '})(event)"></span>' +
-                                '</span>');
+            '<span class="close fa fa-close center-icon" on:click="(function(evt){' +
+            "var el = evt.base.aboveMe('.image-loaded');" +
+            'el.parentNode.removeChild(el);' +
+            '})(event)"></span>' +
+            '</span>');
     }
 
     this.loaded = function (el) {
@@ -164,17 +168,31 @@
         this.Easy.routing.markActive(
             this.Easy.el.node('.product-link')
         );
+
+        this.Easy.get('Categoria')
+                .then(function (data) {
+                    component.data.categorias = data.result;
+                })
+                .catch(function (error) {
+                    notify({
+                        type: 'error',
+                        message: error.message || error
+                    });
+                })
     }
     this.export({
         // Variables
         isStock: false,
         isDestroyable: false,
+        categorias: [],
         subCategorias: [],
 
         // Methods
         selectCategoria: function (item) {
-            if (!item) return component.data.subCategorias = [];
-            component.data.subCategorias = item.subCategorias;
+            if (item.value == '') return component.data.subCategorias = [];
+            component.data.subCategorias = component.data.categorias.find(function (_item) {
+                return _item.id = item.value * 1;
+            }).subCategorias;
         },
         drop: function (evt) {
             evt.base.classList.remove('drag-over');
@@ -205,7 +223,7 @@
 
             var availableSpace = 3 - imageArea.children.length;
             if (availableSpace === 0) return;
-            
+
             for (var item of evt.base.files) {
                 var reader = new FileReader();
                 reader.addEventListener('load', function (data) {
@@ -253,7 +271,7 @@
                         message: error.message || error
                     });
                 })
-                .finally(function() {
+                .finally(function () {
                     headers['Accept'] = accept;
                     headers['Content-Type'] = contentType;
                     addOrRemSpinner(btn, true);
