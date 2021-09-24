@@ -22,9 +22,8 @@
                         <label>Categoria</label>
                         <select validate="select" on:change="selectCategoria(event.base.selectedOptions[0])">
                             <option selected value="">None</option>
-                            <option e-for="item of categorias" 
-                                    e-value="{{ item.id }}" 
-                                    e-content="{{ item.nome }}">Loading...</option>
+                            <option e-for="item of categorias" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                Loading...</option>
                         </select>
                     </div>
 
@@ -128,8 +127,11 @@
             <div class="top">
                 <h3 class="info-section"> Imagens </h3>
             </div>
+
+            <!-- Images -->
             <div class="image-load-area" on:dragover.preventDefault="dragIn" on:dragleave.preventDefault="dragOut"
                 on:drop.preventDefault="drop" on:dragend.preventDefault="null" on:dragleave.preventDefault="null"></div>
+
             <div class="action-area">
                 <div class="area center">
                     <button type="button" onclick="event.target.nextElementSibling.click()"
@@ -151,14 +153,13 @@
     var easy = this.Easy;
     var component = this;
     var imageArea = this.el.node('.image-load-area');
+    var photoInputElement;
+    var dataTransfer = new DataTransfer();
 
-    function image(data) {
+    function image(data, index) {
         return easy.toElement('<span e-compile class="image-loaded" style="background-image: url(' + data + ');">' +
-            '<span class="close fa fa-close center-icon" on:click="(function(evt){' +
-            "var el = evt.base.aboveMe('.image-loaded');" +
-            'el.parentNode.removeChild(el);' +
-            '})(event)"></span>' +
-            '</span>');
+                                '<span class="close fa fa-close center-icon" on:click="removeImage(' + index + ', event)"></span>' +
+                              '</span>');
     }
 
     this.loaded = function (el) {
@@ -170,15 +171,17 @@
         );
 
         this.Easy.get('Categoria')
-                .then(function (data) {
-                    component.data.categorias = data.result;
-                })
-                .catch(function (error) {
-                    notify({
-                        type: 'error',
-                        message: error.message || error
-                    });
-                })
+            .then(function (data) {
+                component.data.categorias = data.result;
+            })
+            .catch(function (error) {
+                notify({
+                    type: 'error',
+                    message: error.message || error
+                });
+            });
+
+        photoInputElement = el.node('#product-images');
     }
     this.export({
         // Variables
@@ -194,6 +197,11 @@
                 return _item.id = item.value * 1;
             }).subCategorias;
         },
+        removeImage: function (index, evt) {
+            var el = evt.base.aboveMe('.image-loaded');
+            el.parentNode.removeChild(el);
+            dataTransfer.items.remove(index);
+        },
         drop: function (evt) {
             evt.base.classList.remove('drag-over');
 
@@ -201,16 +209,28 @@
             if (availableSpace === 0) return;
 
             if (evt.dataTransfer) {
+
+                // Getting position to use in the UI
+                var index = dataTransfer.length == 0 ? 0 : dataTransfer.length - 1;
+
                 for (var item of evt.dataTransfer.files) {
                     var reader = new FileReader();
                     reader.addEventListener('load', function (data) {
-                        imageArea.appendChild(image(data.target.result));
+                        imageArea.appendChild(image(data.target.result, index++));
                     });
+
+                    dataTransfer.items.add(item);
+
                     if (availableSpace === 0) break;
                     reader.readAsDataURL(item);
                     availableSpace--;
                 }
             }
+
+            console.log(dataTransfer);
+
+            // Adding elements into fileElement
+            photoInputElement.files = dataTransfer.files;
         },
         dragIn: function (evt) {
             evt.base.classList.add('drag-over');
@@ -224,15 +244,24 @@
             var availableSpace = 3 - imageArea.children.length;
             if (availableSpace === 0) return;
 
+            // Getting position to use in the UI
+            var index = dataTransfer.length == 0 ? 0 : dataTransfer.length - 1;
+
             for (var item of evt.base.files) {
                 var reader = new FileReader();
                 reader.addEventListener('load', function (data) {
-                    imageArea.appendChild(image(data.target.result));
+                    imageArea.appendChild(image(data.target.result, index++));
                 });
+
+                dataTransfer.items.add(item);
+
                 if (availableSpace === 0) break;
                 reader.readAsDataURL(item);
                 availableSpace--;
             }
+
+            // Adding elements into fileElement
+            photoInputElement.files = dataTransfer.files;
         },
         submit: function (evt) {
 
@@ -245,7 +274,7 @@
             var formData = new FormData();
 
             formData.append("json", JSON.stringify(formObj));
-            for (var file of component.el.node('#product-images').files) {
+            for (var file of photoInputElement.files) {
                 formData.append("files", file);
             }
 

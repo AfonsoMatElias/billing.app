@@ -329,7 +329,7 @@ new Easy("body", {
                         route: "/create",
                         url: "/components/views/product/create",
                         title: "Produto • Cadastrar",
-                        keepAlive: true,
+                        // keepAlive: true,
                     },
                     "product-view": {
                         route: "/view/:id",
