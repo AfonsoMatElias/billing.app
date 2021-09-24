@@ -124,7 +124,7 @@
 
                     <div class="item" e-tmp="produto/withStock" e-use="product" e-filter="findProduct:nome,codigo"
                         on:click="chooseProduct(event.base, product)" on:add="markActive(event.base, product)">
-                        <div class="cover"></div>
+                        <div class="cover" e-style="background-image: url({{ selectOneImage(product) }});"></div>
                         <div class="description">
                             <span class="main" e-content="{{ product.nome }}">Loading...</span>
                             <span class="detail1" e-content="{{ product.precoUnitario }} Kz">Loading...</span>

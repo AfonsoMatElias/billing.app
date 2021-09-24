@@ -735,4 +735,11 @@ function getPartialData(input = {
         .finally(function () {
             (input.onFinish || function () {}).call(this);
         });
-};
+}
+
+function selectOneImage(product) {
+    if (product.produtoImagens.length == 0)
+        return '/assets/images/box.svg';
+
+    return product.produtoImagens[0].imageUrl;
+}
