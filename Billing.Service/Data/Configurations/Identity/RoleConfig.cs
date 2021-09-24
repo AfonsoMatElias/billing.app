@@ -11,11 +11,13 @@ namespace Billing.Service.Data.Configurations
         {
             builder.HasData(
                 (new[] {
+                    "SuperAdmin:ce23b3ea-8d9a-4992-9ec8-b2d002accc90",
                     "Admin:ce23b3ea-8d9a-4992-9ec8-b2d002accc9a",
                     "Gestor:ce23b3ea-8d9a-4992-9ec8-b2d002accc9b",
                     "Funcionario:ce23b3ea-8d9a-4992-9ec8-b2d002accc9c",
                     "Vendedor:ce23b3ea-8d9a-4992-9ec8-b2d002accc9d",
-                    "Entidade:ce23b3ea-8d9a-4992-9ec8-b2d002accc9e"
+                    "Fornecedor:ce23b3ea-8d9a-4992-9ec8-b2d002accc9e",
+                    "Cliente:ce23b3ea-8d9a-4992-9ec8-b2d002accc9f"
                 }).Select((item, index) =>
                 {
                     var splitted = item.Split(":");
