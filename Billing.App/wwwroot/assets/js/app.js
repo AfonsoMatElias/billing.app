@@ -329,7 +329,7 @@ new Easy("body", {
                         route: "/create",
                         url: "/components/views/product/create",
                         title: "Produto • Cadastrar",
-                        keepAlive: true,
+                        // keepAlive: true,
                     },
                     "product-view": {
                         route: "/view/:id",
@@ -344,7 +344,7 @@ new Easy("body", {
                 route: "/sell",
                 url: "/components/views/sell",
                 title: "Venda",
-                keepAlive: true,
+                // keepAlive: true,
             },
 
             // Buy
@@ -352,7 +352,7 @@ new Easy("body", {
                 route: "/buy",
                 url: "/components/views/buy",
                 title: "Compra",
-                keepAlive: true,
+                // keepAlive: true,
             },
 
             // Chat
@@ -735,4 +735,11 @@ function getPartialData(input = {
         .finally(function () {
             (input.onFinish || function () {}).call(this);
         });
-};
+}
+
+function selectOneImage(product) {
+    if (product.produtoImagens.length == 0)
+        return '/assets/images/box.svg';
+
+    return product.produtoImagens[0].imageUrl;
+}

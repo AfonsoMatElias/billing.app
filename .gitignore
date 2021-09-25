@@ -10,11 +10,14 @@ Billing.Shared/obj
 Billing.App/bin
 Billing.App/obj
 
+Billing.App/Attachments
+
 Billing.Tests/bin
 Billing.Tests/obj
 
 Scaffolder/bin
 Scaffolder/obj
 Scaffolder/.vscode
+
 .fake
 .ionide

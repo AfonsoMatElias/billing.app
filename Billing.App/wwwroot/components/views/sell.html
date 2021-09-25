@@ -14,12 +14,11 @@
                 </div>
                 <div class="product-list product-card-container">
                     <div class="item" e-tmp="produto/withStock" e-use="product" e-filter="findProduct:nome,codigo">
-                        <div class="cover"></div>
+                        <div class="cover" e-style="background-image: url({{ selectOneImage(product) }});"></div>
                         <div class="description">
                             <span class="main" e-content="{{ product.nome }}">Loading...</span>
                             <span class="detail1" e-content="{{ product.precoUnitario }} Kz">Loading...</span>
-                            <span class="detail2"
-                                e-content="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
+                            <span class="detail2" e-content="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
                         </div>
                         <div class="action-area">
                             <span class="area center">
