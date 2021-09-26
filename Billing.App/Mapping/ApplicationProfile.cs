@@ -174,6 +174,9 @@ namespace Billing.App.Mapping
             CreateMap<TipoFactura, TipoFacturaDto>();
             CreateMap<TipoFacturaDto, TipoFactura>();
 
+            CreateMap<TipoProduto, TipoProdutoDto>();
+            CreateMap<TipoProdutoDto, TipoProduto>();
+
             CreateMap<Titulo, TituloDto>();
             CreateMap<TituloDto, Titulo>();
 

@@ -38,7 +38,7 @@ public class Serial
         // 1ª Secção é a Chave
         var key = mLine[0];
 
-        var dataRegistro = new DateTime(long.Parse(
+        var registryDate = new DateTime(long.Parse(
             // 2ª Secção é a Data de Registro
             mLine[1]
         ));
@@ -48,14 +48,14 @@ public class Serial
             mLine[2]
         );
 
-        var dataExpiracao = dataRegistro.AddMinutes(interval);
+        var expireDate = registryDate.AddMinutes(interval);
 
         return new SerialKey
         {
             Key = key,
             Interval = interval,
-            DataRegistro = dataRegistro,
-            DataExpiracao = dataExpiracao,
+            RegistryDate = registryDate,
+            ExpireDate = expireDate,
         };
     }
 
@@ -89,11 +89,9 @@ public class Serial
         }
 
         // Construíndo as Serial Keys
-        registeredSerialKeys = serialKeysContent.ToList().Select(line =>
-        {
-            return this.SerialKeyBuilder(line);
-        }).ToList();
-
+        registeredSerialKeys = serialKeysContent.ToList()
+            .Select(line => this.SerialKeyBuilder(line))
+            .ToList();
 
         // Se não existe um ficheiro de configurações da aplicação é porque ele ainda não foi registrado
         // Então, simplesmente retorna e mata a continuação do fluxo de caregamento 
@@ -152,7 +150,7 @@ public class Serial
             return "Chave inválida";
 
         // Construindo a chave
-        var content = $"{key}:{ serialKey.DataRegistro.Ticks }:{ serialKey.Interval }";
+        var content = $"{key}:{ serialKey.RegistryDate.Ticks }:{ serialKey.Interval }";
 
         // Adicionando a chave no ficheiro de configurações
         File.WriteAllText(appConfigFileName, content);
@@ -176,7 +174,7 @@ public class Serial
             return false;
 
         // Verificando o intervalo de expiração
-        return this.appSerialKey.DataExpiracao > DateTime.Now;
+        return this.appSerialKey.ExpireDate > DateTime.Now;
     }
 
     public class SerialKey
@@ -188,35 +186,35 @@ public class Serial
         public int Interval { get; set; }
 
         // A Data de Registro da Serial 
-        public DateTime DataRegistro { get; set; }
+        public DateTime RegistryDate { get; set; }
 
         // A Data de Expiração da Serial 
-        public DateTime DataExpiracao { get; set; }
+        public DateTime ExpireDate { get; set; }
     }
 
 }
 
 // Teste
 
-// class Program
-// {
-//     public static void Main(string[] args)
-//     {
+class Program
+{
+    public static void Main(string[] args)
+    {
 
-//         var serial = new Serial();
+        var serial = new Serial();
 
-//         // Adicionando um serial, por padrão é 6 meses (podes alterar)
-//         serial.Add("11-22-33-44");
+        // Adicionando um serial, por padrão é 6 meses (podes alterar)
+        serial.Add("11-22-33-44");
 
-//         // Verificando se a aplicação está activa
-//         var primeiraVerificacao = serial.Check();
+        // Verificando se a aplicação está activa
+        var primeiraVerificacao = serial.Check();
 
-//         // Registrando a aplicação
-//         serial.RegisterApp("11-22-33-44");
+        // Registrando a aplicação
+        serial.RegisterApp("11-22-33-44");
 
-//         // Verificando se a aplicação está activa
-//         var segundaVerificacao = serial.Check();
+        // Verificando se a aplicação está activa
+        var segundaVerificacao = serial.Check();
 
 
-//     }
-// }
+    }
+}

@@ -37,6 +37,20 @@
                     </div>
                 </div>
 
+                <div class="input-field">
+                    <label class="default-label block-it">Tipo de Produto</label>
+                    <div class="default-container">
+
+                        <span class="radio-field" e-tmp="tipoProduto" e-use="item">
+                            <span data="{ item: item, code: this.code(5) }">
+                                <input class="app-radio" name="TipoProdutoId" id="radio-{{ code }}" value="{{ item.id }}" type="radio">
+                                <label for="radio-{{ code }}" e-content="{{ item.nome }} - {{ item.descricao }}">Loading...</label>
+                            </span>
+                        </span>
+
+                    </div>
+                </div>
+
                 <div class="input-area section-space">
                     <h3 class="info-section"> Descreva o Produto </h3>
 

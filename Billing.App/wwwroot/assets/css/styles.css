@@ -415,20 +415,30 @@ button:active {
     background-color: var(--color-disable) !important;
 }
 
+.radio-field,
 .check-field {
     margin: 8px 0;
 }
 
+.radio-field input,
 .check-field input {
     display: none;
 }
 
+.radio-field label,
 .check-field label {
     cursor: pointer;
     color: var(--color-text);
     font-size: 12pt;
     display: flex;
     align-items: center;
+}
+
+.radio-field label {
+    border: 1px solid var(--color-border);
+    padding: 4px 8px;
+    border-radius: 2px;
+    margin: 6px 0;
 }
 
 .check-field label::before {
@@ -456,6 +466,10 @@ button:active {
 .check-field input:checked+label::before {
     background-color: var(--color-app);
     color: var(--color-white-text);
+}
+
+.radio-field input:checked+label {
+    color: var(--color-app);
 }
 
 .field-space {
@@ -514,6 +528,7 @@ button:active {
     background-color: transparent !important;
 }
 
+.default-container .radio-field,
 .default-container .check-field {
     margin: 6px 0;
 }

@@ -8,6 +8,7 @@ namespace Billing.Service.Dto
         
         public string uid { get; set; }
         public string Nome { get; set; }
+        public string Descricao { get; set; }
         public virtual IEnumerable<ProdutoDto> Produtos { get; set; }
     }
 }
