@@ -40,13 +40,23 @@ namespace Billing.Service.Data.Configurations
                     .HasPrecision(18, 2)
                     .IsRequired();
 
-            builder.Property(e => e.SubCategoriaId)
-                    .IsRequired();
+            builder.Property(e => e.NumeroONU)
+                    .HasMaxLength(50);
+
+            builder.Property(e => e.TemRetencaoFonte)
+                    .HasMaxLength(30);
 
             builder.HasOne(e => e.SubCategoria)
                     .WithMany(e => e.Produtos)
                     .HasForeignKey(e => e.SubCategoriaId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+            builder.HasOne(e => e.TipoProduto)
+                    .WithMany(e => e.Produtos)
+                    .HasForeignKey(e => e.TipoProdutoId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired(false);
         }
     }
 }

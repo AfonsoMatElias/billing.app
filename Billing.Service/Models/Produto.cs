@@ -13,7 +13,11 @@ namespace Billing.Service.Models
         public long SubCategoriaId { get; set; }
         public bool IsPerecivel { get; set; }
         public bool IsStock { get; set; }
+        public string TemRetencaoFonte { get; set; }
+        public string NumeroONU { get; set; }
+        public long? TipoProdutoId { get; set; }
 
+        public virtual TipoProduto TipoProduto { get; set; }
         public virtual SubCategoria SubCategoria { get; set; }
 
         public virtual ICollection<Compra> Compras { get; set; }
