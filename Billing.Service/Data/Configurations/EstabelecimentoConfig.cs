@@ -26,7 +26,8 @@ namespace Billing.Service.Data.Configurations
             builder.HasOne(e => e.Endereco)
                     .WithMany(e => e.Estabelecimentos)
                     .HasForeignKey(e => e.EnderecoId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
         }
     }
 }

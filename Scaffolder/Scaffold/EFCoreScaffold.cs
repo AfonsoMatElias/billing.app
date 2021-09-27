@@ -30,7 +30,7 @@ namespace Scaffolder.Scaffold
 
             try
             {
-                var filePath = Path.Combine(config.Output, $"{config.Header}{name}{config.Trailer}.cs");
+                var filePath = Path.Combine(config.Output, "Configurations", $"{config.Header}{name}{config.Trailer}.cs");
 
                 if (!this.FileExistenceHandler(filePath, name, config.Trailer))
                     return;
@@ -48,11 +48,29 @@ namespace Scaffolder.Scaffold
                 void setter(string value)
                     => mTemplate = mTemplate.Replace(propIndetifier, $"{identation}{value}{propIndetifier}");
 
-                string builder(string propType, string propName)
+                string propertyBuilder(string propType, string propName)
                 {
-                    var ads = new List<string>(){ "" };
+                    var ads = new List<string>() { "" };
                     if (typeAditionals.ContainsKey(propType))
                         ads.AddRange(typeAditionals[propType]);
+
+                    return $"builder.Property(e => e.@-Name-@)@-Aditional-@{ identation + "       " }.IsRequired(false);\n"
+                        .Replace("@-Name-@", propName)
+                        .Replace("@-Aditional-@", string.Join(identation + "       ", ads));
+                }
+
+                string virtualPropertyBuilder(string propType, string propName)
+                {
+                    var ads = new List<string>() { "" };
+                    if (typeAditionals.ContainsKey(propType))
+                        ads.AddRange(typeAditionals[propType]);
+
+                    return $"builder.HasOne(e => e.{ propName })" +
+                         string.Join(identation + "       ", new string[] {
+                             $".WithMany(e => e.{ name }s)",
+                             $".HasForeignKey(e => e.{ propName }Id)",
+                             ".OnDelete(DeleteBehavior.NoAction);"
+                         });
 
                     return $"builder.Property(e => e.@-Name-@)@-Aditional-@{ identation + "       " }.IsRequired(false);\n"
                         .Replace("@-Name-@", propName)
@@ -72,12 +90,10 @@ namespace Scaffolder.Scaffold
                     // Skiping the virtual properties
                     if (line.Contains(" virtual "))
                     {
-                        //var mLine = line.Trim();
-                        //line = string.Join(" ", lineSplited);
-                        continue;
+                        setter(propertyBuilder(propType, propName)); continue;
                     }
 
-                    setter(builder(propType, propName));
+                    setter(propertyBuilder(propType, propName));
                 }
 
                 File.WriteAllText(filePath, mTemplate.Replace(propIndetifier, ""));

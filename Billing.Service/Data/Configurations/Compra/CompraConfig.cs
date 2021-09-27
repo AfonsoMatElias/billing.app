@@ -54,6 +54,12 @@ namespace Billing.Service.Data.Configurations
                     .WithMany(e => e.Compras)
                     .HasForeignKey(e => e.EstabelecimentoId)
                     .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(e => e.Seccao)
+                    .WithMany(e => e.Compras)
+                    .HasForeignKey(e => e.SeccaoId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired(false);
         }
     }
 }

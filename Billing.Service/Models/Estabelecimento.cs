@@ -13,5 +13,6 @@ namespace Billing.Service.Models
 
         public virtual ICollection<Funcionario> Funcionarios { get; set; }
         public virtual ICollection<Compra> Compras { get; set; }
+        public virtual ICollection<Armazem> Armazens { get; set; }
     }
 }

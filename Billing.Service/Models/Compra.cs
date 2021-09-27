@@ -15,9 +15,11 @@ namespace Billing.Service.Models
         public DateTime DataEntrada { get; set; }
         public DateTime? DataValidade { get; set; }
         public bool IsActiva { get; set; }
+        public long? SeccaoId { get; set; }
 
         public virtual Entidade Fornecedor { get; set; }
         public virtual Produto Produto { get; set; }
         public virtual Estabelecimento Estabelecimento { get; set; }
+        public virtual Seccao Seccao { get; set; }
     }
 }
