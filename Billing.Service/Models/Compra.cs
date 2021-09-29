@@ -6,7 +6,8 @@ namespace Billing.Service.Models
     {
         public long? FornecedorId { get; set; }
         public long ProdutoId { get; set; }
-        public long EstabelecimentoId { get; set; }
+        public long? SeccaoId { get; set; }
+        public long? EstabelecimentoId { get; set; }
         public int Quantidade { get; set; } // A quantidade que será reduzida a cada venda
         public int QuantidadeEntrada { get; set; } // Registra a quantidade inicial inserida
         public int? StockMinimo { get; set; }
@@ -15,7 +16,6 @@ namespace Billing.Service.Models
         public DateTime DataEntrada { get; set; }
         public DateTime? DataValidade { get; set; }
         public bool IsActiva { get; set; }
-        public long? SeccaoId { get; set; }
 
         public virtual Entidade Fornecedor { get; set; }
         public virtual Produto Produto { get; set; }
