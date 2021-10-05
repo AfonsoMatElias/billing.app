@@ -26,6 +26,7 @@ namespace Billing.Service.Data
         public DbSet<Pessoa> Pessoa { get; set; }
         public DbSet<Produto> Produto { get; set; }
         public DbSet<ProdutoImagem> ProdutoImagem { get; set; }
+        public DbSet<Regime> Regime { get; set; }
         public DbSet<SubCategoria> SubCategoria { get; set; }
         public DbSet<TipoContacto> TipoContacto { get; set; }
         public DbSet<TipoEntidade> TipoEntidade { get; set; }

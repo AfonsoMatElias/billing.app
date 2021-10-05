@@ -434,6 +434,10 @@ button:active {
     align-items: center;
 }
 
+.reduce-inpute-space {
+    margin: 1px 0;
+}
+
 .radio-field label {
     border: 1px solid var(--color-border);
     padding: 4px 8px;

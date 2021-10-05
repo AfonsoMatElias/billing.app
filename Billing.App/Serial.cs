@@ -194,27 +194,27 @@ public class Serial
 
 }
 
-// Teste
+// // Teste
 
-class Program
-{
-    public static void Main(string[] args)
-    {
+// class Program
+// {
+//     public static void Main(string[] args)
+//     {
 
-        var serial = new Serial();
+//         var serial = new Serial();
 
-        // Adicionando um serial, por padrão é 6 meses (podes alterar)
-        serial.Add("11-22-33-44");
+//         // Adicionando um serial, por padrão é 6 meses (podes alterar)
+//         serial.Add("11-22-33-44");
 
-        // Verificando se a aplicação está activa
-        var primeiraVerificacao = serial.Check();
+//         // Verificando se a aplicação está activa
+//         var primeiraVerificacao = serial.Check();
 
-        // Registrando a aplicação
-        serial.RegisterApp("11-22-33-44");
+//         // Registrando a aplicação
+//         serial.RegisterApp("11-22-33-44");
 
-        // Verificando se a aplicação está activa
-        var segundaVerificacao = serial.Check();
+//         // Verificando se a aplicação está activa
+//         var segundaVerificacao = serial.Check();
 
 
-    }
-}
+//     }
+// }

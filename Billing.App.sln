@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.Service", "Billing.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.Shared", "Billing.Shared\Billing.Shared.csproj", "{59730F98-C612-45F3-87B8-FC1471818827}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scaffolder", "Scaffolder\Scaffolder.csproj", "{DDB28606-3C8B-4C4E-B4CD-AEF4DDE62310}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{59730F98-C612-45F3-87B8-FC1471818827}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59730F98-C612-45F3-87B8-FC1471818827}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59730F98-C612-45F3-87B8-FC1471818827}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDB28606-3C8B-4C4E-B4CD-AEF4DDE62310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDB28606-3C8B-4C4E-B4CD-AEF4DDE62310}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDB28606-3C8B-4C4E-B4CD-AEF4DDE62310}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDB28606-3C8B-4C4E-B4CD-AEF4DDE62310}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

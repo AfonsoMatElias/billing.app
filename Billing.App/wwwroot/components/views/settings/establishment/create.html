@@ -20,6 +20,14 @@
                     </div>
 
                     <div class="input-field">
+                        <label>Regime</label>
+                        <select>
+                            <option value="" selected>Seleccione um Regime</option>
+                            <option e-tmp="Regime" e-use="item" value="{{ item.id }}" e-content="{{ item.nome }}">Loading...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
                         <label>Endereco</label>
                     </div>
 

@@ -28,6 +28,12 @@ namespace Billing.Service.Data.Configurations
                     .HasForeignKey(e => e.EnderecoId)
                     .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
+
+            builder.HasOne(e => e.Regime)
+                    .WithMany(e => e.Estabelecimentos)
+                    .HasForeignKey(e => e.RegimeId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired(false);
         }
     }
 }

@@ -7,9 +7,11 @@ namespace Billing.Service.Models
         public string Nome { get; set; }
         public long EnderecoId { get; set; }
         public long? GerenteId { get; set; }
+        public long? RegimeId { get; set; }
 
         public virtual Endereco Endereco { get; set; }
         public virtual Funcionario Gerente { get; set; }
+        public virtual Regime Regime { get; set; }
 
         public virtual ICollection<Funcionario> Funcionarios { get; set; }
         public virtual ICollection<Compra> Compras { get; set; }

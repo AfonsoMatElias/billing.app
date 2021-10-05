@@ -35,6 +35,20 @@
                             <input type="text" name="PrecoUnitarioCompra" validate="number"
                                 placeholder="Preço de Compra" />
                         </div>
+
+                        <div class="input-field" e-def="{ hasStore: false }">
+                            <div class="check-field reduce-inpute-space">
+                                <input class="app-checkbox" e-bind:checked="hasStore" id="hasStore" type="checkbox"
+                                    name="Armazem">
+                                <label for="hasStore">Tem Armazem?</label>
+                            </div>
+                            <select validate="select" e-if="hasStore">
+                                <option selected value="">None</option>
+                                <option e-for="item of stores" 
+                                        e-value="{{ item.id }}" 
+                                        e-content="{{ item.nome }}" >Loading...</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="right">
                         <div class="input-field">
@@ -51,6 +65,19 @@
                         <div class="input-field">
                             <label>Data de Validade (Opcional)</label>
                             <input type="date" name="DataValidade" validate="date" />
+                        </div>
+
+                        <div class="input-field" e-if="hasStore">
+                            <div class="check-field reduce-inpute-space">
+                                <input e-bind:checked="hasStore" type="checkbox" disabled>
+                                <label for="hasStore" disabled>Secção</label>
+                            </div>
+                            <select validate="select" name="SeccaoId">
+                                <option selected value="">None</option>
+                                <option e-for="item of sections" 
+                                        e-value="{{ item.id }}" 
+                                        e-content="{{ item.nome }}" >Loading...</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -186,6 +213,10 @@
         // Variables
         findProduct: '',
         buyList: [],
+
+        stores: [],
+        sections: [],
+
         selectedProduct: {
             id: 0,
             nome: 'Seleccione um Produto',

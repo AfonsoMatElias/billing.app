@@ -152,6 +152,9 @@ namespace Billing.App.Mapping
             CreateMap<ProdutoImagem, ProdutoImagemDto>();
             CreateMap<ProdutoImagemDto, ProdutoImagem>();
 
+            CreateMap<Regime, RegimeDto>();
+            CreateMap<RegimeDto, Regime>();
+
             CreateMap<SubCategoria, SubCategoriaDto>()
                 .ForPath(dst => dst.Categoria, src => src.MapFrom(x => new Categoria {
                     Id = x.Categoria.Id,
