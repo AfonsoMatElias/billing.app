@@ -31,9 +31,6 @@ namespace Billing.Service.Data.Configurations
             builder.Property(e => e.ProdutoId)
                     .IsRequired();
 
-            builder.Property(e => e.EstabelecimentoId)
-                    .IsRequired();
-
             builder.Property(e => e.Quantidade)
                     .IsRequired();
 
@@ -53,7 +50,8 @@ namespace Billing.Service.Data.Configurations
             builder.HasOne(e => e.Estabelecimento)
                     .WithMany(e => e.Compras)
                     .HasForeignKey(e => e.EstabelecimentoId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired(false);
 
             builder.HasOne(e => e.Seccao)
                     .WithMany(e => e.Compras)

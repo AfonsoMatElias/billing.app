@@ -6,7 +6,7 @@ namespace Billing.Service.Models
     {
         public long? FornecedorId { get; set; }
         public long ProdutoId { get; set; }
-        public long EstabelecimentoId { get; set; }
+        public long? EstabelecimentoId { get; set; }
         public int Quantidade { get; set; } // A quantidade que será reduzida a cada venda
         public int QuantidadeEntrada { get; set; } // Registra a quantidade inicial inserida
         public int? StockMinimo { get; set; }
