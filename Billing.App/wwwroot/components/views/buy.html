@@ -44,7 +44,7 @@
                             </div>
                             <select validate="select" e-if="hasStore">
                                 <option selected value="">None</option>
-                                <option e-for="item of stores" 
+                                <option e-for="item of armazens" 
                                         e-value="{{ item.id }}" 
                                         e-content="{{ item.nome }}" >Loading...</option>
                             </select>
@@ -74,7 +74,7 @@
                             </div>
                             <select validate="select" name="SeccaoId">
                                 <option selected value="">None</option>
-                                <option e-for="item of sections" 
+                                <option e-for="item of seccoes" 
                                         e-value="{{ item.id }}" 
                                         e-content="{{ item.nome }}" >Loading...</option>
                             </select>
@@ -214,8 +214,8 @@
         findProduct: '',
         buyList: [],
 
-        stores: [],
-        sections: [],
+        armazens: [],
+        seccoes: [],
 
         selectedProduct: {
             id: 0,

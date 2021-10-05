@@ -133,6 +133,31 @@
                             <input type="text" name="PrecoUnitarioVenda" validate="number"
                                 placeholder="Preço de Venda" />
                         </div>
+
+                        <div class="input-field" e-def="{ hasStore: false }">
+                            <div class="check-field reduce-inpute-space">
+                                <input class="app-checkbox" e-bind:checked="hasStore" id="hasStore" type="checkbox"
+                                    name="Armazem">
+                                <label for="hasStore">Tem Armazem?</label>
+                            </div>
+                            <select validate="select" e-if="hasStore">
+                                <option selected value="">None</option>
+                                <option e-for="item of armazens" 
+                                        e-value="{{ item.id }}" 
+                                        e-content="{{ item.nome }}" >Loading...</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field" e-if="hasStore">
+                            <label>Secção</label>
+                            <select validate="select" name="SeccaoId">
+                                <option selected value="">None</option>
+                                <option e-for="item of seccoes" 
+                                        e-value="{{ item.id }}" 
+                                        e-content="{{ item.nome }}" >Loading...</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -201,8 +226,12 @@
         // Variables
         isStock: false,
         isDestroyable: false,
+
         categorias: [],
         subCategorias: [],
+
+        armazens: [],
+        seccoes:[],
 
         // Methods
         selectCategoria: function (item) {

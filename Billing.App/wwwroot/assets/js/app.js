@@ -424,6 +424,30 @@ new Easy("body", {
                         route: "/management",
                         url: "/components/views/settings/management/management-wrapper",
                         children: {
+                            "settings-management-armazem": {
+                                title: "Config • Lista de Armazens",
+                                route: "/armazem",
+                                url: "/components/views/settings/management/sections/armazem/list",
+                                children: {
+                                    "settings-management-armazem-create": {
+                                        title: "Config • Criar Armazem",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/armazem/create",
+                                    }
+                                }
+                            },
+                            "settings-management-seccao": {
+                                title: "Config • Lista de Secções",
+                                route: "/seccao",
+                                url: "/components/views/settings/management/sections/seccao/list",
+                                children: {
+                                    "settings-management-seccao-create": {
+                                        title: "Config • Criar Secção",
+                                        route: "/create",
+                                        url: "/components/views/settings/management/sections/seccao/create",
+                                    }
+                                }
+                            },
                             "settings-management-categoria": {
                                 title: "Config • Lista de Categorias",
                                 route: "/categoria",
