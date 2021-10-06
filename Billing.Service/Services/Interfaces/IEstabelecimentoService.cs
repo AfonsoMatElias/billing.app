@@ -8,5 +8,6 @@ namespace Billing.Service.Services.Interfaces
     public interface IEstabelecimentoService : IBaseService<Estabelecimento, EstabelecimentoDto>
     {
         Task UpdateGerente(long id, EstabelecimentoDto model);
+        Task UpdateRegime(long id, EstabelecimentoDto model);
     }
 }

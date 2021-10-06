@@ -54,6 +54,20 @@
                 <div class="row" on:click="loadSection('setting-establishment-manager', { input: establishment })">
                     <div class="value-area">
                         <div class="ident">
+                            <p>Regime</p>
+                        </div>
+                        <div class="value">
+                            <p e-content="{{ establishment.regime }}">Regime</p>
+                        </div>
+                    </div>
+                    <div class="icon-area">
+                        <span class="center-icon fa fa-angle-right"></span>
+                    </div>
+                </div>
+
+                <div class="row" on:click="loadSection('setting-establishment-manager', { input: establishment })">
+                    <div class="value-area">
+                        <div class="ident">
                             <p>Gerente</p>
                         </div>
                         <div class="value">
@@ -127,13 +141,15 @@
             id: '',
             nome: '',
             endereco: '',
-            gerente: ''
+            gerente: '',
+            regime: ''
         },
         loadSection: function (name, data) {
             return loadSectionShared({
                 'setting-establishment-name': true,
                 'setting-establishment-address': true,
                 'setting-establishment-manager': true,
+                'setting-establishment-regime': true,
             }, name, data);
         }
     });

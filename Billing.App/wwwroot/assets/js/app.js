@@ -563,6 +563,7 @@ new Easy("body", {
             "setting-establishment-name": "/components/views/settings/establishment/sections/setting-name",
             "setting-establishment-address": "/components/views/settings/establishment/sections/setting-address",
             "setting-establishment-manager": "/components/views/settings/establishment/sections/setting-manager",
+            "setting-establishment-regime": "/components/views/settings/establishment/sections/setting-regime",
 
             // Not found page
             "notfound": {

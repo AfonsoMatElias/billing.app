@@ -129,6 +129,20 @@ namespace Billing.Service.Services.Implementations
             await this.Commit();
         }
 
+        public async Task UpdateRegime(long id, EstabelecimentoDto model)
+        {
+            var dbModel = await this.dbSet.FindAsync(id);
+
+            if (dbModel == null)
+                throw new AppException("Registrado não encontrado!");
+
+            // DB Model Update
+            dbModel.RegimeId = model.RegimeId;
+            dbSet.Update(dbModel);
+
+            await this.Commit();
+        }
+
         public async Task Remove(string uid, bool isCommit = true)
         {
             var _uid = uid.FromUID();

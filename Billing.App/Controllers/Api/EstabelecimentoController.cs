@@ -146,7 +146,7 @@ namespace Billing.App.Controllers.Api
             }
         }
 
-        // PUT: api/Estabelecimento/5:12837918237
+        // PUT: api/Estabelecimento/update-manager/5:12837918237
         [HttpPut("update-manager/{id}")]
         public async Task<Response> PutGerente(long id, [FromBody] EstabelecimentoDto model)
         {
@@ -156,6 +156,28 @@ namespace Billing.App.Controllers.Api
                     throw new AppException("Objecto inválido!", true);
 
                 await service.UpdateGerente(id, model);
+
+                return new Response { Message = "Updated" };
+            }
+            catch (AppException ex)
+            {
+                return new Response
+                {
+                    Errors = ex.Errors
+                };
+            }
+        }
+
+        // PUT: api/Estabelecimento/update-regime/5:12837918237
+        [HttpPut("update-manager/{id}")]
+        public async Task<Response> PutRegime(long id, [FromBody] EstabelecimentoDto model)
+        {
+            try
+            {
+                if (model == null)
+                    throw new AppException("Objecto inválido!", true);
+
+                await service.UpdateRegime(id, model);
 
                 return new Response { Message = "Updated" };
             }
