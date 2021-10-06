@@ -9,6 +9,20 @@ namespace Billing.App.Mapping
     {
         public ApplicationProfile()
         {
+            CreateMap<Armazem, ArmazemDto>()
+                .ForPath(dst => dst.Estabelecimento,
+                    xps => xps.MapFrom(src => new Estabelecimento {
+                        Id = src.Estabelecimento.Id,
+                        Nome = src.Estabelecimento.Nome,
+                        CreatedAt = src.Estabelecimento.CreatedAt,
+                        EnderecoId = src.Estabelecimento.EnderecoId,
+                        GerenteId = src.Estabelecimento.GerenteId,
+                        RegimeId = src.Estabelecimento.RegimeId,
+                        UpdatedAt = src.Estabelecimento.UpdatedAt,
+                        Visibility = src.Estabelecimento.Visibility,
+                    }));
+            CreateMap<ArmazemDto, Armazem>();
+
             CreateMap<Categoria, CategoriaDto>()
                 .ForPath(dst => dst.SubCategorias,
                     xps => xps.MapFrom(src => src.SubCategorias.Select(x => new SubCategoria
@@ -164,6 +178,17 @@ namespace Billing.App.Mapping
                     Visibility = x.Categoria.Visibility
                 }));
             CreateMap<SubCategoriaDto, SubCategoria>();
+
+            CreateMap<Seccao, SeccaoDto>()
+                .ForPath(dst => dst.Armazem, src => src.MapFrom(x => new Armazem {
+                    Id = x.Armazem.Id,
+                    Nome = x.Armazem.Nome,
+                    Codigo = x.Armazem.Codigo,
+                    CreatedAt = x.Armazem.CreatedAt,
+                    UpdatedAt = x.Armazem.UpdatedAt,
+                    Visibility = x.Armazem.Visibility,
+                }));
+            CreateMap<SeccaoDto, Seccao>();
 
             CreateMap<TipoEntidade, TipoEntidadeDto>();
             CreateMap<TipoEntidadeDto, TipoEntidade>();
