@@ -29,7 +29,8 @@ namespace Billing.App.Controllers.Api
             try
             {
                 var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size), queryable => 
-                    queryable.Include(x => x.Estabelecimento));
+                    queryable.Include(x => x.Estabelecimento)
+                             .Include(x => x.Seccoes));
 
                 return new Response
                 {

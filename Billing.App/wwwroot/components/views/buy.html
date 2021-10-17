@@ -42,11 +42,10 @@
                                     name="Armazem">
                                 <label for="hasStore">Tem Armazem?</label>
                             </div>
-                            <select validate="select" e-if="hasStore">
+                            <select validate="select" e-show="hasStore" on:change="selectArmazem(event.base.selectedOptions[0])">
                                 <option selected value="">None</option>
-                                <option e-for="item of armazens" 
-                                        e-value="{{ item.id }}" 
-                                        e-content="{{ item.nome }}" >Loading...</option>
+                                <option e-for="item of armazens" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                    Loading...</option>
                             </select>
                         </div>
                     </div>
@@ -67,16 +66,15 @@
                             <input type="date" name="DataValidade" validate="date" />
                         </div>
 
-                        <div class="input-field" e-if="hasStore">
+                        <div class="input-field" e-show="hasStore">
                             <div class="check-field reduce-inpute-space">
                                 <input e-bind:checked="hasStore" type="checkbox" disabled>
                                 <label for="hasStore" disabled>Secção</label>
                             </div>
                             <select validate="select" name="SeccaoId">
                                 <option selected value="">None</option>
-                                <option e-for="item of seccoes" 
-                                        e-value="{{ item.id }}" 
-                                        e-content="{{ item.nome }}" >Loading...</option>
+                                <option e-for="item of seccoes" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                    Loading...</option>
                             </select>
                         </div>
                     </div>
@@ -206,6 +204,17 @@
     this.loaded = function (el) {
         // Marking the menu
         easy.data.currentPage = 'Compra';
+
+        this.Easy.get('Armazem')
+            .then(function (data) {
+                component.data.armazens = data.result;
+            })
+            .catch(function (error) {
+                notify({
+                    type: 'error',
+                    message: error.message || error
+                });
+            });
     }
 
     // Data Exportation
@@ -223,6 +232,12 @@
         },
 
         // Methods
+        selectArmazem: function (item) {
+            if (item.value == '') return component.data.seccoes = [];
+            component.data.seccoes = component.data.armazens.find(function (_item) {
+                return _item.id == item.value * 1;
+            }).seccoes;
+        },
         submit: function (evt) {
             var btn = evt.base;
             var form = component.data.buyList;
@@ -250,9 +265,9 @@
                                     if (item.compras.length === 0)
                                         item.compras = [{ quantidade: formItem.Quantidade }];
                                     else
-                                        item.compras[0].quantidade += formItem.Quantidade;
+                                        item.compras[0].quantidade += formItem.Quantidade * 1;
 
-                                    item.precoUnitario = formItem.PrecoUnitarioVenda;
+                                    item.precoUnitario = formItem.PrecoUnitarioVenda * 1;
                                 }
                             })
                         }

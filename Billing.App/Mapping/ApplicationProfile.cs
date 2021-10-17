@@ -11,7 +11,8 @@ namespace Billing.App.Mapping
         {
             CreateMap<Armazem, ArmazemDto>()
                 .ForPath(dst => dst.Estabelecimento,
-                    xps => xps.MapFrom(src => new Estabelecimento {
+                    xps => xps.MapFrom(src => new Estabelecimento
+                    {
                         Id = src.Estabelecimento.Id,
                         Nome = src.Estabelecimento.Nome,
                         CreatedAt = src.Estabelecimento.CreatedAt,
@@ -20,7 +21,18 @@ namespace Billing.App.Mapping
                         RegimeId = src.Estabelecimento.RegimeId,
                         UpdatedAt = src.Estabelecimento.UpdatedAt,
                         Visibility = src.Estabelecimento.Visibility,
-                    }));
+                    }))
+                .ForPath(dst => dst.Seccoes,
+                    xps => xps.MapFrom(src => src.Seccoes.Select(x => new Seccao
+                    {
+                        Id = x.Id,
+                        Nome = x.Nome,
+                        Codigo = x.Codigo,
+                        ArmazemId = x.ArmazemId,
+                        CreatedAt = x.CreatedAt,
+                        UpdatedAt = x.UpdatedAt,
+                        Visibility = x.Visibility,
+                    })));
             CreateMap<ArmazemDto, Armazem>();
 
             CreateMap<Categoria, CategoriaDto>()
@@ -170,7 +182,8 @@ namespace Billing.App.Mapping
             CreateMap<RegimeDto, Regime>();
 
             CreateMap<SubCategoria, SubCategoriaDto>()
-                .ForPath(dst => dst.Categoria, src => src.MapFrom(x => new Categoria {
+                .ForPath(dst => dst.Categoria, src => src.MapFrom(x => new Categoria
+                {
                     Id = x.Categoria.Id,
                     Nome = x.Categoria.Nome,
                     CreatedAt = x.Categoria.CreatedAt,
@@ -180,7 +193,8 @@ namespace Billing.App.Mapping
             CreateMap<SubCategoriaDto, SubCategoria>();
 
             CreateMap<Seccao, SeccaoDto>()
-                .ForPath(dst => dst.Armazem, src => src.MapFrom(x => new Armazem {
+                .ForPath(dst => dst.Armazem, src => src.MapFrom(x => new Armazem
+                {
                     Id = x.Armazem.Id,
                     Nome = x.Armazem.Nome,
                     Codigo = x.Armazem.Codigo,
