@@ -237,7 +237,7 @@
         selectCategoria: function (item) {
             if (item.value == '') return component.data.subCategorias = [];
             component.data.subCategorias = component.data.categorias.find(function (_item) {
-                return _item.id = item.value * 1;
+                return _item.id == item.value * 1;
             }).subCategorias;
         },
         removeImage: function (index, evt) {
