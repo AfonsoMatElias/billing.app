@@ -1591,6 +1591,7 @@ button:active {
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
+    padding-top: 6px;
 }
 
 .product-card-container .item .description .detail1 {
@@ -1613,6 +1614,7 @@ button:active {
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
+    padding-top: 6px;
 }
 
 /* Buy page */
