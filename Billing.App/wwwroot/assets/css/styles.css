@@ -122,7 +122,12 @@ select {
 
 
 /* Shared */
-
+.three-dots {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
 .flex-it {
     display: flex;
 }
@@ -1541,22 +1546,29 @@ button:active {
     box-shadow: 0 0 3px .2px var(--color-border);
     border-radius: 5px;
     background-color: var(--color-primary);
-    overflow: hidden;
+    position: relative;
     display: flex;
-    width: 350px;
-    height: 80px;
+    flex-direction: column;
+    width: 120px;
+    height: 140px;
     margin: 8px;
     float: left;
+    cursor: pointer;
+}
+
+.product-card-container .item:active {
+    box-shadow: 0 0 3px .2px var(--color-light-green);
 }
 
 .product-card-container .item .cover {
-    width: 85px;
+    height: 85px;
     background-image: url(../images/box.svg);
-    background-color: var(--color-input);
+    background-color: var(--color-img-bg);
     background-position: center;
     background-repeat: no-repeat;
-    background-origin: content-box;
-    background-size: 85%;
+    background-size: 70%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .product-card-container .description {
@@ -1574,18 +1586,97 @@ button:active {
 }
 
 .product-card-container .item .description .main {
-    font-size: 14pt;
+    font-size: 9pt;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.product-card-container .item .description .detail1 {
+    position: absolute;
+    top: -3px;
+    right: -4px;
+    background-color: var(--color-app);
+    font-size: 10pt;
+    color: var(--color-white-text);
+    border-radius: 10px;
+    box-shadow: 0 0 3px .2px var(--color-border);
+    height: 18px;
 }
 
 .product-card-container .item .description .detail2 {
+    font-size: 9pt;
+    font-style: italic;
+    font-weight: 600;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+/* Buy page */
+.buy-product .product-card-container .item {
+    position: unset;
+    box-shadow: 0 0 3px .2px var(--color-border);
+    border-radius: 5px;
+    background-color: var(--color-primary);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    width: 350px;
+    height: 80px;
+    margin: 8px;
+    float: left;
+}
+
+.buy-product .product-card-container .item .cover {
+    width: 85px;
+    background-image: url(../images/box.svg);
+    background-color: var(--color-input);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-size: 85%;
+}
+
+.buy-product .product-card-container .description {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    padding: 5px;
+}
+
+.buy-product .product-card-container .item .description>span {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+}
+
+.buy-product .product-card-container .item .description .main {
+    font-size: 14pt;
+}
+
+.buy-product .product-card-container .item .description .detail1 {
+    position: inherit;
+    background-color: inherit;
+    font-size: 10pt;
+    color: inherit;
+    border-radius: inherit;
+    box-shadow: inherit;
+    height: inherit;
+}
+
+.buy-product .product-card-container .item .description .detail2 {
     font-size: 11pt;
 }
 
-.product-card-container .item .action-area {
+.buy-product .product-card-container .item .action-area {
     width: 55px;
 }
 
-.product-card-container .item .action-area .center-icon {
+.buy-product .product-card-container .item .action-area .center-icon {
     width: 26px;
     height: 26px;
     border-color: var(--color-shadow);
