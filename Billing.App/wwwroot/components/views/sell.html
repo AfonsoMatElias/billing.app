@@ -32,6 +32,7 @@
                         <div class="table-cell"> Preço </div>
                         <div class="table-cell"> Quantd. </div>
                         <div class="table-cell"> Desc. </div>
+                        <div class="table-cell"> IVA </div>
                         <div class="table-cell"> Subtotal </div>
                         <div class="table-cell" style="flex: .5;"></div>
                     </content>
@@ -50,6 +51,7 @@
                                     <input type="number" e-bind="product.descount" value="0"><label>%</label>
                                 </span>
                             </div>
+                            <div class="pointer table-cell"> {{ product.iva }} % </div>
                             <div class="pointer table-cell hidable"> {{ product.subtotal }} Kz </div>
                             <div class="table-cell" style="flex: .5;">
                                 <span class="remove-line">
@@ -196,20 +198,28 @@
         name: 'Cliente Não Selecionado',
         type: 'Clique em `?` para Selecionar'
     };
+    function toFixed(number) {
+        return (number||0).toFixed(2)
+    }
     var calculateResume = (function () {
         var subtotal = 0;
         var descount = 0;
         // Shortcut
         var resume = component.data.sellingResume;
-        this.data.busketProducts.filter(function (item, acc) {
-            subtotal += item.price * item.qty;
-            descount += item.price * (item.descount / 100);
+        this.data.busketProducts.filter(function (b, acc) {
+            var _iva = ((b.price * b.qty) * (b.iva / 100));
+            var _descount = ((b.price * b.qty) * (b.descount / 100));
+            var _subtotal = ((b.price * b.qty) - _descount + _iva);
+            
+            b.subtotal = toFixed(_subtotal);
+            descount += (_descount);
+            subtotal += (_subtotal);
         });
 
-        resume.subtotal = subtotal;
-        resume.descount = descount;
-        resume.total = subtotal - descount;
-        resume.exchange = resume.paid - resume.total;
+        resume.subtotal = toFixed(subtotal);
+        resume.descount = toFixed(descount);
+        resume.total = toFixed(subtotal);
+        resume.exchange = toFixed(resume.paid - resume.total);
     }).bind(this)
 
     this.mounted = function () {
@@ -317,6 +327,7 @@
                 subtotal: product.precoUnitario,
                 descount: 0,
                 qty: 1,
+                iva: product.iva || 0
             };
 
             // Adding to the UI
@@ -343,16 +354,16 @@
                 }
 
                 product.compras[0].quantidade = newStock;
-                b.subtotal = b.price * qty - (b.price * (b.descount / 100));
+                // b.subtotal = (b.price * qty) - (b.price * (b.descount / 100));
                 // Updating the resume fields
                 calculateResume();
             }, busketProduct);
 
             // Watching descount property
             var $wDescount = easy.watch("descount", function (descount) {
-                // Shortcut
-                var b = busketProduct;
-                b.subtotal = b.price * b.qty - (b.price * (descount / 100));
+                // // Shortcut
+                // var b = busketProduct;
+                // b.subtotal = (b.price * b.qty) - (b.price * (descount / 100));
                 // Updating the resume fields
                 calculateResume();
             }, busketProduct);
