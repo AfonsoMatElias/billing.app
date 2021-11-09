@@ -10,6 +10,7 @@
                     <div class="actions">
                         <button id="reset" on:click="cancelSell" class="cancel-type">CANCELAR</button>
                         <button class="next-type">PAUSAR</button>
+                        <button class="submit-type" on:click="submit(event, 'vpp', 'fpf')">PROFORMA</button>
                     </div>
                 </div>
                 <div class="product-list product-card-container">
@@ -111,7 +112,7 @@
                 <div class="row input">
                     <div class="input-field">
                         <label>Forma de Pagamento</label>
-                        <select name="FormaPagamentoId" validate="select">
+                        <select e-bind="formaPagamentoId" name="FormaPagamentoId" validate="select">
                             <option value="">Selecione a Forma</option>
                             <option e-tmp="FormaPagamento" value="{{ id }}" e-content="{{ nome }}">Loading...</option>
                         </select>
@@ -144,7 +145,7 @@
 
                 <div class="row action-area">
                     <div class="area center">
-                        <button on:click="submit" class="primary-button">FINALIZAR</button>
+                        <button on:click="submit(event, 'vpp', 'fpp')" class="primary-button">FINALIZAR</button>
                     </div>
                 </div>
             </div>
@@ -199,7 +200,7 @@
         type: 'Clique em `?` para Selecionar'
     };
     function toFixed(number) {
-        return (number||0).toFixed(2)
+        return (number || 0).toFixed(2)
     }
     var calculateResume = (function () {
         var subtotal = 0;
@@ -210,7 +211,7 @@
             var _iva = ((b.price * b.qty) * (b.iva / 100));
             var _descount = ((b.price * b.qty) * (b.descount / 100));
             var _subtotal = ((b.price * b.qty) - _descount + _iva);
-            
+
             b.subtotal = toFixed(_subtotal);
             descount += (_descount);
             subtotal += (_subtotal);
@@ -278,6 +279,7 @@
             type: customer.type
         },
         customers: [],
+        formaPagamentoId: '',
         // Methods
         calcButtonClick: function (evt) {
             var value = evt.base.valueIn('val');
@@ -370,8 +372,7 @@
 
             // Watching paid property
             var $wPaid = easy.watch("paid", function (paid) {
-                component.data.sellingResume.exchange = paid - component.data.sellingResume
-                    .total;
+                component.data.sellingResume.exchange = toFixed(paid - component.data.sellingResume.total);
             }, component.data.sellingResume);
 
             watches.push($wQty, $wDescount, $wPaid);
@@ -401,7 +402,9 @@
                 component.data.sellingResume[k] = 0;
             });
 
-            component.data.handleCustomerSelection();
+            component.data.customer.id = customer.id;
+            component.data.customer.name = customer.name;
+            component.data.customer.type = customer.type;
         },
         handleCustomerSelection: function (evt) {
             if (!component.data.customer.id)
@@ -417,7 +420,7 @@
             component.data.customer.type = item.type;
             component.data.showCustomerSelection = false;
         },
-        submit: function (evt) {
+        submit: function (evt, tipoVenda, tipoFactura) {
             var btn = evt.base;
 
             if (component.data.busketProducts.length === 0)
@@ -426,12 +429,23 @@
                     message: 'Carrinho Vazio!'
                 });
 
+            if (!component.data.formaPagamentoId)
+                return notify({
+                    type: 'warn',
+                    message: 'Selecione a Forma de Pagamento!'
+                });
+
             if (hasSpinner(btn)) return;
             addOrRemSpinner(btn);
 
             var form = {
+                CodigoTipoVenda: tipoVenda,
+                FormaPagamentoId: component.data.formaPagamentoId,
                 ClienteId: component.data.customer.id || undefined,
                 Total: component.data.sellingResume.total,
+                Factura: {
+                    CodigoTipoFactura: tipoFactura
+                },
                 VendaItens: component.data.busketProducts
                     .map(function (item) {
                         return {
@@ -447,10 +461,11 @@
                 .then(function (data) {
                     notify({
                         type: 'success',
-                        message: 'Venda Efectuada'
+                        message: 'Operação Efectuada!'
                     });
 
                     component.data.busketProducts = [];
+                    component.data.formaPagamentoId = '';
                     component.el.node('#reset').click();
                 })
                 .catch(function (error) {

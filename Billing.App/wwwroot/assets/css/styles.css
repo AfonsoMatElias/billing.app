@@ -1521,8 +1521,12 @@ button:active {
     margin-left: 5px;
 }
 
-.sell-product .input-side .search-area .actions button:first-child {
-    margin-right: 15px;
+.sell-product .input-side .search-area .actions button {
+    width: 90px;
+}
+
+.sell-product .input-side .search-area .actions button:last-child {
+    margin-left: 10px;
 }
 
 .sell-product .input-side .search-area .actions button:first-child span {

@@ -30,6 +30,8 @@ namespace Billing.Service.Data
         public DbSet<SubCategoria> SubCategoria { get; set; }
         public DbSet<TipoContacto> TipoContacto { get; set; }
         public DbSet<TipoEntidade> TipoEntidade { get; set; }
+        public DbSet<TipoVenda> TipoVenda { get; set; }
+        public DbSet<TipoFactura> TipoFactura { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Venda> Venda { get; set; }
         public DbSet<VendaItem> VendaItem { get; set; }
