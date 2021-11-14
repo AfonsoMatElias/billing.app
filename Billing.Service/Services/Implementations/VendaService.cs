@@ -69,7 +69,7 @@ namespace Billing.Service.Services.Implementations
                 queryable = func => func;
 
             var _uid = uid.FromUID();
-            if(_uid == null)
+            if (_uid == null)
                 throw new AppException("Identificador Inválido!");
 
             // Applying the queryable value and the predicate to the expression
@@ -81,9 +81,23 @@ namespace Billing.Service.Services.Implementations
 
         public async Task Save(VendaDto model, bool isCommit = true)
         {
+
+            if (model.Factura == null)
+                throw new AppException($"Modelo inválido, falta de factura.", true);
+
+            var tipoVenda = await mContext.TipoVenda.FirstOrDefaultAsync(x => x.Codigo == model.CodigoTipoVenda);
+            var tipoFactura = await mContext.TipoFactura.FirstOrDefaultAsync(x => x.Codigo == model.Factura.CodigoTipoFactura);
+
+            if (tipoVenda == null)
+                throw new AppException($"Codigo de Tipo de Venda Inválido.", true);
+
+            if (tipoFactura == null)
+                throw new AppException($"Codigo de Tipo de Factura Inválido.", true);
+
             var dbModel = mapper.Map<Venda>(model);
 
-            foreach (var item in dbModel.VendaItens) {
+            foreach (var item in dbModel.VendaItens)
+            {
                 var lastCompra = await mContext.Compra
                                                .Include(x => x.Produto)
                                                .FirstOrDefaultAsync(x => x.ProdutoId == item.ProdutoId && x.IsActiva);
@@ -102,9 +116,13 @@ namespace Billing.Service.Services.Implementations
             dbModel.Referencia = $"Ref:{uIndentifier}-{ DateTime.Now.ToString("yyMMdd") }";
 
             // Adding the Factura
-            dbModel.Factura = new Factura {
+            dbModel.Factura = new Factura
+            {
                 Referencia = dbModel.Referencia,
+                TipoFacturaId = tipoFactura.Id
             };
+
+            dbModel.TipoVendaId = tipoVenda.Id;
 
             // Adding the result to the local storage
             await dbSet.AddAsync(dbModel);
@@ -118,7 +136,7 @@ namespace Billing.Service.Services.Implementations
         public async Task Update(string uid, VendaDto model, bool isCommit = true)
         {
             var _uid = uid.FromUID();
-            if(_uid == null)
+            if (_uid == null)
                 throw new AppException("Identificador Inválido!");
 
             var dbModel = await this.dbSet.FindAsync(_uid.Id);
@@ -142,7 +160,7 @@ namespace Billing.Service.Services.Implementations
         public async Task Remove(string uid, bool isCommit = true)
         {
             var _uid = uid.FromUID();
-            if(_uid == null)
+            if (_uid == null)
                 throw new AppException("Identificador Inválido!");
 
             var dbModel = await this.dbSet.FindAsync(_uid.Id);

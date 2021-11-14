@@ -6,6 +6,7 @@ namespace Billing.Service.Dto
         public long VendaId { get; set; }
         public string Referencia { get; set; }
         public long TipoFacturaId { get; set; }
+        public string CodigoTipoFactura { get; set; }
 
         public virtual VendaDto Venda { get; set; }
         public virtual TipoFacturaDto TipoFactura { get; set; }
