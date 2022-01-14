@@ -154,7 +154,7 @@ namespace Billing.Service.Services.Implementations
             if (dbModel == null)
                 throw new AppException("Registrado não encontrado!");
 
-            dbSet.Remove(dbModel);
+            dbModel.Visibility = false;
 
             if (!isCommit)
                 return;

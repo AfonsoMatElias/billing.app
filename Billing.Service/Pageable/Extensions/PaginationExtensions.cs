@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Billing.Service.Models.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace Billing.Service.Pageable

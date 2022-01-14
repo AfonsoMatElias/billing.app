@@ -5,7 +5,7 @@ namespace Billing.Service.Dto
     public class ContactoDto : Base.Properties
     {
         public string uid { get; set; }
-        public string Contaco { get; set; }
+        public string Valor { get; set; }
         public long PessoaId { get; set; }
         public long TipoContactoId { get; set; }
         

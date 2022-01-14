@@ -24,6 +24,7 @@ namespace Billing.Shared.Extensions
                 if (ignore != null && ignore.Any(x => x.ToLower() == property.Name.ToLower())) continue;
 
                 var propValue = property.GetValue(source);
+
                 // Verifying if the source isn't null and is diferent of the of the destination
                 if (propValue != null)
                     typeDestination.GetProperty(property.Name).SetValue(destination, propValue);

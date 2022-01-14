@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Billing.Service.Data;
@@ -41,6 +42,11 @@ namespace Billing.Service.Services.Implementations.Base
             }
             // Catch the base Exceptions
             catch (DbUpdateException ex) 
+            {
+                throw new AppException(ex.InnerException?.Message ?? ex.Message);
+            }
+            // Catch the base Exceptions
+            catch (Exception ex) 
             {
                 throw new AppException(ex.InnerException?.Message ?? ex.Message);
             }

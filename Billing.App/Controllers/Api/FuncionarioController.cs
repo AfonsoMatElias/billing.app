@@ -42,15 +42,15 @@ namespace Billing.App.Controllers.Api
                 return new Response
                 {
                     Data = dbData.Data,
-                    Pagination = dbData.Pageable
+                    Pagination = dbData.Pageable,
+                    Message = "Listed"
                 };
             }
             catch (AppException ex)
             {
                 return new Response
                 {
-                    Errors = ex.Errors,
-                    Message = "Listed"
+                    Errors = ex.Errors
                 };
             }
         }
@@ -66,7 +66,8 @@ namespace Billing.App.Controllers.Api
                 return new Response
                 {
                     Data = dbData,
-                    Message = "Response Object"
+                    Message = "Response Object",
+                    Errors = dbData == null ? new[] { "Not Found" } : new string[] { }
                 };
             }
             catch (AppException ex)

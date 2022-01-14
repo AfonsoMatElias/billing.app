@@ -23,6 +23,7 @@ namespace Billing.App.Models
     public class Attachment : AttachmentBase
     {
         public IFormFile File { get; set; }
+        public bool? ToRemove { get; set; }
 
         public TModel Compile<TModel>(Action<TModel, byte[], IFormFile> modelResolver)
             where TModel : class
@@ -56,7 +57,8 @@ namespace Billing.App.Models
     public class Attachments : AttachmentBase
     {
         public IFormFile[] Files { get; set; } = new List<IFormFile>().ToArray();
-
+        public bool? ToRemove { get; set; }
+        
         public TModel Compile<TModel>(Action<TModel, List<byte[]>, IFormFile[]> modelResolver)
             where TModel : class
         {

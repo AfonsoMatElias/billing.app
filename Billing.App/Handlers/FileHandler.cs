@@ -25,8 +25,7 @@ namespace Billing.App.Handlers
             if (string.IsNullOrEmpty(folder))
                 return this;
 
-            this.folderPath = $"{env.ContentRootPath}/Attachments/{folder}/".Replace("//", "/");
-
+            this.folderPath = Path.Combine(env.ContentRootPath, "Attachments", folder);
             return this;
         }
 
@@ -46,7 +45,7 @@ namespace Billing.App.Handlers
             fileName = fileName ?? $"{ Guid.NewGuid().ToString("N") }.{ ext }";
 
             // Generating the file apth
-            var fullfilePath = $"{ this.folderPath }{ fileName }";
+            var fullfilePath = Path.Combine(this.folderPath, fileName);
 
             using (var stream = new FileStream(fullfilePath, FileMode.Create, FileAccess.Write))
                 // Copying to the server
@@ -71,7 +70,7 @@ namespace Billing.App.Handlers
             fileName = fileName ?? $"{ Guid.NewGuid().ToString("N") }.{ ext }";
 
             // Generating the file apth
-            var fullfilePath = $"{ this.folderPath }{ fileName }";
+            var fullfilePath = Path.Combine(this.folderPath, fileName);
 
             await File.WriteAllBytesAsync(fullfilePath, file);
 
@@ -97,11 +96,13 @@ namespace Billing.App.Handlers
 
         public async Task DeleteAsync(string filePath)
         {
-            if (!File.Exists(filePath))
+            var fullfilePath = Path.Combine(this.folderPath, filePath);
+            
+            if (!File.Exists(fullfilePath))
                 throw new AppException("Ficheiro não encontrado.", true);
 
             // Deleting the actual file
-            File.Delete(filePath);
+            File.Delete(fullfilePath);
 
             await Task.Delay(0);
         }
