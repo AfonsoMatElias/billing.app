@@ -1,45 +1,36 @@
-<inc src="settings-management-wrapper" e-def="{ active: 'Categoria' }">
-    <content>
-        <div class="partial splitted-editing editable-left">
-            <form class="left nice-scroll">
+<settings-management-wrapper data="$data">
+    <div class="partial splitted-editing editable-left">
+        <form class="left nice-scroll">
 
-                <div class="description">
-                    <h3>Adicionar Categoria
-                </div>
+            <div class="description">
+                <h3>Adicionar Categoria
+            </div>
 
-                <div class="row column-type">
-                    <div class="input-field">
-                        <label>Nome</label>
-                        <input type="text" name="Nome" placeholder="Digite o Nome">
-                    </div>
+            <div class="row column-type">
+                <div class="input-field">
+                    <label>Nome</label>
+                    <input type="text" name="Nome" placeholder="Digite o Nome">
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="action-area btn-ordered">
-                        <button type="reset" class="cancel-type" onclick="window.history.back()">Voltar</button>
-                        <button type="button" class="submit-type" on:click="submit">Criar</button>
-                    </div>
+            <div class="row">
+                <div class="action-area btn-ordered">
+                    <button type="reset" class="cancel-type" onclick="window.history.back()">Voltar</button>
+                    <button type="button" class="submit-type" on:click="submit">Criar</button>
                 </div>
-            </form>
-            <div class="right" id="loadable"></div>
-        </div>
-    </content>
-</inc>
+            </div>
+        </form>
+        <div class="right" id="loadable"></div>
+    </div>
+</settings-management-wrapper>
 <script>
-    var $easy = this.Easy;
+    var bouer = this.bouer;
     var component = this;
-    var submit = function () {};
-
-    this.loaded = function (el) {
-        var elWrapperData = $easy.retrieve('manag-wrapper-data', true);
-        if (elWrapperData) submit = elWrapperData.submitShared;
-    }
-    // Exposing the section data
-    $easy.expose('manag-section-data', this.data);
-
+    
     this.export({
+        active: 'Categoria',
         submit: function (evt) {
-            submit(evt, 'categoria', '/settings/management/categoria');
+            bouer.$wait.get('setting-manag-methods').submitShared(evt, 'categoria', '/settings/management/categoria');
         }
     });
 </script>

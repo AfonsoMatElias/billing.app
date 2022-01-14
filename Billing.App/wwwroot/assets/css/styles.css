@@ -84,7 +84,7 @@ select {
     --color-separator: #e6e6e6;
     --color-card: var(--color-primary);
     --color-very-light-gray: #f3f3f4;
-    --color-disable: #f4f4f4;
+    --color-disable: #efefef;
     --color-scroll-thumb: #cacaca;
     --color-scroll-track: #eee;
     --color-row: #f4f4f5;
@@ -138,6 +138,14 @@ select {
 
 .hide-it {
     display: none;
+}
+
+.hide-it-f {
+    display: none!important;
+}
+
+.green-it {
+    color: var(--color-green);
 }
 
 .blur-it {
@@ -202,10 +210,9 @@ select {
 .blue-type {
     height: 35px;
     width: 120px;
+    font-size: 9pt;
     color: var(--color-white-text);
     background-color: var(--color-app);
-    font-size: var(--font-main);
-    font-size: 10.5pt;
     text-transform: uppercase;
 }
 
@@ -241,6 +248,10 @@ select {
     border: 2px solid var(--color-primary);
     background-color: var(--color-secondary);
     border-radius: 50%;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 .center-text {
@@ -363,6 +374,7 @@ select {
     height: 140px;
     margin: 8px;
     background-image: url(../images/user.png);
+    border: 1px solid var(--color-border-lighter);
 }
 
 .photo-field .image .fa {
@@ -372,6 +384,14 @@ select {
     height: 36px;
     width: 36px;
     font-size: 11pt;
+}
+
+.photo-field .image .fa.fa-remove {
+    right: 0px;
+    top: 5px;
+    bottom: auto;
+    height: 30px;
+    width: 30px;
 }
 
 .photo-field .description {
@@ -1093,7 +1113,7 @@ button:active {
 }
 
 .main-body-action button {
-    margin: 8px;
+    flex: 1;
 }
 
 .create-customer .input-area {
@@ -2570,7 +2590,7 @@ button:active {
 }
 
 .composer:empty::before {
-    content: 'Escreve alguma coisa...';
+    content: 'Escreva alguma coisa...';
     color: var(--color-soft-text);
     cursor: text;
 }
@@ -3605,6 +3625,31 @@ button:active {
     box-shadow: var(--shadow);
     cursor: pointer;
     display: none;
+}
+
+.removal-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.removal-container .fa {
+    width: 25px;
+    height: 25px;
+}
+
+.create-product .images-side .action-area {
+    position: relative;
+}
+
+.add-photo {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    background-color: var(--color-light);
+    border: 1px solid var(--color-border)
 }
 
 /* Animations classes */

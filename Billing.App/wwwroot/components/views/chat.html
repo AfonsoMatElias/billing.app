@@ -4,7 +4,7 @@
             <div class="left conversations hiddable-panel-left">
                 <span title="Fechar Resumo"
                     class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
-                    onclick="event.target.aboveMe().classList.remove('show-left');"></span>
+                    onclick="event.target.parentNode.classList.remove('show-left');"></span>
 
                 <div class="header">
                     <h3>Conversações</h3>
@@ -58,7 +58,7 @@
                         </div>
 
                         <div e-for="item of messages" e-class="{ 'is-user': item.usuarioFromId == ref }"
-                            class="message-bubble-container" e-anm="up">
+                            class="message-bubble-container">
                             <div class="message-bubble">
                                 <div class="owner">
                                     <span e-content="{{ getAchronym(item.usuarioToName) }}">##</span>
@@ -92,7 +92,7 @@
         <div class="images-side default-side hiddable-panel-right">
             <span title="Fechar Resumo"
                     class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
-                    onclick="event.target.aboveMe().classList.remove('show-right');"></span>
+                    onclick="event.target.parentNode.classList.remove('show-right');"></span>
 
             <div class="card user-info-v-card">
                 <div class="icon">
@@ -140,13 +140,13 @@
 </div>
 <script>
     var component = this;
-    var $easy = this.Easy;
+    var bouer = this.bouer;
     this.loaded = function (el) {
-        this.Easy.data.currentPage = 'Chat';
-        $easy.routing.markActive($easy.el.node('.chat-link'));
+        bouer.data.currentPage = 'Chat';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.chat-link'));
 
-        if (this.Easy.data.showConversation)
-            this.Easy.data.showConversation = false;
+        if (bouer.data.showConversation)
+            bouer.data.showConversation = false;
     }
 
     this.export({
@@ -176,8 +176,8 @@
 
         // Methods
         showPanel: function (evt, prop) {
-            var container = evt.base.aboveMe('.chat.main-body');
-            container.node('.hiddable-panel-' + prop).classList.add('show-' + prop);
+            var container = this.el;
+            container.querySelector('.hiddable-panel-' + prop).classList.add('show-' + prop);
         }
     });
 </script>

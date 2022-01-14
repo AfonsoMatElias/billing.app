@@ -1,7 +1,7 @@
 <div class="main-body fit-content settings-page card">
     <div class="inner-menu nice-scroll">
         <div class="row">
-            <a i:href="/settings">
+            <a :href="/settings">
                 <div class="back-button">
                     <span class="center-icon fa fa-arrow-left"></span>
                 </div>
@@ -9,37 +9,74 @@
             </a>
         </div>
 
-        <div e-for="menu of menus" class="row" e-order="asc:name" e-class="{ 'mark-point': active == menu.name }">
-            <a i:href="{{ menu.url }}">
+        <div e-for="menu of menus | order:asc:name" class="row" 
+             e-class="{ 'mark-point': active == menu.name }">
+            <a :href="{{ menu.url }}">
                 <p e-content="{{ menu.text }}">Menu Name</p>
             </a>
         </div>
 
     </div>
     <div class="inner-menu-content">
-        <span title="Menu" class="reduced-screen-button center-icon fa fa-bars setting-menu-btn"
-            on:click="event.base.aboveMe('.settings-page').node('.inner-menu').classList.toggle('show-left')"></span>
-        <content></content>
+        <span title="Menu" class="reduced-screen-button center-icon fa fa-bars setting-menu-btn" 
+              on:click="aboveMe(event.currentTarget, '.settings-page').querySelector('.inner-menu').classList.toggle('show-left')"></span>
+        <slot default></slot>
     </div>
 </div>
 <script>
-    var $easy = this.Easy;
+    var bouer = this.bouer;
     var component = this;
+    var web = bouer.deps['web'];
 
-    this.loaded = function (el) {
-        $easy.data.currentPage = 'Gestão de Dados';
-        $easy.routing.markActive($easy.el.node('.settings-link'));
-    }
+    this.on('mounted', function () {
+        if (!('active' in this.data))
+            bouer.set({ active: '' }, this.data);
+    });
 
-    // Trying to recieve the data exposed 
-    var elWrapperData = $easy.retrieve('manag-section-data', true);
-    var activeValue = elWrapperData ? elWrapperData.active : '';
-    $easy.setData({
-        active: activeValue
-    }, this.data);
+    this.on('loaded', function () {
+        bouer.data.currentPage = 'Gestão de Dados';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.settings-link'));
 
-    // Exposing the wrapper data
-    $easy.expose('manag-wrapper-data', this.data);
+        bouer.$wait.set('setting-manag-methods', {
+            submitShared: function (evt, route, redirectTo) {
+                var btn = evt.currentTarget;
+                var form = aboveMe(btn, 'form');
+
+                var formData = bouer.toJsObj(form);
+                var valid = true;
+
+                var keys = Object.keys(formData);
+                for (var k of keys) {
+                    var v = formData[k];
+                    if (valid == true && (v == '' || v == null))
+                        valid = false;
+                }
+
+                if (valid == false)
+                    return notify({
+                        type: 'warn',
+                        message: 'Todos os campos devem ser preenchidos!'
+                    });
+
+                if (hasSpinner(btn)) return;
+                addOrRemSpinner(btn);
+
+                web(route, 'post', formData)
+                    .then(function (data) {
+                        notify({
+                            type: 'success',
+                            message: 'Registro Criado',
+                            run: function () {
+                                bouer.routing.navegate(redirectTo);
+                            }
+                        });
+                    })
+                    .finally(function () {
+                        addOrRemSpinner(btn, true);
+                    });
+            }
+        });
+    })
 
     this.export({
         menus: [
@@ -94,50 +131,6 @@
                 text: 'Tipos de Venda'
             }
         ],
-
-        // Methods
-        submitShared: function (evt, route, redirectTo) {
-            var btn = evt.base;
-            var form = btn.aboveMe('form');
-
-            var formData = $easy.toJsObj(form);
-            var valid = true;
-
-            formData.keys(function (k, v) {
-                if (valid == true && (v == '' || v == null))
-                    valid = false;
-            });
-
-            if (valid == false)
-                return notify({
-                    type: 'warn',
-                    message: 'Todos os campos devem ser preenchidos!'
-                });
-
-            if (hasSpinner(btn)) return;
-            addOrRemSpinner(btn);
-
-
-            $easy.create(route, formData)
-                .then(function (data) {
-                    notify({
-                        type: 'success',
-                        message: 'Registro Criado',
-                        run: function () {
-                            $easy.routing.navegate(redirectTo);
-                        }
-                    });
-                })
-                .catch(function (error) {
-                    notify({
-                        type: 'error',
-                        message: error.message || error
-                    });
-                })
-                .finally(function () {
-                    addOrRemSpinner(btn, true);
-                });
-        }
     });
 </script>
 <style scoped>
@@ -145,7 +138,7 @@
         position: relative;
     }
 
-    .inner-menu-content content:empty::after {
+    .inner-menu-content slot[default]:empty::after {
         content: 'Selecione um item no menu da lateral';
         position: absolute;
         top: 50%;
@@ -156,7 +149,7 @@
         text-align: center;
     }
 
-    .inner-menu-content content:empty::before {
+    .inner-menu-content slot[default]:empty::before {
         content: '';
         background-image: url(../assets/images/select.svg);
         background-size: cover;

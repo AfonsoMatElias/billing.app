@@ -37,16 +37,16 @@ var patterns = {
         return limitMin <= current && current <= limitMax;
     },
     'confirm-pass': function (el) {
-        var pass = el.aboveMe('.input-field').previousElementSibling.node('input');
+        var pass = aboveMe(el, '.input-field').previousElementSibling.addEventListener('input');
         patterns['confirm-pass'].msg = tag('As senhas não conciedem');
-        return (Pass.value === el.value );
+        return (pass.value === el.value );
     },
     checkboxes: function (el) {
         patterns.checkboxes.msg = tag('Pelo menos uma caixa deve ser selecionada');
         var hasOne = false;
 
         for (var c of el.children) {
-            if ( c.node('input').checked ) {
+            if ( c.addEventListener('input').checked ) {
                 hasOne = true;
                 break;
             }
@@ -66,7 +66,7 @@ var validation = {
     listen: function (root, success, fail, addEvent) {
         if ( addEvent === null || addEvent === undefined ) addEvent = true;
         // Getting all the fields that need to be validated
-        var inputs = (root || document).nodes('[validate]'),
+        var inputs = (root || document).querySelectorAll('[validate]'),
             invalidClass = 'invalid',
             validClass = 'valid'
         // Looping them
@@ -81,8 +81,8 @@ var validation = {
 
             if (addEvent) {
                 var evt = $pattern.isSpecial ? 'change' : 'keyup';
-                var event = easy.lazy(function (e) {    
-                    main(e.target);
+                var event = app.lazy(function (e) {    
+                    main(e.currentTarget);
                 }, 800);
                 el.addEventListener(evt, event, false);
             } else {
@@ -95,7 +95,7 @@ var validation = {
                 if ( el.hasAttribute('validate'))
                     label = $elem.previousElementSibling;
                 else {
-                    $elem = el.aboveMe('[validate]');
+                    $elem = aboveMe(el, '[validate]');
                     label = $elem.previousElementSibling;
                 }
 
@@ -139,7 +139,7 @@ var validation = {
     run: function ($form) {
         var validCounter = 0, fails = [];
         // Getting the validation data
-        var total = validation.listen($form, function () {
+        var total = validation.addEventListener($form, function () {
             validCounter++;
         }, function (el) {
             fails.push(el);

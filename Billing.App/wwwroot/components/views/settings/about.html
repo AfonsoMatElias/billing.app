@@ -1,35 +1,33 @@
-<inc src="settings-wrapper" data="{ active: 'about' }">
-    <content>
-        <div class="partial settings-about-page">
-            <div class="center">
-                <div class="icon"></div>
-                <div class="name">
-                    <h3 e-content="{{ name }}">App Name</h3>
-                </div>
-                <div class="version">
-                    <h4 e-content="{{ version }}">Version</h4>
-                </div>
-                
-                <div class="desc">
-                    <h4 e-content="{{ desc }}">Description</h4>
-                </div>
+<settings-wrapper data="$data">
+    <div class="partial settings-about-page">
+        <div class="center">
+            <div class="icon"></div>
+            <div class="name">
+                <h3 e-content="{{ name }}">App Name</h3>
+            </div>
+            <div class="version">
+                <h4 e-content="{{ version }}">Version</h4>
+            </div>
 
-                <div>
-                    <br>
-                </div>
-                
-                <div class="version">
-                    <h4 e-content="Made By <a href='https://www.linkedin.com/in/afonsomatelias'>{{ madeBy }}</<a>">Made By...</h4>
-                </div>
+            <div class="desc">
+                <h4 e-content="{{ desc }}">Description</h4>
+            </div>
+
+            <div>
+                <br>
+            </div>
+
+            <div class="version">
+                <h4>Made By <a href='https://www.linkedin.com/in/afonsomatelias' e-content="{{ madeBy }}">@</a></h4>
             </div>
         </div>
-    </content>
-</inc>
+    </div>
+</settings-wrapper>
 <script>
-    var $easy = this.Easy;
     var component = this;
 
     this.export({
+        active: 'about',
         name: 'Billing App',
         desc: 'Aplicação de Gestão de Stock de Produtos',
         version: 'v1.0.0',
