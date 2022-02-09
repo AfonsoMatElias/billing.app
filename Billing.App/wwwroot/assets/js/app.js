@@ -1,5 +1,7 @@
-new Easy("body", {
+var app = new Bouer("body", {
     data: {
+        baseUrl: "http://localhost:5000/api/",
+
         // Variables
         currentPage: "None",
         pageLoading: false,
@@ -111,7 +113,7 @@ new Easy("body", {
             // The old submenu
             var old = this.data.openedMenu;
             // Getting the sub menu from clicked menu
-            var current = evt.base.nextElementSibling;
+            var current = evt.currentTarget.nextElementSibling;
             // Closing the old if needed
             if (old) old.classList.remove(cls);
             // Return if the current is equal to the old and clear storage
@@ -121,57 +123,37 @@ new Easy("body", {
             // Storing the current opened
             this.data.openedMenu = current;
 
-            current.nodes('a').filter(function (item) {
+            [].slice.call(current.querySelectorAll('a')).filter(function (item) {
                 item.onclick = function () {
                     current.classList.remove(cls);
                 }
             });
-        },
-        loadSectionShared: function (loadableComponents, name, data) {
-            // Checking if the name is ok
-            if (!name) return;
-
-            // Getting the container
-            var container = this.el.node('#loadable');
-
-            // Checking if the container is ok
-            if (!container) return;
-
-            // Checking if the component is valid
-            if (!loadableComponents[name]) {
-                return notify({
-                    message: 'Secção Inexistente ou em criação.',
-                    type: 'warn'
-                });
-            }
-
-            // Clearing the container
-            container.innerHTML = '';
-
-            // Creating the INC element
-            var inc = document.createElement('inc');
-
-            // Setting the name
-            inc.src = name;
-
-            // Set data if it was defined
-            if (data) inc.valueIn('data', JSON.stringify(data));
-
-            if (!this.el.node('.setting-panel-closer')) {
-                var element = this.toElement('<span title="Fechar Painel" class="reduced-screen-button center-icon fa fa-remove setting-panel-closer"' +
-                'onclick="event.target.previousElementSibling.classList.remove(\'show-right-zero\')"></span>');
-                container.aboveMe().appendChild(element);
-            }
-
-            if (!container.classList.contains('show-right-zero')) 
-                container.classList.add('show-right-zero');
-            
-            // Adding in the container
-            container.appendChild(inc);
         }
     },
-    mounted: function () {
-        var $easy = this;
+
+    globalData: {
+        notify: notify,
+        toDate: toDate,
+        signOut: signOut,
+        hasSpinner: hasSpinner,
+        getAchronym: getAchronym,
+        getPartialData: getPartialData,
+        selectOneImage: selectOneImage,
+        toHumanBirthday: toHumanBirthday,
+        addOrRemSpinner: addOrRemSpinner,
+        calculateNotificationPeriod: calculateNotificationPeriod,
+        aboveMe: aboveMe,
+        toCode: toCode
+    },
+
+    config: {
+        usehash: false,
+        prefetch: true,
+    },
+
+    beforeLoad: function () {
+        var bouer = this;
+
         var noTokenRequiredPages = [
             "/sign.in.html",
             "/sign.up.html",
@@ -193,25 +175,25 @@ new Easy("body", {
 
         function decreasePageLoaded() {
             pagesLoading--;
-            if ($easy.data.pageLoading == true && pagesLoading === 0)
-                $easy.data.pageLoading = false;
+            if (bouer.data.pageLoading == true && pagesLoading === 0)
+                bouer.data.pageLoading = false;
         }
-        this.on("incRequested", function () {
+        this.on("component:requested", function () {
             pagesLoading++;
             if (this.data.pageLoading === false) this.data.pageLoading = true;
         });
 
         // Everything loaded
-        this.on("incLoaded", function () {
+        this.on("component:loaded", function () {
             decreasePageLoaded();
         });
 
         // If some page is blocked, then load the main page
-        this.on("incBlocked", function () {
+        this.on("component:blocked", function () {
             decreasePageLoaded();
         });
 
-        this.on("incFail", function () {
+        this.on("component:fail", function () {
             decreasePageLoaded();
 
             notify({
@@ -233,9 +215,9 @@ new Easy("body", {
 
         if (isInNoTokenRequiredPages) return;
 
-        $easy.get('sign/account')
-            .then(function (data) {
-                $easy.setData(data.result, $easy.data.application.user);
+        this.deps['web']('sign/account')
+            .then(function (response) {
+                bouer.set(response.data, bouer.data.application.user);
             })
             .catch(function (error) {
                 if (error.message === 'Unauthorized')
@@ -252,351 +234,62 @@ new Easy("body", {
         this.data.application.role = Array.isArray(jwtObj.role) ? jwtObj.role[0] : jwtObj.role;
     },
     loaded: function () {
-        // Calling all the external functions
-        this.call([
-            window.signHandler
-        ], true);
+        if (typeof signHandler === 'function') signHandler.call(this);
     },
-    components: {
-        config: {
-            usehash: false,
-            preload: true,
-        },
-        elements: {
-            "table": "/components/elements/table",
-            "popup": "/components/elements/popup",
-            "address": "/components/shared/address",
-            "contact": "/components/shared/contact",
-            "create-person": "/components/shared/create-person",
-
-            // # Views
-            "dashboard": {
-                route: "/dashboard",
-                url: "/components/views/dashboards/dashboard",
-                title: "Dashboard",
-                isDefault: true,
-                children: {
-                    "dash-stock": {
-                        route: "/stock",
-                        url: "/components/views/dashboards/stock",
-                        title: "Dashboard • Stock de Produtos",
-                        //keepAlive: true
-                    },
+    components: AppComponents(),
+    deps: {
+        web: function (path, method, body, headers) {
+            return fetch(this.data.baseUrl + path, {
+                body: body,
+                method: method || 'get',
+                headers: headers || {
+                    'Accept': "application/json",
+                    'Content-Type': "application/json",
+                    'Authorization': sessionStorage.token || undefined
                 },
-            },
+            }).then(function (response) {
+                if (response.ok)
+                    return response.json();
+                throw new Error(response.statusText);
+            }).then(serverResponse => {
+                if (!serverResponse.success)
+                    throw new Error(serverResponse.errors.join('\n'));
+                
+                return serverResponse;
+            }).catch(error => {
+                notify({
+                    type: 'error',
+                    message: error.message || error
+                });
+                throw error;
+            });
+        }
+    },
 
-            // Customer
-            "customer-create": {
-                route: "/customers/create/:typeEntity",
-                url: "/components/views/customer/create",
-                title: "Cliente • Cadastrar",
-            },
-            "customers-company": {
-                route: "/customers/tec",
-                url: "/components/views/customer/list",
-                title: "Cliente • Listagem",
-            },
-            "customers-view": {
-                route: "/customers/view/:id",
-                url: "/components/views/customer/view",
-                title: "Cliente • Visualizar",
-            },
-
-            // Provider
-            "provider-create": {
-                route: "/providers/create/:typeEntity",
-                url: "/components/views/provider/create",
-                title: "Cliente • Cadastrar",
-            },
-            "providers-company": {
-                route: "/providers/tef",
-                url: "/components/views/provider/list",
-                title: "Fornecedor • Listagem",
-            },
-            "providers-view": {
-                route: "/providers/view/:id",
-                url: "/components/views/provider/view",
-                title: "Fornecedor • Visualizar",
-            },
-
-            // Product
-            "products": {
-                route: "/products",
-                url: "/components/views/product/list",
-                title: "Produto • Listagem",
-                children: {
-                    "product-create": {
-                        route: "/create",
-                        url: "/components/views/product/create",
-                        title: "Produto • Cadastrar",
-                        // keepAlive: true,
-                    },
-                    "product-view": {
-                        route: "/view/:id",
-                        url: "/components/views/product/view",
-                        title: "Produto • Visualizar",
-                    },
-                },
-            },
-
-            // Sell
-            "sell": {
-                route: "/sell",
-                url: "/components/views/sell",
-                title: "Venda",
-                // keepAlive: true,
-            },
-
-            // Buy
-            "buy": {
-                route: "/buy",
-                url: "/components/views/buy",
-                title: "Compra",
-                // keepAlive: true,
-            },
-
-            // Chat
-            "chat": {
-                route: "/chat",
-                url: "/components/views/chat",
-                title: "Chat",
-            },
-
-            // Report
-            "reports": {
-                route: "/reports",
-                url: "/components/views/reports",
-                title: "Relatórios",
-            },
-
-            // Settings
-            "settings": {
-                route: "/settings",
-                url: "/components/views/settings/profile/profile",
-                title: "Config • Perfil",
-                children: {
-                    "settings-employees": {
-                        title: "Config • Funcionários",
-                        route: "/employees",
-                        url: "/components/views/settings/employees/employees",
-                        children: {
-                            "settings-employee-create": {
-                                title: "Config • Criar Funcionário",
-                                route: "/create",
-                                url: "/components/views/settings/employees/create",
-                            },
-                        },
-                    },
-                    "settings-apps": {
-                        title: "Config • Aplicações",
-                        route: "/apps",
-                        url: "/components/views/settings/apps/apps",
-                    },
-                    "settings-preferences": {
-                        title: "Config • Preferências",
-                        route: "/preferences",
-                        url: "/components/views/settings/preferences/preferences",
-                    },
-                    "settings-establishment": {
-                        title: "Config • Estabelecimento",
-                        route: "/establishment",
-                        url: "/components/views/settings/establishment/establishment",
-                        children: {
-                            "settings-establishment-create": {
-                                title: "Config • Criar Estabelecimento",
-                                route: "/create",
-                                url: "/components/views/settings/establishment/create",
-                            },
-                        },
-                    },
-                    "settings-license": {
-                        title: "Config • Licença",
-                        route: "/license",
-                        url: "/components/views/settings/license/license",
-                    },
-                    "settings-about": {
-                        title: "Config • Sobre",
-                        route: "/about",
-                        url: "/components/views/settings/about",
-                    },
-                    "settings-management-wrapper": {
-                        title: "Config • Dados de Referência",
-                        route: "/management",
-                        url: "/components/views/settings/management/management-wrapper",
-                        children: {
-                            "settings-management-armazem": {
-                                title: "Config • Lista de Armazens",
-                                route: "/armazem",
-                                url: "/components/views/settings/management/sections/armazem/list",
-                                children: {
-                                    "settings-management-armazem-create": {
-                                        title: "Config • Criar Armazem",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/armazem/create",
-                                    }
-                                }
-                            },
-                            "settings-management-seccao": {
-                                title: "Config • Lista de Secções",
-                                route: "/seccao",
-                                url: "/components/views/settings/management/sections/seccao/list",
-                                children: {
-                                    "settings-management-seccao-create": {
-                                        title: "Config • Criar Secção",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/seccao/create",
-                                    }
-                                }
-                            },
-                            "settings-management-categoria": {
-                                title: "Config • Lista de Categorias",
-                                route: "/categoria",
-                                url: "/components/views/settings/management/sections/categoria/list",
-                                children: {
-                                    "settings-management-categoria-create": {
-                                        title: "Config • Criar Categoria",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/categoria/create",
-                                    }
-                                }
-                            },
-                            "settings-management-formaPagamento": {
-                                title: "Config • Lista de Formas de Pagamento",
-                                route: "/formaPagamento",
-                                url: "/components/views/settings/management/sections/formaPagamento/list",
-                                children: {
-                                    "settings-management-formaPagamento-create": {
-                                        title: "Config • Criar Forma de Pagamento",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/formaPagamento/create",
-                                    }
-                                }
-                            },
-                            "settings-management-pais": {
-                                title: "Config • Lista de Paises",
-                                route: "/pais",
-                                url: "/components/views/settings/management/sections/pais/list",
-                                children: {
-                                    "settings-management-pais-create": {
-                                        title: "Config • Criar Pais",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/pais/create",
-                                    }
-                                }
-                            },
-                            "settings-management-subcategoria": {
-                                title: "Config • Lista de SubCategorias",
-                                route: "/subcategoria",
-                                url: "/components/views/settings/management/sections/subcategoria/list",
-                                children: {
-                                    "settings-management-subcategoria-create": {
-                                        title: "Config • Criar Subcategoria",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/subcategoria/create",
-                                    }
-                                }
-                            },
-                            "settings-management-tipovenda": {
-                                title: "Config • Lista de Tipo de Venda",
-                                route: "/tipovenda",
-                                url: "/components/views/settings/management/sections/tipovenda/list",
-                                children: {
-                                    "settings-management-tipovenda-create": {
-                                        title: "Config • Criar Tipo de Venda",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/tipovenda/create",
-                                    }
-                                }
-                            },
-                            "settings-management-tipofactura": {
-                                title: "Config • Lista de Tipo de Factura",
-                                route: "/tipofactura",
-                                url: "/components/views/settings/management/sections/tipofactura/list",
-                                children: {
-                                    "settings-management-tipofactura-create": {
-                                        title: "Config • Criar Tipo de Factura",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/tipofactura/create",
-                                    }
-                                }
-                            },
-                            "settings-management-tipocontacto": {
-                                title: "Config • Lista de Tipo de Contacto",
-                                route: "/tipocontacto",
-                                url: "/components/views/settings/management/sections/tipocontacto/list",
-                                children: {
-                                    "settings-management-tipocontacto-create": {
-                                        title: "Config • Criar Tipo de Contacto",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/tipocontacto/create",
-                                    }
-                                }
-                            },
-                            "settings-management-tipoentidade": {
-                                title: "Config • Lista de Tipo de Entidade",
-                                route: "/tipoentidade",
-                                url: "/components/views/settings/management/sections/tipoentidade/list",
-                                children: {
-                                    "settings-management-tipoentidade-create": {
-                                        title: "Config • Criar Tipo de Entidade",
-                                        route: "/create",
-                                        url: "/components/views/settings/management/sections/tipoentidade/create",
-                                    }
-                                }
-                            },
+    middleware: function (config, app) {
+        var web = app.deps['web'];
+        config('req', function (bind) {
+            bind(function (context) {
+                return web(context.detail.requestPath)
+                    .then(function (response) {
+                        return {
+                            data: response.data,
+                            pagination: response.pagination
                         }
-                    },
-                },
-            },
-
-            // Wrappers
-            "settings-wrapper": "/components/views/settings/settings",
-
-            // # Profile Partials
-            "setting-profile-name": "/components/views/settings/profile/sections/setting-name",
-            "setting-profile-birth": "/components/views/settings/profile/sections/setting-birth",
-            "setting-profile-photo": "/components/views/settings/profile/sections/setting-photo",
-            "setting-profile-password": "/components/views/settings/profile/sections/setting-password",
-            "setting-profile-gender": "/components/views/settings/profile/sections/setting-gender",
-
-            // # Establishment Partials
-            "setting-establishment-name": "/components/views/settings/establishment/sections/setting-name",
-            "setting-establishment-address": "/components/views/settings/establishment/sections/setting-address",
-            "setting-establishment-manager": "/components/views/settings/establishment/sections/setting-manager",
-            "setting-establishment-regime": "/components/views/settings/establishment/sections/setting-regime",
-
-            // Not found page
-            "notfound": {
-                route: "/notfound",
-                url: "/components/views/not-found",
-                title: "404 Page Not Found",
-                isNotFound: true,
-            },
-        },
-    },
-    dependencies: [
-        new EasyConnector("http://localhost:5000/api/", {
-            type: "json",
-            headers: {
-                'Accept': "application/json",
-                'Content-Type': "application/json",
-                'Authorization': sessionStorage.token || undefined
-            },
-        }),
-    ],
+                    });
+            });
+        });
+    }
 });
 
 function notify(obj) {
     if (!obj || !obj.message) return;
 
-    var container = document.node(".popup-container");
+    var container = document.querySelector(".popup-container");
     if (!container) return;
-    var inc = document.createElement("inc");
+    var component = document.createElement("app-popup");
 
     if (!obj.type) obj.type = "info";
-
-    // Preparing the inc
-    inc.valueIn("src", "popup");
 
     var messageData = obj.message;
 
@@ -609,10 +302,15 @@ function notify(obj) {
     if (obj.url) obj.url = escape(obj.url);
     else obj.url = null;
 
-    inc.valueIn("data", JSON.stringify(obj));
+    component.setAttribute('data', JSON.stringify(obj));
 
     // Inserting the node
-    container.insertBefore(inc, container.children[0]);
+    container.insertBefore(component, container.children[0]);
+
+    app.compile({
+        el: component,
+        context: app
+    });
 
     if (typeof obj.run === 'function') {
         setTimeout(function () {
@@ -644,15 +342,17 @@ function calculateNotificationPeriod(input) {
     }
 
     var message = "";
-    r.keys(function (key, value) {
+    var keys = Object.keys(r);
+    for (var key of keys) {
+        var value = r[key];
         if (value > 0 && message == "") {
-            var _key = key.substr(2);
+            var _key = key.substring(2);
             message = buildMessage(
                 value,
                 _key == "mes" ? (value == 1 ? "mês" : "meses") : _key
             );
         }
-    });
+    }
 
     return message || "agora mesmo";
 }
@@ -727,26 +427,20 @@ function getPartialData(input = {
     onFinish: function () {}
 }) {
 
-    // `this` keyword is the easy instance
-
-    if (!input.controls || !input.pagination)
+    // `this` keyword is the bouer instance
+    if (!input.controls)
         return console.log("controls and pagination need to be defined");
 
     (input.beforeRequest || function () {}).call(this);
-
-    if (input.controls.page == 0)
-        return finish(input.controls.page = 1);
-
-    if (input.controls.page > input.pagination.totalPages && input.pagination.totalPages != '')
-        return input.onFinish(input.controls.page = input.pagination.totalPages);
 
     if (!input.url.includes("?"))
         input.url += '?';
     else
         input.url += '&';
 
-
-    this.get(input.url + 'page=' + input.controls.page + '&size=' + input.controls.size + '&search=' + (input.search || ''))
+    var web = this.deps['web'];
+    web(input.url + 'page=' + input.controls.page + '&size=' + 
+        input.controls.size + '&search=' + (input.search || ''))
         .then(function (response) {
             input.onReponse(response);
         })
@@ -767,4 +461,46 @@ function selectOneImage(product) {
         return '/assets/images/box.svg';
 
     return product.produtoImagens[0].imageUrl;
+}
+
+function aboveMe(me, selector) {
+    var doc = document;
+    // Parent getter
+    function parent(elem) {
+        var $node = elem.parentNode;
+
+        if (!(selector)) return $node;
+        if ($node === doc || !($node)) return null;
+
+        var tester = doc.createElement('body');
+        tester.innerHTML = $node.outerHTML;
+
+        if ($node.nodeName === tester.nodeName)
+            tester.innerHTML = '';
+        else
+            tester.children[0].innerHTML = '';
+
+        if (tester.querySelector(selector))
+            return $node;
+        else if ($node.nodeName === tester.nodeName)
+            return null;
+        else
+            return parent($node);
+    }
+    // Getting the parent
+    return parent(me);
+}
+
+function toCode(len) {
+    if (len == null) len = 8;
+    var alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_01234567890';
+    var lower = false,
+        result = '',
+        i = 0;
+    for (i; i < len; i++) {
+        var pos = Math.floor(Math.random() * alpha.length);
+        result += lower ? alpha[pos].toLowerCase() : alpha[pos];
+        lower = !lower;
+    }
+    return result;
 }

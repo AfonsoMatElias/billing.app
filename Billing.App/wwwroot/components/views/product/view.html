@@ -1,10 +1,11 @@
-<div class="main-body create-product view-page base-divide-structure fit-content">
+<div class="main-body create-product view-page base-divide-structure fit-content"
+    e-req:[product-data]="product as produto/{{ id }}" on:request="isRequesting = true" on:response="onResponse"
+    on:fail="onRequestFail">
     <div class="content">
         <div class="input-side card">
             <div class="left nice-scroll">
 
                 <div class="input-area">
-
                     <div class="label-back-button">
                         <div class="back-button">
                             <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
@@ -16,43 +17,61 @@
 
                     <div class="input-field">
                         <label>Código</label>
-                        <input type="text" e-toggle:disabled="locked" e-value="{{ resultData.codigo || 'Loading...' }}"
-                            placeholder="Código de Barra" />
+                        <input type="text" disabled e-value="{{ product.codigo }}" placeholder="Loading..." />
                     </div>
 
                     <div class="input-field">
                         <label>Nome</label>
-                        <input type="text" e-toggle:disabled="locked" e-value="{{ resultData.nome || 'Loading...' }}"
-                            placeholder="Nome" />
+                        <input type="text" e-disabled="{ 'true': locked }" e-bind="product.nome"
+                            placeholder="Loading..." />
                     </div>
+
                     <div class="input-field">
                         <label>Nome Secundário</label>
-                        <input type="text" e-toggle:disabled="locked"
-                            e-value="{{ resultData.nomeSecundario || 'Loading...' }}" placeholder="Segundo Nome" />
+                        <input type="text" e-disabled="{ 'true': locked }" e-bind="product.nomeSecundario"
+                            placeholder="Loading..." />
                     </div>
+
                     <div class="input-field">
                         <label>Preço Unitário</label>
-                        <input type="text" e-toggle:disabled="locked"
-                            e-value="{{ resultData.precoUnitario || 'Loading...' }}" placeholder="Preco Unitário" />
+                        <input type="text" e-disabled="{ 'true': locked }" e-bind="product.precoUnitario"
+                            placeholder="Loading..." />
                     </div>
+
+                    <div class="input-field hide-it-f" e-class="{ 'hide-it-f': locked }">
+                        <label>Categoria</label>
+                        <select e-bind="product.subCategoria.categoriaId">
+                            <option e-for="item of categorias" e-value="{{ item.id }}" e-content="{{ item.nome }}"
+                                on:click="selectCategoria(event.currentTarget)">
+                                Loading...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field hide-it-f" e-class="{ 'hide-it-f': locked }">
+                        <label>SubCategoria</label>
+                        <select e-bind="product.subCategoriaId">
+                            <option e-for="item of subCategorias" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                None</option>
+                        </select>
+                    </div>
+
                     <div class="input-field">
                         <label>SubCategoria</label>
-                        <input type="text" e-toggle:disabled="locked"
-                            value="{{ (resultData.subCategoria||{}).nome || 'Loading...' }}"
-                            placeholder="Preco Unitário" />
+                        <input type="text" disabled e-value="{{ product.subCategoria.nome }}"
+                            placeholder="Loading..." />
                     </div>
                 </div>
 
                 <div class="field-space">
                     <div class="check-field field-space">
-                        <input class="app-checkbox" e-toggle:disabled="locked"
-                            e-bind:checked="resultData.isPerecivel || false" type="checkbox">
+                        <input class="app-checkbox" e-disabled="{ 'true': locked }" e-bind:checked="product.isPerecivel"
+                            type="checkbox">
                         <label>Produto Perecível?</label>
                     </div>
 
                     <div class="check-field field-space">
-                        <input class="app-checkbox" e-toggle:disabled="locked"
-                            e-bind:checked="resultData.isStock || false" type="checkbox">
+                        <input class="app-checkbox" e-disabled="{ 'true': locked }" e-bind:checked="product.isStock"
+                            type="checkbox">
                         <label>Controlar Stock do Produto?</label>
                     </div>
                 </div>
@@ -63,94 +82,200 @@
                     <h3 class="info-section"> Descrição </h3>
 
                     <div class="input-container">
-                        <textarea class="description-field" e-toggle:disabled="locked" style="resize: none;"
-                            e-content="{{ resultData.descricao || 'N/A' }}">Loading...</textarea>
+                        <textarea class="description-field" e-disabled="{ 'true': locked }" style="resize: none;"
+                            e-bind="product.descricao"
+                            placeholder="Descrições do Produto">Loading...</textarea>
 
                         <div class="action-container">
-                            <div class="main-body-action">
-                                <button type="reset" class="remove-type">Eliminar</button>
-                                <button type="button" class="blue-type" e-show="locked"
-                                    on:click="locked = false">Editar</button>
+                            <div class="main-body-action hide-it-f" e-class="{ 'hide-it-f': isRequesting }">
+                                <button type="reset" class="remove-type" on:click="remove">Eliminar</button>
+                                <button type="button" class="blue-type" on:click="locked = !locked"
+                                    e-content="{{ locked ? 'Editar' : 'Cancelar' }}">Editar</button>
                                 <button type="button" class="submit-type" e-show="!locked"
-                                    on:click="null">Salvar</button>
-                                <button type="button" on:click="locked = true" class="cancel-type"
-                                    e-show="!locked">Cancelar</button>
+                                    on:click="save">Salvar</button>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
         <div class="images-side default-side card nice-scroll">
             <div class="top">
-                <h3 class="info-section"> Imagens </h3>
+                <h3 class="info-section">Imagens</h3>
             </div>
             <div class="image-load-area">
                 <span class="image-loaded" e-style="background-image: {{ loadUrl(thumbnail) }};"></span>
+                <input type="file" multiple name="Imagem" accept="image/gif, image/jpeg, image/png, image/jpg"
+                    class="hide-it" on:change="onPhotoChange" />
             </div>
             <div class="action-area">
-                <div e-for="tn of thumbnails" on:click="thumbnail = tn.imageUrl" class="photo-thumbnail center-icon"
-                    e-style="background-image: url({{ tn.imageUrl }});">
-                    <span e-show="!locked" class="icon-type center-icon fa fa-remove" title="Remover Imagem"></span>
+                <span class="fa fa-plus center-icon icon-type add-photo hide-it-f" e-class="{ 'hide-it-f': locked }"
+                    e-show="thumbnails.length < 3"
+                    onclick="aboveMe(this, '.images-side').querySelector('input[type=\'file\']').click()"></span>
+
+                <div e-for="tn of thumbnails" on:click="thumbnail = tn.imageUrl"
+                    e-style="background-image: url({{ tn.imageUrl }});" class="photo-thumbnail center-icon"
+                    e-show="tn.visibility">
+                    <span e-show="!locked" class="icon-type center-icon fa fa-remove" title="Remover Imagem"
+                        on:click="removeImage(tn)"></span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    var easy = this.Easy;
+    var bouer = this.bouer;
+    var web = bouer.deps['web'];
     var component = this;
+    var params = this.params();
+    var inputFile;
 
-    this.mounted = function (el) {
-        var params = this.getParams();
-
-        easy.getOne('produto', params.id)
-            .then(function (data) {
-                var resultData = data.result;
-
-                if (!resultData) {
-                    notify({
-                        message: 'Produto Não encontrado',
-                        type: 'warn'
-                    });
-
-                    return setTimeout(function () { window.location.href = '/'; }, 2500);
-                }
-
-                component.data.resultData = resultData;
-                component.data.thumbnails = resultData.produtoImagens;
-
-                var thumbnail = component.data.thumbnails[0];
-                if (thumbnail) component.data.thumbnail = thumbnail.imageUrl;
-            })
-            .catch(function (error) {
-                notify({
-                    message: error.message | error,
-                    type: 'error'
-                });
-
-                setTimeout(function () { window.location.href = '/'; }, 2500);
+    this.on('mounted', function (el) {
+        web('Categoria')
+            .then(function (response) {
+                component.data.categorias = response.data;
             });
-    }
+    })
 
-    this.loaded = function (el) {
+    this.on('loaded', function (evt) {
         // Marking the menu
-        this.Easy.data.currentPage = 'Visualizar Produto';
-
-        this.Easy.routing.markActive(
-            this.Easy.el.node('.product-link')
-        );
-    }
+        bouer.data.currentPage = 'Visualizar Produto';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.product-link'));
+        inputFile = evt.target.querySelector('input[type="file"]');
+    })
 
     this.export({
         // Variables
+        id: params.id,
         locked: true,
+        isRequesting: true,
         thumbnail: '',
         thumbnails: [],
-        resultData: {},
+
+        categorias: [],
+        subCategorias: [],
+
         // Methods
+        onPhotoChange: function (evt) {
+            var files = inputFile.files;
+            var imageslength = this.data.thumbnails.length;
+
+            if (imageslength == 3)
+                return notify({
+                    type: 'warn',
+                    message: 'Já não há espaço para mais imagens. 3 MAX.'
+                });
+
+            if (imageslength + files.length > 3)
+                return notify({
+                    type: 'warn',
+                    message: 'Apenas mais ' + (3 - imageslength) + ' imagem(ns) podem ser adicionas.'
+                });
+
+            for (const file of files) {
+                var reader = new FileReader();
+                reader.addEventListener('load', function (data) {
+                    component.data.thumbnails.push({
+                        imageUrl: data.target.result,
+                    });
+                });
+                reader.readAsDataURL(file);
+            }
+
+        },
+        selectCategoria: function (select) {
+            if (select.value == '') return this.data.subCategorias = [];
+            this.data.subCategorias = this.data.categorias.find(function (cat) {
+                return cat.id == select.value * 1;
+            }).subCategorias;
+        },
+        removeImage: function (tn) {
+
+            if ('id' in tn)
+                return tn.visibility = false;
+
+            var index = this.data.thumbnails.indexOf(tn);
+            this.data.thumbnails.splice(this.data.thumbnails, 1);
+
+            this.data.thumbnail = '';
+            var thumbnail = this.data.thumbnails[0];
+            if (thumbnail) this.data.thumbnail = thumbnail.imageUrl;
+        },
         loadUrl: function (data) {
             return !data ? '' : ' url(' + data + ')';
+        },
+        
+        save: function (evt) {
+            var productData = bouer.$req.get('product-data').data;
+            var btn = evt.currentTarget;
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            var formData = new FormData();
+
+            productData.produtoImagens = this.data.thumbnails.filter(x => x.id);
+
+            formData.append("json", JSON.stringify(productData));
+            for (var file of inputFile.files) {
+                formData.append("file", file);
+            }
+
+            web('produto/' + params.id, 'put', formData, {
+                'Authorization': sessionStorage.token || undefined
+            }).then(function () {
+                notify({
+                    type: 'success',
+                    message: 'Registro Actualizado'
+                });
+
+                component.data.locked = true;
+            }).finally(function () {
+                addOrRemSpinner(btn, true);
+            })
+        },
+        remove: function (evt) {
+            var userData = bouer.$req.get('product-data').data;
+            var btn = evt.currentTarget;
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            web('produto/' + params.id, 'delete')
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Removido'
+                    });
+
+                    component.data.locked = true;
+                    setTimeout(function () {
+                        bouer.$routing.navigate('/products');
+                    }, 500);
+                }).finally(function () {
+                    addOrRemSpinner(btn, true);
+                })
+        },
+        
+        onResponse: function () {
+            this.data.isRequesting = false;
+
+            var productData = bouer.$req.get('product-data').data;
+            this.data.thumbnails.push.apply(this.data.thumbnails, productData.produtoImagens.filter(function (x) {
+                return x.visibility;
+            }));
+            var thumbnail = this.data.thumbnails[0];
+            if (thumbnail) this.data.thumbnail = thumbnail.imageUrl;
+        },
+        onRequestFail: function (evt) {
+            notify({
+                type: 'error',
+                message: "Registro com o UID: '" + params.id + "' não encontrado.",
+                run: function () {
+                    bouer.$routing.navigate('/products');
+                }
+            });
         }
     });
 </script>

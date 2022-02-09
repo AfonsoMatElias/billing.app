@@ -3,21 +3,20 @@
         <label>Tipo de Contacto</label>
         <select name="TipoContactoId">
             <option selected value="">None</option>
-            <option e-tmp="tipocontacto" 
-                    e-use="item"
-                    value="{{ item.id }}" 
+            <option e-req="item of tipocontacto" 
+                    e-value="{{ item.id }}" 
                     e-content="{{ item.nome }}">Loading...</option>
         </select>
     </div>
 
     <div class="input-field">
         <label>Contacto</label>
-        <input type="text" name="Contacto" placeholder="Digite o contacto" />
+        <input type="text" name="Valor" placeholder="Digite o contacto" />
     </div>
 
     <div class="action-area">
         <div class="area">
-            <div class="field-space check-field" data="{ forId: this.code(10) }">
+            <div class="field-space check-field" data="{ forId: toCode(10) }">
                 <input type="checkbox" name="IsPrincipal" value="true" id="{{ forId }}" on:click="disableOtherCheck" />
                 <label for="{{ forId }}">É o contacto principal?</label>
             </div>
@@ -36,26 +35,26 @@
         ico: 'fa-plus',
         add : true,
         addComponent: function (evt) {
-            var btn = evt.base;
-            var element = btn.aboveMe('[find-me]');
+            var btn = evt.currentTarget;
+            var element = aboveMe(btn, '[find-me]');
             var container = element.parentNode;
 
             // Remove the element
             if (component.data.ico == "fa-close")
                 return component.el.parentNode.removeChild(component.el);
 
-            var inc = this.toElement('<inc src="'+ component.src +'"></inc>');
+            var inc = this.toElement('<'+ component.src +'></'+ component.src +'>');
             container.appendChild(inc);
             component.data.ico = "fa-close";
         },
         disableOtherCheck: function (evt) {
-            var currentValue = evt.base.checked;
-            var container = evt.base.aboveMe(".addables");
-            var inputs = container.nodes('input[type="checkbox"]');
+            var currentValue = evt.currentTarget.checked;
+            var container = aboveMe(evt.currentTarget, ".addables");
+            var inputs = container.querySelectorAll('input[type="checkbox"]');
             // Disabling every one
             for (var item of inputs) item.checked = false;
             // Activating only the current
-            evt.base.checked = currentValue;
+            evt.currentTarget.checked = currentValue;
         }
     });
 </script>

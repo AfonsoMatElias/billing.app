@@ -4,26 +4,25 @@
             <div class="table-row flex-it">
                 <div class="search-field">
                     <span class="fa fa-search"></span>
-                    <input type="text" name="seacher" placeholder="Pesquisar por..." e-bind="search">
+                    <input type="text" name="seacher" placeholder="Pesquisar por..." on:input="searchInput">
                 </div>
             </div>
         </div>
         <div class="table-head">
             <div class="table-row flex-it">
-                <content ident="table-head"></content>
+                <slot name="table-head"></slot>
             </div>
         </div>
         <div class="table-body nice-scroll">
-            <content ident="table-body"></content>
+            <slot name="table-body"></slot>
         </div>
 
-        <div class="table-nav">
+        <div class="table-nav" e-show="typeof navControl !== 'undefined'">
             <div class="items-nav-button">
                 <div class="nav-area">
                     <span class="nav center-icon fa fa-angle-left" on:click="prevPage"></span>
-                    <span class="description"
-                        e-content="{{ paginationControls.page }} de {{ pagination.totalPages || '#' }}">
-                        # de #
+                    <span data="{ control: typeof navControl === 'undefined' ? {} : navControl }" class="description">
+                        {{ control.pages == 0 ? 0 : (control.page || 0) }} de {{ control.pages || 0 }}
                     </span>
                     <span class="nav center-icon fa fa-angle-right" on:click="nextPage"></span>
                 </div>
@@ -36,57 +35,31 @@
 <script>
     var watch = null;
     var compontent = this;
-    var scope = this.data.$scope;
-    var execFunction = function (fun, param1, param2) {
-        if (fun && typeof fun === "function") fun(param1, param2);
-    }
-
-    this.Easy.expose('table-exposition', this.data);
-
-    this.loaded = function (el) {
-        // Watching the search field value change
-        watch = this.Easy.watch('search', function (str) {
-            execFunction(scope.onSearch, str, el.node('[name="seacher"]'));
-        }, this.data);
-    }
-
-    this.destroyed = function () {
-        if (watch) watch.destroy();
-    }
+    var bouer = this.bouer;
 
     this.export({
-        search: '',
-
-        paginationControls: {
-            page: 1,
-            size: 13
-        },
-
-        pagination: {
-            pageNumber: '',
-            pageElements: '',
-            totalPages: '',
-            totalElements: ''
-        },
-
-        // Methods
-        updatePagination: function (data) {
-            if (!data) return;
-            compontent.data.pagination = data;
+        searchInput: function (evt) {
+            if (!this.data.onSearch) return;
+            this.data.onSearch(evt.target.value, evt.target);
         },
         nextPage: function () {
-            execFunction(
-                scope.onNextPage,
-                compontent.data.paginationControls,
-                compontent.data.pagination
-            );
+            if (!this.data.onNextPage || !this.data.navControl) return;
+
+            var page = this.data.navControl.page;
+            var pages = this.data.navControl.pages;
+            if (page >= pages) return;
+
+            this.data.navControl.page++;
+            this.data.onNextPage(this.data.navControl);
         },
         prevPage: function () {
-            execFunction(
-                scope.onPrevPage,
-                compontent.data.paginationControls,
-                compontent.data.pagination
-            );
+            if (!this.data.onPrevPage || !this.data.navControl) return;
+
+            var page = this.data.navControl.page;
+            if (page <= 1) return;
+
+            this.data.navControl.page--;
+            this.data.onPrevPage(this.data.navControl);
         }
     });
 </script>

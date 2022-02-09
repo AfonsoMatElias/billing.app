@@ -1,18 +1,16 @@
 <div class="main-body">
-    <inc src="create-person"></inc>
+    <create-person data="$data"></create-person>
 </div>
 <script>
-    var easy = this.Easy;
-    var sharedPersonCreation;
-    var params = this.getParams();
-    this.loaded = function (el) {
+    var bouer = this.bouer;
+    var sharedPersonMethods;
+    var params = this.params();
+    this.on('loaded', function (el) {
         // Marking the menu
-        this.Easy.data.currentPage = 'Cadastrar um Fornecedor';
-
-        this.Easy.routing.markActive(
-            this.Easy.el.node('.provider-link')
-        );
-    }
+        bouer.data.currentPage = 'Cadastrar um Fornecedor';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.provider-link'));
+    });
+    
     this.export({
         typeEntity: params.typeEntity,
         person: 'fornecedor',
@@ -20,13 +18,13 @@
         // Methods
         submit: function (evt) {
             // Getting the exposed method
-            sharedPersonCreation = sharedPersonCreation || easy.retrieve('shared-person-creation-methods', true);
+            sharedPersonMethods = sharedPersonMethods || bouer.$wait.get('shared-person-methods', true);
 
             var redirectTo = "/providers/" + params.typeEntity;
             redirectTo = params.src || redirectTo;
 
             // Submiting
-            sharedPersonCreation.submitPerson(evt, "pessoa", redirectTo);
+            sharedPersonMethods.submitPerson(evt, "pessoa", redirectTo);
         }
     })
 </script>

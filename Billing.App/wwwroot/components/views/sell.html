@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="product-list product-card-container">
-                    <div class="item" e-tmp="produto/withStock" e-use="product" e-filter="findProduct:nome,codigo"
+                    <div class="item" e-req="product of produto/withStock | where:findProduct:nome,codigo"
                         on:click="addProductToBusket(product)">
                         <div class="cover" e-style="background-image: url({{ selectOneImage(product) }});"></div>
                         <div class="description">
@@ -27,8 +27,8 @@
                 </div>
             </div>
             <div class="down-side">
-                <inc src="table" class="search-off nav-off">
-                    <content ident="table-head">
+                <app-table class="search-off nav-off" data="$data">
+                    <slot slot="table-head">
                         <div class="table-cell" style="flex: 2;"> Produto </div>
                         <div class="table-cell"> Preço </div>
                         <div class="table-cell"> Quantd. </div>
@@ -36,9 +36,9 @@
                         <div class="table-cell"> IVA </div>
                         <div class="table-cell"> Subtotal </div>
                         <div class="table-cell" style="flex: .5;"></div>
-                    </content>
-                    <content ident="table-body">
-                        <div class="table-row flex-it" e-skeleton e-for="product of $scope.busketProducts">
+                    </slot>
+                    <slot slot="table-body">
+                        <div class="table-row flex-it" e-skeleton e-for="product of busketProducts">
                             <div class="card-cover"></div>
                             <div class="pointer table-cell" style="flex: 2;"> {{ product.name }} </div>
                             <div class="pointer table-cell"> {{ product.price }} kz </div>
@@ -57,17 +57,17 @@
                             <div class="table-cell" style="flex: .5;">
                                 <span class="remove-line">
                                     <span class="center-icon icon-type fa fa-remove"
-                                        on:click="$scope.removeProductFromBusket(product)"></span>
+                                        on:click="removeProductFromBusket(product)"></span>
                                 </span>
                             </div>
                         </div>
-                    </content>
-                </inc>
+                    </slot>
+                </app-table>
             </div>
         </div>
         <div class="resume-side default-side card nice-scroll">
             <span title="Fechar Resumo" class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
-                onclick="event.target.aboveMe().classList.remove('show-right')"></span>
+                onclick="event.target.parentNode.classList.remove('show-right')"></span>
 
             <!-- Customer mini card -->
             <div class="customer-card">
@@ -114,7 +114,7 @@
                         <label>Forma de Pagamento</label>
                         <select e-bind="formaPagamentoId" name="FormaPagamentoId" validate="select">
                             <option value="">Selecione a Forma</option>
-                            <option e-tmp="FormaPagamento" value="{{ id }}" e-content="{{ nome }}">Loading...</option>
+                            <option e-req="item of FormaPagamento" value="{{ item.id }}" e-content="{{ item.nome }}">Loading...</option>
                         </select>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
             </div>
 
             <div class="fit-content customers-container" e-def="{ findCustomer: '', showCustomerSelection: false }"
-                e-show="showCustomerSelection" e-anm="left">
+                e-show="showCustomerSelection">
                 <div class="label-back-button">
                     <div class="back-button">
                         <span class="center-icon fa fa-arrow-left" on:click="showCustomerSelection = false"></span>
@@ -190,7 +190,12 @@
     </div>
 </div>
 <script>
-    var easy = this.Easy;
+    function toFixed(number) {
+        return (number || 0).toFixed(2)
+    }
+    
+    var bouer = this.bouer;
+    var web = bouer.deps['web']; 
     var component = this;
     var calcScreen;
     var watches = [];
@@ -199,9 +204,7 @@
         name: 'Cliente Não Selecionado',
         type: 'Clique em `?` para Selecionar'
     };
-    function toFixed(number) {
-        return (number || 0).toFixed(2)
-    }
+    
     var calculateResume = (function () {
         var subtotal = 0;
         var descount = 0;
@@ -223,11 +226,10 @@
         resume.exchange = toFixed(resume.paid - resume.total);
     }).bind(this)
 
-    this.mounted = function () {
-
-        easy.get("entidade/?codigoTipoEntidade=tec")
+    this.on('mounted', function () {
+        web("entidade/?codigoTipoEntidade=tec")
             .then(function (response) {
-                component.data.customers = response.result.map(function (item) {
+                component.data.customers = response.data.map(function (item) {
                     return {
                         id: item.id,
                         image: item.pessoa.profileImageUrl,
@@ -236,26 +238,20 @@
                     };
                 });
             })
-            .catch(function (error) {
-                notify({
-                    type: 'error',
-                    message: error.message || error
-                });
-            })
+    });
 
-    }
-
-    this.loaded = function (el) {
+    this.on('loaded', function (el) {
         // Marking the menu
-        easy.data.currentPage = 'Venda';
-        calcScreen = el.node('.calc input');
-    }
+        bouer.data.currentPage = 'Venda';
+        calcScreen = component.el.querySelector('.calc input');
+    });
 
-    this.destroyed = function () {
+    this.on('destroyed', function () {
         // Destroying all watches
         for (const watch of watches)
             watch.destroy();
-    }
+    });
+
     // Data Exportation
     this.export({
         // Variable
@@ -282,7 +278,7 @@
         formaPagamentoId: '',
         // Methods
         calcButtonClick: function (evt) {
-            var value = evt.base.valueIn('val');
+            var value = evt.currentTarget.getAttribute('val');
             var data = component.data.sellingResume;
             switch (value) {
                 case 'C': // Clear everything
@@ -342,7 +338,7 @@
             product.compras[0].quantidade--;
 
             // Watching qty property
-            var $wQty = easy.watch("qty", function (qty, oldQuantity) {
+            var $wQty = bouer.watch("qty", function (qty, oldQuantity) {
                 // Shortcut
                 var b = busketProduct;
                 var newStock = b.stock - qty;
@@ -362,7 +358,7 @@
             }, busketProduct);
 
             // Watching descount property
-            var $wDescount = easy.watch("descount", function (descount) {
+            var $wDescount = bouer.watch("descount", function (descount) {
                 // // Shortcut
                 // var b = busketProduct;
                 // b.subtotal = (b.price * b.qty) - (b.price * (descount / 100));
@@ -371,13 +367,13 @@
             }, busketProduct);
 
             // Watching paid property
-            var $wPaid = easy.watch("paid", function (paid) {
+            var $wPaid = bouer.watch("paid", function (paid) {
                 component.data.sellingResume.exchange = toFixed(paid - component.data.sellingResume.total);
             }, component.data.sellingResume);
 
             watches.push($wQty, $wDescount, $wPaid);
             // Addind the remove event emitter 
-            easy.on(busketProduct.busketId, function () {
+            bouer.on(busketProduct.busketId, function () {
                 $wQty.destroy();
                 $wPaid.destroy();
                 $wDescount.destroy();
@@ -385,51 +381,54 @@
         },
         removeProductFromBusket: function (busketProduct) {
             // Rmemoving from the list
-            component.data.busketProducts.remove(busketProduct.id);
+
+            var index = this.data.busketProducts.indexOf(busketProduct);
+
+            this.data.busketProducts.splice(index, 1);
 
             // Updating quantity
             // It will resote the old value of the product
             busketProduct.qty = 0;
 
             // Destroying the busket watch
-            easy.emit(busketProduct.busketId, null, true);
+            bouer.emit(busketProduct.busketId, null, true);
         },
         cancelSell: function () {
-            while (component.data.busketProducts.length != 0)
-                component.data.removeProductFromBusket(component.data.busketProducts[0]);
+            while (this.data.busketProducts.length != 0)
+                this.data.removeProductFromBusket(this.data.busketProducts[0]);
 
-            component.data.sellingResume.keys(function (k) {
-                component.data.sellingResume[k] = 0;
-            });
+            var keys = Object.keys(this.data.sellingResume);
+            for (var k of keys)
+                this.data.sellingResume[k] = 0;
 
-            component.data.customer.id = customer.id;
-            component.data.customer.name = customer.name;
-            component.data.customer.type = customer.type;
+            this.data.customer.id = customer.id;
+            this.data.customer.name = customer.name;
+            this.data.customer.type = customer.type;
         },
         handleCustomerSelection: function (evt) {
-            if (!component.data.customer.id)
-                return component.data.showCustomerSelection = true;
+            if (!this.data.customer.id)
+                return this.data.showCustomerSelection = true;
 
-            component.data.customer.id = customer.id;
-            component.data.customer.name = customer.name;
-            component.data.customer.type = customer.type;
+            this.data.customer.id = customer.id;
+            this.data.customer.name = customer.name;
+            this.data.customer.type = customer.type;
         },
         handleCustomerItemClick: function (item) {
-            component.data.customer.id = item.id;
-            component.data.customer.name = item.name;
-            component.data.customer.type = item.type;
-            component.data.showCustomerSelection = false;
+            this.data.customer.id = item.id;
+            this.data.customer.name = item.name;
+            this.data.customer.type = item.type;
+            this.data.showCustomerSelection = false;
         },
         submit: function (evt, tipoVenda, tipoFactura) {
-            var btn = evt.base;
+            var btn = evt.currentTarget;
 
-            if (component.data.busketProducts.length === 0)
+            if (this.data.busketProducts.length === 0)
                 return notify({
                     type: 'warn',
                     message: 'Carrinho Vazio!'
                 });
 
-            if (!component.data.formaPagamentoId)
+            if (!this.data.formaPagamentoId)
                 return notify({
                     type: 'warn',
                     message: 'Selecione a Forma de Pagamento!'
@@ -440,13 +439,13 @@
 
             var form = {
                 CodigoTipoVenda: tipoVenda,
-                FormaPagamentoId: component.data.formaPagamentoId,
-                ClienteId: component.data.customer.id || undefined,
-                Total: component.data.sellingResume.total,
+                FormaPagamentoId: this.data.formaPagamentoId,
+                ClienteId: this.data.customer.id || undefined,
+                Total: this.data.sellingResume.total,
                 Factura: {
                     CodigoTipoFactura: tipoFactura
                 },
-                VendaItens: component.data.busketProducts
+                VendaItens: this.data.busketProducts
                     .map(function (item) {
                         return {
                             ProdutoId: item.id,
@@ -457,7 +456,7 @@
                     })
             }
 
-            easy.create('venda', form)
+            web('venda', 'post', JSON.stringify(form))
                 .then(function (data) {
                     notify({
                         type: 'success',
@@ -466,13 +465,7 @@
 
                     component.data.busketProducts = [];
                     component.data.formaPagamentoId = '';
-                    component.el.node('#reset').click();
-                })
-                .catch(function (error) {
-                    notify({
-                        type: 'error',
-                        message: error.message || error
-                    });
+                    component.el.querySelector('#reset').click();
                 })
                 .finally(function () {
                     addOrRemSpinner(btn, true);

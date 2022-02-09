@@ -1,48 +1,64 @@
-<div class="card fit-content create-customer">
+<div class="card fit-content create-customer" e-req:[user-data]="user as pessoa/{{ id }}"
+    on:request="isRequesting = true" on:response="isRequesting = false" on:fail="onRequestFail">
     <div class="base-info">
         <div class="content">
             <div class="fit-content nice-scroll">
                 <!-- Photo -->
-                <div class="photo-field">
-                    <input type="file" name="Imagem" e-toggle:disabled="locked" accept="image/gif, image/jpeg, image/png, image/jpg"
-                        class="hide-it" />
-                    <div class="customer image">
-                        <span title="Clique para alterar a imagem"
-                            class="icon-type center-icon fa fa-camera"></span>
+                <div class="photo-field" e-def="{ imageData: user.profileImageUrl }">
+                    <div class="back-button hide-it">
+                        <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
+                    </div>
+
+                    <input type="file" name="Imagem" accept="image/gif, image/jpeg, image/png, image/jpg"
+                        class="hide-it" on:change="onPhotoChange" />
+
+                    <div class="customer image"
+                        e-style="background-image: url({{ imageData || './assets/images/user.png' }})">
+
+                        <span title="Clique para remove a imagem" class="icon-type center-icon fa fa-remove hide-it"
+                            e-class="{ 'hide-it': locked }" e-show="imageData" on:click="imageData = ''"></span>
+
+                        <span title="Clique para alterar a imagem" class="icon-type center-icon fa fa-camera hide-it"
+                            e-class="{ 'hide-it': locked }"
+                            onclick="aboveMe(this, '.photo-field').querySelector('input').click()"></span>
                     </div>
                 </div>
 
                 <!-- Pessoa Singular -->
-                <div class="input-area" e-if="sectionToShow == 'tps'">
+                <div class="input-area">
                     <div class="input-field">
                         <label>Primeiro Nome</label>
-                        <input type="text" name="PrimeiroNome" e-toggle:disabled="locked" validate="text"
-                            placeholder="Digite o seu Primeiro Nome" />
+                        <input type="text" name="PrimeiroNome" e-disabled="{ 'true': locked }" validate="text"
+                            e-bind="user.primeiroNome" placeholder="Loading..." />
                     </div>
 
                     <div class="input-field">
                         <label>Último Nome</label>
-                        <input type="text" name="UltimoNome" e-toggle:disabled="locked" validate="text"
-                            placeholder="Digite o seu Último Nome" />
+                        <input type="text" name="UltimoNome" e-disabled="{ 'true': locked }" validate="text"
+                            e-bind="user.ultimoNome" placeholder="Loading..." />
                     </div>
 
                     <div class="input-field">
                         <label>Identificação</label>
-                        <input type="text" name="UltimoNome" e-toggle:disabled="locked" validate="text"
-                            placeholder="Digite a sua Identificação" />
+                        <input type="text" name="Identificacao" disabled e-value="{{ user.identificacao }}"
+                            placeholder="Loading..." />
                     </div>
 
                     <div class="input-field">
                         <label>Genero</label>
-                        <select name="GeneroId" e-toggle:disabled="locked" validate="select">
-                            <option selected value="#">None</option>
+                        <select name="GeneroId" e-disabled="{ 'true': locked }" validate="select"
+                            e-bind="user.generoId">
+                            <option e-req="item of Genero" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                Loading...</option>
                         </select>
                     </div>
 
                     <div class="input-field">
                         <label>Titulo</label>
-                        <select name="TituloId" e-toggle:disabled="locked" validate="select">
-                            <option selected value="#">None</option>
+                        <select name="TituloId" e-disabled="{ 'true': locked }" validate="select"
+                            e-bind="user.tituloId">
+                            <option e-req="item of Titulo" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                Loading...</option>
                         </select>
                     </div>
                 </div>
@@ -50,41 +66,196 @@
                 <div class="input-area">
                     <div class="input-field">
                         <label>Nascimento</label>
-                        <input type="date" name="Nascimento" e-toggle:disabled="locked" validate="age" />
+                        <input type="date" name="Nascimento" e-disabled="{ 'true': locked }" validate="age"
+                            e-bind="user.dataNascimento.split('T')[0]" />
                     </div>
                 </div>
             </div>
         </div>
-        <div class="main-body-action">
-            <button type="reset" class="remove-type">Eliminar</button>
-            <button type="button" class="blue-type" e-show="locked" on:click="locked = false">Editar</button>
-            <button type="button" class="submit-type" e-show="!locked" on:click="null">Salvar</button>
+        <div class="main-body-action hide-it-f" e-class="{ 'hide-it-f': isRequesting }">
+            <button type="reset" class="remove-type" on:click="remove">Eliminar</button>
+            <button type="button" class="blue-type" on:click="locked = !locked"
+                e-content="{{ locked ? 'Editar' : 'Cancelar' }}">Editar</button>
+            <button type="button" class="submit-type" e-show="!locked" on:click="save">Salvar</button>
+        </div>
+    </div>
+    <div class="contacts addables nice-scroll">
+        <div class="content fit-content">
+            <p class="high-light">
+                Contactos<small e-show="!locked" class="hide-it" e-class="{ 'hide-it': locked }"> •
+                    <span class="pointer green-it" on:click="addContact">Adicionar</span></small>
+            </p>
+
+            <div class="divider" e-for="contacto of user.contactos" e-show="contacto.visibility">
+                <div class="input-field">
+                    <div class="removal-container hide-it" e-class="{ 'hide-it': locked }">
+                        <span class="fa fa-remove icon-type center-icon" on:click="remContact(contacto)"></span>
+                    </div>
+                    <label>
+                        <h3 e-content="{{ contacto.tipoContacto.nome }}"> Loading... </h3>
+                    </label>
+
+                    <select e-show="!locked" e-bind="contacto.tipoContactoId"
+                        on:change="onTipoContactoChange(contacto, event.target)" class="hide-it-f"
+                        e-class="{ 'hide-it-f': locked }">
+                        <option e-for="tipo of tipoContactos" e-value="{{ tipo.id }}" e-content="{{ tipo.nome }}">
+                            Loading...</option>
+                    </select>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" e-bind="contacto.valor" placeholder="Contacto" e-disabled="{ 'true': locked }" />
+                </div>
+            </div>
         </div>
     </div>
     <div class="address addables nice-scroll">
         <div class="content fit-content">
             <p class="high-light">Enderecos</p>
-            <inc src="address"></inc>
-        </div>
-    </div>
-    <div class="contacts addables nice-scroll">
-        <div class="content fit-content">
-            <p class="high-light">Contactos</p>
-            <inc src="contact"></inc>
+
+            <div class="divider">
+                <div class="input-field">
+                    <label>
+                        <h3>Endereço Padrão</h3>
+                    </label>
+                </div>
+
+                <div class="input-field">
+                    <label>Rua</label>
+                    <input type="text" name="Rua" value="N/A" />
+                </div>
+
+                <div class="input-field">
+                    <label>Casa</label>
+                    <input type="text" name="Casa" value="N/A" />
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script>
-    var $easy = this.Easy;
-    this.loaded = function (el) {
-        this.Easy.data.currentPage = 'Visualizar Fornecedor';
+    var bouer = this.bouer;
+    var params = this.params();
+    var web = bouer.deps['web'];
+    var component = this;
+    var inputFile;
 
-        this.Easy.routing.markActive(
-            this.Easy.el.node('.provider-link')
-        );
-    }
+    this.on('loaded', function (evt) {
+        bouer.data.currentPage = 'Visualizar Fornecedor';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.provider-link'));
+        this.data.sectionToShow = params.type;
+        inputFile = evt.target.querySelector('input[type="file"]');
+
+        web('tipoContacto')
+            .then(function (response) {
+                component.data.tipoContactos = response.data;
+            });
+    });
 
     this.export({
-        locked: true
+        // Props
+        locked: true,
+        isRequesting: true,
+        id: params.id,
+        imageData: '',
+        sectionToShow: '',
+        tipoContactos: [],
+        // Methods
+        onPhotoChange: function (evt) {
+            var file = inputFile.files[0];
+
+            if (!file) return this.data.imageData = '';
+
+            var reader = new FileReader();
+            reader.addEventListener('load', function (data) {
+                component.data.imageData = data.target.result;
+            });
+            reader.readAsDataURL(file);
+        },
+        onTipoContactoChange: function (contacto, select) {
+            contacto.tipoContacto = this.data.tipoContactos[select.selectedIndex];
+        },
+
+        save: function (evt) {
+            var userData = bouer.$req.get('user-data').data;
+            var btn = evt.currentTarget;
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            var formData = new FormData();
+
+            formData.append("json", JSON.stringify(userData));
+            for (var file of inputFile.files) {
+                formData.append("file", file);
+            }
+
+            if (!component.data.imageData)
+                formData.append("toRemove", 'true');
+
+            web('pessoa/' + params.id, 'put', formData, {
+                'Authorization': sessionStorage.token || undefined
+            }).then(function () {
+                notify({
+                    type: 'success',
+                    message: 'Registro Actualizado'
+                });
+
+                component.data.locked = true;
+            }).finally(function () {
+                addOrRemSpinner(btn, true);
+            })
+        },
+        remove: function (evt) {
+            var userData = bouer.$req.get('user-data').data;
+            var btn = evt.currentTarget;
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            web('pessoa/' + params.id, 'delete')
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Removido'
+                    });
+
+                    component.data.locked = true;
+                    setTimeout(function () {
+                        bouer.$routing.navigate('/customers/tef');
+                    }, 500);
+                }).finally(function () {
+                    addOrRemSpinner(btn, true);
+                })
+        },
+
+        addContact: function () {
+            var userData = bouer.$req.get('user-data').data;
+            userData.contactos.push({
+                valor: '',
+                pessoaId: userData.id,
+                tipoContactoId: '',
+                tipoContacto: { nome: '' },
+                isNew: true
+            });
+        },
+        remContact: function (contacto) {
+            contacto.visibility = false;
+        },
+        filterContacts: function (list) {
+            return list.filter(function (item) {
+                return item.visibility;
+            });
+        },
+
+        onRequestFail: function (evt) {
+            notify({
+                type: 'error',
+                message: "Registro com o UID: '" + params.id + "' não encontrado.",
+                run: function () {
+                    bouer.$routing.navigate('/customers/tef');
+                }
+            });
+        }
     });
 </script>

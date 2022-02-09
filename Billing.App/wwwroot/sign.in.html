@@ -9,10 +9,6 @@
 	<link rel="stylesheet" href="assets/css/styles.css" />
 	<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
 	<link rel="shortcut icon" href="assets/images/logo/ico.svg" type="image/x-icon">
-	<script src="assets/js/easy.js"></script>
-	<script src="assets/js/easy.ajax.js"></script>
-	<script src="assets/js/sign-handler.js"></script>
-	<script src="assets/js/app.js"></script>
 	<title>Sign In | Billing</title>
 </head>
 
@@ -68,7 +64,7 @@
 						<div class="keep-signed area">
 							<span class="check-field">
 								<input class="app-checkbox" id="check-keep" disabled type="checkbox">
-								<label for="check-keep" on:click="event.base.previousElementSibling.checked = false;">
+								<label for="check-keep" on:click="event.currentTarget.previousElementSibling.checked = false;">
 									Manter a sessão
 								</label>
 							</span>
@@ -95,11 +91,15 @@
 		</form>
 	</div>
 
-	<div class="popup-container" e-anm></div>
+	<div class="popup-container"></div>
+	<script src="assets/js/bouer.js"></script>
+	<script src="assets/js/sign-handler.js"></script>
+	<script src="assets/js/components.js"></script>
+	<script src="assets/js/app.js"></script>
 	<script>
 		var first = localStorage.getItem('first-time');
 		if (!first) {
-			var el = document.node('.info-area');
+			var el = document.querySelector('.info-area');
 			el.children[0].innerHTML = 'Bem-vindo!';
 			// el.children[1].innerHTML = 'Primeira vez aqui? Cria uma conta!';
 		}

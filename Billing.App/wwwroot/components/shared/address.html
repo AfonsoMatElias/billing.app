@@ -1,11 +1,10 @@
 <div find-me class="divider">
     <div class="input-field">
         <label>Pais</label>
-        <select name="PaisId">
-            <option selected value="">None</option>
-            <option e-tmp="pais" 
-                    e-use="item" 
-                    value="{{ item.id }}" 
+        <select name="PaisId" >
+            <option value="">None</option>
+            <option e-req="item of pais"  
+                    e-value="{{ item.id }}" 
                     e-content="{{ item.nome }}">Loading...</option>
         </select>
     </div>
@@ -35,3 +34,11 @@
         <input type="text" name="CodigoPostal" placeholder="Digite o Codigo Postal" />
     </div>
 </div>
+<script>
+    var bouer = this.bouer;
+    this.on('mounted', function () {
+       
+        if (!('pais' in this.data))
+            bouer.set({ pais: [] }, this.data);
+    });
+</script>

@@ -1,70 +1,72 @@
-<inc src="settings-wrapper" data="{ active: 'employees' }">
-    <content>
-        <div class="partial settings-list-page employees">
-            <div class="header">
-                <div class="vertical-spreader">
-                    <div class="left">
-                        <h3>Funcionários</h3>
-                    </div>
-                    <div class="right">
-                        <div class="button-area">
-                            <a i:href="/settings/employees/create" class="blue-type">Adicionar</a>
-                        </div>
+<settings-wrapper data="$data">
+    <div class="partial settings-list-page employees">
+        <div class="header">
+            <div class="vertical-spreader">
+                <div class="left">
+                    <h3>Funcionários</h3>
+                </div>
+                <div class="right">
+                    <div class="button-area">
+                        <a :href="/settings/employees/create" class="blue-type">Adicionar</a>
                     </div>
                 </div>
             </div>
-
-            <div class="remain">
-
-                <inc src="table" class="nav-off">
-                    <content ident="table-head">
-                        <div class="table-cell"> Codigo </div>
-                        <div class="table-cell"> Nome </div>
-                        <div class="table-cell"> Gênero </div>
-                        <div class="table-cell"> Nascimento </div>
-                        <div class="table-cell"> Estado </div>
-                    </content>
-                    <content ident="table-body">
-                        <div class="table-row flex-it" e-skeleton e-tmp="funcionario" e-use="item"
-                            e-filter="search:usuario.pessoa.primeiroNome, usuario.pessoa.ultimoNome">
-                            <div class="card-cover" e-content="{{ getAchronym(item.usuario.pessoa.primeiroNome) }}">
-                            </div>
-
-                            <div class="pointer table-cell" e-content="{{ item.usuario.codigo }}">Loading...
-                            </div>
-
-                            <div class="pointer table-cell" data="item.usuario.pessoa"
-                                e-content="{{ [primeiroNome, ultimoNome].join(' ') }}">Loading... </div>
-
-                            <div class="pointer table-cell" data="item.usuario.pessoa" e-content="{{ genero.nome }}">
-                                Loading... </div>
-
-                            <div class="pointer table-cell hidable" data="item.usuario.pessoa"
-                                e-content="{{ toDate(dataNascimento) }}"> Loading...</div>
-
-                            <div class="table-cell">
-                                <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
-                                </span>
-                                <div class="buttons-area" data="{}">
-                                    <div class="item-options flex-it hide-it" e-def="{ showOptions: false }"
-                                        e-class="{ 'hide-it': !showOptions }">
-                                        <div>
-                                            <button class="see">Ver</button>
-                                        </div>
-                                        <div>
-                                            <button class="rem">Desactivar</button>
-                                        </div>
-                                    </div>
-                                    <span title="Opções" on:click="showOptions = !showOptions"
-                                        class="fa fa-dot-circle-o"></span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </content>
-                </inc>
-
-            </div>
         </div>
-    </content>
-</inc>
+
+        <div class="remain">
+            <app-table class="nav-off" data="$data">
+                <slot slot="table-head">
+                    <div class="table-cell"> Codigo </div>
+                    <div class="table-cell"> Nome </div>
+                    <div class="table-cell"> Gênero </div>
+                    <div class="table-cell"> Nascimento </div>
+                    <div class="table-cell"> Estado </div>
+                </slot>
+                <slot slot="table-body">
+                    <div class="table-row flex-it" e-skeleton 
+                        e-req="item of funcionario | where:search:usuario.pessoa.primeiroNome,usuario.pessoa.ultimoNome">
+                        <div class="card-cover" e-content="{{ getAchronym(item.usuario.pessoa.primeiroNome) }}">
+                        </div>
+
+                        <div class="pointer table-cell" e-content="{{ item.usuario.codigo }}">Loading...
+                        </div>
+
+                        <div class="pointer table-cell" data="item.usuario.pessoa"
+                            e-content="{{ [primeiroNome, ultimoNome].join(' ') }}">Loading... </div>
+
+                        <div class="pointer table-cell" data="item.usuario.pessoa" e-content="{{ genero.nome }}">
+                            Loading... </div>
+
+                        <div class="pointer table-cell hidable" data="item.usuario.pessoa"
+                            e-content="{{ toDate(dataNascimento) }}"> Loading...</div>
+
+                        <div class="table-cell">
+                            <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
+                            </span>
+                            <div class="buttons-area" data="{}">
+                                <div class="item-options flex-it hide-it" e-def="{ showOptions: false }"
+                                    e-class="{ 'hide-it': !showOptions }">
+                                    <div>
+                                        <button class="see">Ver</button>
+                                    </div>
+                                    <div>
+                                        <button class="rem">Desactivar</button>
+                                    </div>
+                                </div>
+                                <span title="Opções" on:click="showOptions = !showOptions"
+                                    class="fa fa-dot-circle-o"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </slot>
+            </app-table>
+
+        </div>
+    </div>
+</settings-wrapper>
+<script>
+    this.export({
+        active: 'employees'
+    })
+</script>

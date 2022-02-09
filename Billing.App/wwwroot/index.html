@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> -->
-    <script src="assets/js/easy.js"></script>
-    <script src="assets/js/easy.ajax.js"></script>
-    <script src="assets/js/app.js"></script>
 </head>
 
 <body>
@@ -21,7 +18,7 @@
         <aside class="side-bar collapse-menu">
             <div class="top logo-container">
                 <div class="logo">
-                    <a i:href="/">
+                    <a :href="/">
                         <img src="assets/images/logo/ico.svg" alt="Billing icon">
                         <label>Billing </label>
                     </a>
@@ -43,13 +40,13 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a i:href="/products/create">
+                                    <a :href="/products/create">
                                         <span class="center-icon fa fa-plus-circle"></span>
                                         <span> Criar </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a i:href="/products">
+                                    <a :href="/products">
                                         <span class="center-icon fa fa-list"></span>
                                         <span> Listar </span>
                                     </a>
@@ -63,13 +60,13 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a i:href="/customers/create/tec">
+                                    <a :href="/customers/create/tec">
                                         <span class="center-icon fa fa-plus-circle"></span>
                                         <span> Criar </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a i:href="/customers/tec">
+                                    <a :href="/customers/tec">
                                         <span class="center-icon fa fa-list"></span>
                                         <span> Listar </span>
                                     </a>
@@ -83,13 +80,13 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a i:href="/providers/create/tef">
+                                    <a :href="/providers/create/tef">
                                         <span class="center-icon fa fa-plus-circle"></span>
                                         <span> Criar </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a i:href="/providers/tef">
+                                    <a :href="/providers/tef">
                                         <span class="center-icon fa fa-list"></span>
                                         <span> Listar </span>
                                     </a>
@@ -282,7 +279,7 @@
                                         <span class="center-icon fa fa-cog"></span>
                                     </span>
                                     <span class="message">
-                                        <a i:href="/settings" on:click="showProfile = false">
+                                        <a :href="/settings" on:click="showProfile = false">
                                             <div>
                                                 <p>Configurações</p>
                                             </div>
@@ -310,6 +307,9 @@
         </main>
     </div>
     <div class="popup-container"></div>
+    <script src="assets/js/bouer.js"></script>
+    <script src="assets/js/components.js"></script>
+    <script src="assets/js/app.js"></script>
 </body>
 
 </html>

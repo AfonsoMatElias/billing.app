@@ -20,7 +20,7 @@
                     </div>
                     <div class="input-field">
                         <label>Categoria</label>
-                        <select validate="select" on:change="selectCategoria(event.base.selectedOptions[0])">
+                        <select validate="select" on:change="selectCategoria(event.currentTarget.selectedOptions[0])">
                             <option selected value="">None</option>
                             <option e-for="item of categorias" e-value="{{ item.id }}" e-content="{{ item.nome }}">
                                 Loading...</option>
@@ -41,10 +41,12 @@
                     <label class="default-label block-it">Tipo de Produto</label>
                     <div class="default-container">
 
-                        <span class="radio-field" e-tmp="tipoProduto" e-use="item">
-                            <span data="{ item: item, code: this.code(5) }">
-                                <input class="app-radio" name="TipoProdutoId" id="radio-{{ code }}" value="{{ item.id }}" type="radio">
-                                <label for="radio-{{ code }}" e-content="{{ item.nome }} - {{ item.descricao }}">Loading...</label>
+                        <span class="radio-field" e-req="item of tipoProduto">
+                            <span data="{ item: item, code: toCode(5) }">
+                                <input class="app-radio" name="TipoProdutoId" id="radio-{{ code }}"
+                                    value="{{ item.id }}" type="radio">
+                                <label for="radio-{{ code }}"
+                                    e-content="{{ item.nome }} - {{ item.descricao }}">Loading...</label>
                             </span>
                         </span>
 
@@ -100,9 +102,8 @@
                             <label>Fornecedor</label>
                             <select name="FornecedorId" validate="select">
                                 <option value="" selected>None</option>
-                                <option e-tmp="Entidade" e-id="?codigoTipoEntidade=tef" e-use="item"
-                                    e-value="{{ item.id }}"
-                                    e-content="{{ item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : '') }}">
+                                <option e-req="entidade of Entidade?codigoTipoEntidade=tef" e-value="{{ entidade.id }}"
+                                    e-content="{{ [entidade.pessoa.primeiroNome, entidade.pessoa.ultimoNome].join(' ') }}">
                                     Loading...</option>
                             </select>
                         </div>
@@ -142,9 +143,8 @@
                             </div>
                             <select validate="select" e-if="hasStore">
                                 <option selected value="">None</option>
-                                <option e-for="item of armazens" 
-                                        e-value="{{ item.id }}" 
-                                        e-content="{{ item.nome }}" >Loading...</option>
+                                <option e-for="armazem of armazens" e-value="{{ armazem.id }}"
+                                    e-content="{{ armazem.nome }}">Loading...</option>
                             </select>
                         </div>
 
@@ -152,9 +152,8 @@
                             <label>Secção</label>
                             <select validate="select" name="SeccaoId">
                                 <option selected value="">None</option>
-                                <option e-for="item of seccoes" 
-                                        e-value="{{ item.id }}" 
-                                        e-content="{{ item.nome }}" >Loading...</option>
+                                <option e-for="seccao of seccoes" e-value="{{ seccao.id }}"
+                                    e-content="{{ seccao.nome }}">Loading...</option>
                             </select>
                         </div>
 
@@ -168,8 +167,8 @@
             </div>
 
             <!-- Images -->
-            <div class="image-load-area" on:dragover.preventDefault="dragIn" on:dragleave.preventDefault="dragOut"
-                on:drop.preventDefault="drop" on:dragend.preventDefault="null" on:dragleave.preventDefault="null"></div>
+            <div class="image-load-area" on:dragover.prevent="dragIn" on:dragleave.prevent="dragOut"
+                on:drop.prevent="drop" on:dragend.prevent="null" on:dragleave.prevent="null"></div>
 
             <div class="action-area">
                 <div class="area center">
@@ -189,39 +188,35 @@
     </div>
 </div>
 <script>
-    var easy = this.Easy;
+    var bouer = this.bouer;
     var component = this;
-    var imageArea = this.el.node('.image-load-area');
+    var imageArea = this.el.querySelector('.image-load-area');
     var photoInputElement;
     var dataTransfer = new DataTransfer();
+    var web = bouer.deps['web'];
 
     function image(data, index) {
-        return easy.toElement('<span e-compile class="image-loaded" style="background-image: url(' + data + ');">' +
-                                '<span class="close fa fa-close center-icon" on:click="removeImage(' + index + ', event)"></span>' +
-                              '</span>');
+        var d = document.createElement('div');
+        d.innerHTML = '<span e-compile class="image-loaded" style="background-image: url(' + data + ');">' +
+            '<span class="close fa fa-close center-icon" on:click="removeImage(' + index + ', event)"></span>' +
+            '</span>';
+
+        return d.children[0];
     }
 
-    this.loaded = function (el) {
+    this.on('loaded', function (evt) {
+        var el = evt.target;
         // Marking the menu
-        this.Easy.data.currentPage = 'Cadastrar um Produto';
+        bouer.data.currentPage = 'Cadastrar um Produto';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.product-link'));
 
-        this.Easy.routing.markActive(
-            this.Easy.el.node('.product-link')
-        );
-
-        this.Easy.get('Categoria')
-            .then(function (data) {
-                component.data.categorias = data.result;
+        web('Categoria')
+            .then(function (response) {
+                component.data.categorias = response.data;
             })
-            .catch(function (error) {
-                notify({
-                    type: 'error',
-                    message: error.message || error
-                });
-            });
 
-        photoInputElement = el.node('#product-images');
-    }
+        photoInputElement = el.querySelector('#product-images');
+    })
     this.export({
         // Variables
         isStock: false,
@@ -231,7 +226,7 @@
         subCategorias: [],
 
         armazens: [],
-        seccoes:[],
+        seccoes: [],
 
         // Methods
         selectCategoria: function (item) {
@@ -241,12 +236,12 @@
             }).subCategorias;
         },
         removeImage: function (index, evt) {
-            var el = evt.base.aboveMe('.image-loaded');
+            var el = aboveMe(evt.currentTarget, '.image-loaded');
             el.parentNode.removeChild(el);
             dataTransfer.items.remove(index);
         },
         drop: function (evt) {
-            evt.base.classList.remove('drag-over');
+            evt.currentTarget.classList.remove('drag-over');
 
             var availableSpace = 3 - imageArea.children.length;
             if (availableSpace === 0) return;
@@ -259,7 +254,13 @@
                 for (var item of evt.dataTransfer.files) {
                     var reader = new FileReader();
                     reader.addEventListener('load', function (data) {
-                        imageArea.appendChild(image(data.target.result, index++));
+                        var childNode = image(data.target.result, index++);
+                        imageArea.appendChild(childNode);
+                        bouer.compile({
+                            el: childNode,
+                            data: component.data,
+                            context: component
+                        });
                     });
 
                     dataTransfer.items.add(item);
@@ -270,19 +271,17 @@
                 }
             }
 
-            console.log(dataTransfer);
-
             // Adding elements into fileElement
             photoInputElement.files = dataTransfer.files;
         },
         dragIn: function (evt) {
-            evt.base.classList.add('drag-over');
+            evt.target.classList.add('drag-over');
         },
         dragOut: function (evt) {
-            evt.base.classList.remove('drag-over');
+            evt.target.classList.remove('drag-over');
         },
         load: function (evt) {
-            evt.base.classList.remove('drag-over');
+            evt.target.classList.remove('drag-over');
 
             var availableSpace = 3 - imageArea.children.length;
             if (availableSpace === 0) return;
@@ -290,10 +289,16 @@
             // Getting position to use in the UI
             var index = dataTransfer.length == 0 ? 0 : dataTransfer.length - 1;
 
-            for (var item of evt.base.files) {
+            for (var item of evt.target.files) {
                 var reader = new FileReader();
                 reader.addEventListener('load', function (data) {
-                    imageArea.appendChild(image(data.target.result, index++));
+                    var childNode = image(data.target.result, index++);
+                    imageArea.appendChild(childNode);
+                    bouer.compile({
+                        el: childNode,
+                        data: component.data,
+                        context: component
+                    });
                 });
 
                 dataTransfer.items.add(item);
@@ -307,13 +312,13 @@
             photoInputElement.files = dataTransfer.files;
         },
         submit: function (evt) {
+            var btn = evt.currentTarget;
 
-            var btn = evt.base;
             if (hasSpinner(btn)) return;
             addOrRemSpinner(btn);
 
-            var form = evt.base.aboveMe('[post-form]');
-            var formObj = easy.toJsObj(form);
+            var form = aboveMe(evt.currentTarget, '[post-form]');
+            var formObj = bouer.toJsObj(form);
             var formData = new FormData();
 
             formData.append("json", JSON.stringify(formObj));
@@ -322,14 +327,14 @@
             }
 
             // Undefining the content type
-            var headers = easy.dependencies['Connector'].conn.fetchOptions.headers;
+            var headers = bouer.deps['Connector'].conn.fetchOptions.headers;
             var contentType = headers['Content-Type'];
             var accept = headers['Accept'];
 
             headers['Content-Type'] = undefined;
             headers['Accept'] = undefined;
 
-            easy.create('produto', formData)
+            web('produto', 'post', formData)
                 .then(function (data) {
                     notify({
                         type: 'success',
@@ -350,7 +355,7 @@
                 })
         },
         cancel: function (evt) {
-            evt.base.aboveMe('[post-form]').reset();
+            aboveMe(evt.currentTarget, '[post-form]').reset();
             imageArea.innerHTML = '';
         }
     });

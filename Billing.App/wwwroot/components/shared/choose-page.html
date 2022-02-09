@@ -5,7 +5,7 @@
         </div>
         <div class="content">
             <div class="area customer">
-                <a i:href="{{ urlSingular }}">
+                <a :href="{{ urlSingular }}">
                     <div class="type"></div>
                     <div class="link">
                         <label>Pessoa Singular</label>
@@ -14,7 +14,7 @@
             </div>
 
             <div class="area company">
-                <a i:href="{{ urlCompany }}">
+                <a :href="{{ urlCompany }}">
                     <div class="type"></div>
                     <div class="link">
                         <label>Pessoa Colectiva</label>
@@ -26,13 +26,13 @@
 </div>
 <script>
     var container = this;
-    var $easy = this.Easy;
+    var bouer = this.bouer;
     this.loaded = function (el) {
-        var params = this.getParams();
+        var params = this.params();
         var src = params.src || '';
 
         var setProps = (function (options) {
-            $easy.data.currentPage = options.header;
+            bouer.data.currentPage = options.header;
             this.data.text = options.text;
 
             this.data.urlSingular = options.urlSingular + (src ? '?src=' + src : '');

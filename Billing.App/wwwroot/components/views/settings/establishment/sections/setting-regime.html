@@ -9,7 +9,7 @@
             <label>Regime</label>
             <select name="GerenteId">
                 <option value="" selected disabled>Selecione a opção</option>
-                <option e-tmp="regime" e-use="item" on:add="onRegimeAdded" e-value="{{ item.id }}"
+                <option e-req="item of regime" on:add="onRegimeAdded" e-value="{{ item.id }}"
                     e-content="{{ item.usuario.pessoa.primeiroNome + ' ' + item.usuario.pessoa.ultimoNome }}">
                     Loading...
                 </option>
@@ -17,18 +17,15 @@
         </div>
 
         <div class="action-area">
-            <button on:click="destroyMe" type="reset" class="cancel-type">Cancelar</button>
+            <button on:click="this.destroy()" type="reset" class="cancel-type">Cancelar</button>
             <button type="button" class="submit-type" on:click="submit">Salvar</button>
         </div>
     </div>
 </div>
 <script>
-    var $easy = this.Easy;
+    var bouer = this.bouer;
+    var web = bouer.deps['web'];
     var component = this;
-    
-    this.loaded = function (el) {
-        
-    }
 
     this.export({
         // Variables
@@ -36,15 +33,14 @@
 
         // Methods
         submit: function (evt) {
-            var btn = evt.base;
-            var form = btn.aboveMe('[form-post]');
+            var btn = evt.currentTarget;
+            var form = aboveMe(btn, '[form-post]');
             
             if (hasSpinner(btn)) return;
             addOrRemSpinner(btn);
 
-            $easy.update('estabelecimento/update-regime', 
-                $easy.toJsObj(form), component.data.input.id + '')
-                .then(function (data) {
+            web('estabelecimento/update-regime/' + component.data.input.id, 'put', bouer.toJsObj(form))
+                .then(function () {
                     notify({
                         type: 'success',
                         message: 'Registro Actualizado',
@@ -63,13 +59,10 @@
                     addOrRemSpinner(btn, true);
                 });
         },
-        destroyMe: function () {
-            component.destroy();
-        },
         onRegimeAdded: function (evt) {
             if (component.data.input.gerenteId && 
                 component.data.input.gerenteId == evt.$data.model.item.id)
-                evt.base.selected = true;
+                evt.target.selected = true;
         }
     })
 </script>

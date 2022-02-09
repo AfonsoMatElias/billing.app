@@ -4,7 +4,7 @@ namespace Billing.Service.Models
 {
     public class Contacto : Base.Properties
     {
-        public string Contaco { get; set; }
+        public string Valor { get; set; }
         public long PessoaId { get; set; }
         public long TipoContactoId { get; set; }
         

@@ -1,18 +1,20 @@
 function signHandler() {
-    var easy = this;
+    var bouer = this;
+    var web = bouer.deps['web'];
+
     // A  shortcut for document
     var doc = document;
     var eventPrevented = function (selector, event, callback) {
-        var el = doc.node(selector);
-        if (el) el.listen(event, function (evt) {
+        var el = doc.querySelector(selector);
+        if (el) el.addEventListener(event, function (evt) {
             evt.preventDefault();
             if (callback) callback.call(null, evt);
         });
     }
 
-    // validation.listen( doc.node('#signin-form') || 
-    // doc.node('#signup-form') || 
-    // doc.node('#signup-form'), null, null, true );
+    // validation.addEventListener( doc.querySelector('#signin-form') || 
+    // doc.querySelector('#signup-form') || 
+    // doc.querySelector('#signup-form'), null, null, true );
 
     // Basic form handling
     // Actions for buttons pressed in stepable container
@@ -22,25 +24,25 @@ function signHandler() {
         SignIn: function (event) {
             var form, btn;
 
-            if (event.base.nodeName === 'FORM') {
-                form = event.base;
-                btn = form.node('button');
+            if (event.currentTarget.nodeName === 'FORM') {
+                form = event.currentTarget;
+                btn = form.querySelector('button');
             } else {
-                btn = event.base;
-                form = btn.aboveMe('form');
+                btn = event.currentTarget;
+                form = aboveMe(btn, 'form');
             }
-            
+
             if (hasSpinner(btn)) return;
             addOrRemSpinner(btn);
 
-            var formObj = easy.toJsObj(form);
+            var formObj = bouer.toJsObj(form);
 
-            easy.create('sign/in', {
-                User: formObj.User,
-                Password: formObj.Password
-            })
-                .then(function (data) {
-                    sessionStorage.token = data.result.type + ' ' + data.result.token;
+            web('sign/in', 'post', JSON.stringify({
+                    User: formObj.User,
+                    Password: formObj.Password
+                }))
+                .then(function (response) {
+                    sessionStorage.token = response.data.type + ' ' + response.data.token;
                     window.location.href = '/';
                 })
                 .catch(function (error) {
@@ -58,12 +60,12 @@ function signHandler() {
         SignUp: function (event) {
             var form, btn;
 
-            if (event.base.nodeName === 'FORM') {
-                form = event.base;
-                btn = form.node('.send-data');
+            if (event.currentTarget.nodeName === 'FORM') {
+                form = event.currentTarget;
+                btn = form.querySelector('.send-data');
             } else {
-                btn = event.base;
-                form = btn.aboveMe('form');
+                btn = event.currentTarget;
+                form = aboveMe(btn, 'form');
             }
 
             if (hasSpinner(btn)) return;
@@ -90,12 +92,12 @@ function signHandler() {
         ResetPassword: function (event) {
             var form, btn;
 
-            if (event.base.nodeName === 'FORM') {
-                form = event.base;
-                btn = form.node('.send-data');
+            if (event.currentTarget.nodeName === 'FORM') {
+                form = event.currentTarget;
+                btn = form.querySelector('.send-data');
             } else {
-                btn = event.base;
-                form = btn.aboveMe('form');
+                btn = event.currentTarget;
+                form = aboveMe(btn, 'form');
             }
 
             if (hasSpinner(btn)) return;
@@ -114,16 +116,14 @@ function signHandler() {
         event.preventDefault();
 
         // Getting the action
-        var action = stepActions[event.base.valueIn('action')];
+        var action = stepActions[event.currentTarget.getAttribute('action')];
         if (action) {
             var keepOn = action(event);
             if (!keepOn) return;
         }
 
-        event.base.valueIn('action');
-
         // Getting the section
-        var current = event.base.aboveMe('.stepable');
+        var current = aboveMe(event.currentTarget, '.stepable');
 
         // Defining some className
         var hide = 'hide-it';
@@ -166,16 +166,16 @@ function signHandler() {
     }
 
     // Form step handler
-    var next = doc.nodes('.next-form');
-    var prev = doc.nodes('.prev-form');
+    var next = doc.querySelector('.next-form');
+    var prev = doc.querySelector('.prev-form');
 
     // Adding the stepAction event
-    next.listen('click', function (e) {
+    if (next) next.addEventListener('click', function (e) {
         e.preventDefault();
         // Next form
         stepControl(e, 'next');
     });
-    prev.listen('click', function (e) {
+    if (prev) prev.addEventListener('click', function (e) {
         e.preventDefault();
         // Previous form
         stepControl(e, 'prev');

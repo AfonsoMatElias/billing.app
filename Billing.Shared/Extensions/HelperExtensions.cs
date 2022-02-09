@@ -22,12 +22,14 @@ namespace Billing.Shared
             if (!uid.Contains(":")) return null;
 
             var splitted = uid.Split(":").ToList();
+            var id = long.Parse(splitted.FirstOrDefault());
+            var date = new DateTime(long.Parse(splitted.LastOrDefault()));
 
             return new UID {
                 // The Id Extracted
-                Id = long.Parse(splitted.FirstOrDefault()),
+                Id = id,
                 // The Created Date Extracted 
-                CreatedAt = new DateTime(long.Parse(splitted.LastOrDefault()))
+                CreatedAt = date.IsDate() ? date : DateTime.Now 
             };
         }
         

@@ -35,7 +35,7 @@
                         <div class="display-value">
                             <label>Ano: 2018</label>
                             <h4>26.689.000,00 AOA</h4>
-                                <span class="center-icon fa fa-circle"></span>
+                            <span class="center-icon fa fa-circle"></span>
                         </div>
                     </div>
 
@@ -154,7 +154,7 @@
 
                 <div class="card">
                     <ol>
-                        <li e-for="item of items" e-order="des:selling">
+                        <li e-for="item of items | order:desc:selling">
                             <div class="li-container">
                                 <span class="li-name" e-content="{{ item.name }}">Name</span>
                                 <span class="li-value" e-content="{{ item.selling }}">#0</span>
@@ -172,19 +172,21 @@
 
                 <div class="card total-items-container bubble-container">
 
-                    <div class="head-bubble" e-for="items">
-                        <div class="bubble-filler" e-style="background-color: {{ color }}40"></div>
+                    <div class="head-bubble" e-for="product of items">
+                        <div class="bubble-filler" e-style="background-color: {{ product.color }}40"></div>
                         <div class="bubble flex-it">
-                            <div class="line" e-style="background-color: {{ color }}96"></div>
-                            <div class="marker flex-it" e-style="background-color: {{ color }}96">
-                                <p e-content="{{ acronym(name) }}">#</p>
+                            <div class="line" e-style="background-color: {{ product.color }}96"></div>
+                            <div class="marker flex-it" e-style="background-color: {{ product.color }}96">
+                                <p e-content="{{ acronym(product.name) }}">#</p>
                             </div>
                             <div class="text flex-it">
                                 <span class="flex-it">
-                                    <label class="high" e-content="{{ name }}">#</label>
+                                    <label class="high" e-content="{{ product.name }}">#</label>
                                 </span>
                                 <span class="flex-it">
-                                    <label e-content="{{ qty > 1 ? (qty + ' Itens') : (qty + ' Item') }}">0 Item</label>
+                                    <label
+                                        e-content="{{ product.qty > 1 ? (product.qty + ' Itens') : (product.qty + ' Item') }}">0
+                                        Item</label>
                                 </span>
                             </div>
                             <div class="ico flex-it">
@@ -194,7 +196,7 @@
                     </div>
 
                     <div class="show-all">
-                        <a i:href="/dashboard/stock">Visualizar Tudo</a>
+                        <a :href="/dashboard/stock">Visualizar Tudo</a>
                     </div>
 
                 </div>
@@ -207,7 +209,7 @@
 
 <script>
     var component = this;
-    var $easy = this.Easy;
+    var bouer = this.bouer;
     var currentYear = new Date().toLocaleDateString('pt').split('/').reverse()[0] * 1;
     var currentMonth = new Date().toLocaleDateString('pt').split('/')[1] * 1;
     var months = [
@@ -215,8 +217,9 @@
         'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
     ];
 
-    this.loaded = function(el) {
-        this.Easy.data.currentPage = 'Dashboard';
+    this.on('loaded', function (evt) {
+        var el = evt.currentTarget;
+        bouer.data.currentPage = 'Dashboard';
 
         // Chart Loading
         var charts = [];
@@ -246,7 +249,7 @@
                 color: 'rgba(81, 160, 213, 0.6)',
                 markerColor: 'rgba(81, 160, 213)',
                 lineColor: 'rgba(81, 160, 213)',
-                dataPoints: months.map(function(item, index) {
+                dataPoints: months.map(function (item, index) {
                     var _index = index + 1;
                     return {
                         label: item.substr(0, 3),
@@ -257,7 +260,6 @@
         });
         var sellingLevels = new CanvasJS.Chart("selling-levels", {
             animationEnabled: true,
-
             data: [{
                 type: "doughnut",
                 startAngle: 60,
@@ -286,10 +288,10 @@
         // Adding all charts in the list
         [].push.apply(charts, [totalSells, sellingLevels]);
         // Rendering all the charts
-        charts.forEach(function(chart) {
+        charts.forEach(function (chart) {
             chart.render();
         });
-    }
+    });
 
     this.export({
         items: [{
@@ -312,17 +314,17 @@
             qty: 88,
             color: '#ca6aa1',
             selling: 14
-        }, ],
+        }],
 
         currentMonth: months[currentMonth - 1],
         currentYear: currentYear,
         selectedYear: currentYear,
         anualInterval: Array(3).fill(currentYear)
-            .map(function(item, index) {
+            .map(function (item, index) {
                 return (item - index)
             }),
 
-        acronym: function(name) {
+        acronym: function (name) {
             if (!name) return '#';
             var chunck = name.toUpperCase().split(' '),
                 first, last;

@@ -1,32 +1,29 @@
-<inc src="table" class="fit-content">
-    <content ident="table-head">
+<app-table class="fit-content" data="$data">
+    <slot slot="table-head">
         <div class="table-cell"> Nome </div>
         <div class="table-cell"> Nome Secundário </div>
         <div class="table-cell"> Código </div>
         <div class="table-cell"> Preço </div>
         <div class="table-cell"> SubCategoria </div>
         <div class="table-cell"> Estado </div>
-    </content>
-
-    <content ident="table-body">
+    </slot>
+    <slot slot="table-body">
         <div class="table-row flex-it" e-skeleton
-            e-for="item of $scope.dataList | $scope.search:nome,nomeSecundario,codigo,subCategoria.nome">
+            e-for="item of dataList | where:search:nome,nomeSecundario,codigo,subCategoria.nome">
             <div class="card-cover"></div>
             <div class="pointer table-cell">
-                <a i:href="/products/view/{{ item.uid }}" e-content="{{ item.nome }}">
-                    Loading...
-                </a>
+                <a :href="/products/view/{{ item.uid }}" e-content="{{ item.nome }}"> Loading... </a>
             </div>
             <div class="pointer table-cell" e-content="{{ item.nomeSecundario }}"> Loading... </div>
-            <div class="pointer table-cell hidable" e-content="{{ item.codigo }}"> Loading... </div>
-            <div class="pointer table-cell hidable" e-content="{{ item.precoUnitario }} Akz"> Loading... </div>
-            <div class="pointer table-cell hidable" e-content="{{ item.subCategoria.nome }}"> Loading... </div>
+            <div class="table-cell hidable" e-content="{{ item.codigo }}"> Loading... </div>
+            <div class="table-cell hidable" e-content="{{ item.precoUnitario }} Akz"> Loading... </div>
+            <div class="table-cell hidable" e-content="{{ item.subCategoria.nome }}"> Loading... </div>
             <div class="table-cell">
                 <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading... </span>
                 <div>
                     <div class="item-options flex-it hide-it">
                         <div>
-                            <a i:href="/products/view/{{ item.uid }}">
+                            <a :href="/products/view/{{ item.uid }}">
                                 <button class="see">Ver</button>
                             </a>
                         </div>
@@ -39,100 +36,58 @@
                 </div>
             </div>
         </div>
-    </content>
-</inc>
+    </slot>
+</app-table>
 <script>
-    var url = 'Produto';
-    var table;
-    var $easy = this.Easy;
+    var bouer = this.bouer;
     var component = this;
-    this.loaded = function (el) {
-        // Marking the menu
-        this.Easy.data.currentPage = 'Lista de Produtos';
-
-        this.Easy.routing.markActive(
-            this.Easy.el.node('.product-link')
-        );
-
-        table = this.Easy.retrieve('table-exposition', true);
-
-        getPartialData.call(this.Easy, {
-            url: url,
-            controls: table.paginationControls,
-            pagination: table.pagination,
+    var getData = (function (control, searcher) {
+        getPartialData.call(bouer, {
+            url: 'Produto',
+            search: this.data.search,
+            controls: this.data.navControl = control,
+            beforeRequest: function () {
+                if (searcher) searcher.classList.add('loading-input');
+            },
             onReponse: function (response) {
-                component.data.dataList = response.result;
-                table.pagination = response.pagination;
+                component.data.dataList = response.data;
+                component.data.navControl.pages = response.pagination.totalPages;
             },
             onFinish: function () {
-                component.el.__e__.$base.clearSkeleton('data-loading');
+                if (searcher) searcher.classList.remove('loading-input');
             }
         });
-    }
+    }).bind(this);
+
+    this.on('mounted', function () {
+        getData(this.data.navControl);
+    });
+
+    this.on('loaded', function () {
+        // Marking the menu
+        bouer.data.currentPage = 'Lista de Produtos';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.product-link'));
+    });
 
     this.export({
         search: '',
         dataList: [],
-        onSearch: function (str, searcher) {
+        navControl: {
+            page: 1,
+            size: 13,
+            pages: 0
+        },
+        onSearch: function (str, input) {
             component.data.search = str;
-            component.el.__e__.$base.clearSkeleton('data-loading');
+            bouer.$skeleton.clear('data-loading')
             return; // TODO: Request in the server
-
-            getPartialData.call(this.Easy, {
-                url: url,
-                search: component.data.search,
-                controls: table.paginationControls = { page: 1, size: 13 },
-                pagination: table.pagination,
-                beforeRequest: function () {
-                    searcher.classList.add('loading-input');
-                },
-                onReponse: function (response) {
-                    component.data.dataList = response.result;
-                    table.pagination = response.pagination;
-                },
-                onFinish: function () {
-                    searcher.classList.remove('loading-input');
-                }
-            });
+            getData({ page: 1, size: 13 }, input);
         },
         onNextPage: function (control) {
-            table.paginationControls++;
-            getPartialData.call(this.Easy, {
-                url: url,
-                search: component.data.search,
-                controls: table.paginationControls,
-                pagination: table.pagination,
-                beforeRequest: function () {
-                    searcher.classList.add('loading-input');
-                },
-                onReponse: function (response) {
-                    component.data.dataList = response.result;
-                    table.pagination = response.pagination;
-                },
-                onFinish: function () {
-                    searcher.classList.remove('loading-input');
-                }
-            });
-
+            getData(control);
         },
         onPrevPage: function (control) {
-            table.paginationControls--;
-            getPartialData.call(this.Easy, {
-                url: url,
-                search: component.data.search,
-                controls: table.paginationControls,
-                pagination: table.pagination,
-                beforeRequest: function () {
-                    searcher.classList.add('loading-input');
-                },
-                onReponse: function (response) {
-                    component.data.dataList = response.result;
-                    table.pagination = response.pagination;
-                },
-                onFinish: function () {
-                    searcher.classList.remove('loading-input');
-                }
-            });
+            getData(control);
         }
     });
 </script>

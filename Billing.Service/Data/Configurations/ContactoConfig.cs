@@ -10,7 +10,7 @@ namespace Billing.Service.Data.Configurations
         {
             new BaseConfig().Configure(builder);
     
-            builder.Property(e => e.Contaco)
+            builder.Property(e => e.Valor)
                     .IsRequired(false)
                     .HasMaxLength(200);                
 

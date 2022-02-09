@@ -1,97 +1,102 @@
-<inc src="settings-wrapper" data="{ active: 'preferences' }">
-    <content>
-        <div class="partial splitted-editing editable-left">
-            <div class="left nice-scroll">
+<settings-wrapper data="$data">
+    <div class="partial splitted-editing editable-left">
+        <div class="left nice-scroll">
 
-                <div class="description">
-                    <h3>Preferencias</h3>
-                </div>
-
-                <div class="row">
-                    <div class="value-area">
-                        <div class="value">
-                            <p>Popup de Mensagem</p>
-                        </div>
-                        <div class="ident">
-                            <small>
-                                <p>Mostrar popup quando receber mensagem</p>
-                            </small>
-                        </div>
-                    </div>
-                    <div class="icon-area switch-container">
-                        <div class="switch" e-class="{ 'on': preferences.messagePopup }"
-                            on:click="preferences.messagePopup = !preferences.messagePopup">
-                            <span class="wheel"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="value-area">
-                        <div class="value">
-                            <p>Popup de Notificação</p>
-                        </div>
-                        <div class="ident">
-                            <small>
-                                <p>Mostrar popup quando receber notificação</p>
-                            </small>
-                        </div>
-                    </div>
-                    <div class="icon-area switch-container">
-                        <div class="switch" e-class="{ 'on': preferences.notificationPopup }"
-                            on:click="preferences.notificationPopup = !preferences.notificationPopup">
-                            <span class="wheel"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="value-area">
-                        <div class="value">
-                            <p>Confirmar Abertura/Fecho do Caixa</p>
-                        </div>
-                        <div class="ident">
-                            <small>
-                                <p>Confirmação sempre que for Abrir/Fechar o caixa</p>
-                            </small>
-                        </div>
-                    </div>
-                    <div class="icon-area switch-container">
-                        <div class="switch" e-class="{ 'on': preferences.cashBoxOpenCloseConfirmation }"
-                            on:click="preferences.cashBoxOpenCloseConfirmation = !preferences.cashBoxOpenCloseConfirmation">
-                            <span class="wheel"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="value-area">
-                        <div class="value">
-                            <p>Modo Escuro</p>
-                        </div>
-                        <div class="ident">
-                            <small>
-                                <p>Habilite o modo escuro para um novo visual</p>
-                            </small>
-                        </div>
-                    </div>
-                    <div class="icon-area switch-container">
-                        <div class="switch" e-class="{ 'on': preferences.darkMode }"
-                            on:click="preferences.darkMode = !preferences.darkMode">
-                            <span class="wheel"></span>
-                        </div>
-                    </div>
-                </div>
-
-
-
+            <div class="description">
+                <h3>Preferencias</h3>
             </div>
-            <div class="right" id="loadable"></div>
+
+            <div class="row">
+                <div class="value-area">
+                    <div class="value">
+                        <p>Popup de Mensagem</p>
+                    </div>
+                    <div class="ident">
+                        <small>
+                            <p>Mostrar popup quando receber mensagem</p>
+                        </small>
+                    </div>
+                </div>
+                <div class="icon-area switch-container">
+                    <div class="switch" e-class="{ 'on': preferences.messagePopup }"
+                        on:click="preferences.messagePopup = !preferences.messagePopup">
+                        <span class="wheel"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="value-area">
+                    <div class="value">
+                        <p>Popup de Notificação</p>
+                    </div>
+                    <div class="ident">
+                        <small>
+                            <p>Mostrar popup quando receber notificação</p>
+                        </small>
+                    </div>
+                </div>
+                <div class="icon-area switch-container">
+                    <div class="switch" e-class="{ 'on': preferences.notificationPopup }"
+                        on:click="preferences.notificationPopup = !preferences.notificationPopup">
+                        <span class="wheel"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="value-area">
+                    <div class="value">
+                        <p>Confirmar Abertura/Fecho do Caixa</p>
+                    </div>
+                    <div class="ident">
+                        <small>
+                            <p>Confirmação sempre que for Abrir/Fechar o caixa</p>
+                        </small>
+                    </div>
+                </div>
+                <div class="icon-area switch-container">
+                    <div class="switch" e-class="{ 'on': preferences.cashBoxOpenCloseConfirmation }"
+                        on:click="preferences.cashBoxOpenCloseConfirmation = !preferences.cashBoxOpenCloseConfirmation">
+                        <span class="wheel"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="value-area">
+                    <div class="value">
+                        <p>Modo Escuro</p>
+                    </div>
+                    <div class="ident">
+                        <small>
+                            <p>Habilite o modo escuro para um novo visual</p>
+                        </small>
+                    </div>
+                </div>
+                <div class="icon-area switch-container">
+                    <div class="switch" e-class="{ 'on': preferences.darkMode }"
+                        on:click="preferences.darkMode = !preferences.darkMode">
+                        <span class="wheel"></span>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
-    </content>
-</inc>
+        <div class="right" id="loadable"></div>
+    </div>
+</settings-wrapper>
 <script>
-    var $easy = this.Easy;
+    var bouer = this.bouer;
     var component = this;
-    this.export($easy.data);
+
+    this.on('mounted', function () {
+        bouer.set(this.data, bouer.data);
+    })
+
+    this.export({
+        active: 'preferences'
+    });
 </script>

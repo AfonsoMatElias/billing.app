@@ -9,10 +9,6 @@
 	<link rel="stylesheet" href="assets/css/styles.css" />
 	<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
 	<link rel="shortcut icon" href="assets/images/logo/ico.svg" type="image/x-icon">
-	<script src="assets/js/easy.js"></script>
-    <script src="assets/js/easy.ajax.js"></script>
-	<script src="assets/js/sign-handler.js"></script>
-	<script src="assets/js/app.js"></script>
 	<title>Sign Recover | Billing</title>
 </head>
 
@@ -26,7 +22,7 @@
 					<div class="progress-bar"><span></span></div>
 					<form method="post" class="sign-recover">
 						<!-- Logo Section -->
-						<div inc-tmp="logo" class="top logo-container">
+						<div e-entry="logo" class="top logo-container">
 							<div class="logo">
 								<a>
 									<img src="assets/images/logo/ico.svg" alt="Billing icon">
@@ -66,7 +62,7 @@
 					<div class="card-body">
 						<div class="progress-bar"><span style="width: 50%;"></span></div>
 						<!-- Logo Section -->
-						<inc src="@logo" replace></inc>
+						<logo></logo>
 	
 						<!-- Text Section -->
 						<div class="info-area center-text">
@@ -105,7 +101,7 @@
 					<div class="card-body">
 						<div class="progress-bar"><span style="width: 100%;"></span></div>
 						<!-- Logo Section -->
-						<inc src="@logo" replace></inc>
+						<logo></logo>
 		
 						<!-- Text Section -->
 						<div class="info-area center-text">
@@ -148,7 +144,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="popup-container" e-anm></div>
+	<div class="popup-container"></div>
+	<script src="assets/js/bouer.js"></script>
+	<script src="assets/js/sign-handler.js"></script>
+	<script src="assets/js/components.js"></script>
+	<script src="assets/js/app.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Billing.App.Extensions;
@@ -130,7 +131,8 @@ namespace Billing.App.Controllers
         [HttpGet(WebRoutes.Download)]
         public async Task<IActionResult> Download(string folderName, string fileName)
         {
-            var file = $"{fileHandler.Folder(folderName).folderPath}{fileName}";   
+            
+            var file = Path.Combine(fileHandler.Folder(folderName).folderPath,fileName);   
 
             // IF file does no exist
             if (!System.IO.File.Exists(file))
