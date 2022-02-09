@@ -7,19 +7,8 @@
   "targets": {
     ".NETCoreApp,Version=v5.0": {
       "Billing.Reports/1.0.0": {
-        "dependencies": {
-          "Telerik.Reporting": "15.2.21.1110"
-        },
         "runtime": {
           "Billing.Reports.dll": {}
-        }
-      },
-      "Telerik.Reporting/15.2.21.1110": {
-        "runtime": {
-          "Telerik.Reporting.dll": {
-            "assemblyVersion": "15.2.21.1110",
-            "fileVersion": "15.2.21.1110"
-          }
         }
       }
     }
@@ -27,11 +16,6 @@
   "libraries": {
     "Billing.Reports/1.0.0": {
       "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Telerik.Reporting/15.2.21.1110": {
-      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

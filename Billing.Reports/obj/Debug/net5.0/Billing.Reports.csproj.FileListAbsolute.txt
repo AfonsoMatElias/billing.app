@@ -1,7 +1,4 @@
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Billing.Reports.csproj.AssemblyReference.cache
-C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Epsilon_Reports.Sales.Report1.resources
-C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Epsilon_Reports.Sales.Sales.resources
-C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Billing.Reports.csproj.GenerateResource.cache
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Billing.Reports.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Billing.Reports.AssemblyInfoInputs.cache
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Billing.Reports.AssemblyInfo.cs
@@ -10,10 +7,6 @@ C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\bin
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\bin\Debug\net5.0\Billing.Reports.dll
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\bin\Debug\net5.0\ref\Billing.Reports.dll
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\bin\Debug\net5.0\Billing.Reports.pdb
-C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\bin\Debug\net5.0\Telerik.Reporting.dll
-C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\bin\Debug\net5.0\Telerik.Reporting.pdb
-C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\bin\Debug\net5.0\Telerik.Reporting.xml
-C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Billing.Reports.csproj.CopyComplete
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Billing.Reports.dll
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\ref\Billing.Reports.dll
 C:\Users\Administrador\source\repos\Projecto AGT\billing.app\Billing.Reports\obj\Debug\net5.0\Billing.Reports.pdb
