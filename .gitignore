@@ -4,6 +4,8 @@
 Billing.Service/bin
 Billing.Service/obj
 
+Billing.Service/**/**
+
 Billing.Shared/bin
 Billing.Shared/obj
 
