@@ -4,4 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="Telerik.Reporting">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Progress\Telerik Reporting R3 2021\Bin\Telerik.Reporting.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
