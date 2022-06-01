@@ -8,10 +8,7 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/home/afonsomatelias/.nuget/packages/": {},
-    "C:\\Users\\Administrador\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+    "/home/afonsomatelias/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",

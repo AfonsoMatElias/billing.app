@@ -1,0 +1,12 @@
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/bin/Debug/net6.0/Billing.Reports.deps.json
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/bin/Debug/net6.0/Billing.Reports.dll
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/bin/Debug/net6.0/Billing.Reports.pdb
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/Debug/net6.0/Billing.Reports.csproj.AssemblyReference.cache
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/Debug/net6.0/Billing.Reports.GeneratedMSBuildEditorConfig.editorconfig
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/Debug/net6.0/Billing.Reports.AssemblyInfoInputs.cache
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/Debug/net6.0/Billing.Reports.AssemblyInfo.cs
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/Debug/net6.0/Billing.Reports.csproj.CoreCompileInputs.cache
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/Debug/net6.0/Billing.Reports.dll
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/Debug/net6.0/refint/Billing.Reports.dll
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/Debug/net6.0/Billing.Reports.pdb
+/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/Debug/net6.0/ref/Billing.Reports.dll

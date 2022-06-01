@@ -15,6 +15,9 @@ Billing.App/Attachments
 Billing.Tests/bin
 Billing.Tests/obj
 
+Billing.Reports/bin
+Billing.Reports/obj
+
 Scaffolder/bin
 Scaffolder/obj
 Scaffolder/.vscode
