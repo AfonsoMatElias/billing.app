@@ -73,78 +73,78 @@ namespace Billing.App.Controllers.Api
         [HttpPost]
         public async Task<Response> Post([FromBody] UsuarioDto model)
         {
-            return new Response 
+            return await Task.FromResult(new Response 
             {
                 Message = "Invalid Operation"
-            };
+            });
 
-            try
-            {
-                if (model == null)
-                    throw new AppException("Objecto inválido!", true);
+            // try
+            // {
+            //     if (model == null)
+            //         throw new AppException("Objecto inválido!", true);
 
-                await service.Save(model);
+            //     await service.Save(model);
 
-                return new Response { Message = "Created" };
-            }
-            catch (AppException ex)
-            {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
+            //     return new Response { Message = "Created" };
+            // }
+            // catch (AppException ex)
+            // {
+            //     return new Response
+            //     {
+            //         Errors = ex.Errors
+            //     };
+            // }
         }
 
         // PUT: api/Usuario/5:12837918237
         [HttpPut("{uid}")]
         public async Task<Response> Put(string uid, [FromBody] UsuarioDto model)
         {
-            return new Response 
+            return await Task.FromResult(new Response 
             {
                 Message = "Invalid Operation"
-            };
+            });
 
-            try
-            {
-                if (model == null)
-                    throw new AppException("Objecto inválido!", true);
+            // try
+            // {
+            //     if (model == null)
+            //         throw new AppException("Objecto inválido!", true);
 
-                await service.Update(uid, model);
+            //     await service.Update(uid, model);
              
-                return new Response { Message = "Updated" };
-            }
-            catch (AppException ex)
-            {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
+            //     return new Response { Message = "Updated" };
+            // }
+            // catch (AppException ex)
+            // {
+            //     return new Response
+            //     {
+            //         Errors = ex.Errors
+            //     };
+            // }
         }
 
         // DELETE: api/Usuario/5:12837918237
         [HttpDelete("{uid}")]
         public async Task<Response> Delete(string uid)
         {
-            return new Response 
+            return await Task.FromResult(new Response 
             {
                 Message = "Invalid Operation"
-            };
+            });
             
-            try
-            {
-                await service.Remove(uid);
+            // try
+            // {
+            //     await service.Remove(uid);
             
-                return new Response { Message = "Deleted" };
-            }
-            catch (AppException ex)
-            {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
+            //     return new Response { Message = "Deleted" };
+            // }
+            // catch (AppException ex)
+            // {
+            //     return new Response
+            //     {
+            //         Errors = ex.Errors
+            //     };
+            // }
         }
     }
 }
