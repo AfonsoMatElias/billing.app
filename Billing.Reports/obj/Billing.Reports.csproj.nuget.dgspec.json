@@ -1,30 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/Billing.Reports.csproj": {}
+    "C:\\dev\\dotnet\\billing.app\\Billing.Reports\\Billing.Reports.csproj": {}
   },
   "projects": {
-    "/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/Billing.Reports.csproj": {
+    "C:\\dev\\dotnet\\billing.app\\Billing.Reports\\Billing.Reports.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/Billing.Reports.csproj",
+        "projectUniqueName": "C:\\dev\\dotnet\\billing.app\\Billing.Reports\\Billing.Reports.csproj",
         "projectName": "Billing.Reports",
-        "projectPath": "/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/Billing.Reports.csproj",
-        "packagesPath": "/home/afonsomatelias/.nuget/packages/",
-        "outputPath": "/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/",
+        "projectPath": "C:\\dev\\dotnet\\billing.app\\Billing.Reports\\Billing.Reports.csproj",
+        "packagesPath": "C:\\Users\\afonso.matumona\\.nuget\\packages\\",
+        "outputPath": "C:\\dev\\dotnet\\billing.app\\Billing.Reports\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/afonsomatelias/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\afonso.matumona\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net5.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.telerik.com/nuget": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net5.0": {
+            "targetAlias": "net5.0",
             "projectReferences": {}
           }
         },
@@ -35,8 +38,8 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net5.0": {
+          "targetAlias": "net5.0",
           "imports": [
             "net461",
             "net462",
@@ -52,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
