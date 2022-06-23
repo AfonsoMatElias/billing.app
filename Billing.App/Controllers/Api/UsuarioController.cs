@@ -25,48 +25,28 @@ namespace Billing.App.Controllers.Api
         [HttpGet]
         public async Task<Response> Get([FromQuery] PageableQueryParam pageableQuery)
         {
-            try
-            {
-                var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size));
+            var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size));
 
-                return new Response
-                {
-                    Data = dbData.Data,
-                    Pagination = dbData.Pageable,
-                    Message = "Listed"
-                };
-            }
-            catch (AppException ex)
+            return new Response
             {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
+                Data = dbData.Data,
+                Pagination = dbData.Pageable,
+                Message = "Listed"
+            };
         }
 
         // GET: api/Usuario/5:12837918237
         [HttpGet("{uid}")]
         public async Task<Response> Get(string uid)
         {
-            try
-            {
-                var dbData = await service.FindById(uid);
+            var dbData = await service.FindById(uid);
 
-                return new Response
-                {
-                    Data = dbData,
-                    Message = "Response Object",
-                    Errors = dbData == null ? new[] { "Not Found" } : new string[] { }
-                };
-            }
-            catch (AppException ex)
+            return new Response
             {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
+                Data = dbData,
+                Message = "Response Object",
+                Errors = dbData == null ? new[] { "Not Found" } : new string[] { }
+            };
         }
 
         // POST: api/Usuario

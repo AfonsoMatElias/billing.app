@@ -37,163 +37,111 @@ namespace Billing.App.Controllers.Api
 		[HttpGet]
 		public async Task<Response> Get([FromQuery] PageableQueryParam pageableQuery)
 		{
-			try
+			var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size), queryable =>
 			{
-				var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size), queryable =>
-				{
+				queryable = queryable.Include(x => x.Genero)
+										.Include(x => x.Titulo)
+										.Where(x => x.Entidade == null);
 
-					queryable = queryable.Include(x => x.Genero)
-											.Include(x => x.Titulo)
-											.Where(x => x.Entidade == null);
+				return queryable;
+			});
 
-					return queryable;
-				});
-
-				return new Response
-				{
-					Data = dbData.Data,
-					Pagination = dbData.Pageable,
-					Message = "Listed"
-				};
-			}
-			catch (AppException ex)
+			return new Response
 			{
-				return new Response
-				{
-					Errors = ex.Errors
-				};
-			}
+				Data = dbData.Data,
+				Pagination = dbData.Pageable,
+				Message = "Listed"
+			};
 		}
 
 		// GET: api/Pessoa/5:12837918237
 		[HttpGet("{uid}")]
 		public async Task<Response> Get(string uid)
 		{
-			try
+			var dbData = await service.FindById(uid, queryable =>
 			{
-				var dbData = await service.FindById(uid, queryable =>
-				{
 
-					queryable = queryable.Include(x => x.Contactos)
-										 .ThenInclude(x => x.TipoContacto);
+				queryable = queryable.Include(x => x.Contactos)
+										.ThenInclude(x => x.TipoContacto);
 
-					return queryable;
-				});
+				return queryable;
+			});
 
-				return new Response
-				{
-					Data = dbData,
-					Message = "Response Object",
-					Errors = dbData == null ? new[] { "Not Found" } : new string[] { }
-				};
-			}
-			catch (AppException ex)
+			return new Response
 			{
-				return new Response
-				{
-					Errors = ex.Errors
-				};
-			}
+				Data = dbData,
+				Message = "Response Object",
+				Errors = dbData == null ? new[] { "Not Found" } : new string[] { }
+			};
 		}
 
 		// POST: api/Pessoa
 		[HttpPost]
 		public async Task<Response> Post([FromForm] Attachment model)
 		{
-			try
+			if (model == null)
+				throw new AppException("Objecto inválido!", true);
+
+			var builtModel = model.Build<PessoaDto>();
+			var hasPhoto = model.File != null;
+			var fileName = "";
+
+			if (hasPhoto)
 			{
-				if (model == null)
-					throw new AppException("Objecto inválido!", true);
+				fileName = $"{ Guid.NewGuid().ToString("N") }.{ model.File.ToExtension() }";
+				builtModel.ProfileImageUrl = $"/download/pessoa/{fileName}";
+			}
 
-				var builtModel = model.Build<PessoaDto>();
-				var hasPhoto = model.File != null;
-				var fileName = "";
-
+			await service.Save(builtModel).ContinueWith(async then =>
+			{
 				if (hasPhoto)
-				{
-					fileName = $"{ Guid.NewGuid().ToString("N") }.{ model.File.ToExtension() }";
-					builtModel.ProfileImageUrl = $"/download/pessoa/{fileName}";
-				}
-
-				await service.Save(builtModel).ContinueWith(async then =>
-				{
-					if (hasPhoto)
-						await fileHandler.Folder("pessoa").SaveAsync(model.File, fileName);
-				});
-
-				return new Response { Message = "Created" };
-			}
-			catch (AppException ex)
-			{
-				return new Response
-				{
-					Errors = ex.Errors
-				};
-			}
+					await fileHandler.Folder("pessoa").SaveAsync(model.File, fileName);
+			});
+			
+			return new Response { Message = "Created" };
 		}
 
 		// PUT: api/Pessoa/5:12837918237
 		[HttpPut("{uid}")]
 		public async Task<Response> Put(string uid, [FromForm] Attachment model)
 		{
-			try
+			if (model == null)
+				throw new AppException("Objecto inválido!", true);
+
+			var builtModel = model.Build<PessoaDto>();
+
+			var fileName = "";
+			var hasPhoto = model.File != null;
+			bool toRemove = model.ToRemove == true && builtModel.ProfileImageUrl != null;
+
+			if (hasPhoto && builtModel.ProfileImageUrl == null)
 			{
-				if (model == null)
-					throw new AppException("Objecto inválido!", true);
-
-				var builtModel = model.Build<PessoaDto>();
-
-				var fileName = "";
-				var hasPhoto = model.File != null;
-                bool toRemove = model.ToRemove == true && builtModel.ProfileImageUrl != null;
-
-				if (hasPhoto && builtModel.ProfileImageUrl == null)
-				{
-					fileName = $"{ Guid.NewGuid().ToString("N") }.{ model.File.ToExtension() }";
-					builtModel.ProfileImageUrl = $"/download/pessoa/{fileName}";
-				}
-
-                if (toRemove) {
-                    fileName = builtModel.ProfileImageUrl.Replace("/download/pessoa/", "");
-                    builtModel.ProfileImageUrl = "";
-                }
-
-				await service.Update(uid, builtModel).ContinueWith(async then =>
-				{
-					if (hasPhoto)
-						await fileHandler.Folder("pessoa").SaveAsync(model.File, fileName);
-                    else if (toRemove)
-						await fileHandler.Folder("pessoa").DeleteAsync(fileName);
-				});
-
-				return new Response { Message = "Updated" };
+				fileName = $"{ Guid.NewGuid().ToString("N") }.{ model.File.ToExtension() }";
+				builtModel.ProfileImageUrl = $"/download/pessoa/{fileName}";
 			}
-			catch (AppException ex)
+
+			if (toRemove) {
+				fileName = builtModel.ProfileImageUrl.Replace("/download/pessoa/", "");
+				builtModel.ProfileImageUrl = "";
+			}
+
+			await service.Update(uid, builtModel).ContinueWith(async then =>
 			{
-				return new Response
-				{
-					Errors = ex.Errors
-				};
-			}
+				if (hasPhoto)
+					await fileHandler.Folder("pessoa").SaveAsync(model.File, fileName);
+				else if (toRemove)
+					await fileHandler.Folder("pessoa").DeleteAsync(fileName);
+			});
+
+			return new Response { Message = "Updated" };
 		}
 
 		// DELETE: api/Pessoa/5:12837918237
 		[HttpDelete("{uid}")]
 		public async Task<Response> Delete(string uid)
 		{
-			try
-			{
-				await service.Remove(uid);
-
-				return new Response { Message = "Deleted" };
-			}
-			catch (AppException ex)
-			{
-				return new Response
-				{
-					Errors = ex.Errors
-				};
-			}
+			await service.Remove(uid);
+			return new Response { Message = "Deleted" };
 		}
 	}
 }

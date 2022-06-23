@@ -12,141 +12,100 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Billing.App.Controllers.Api
 {
-    [Route(ApiRoutes.Base)]
-    [ApiController]
-    // [Authorize]
-    public class EntidadeController : ControllerBase
-    {
-        private IEntidadeService service = null;
+	[Route(ApiRoutes.Base)]
+	[ApiController]
+	// [Authorize]
+	public class EntidadeController : ControllerBase
+	{
+		private IEntidadeService service = null;
 
-        public EntidadeController(IEntidadeService service)
-        {
-            this.service = service;
-        }
+		public EntidadeController(IEntidadeService service)
+		{
+			this.service = service;
+		}
 
-        // GET: api/Entidade
-        [HttpGet]
-        public async Task<Response> Get([FromQuery] PageableQueryParam pageableQuery, 
-                                        [FromQuery] string codigoTipoEntidade)
-        {
-            try
+		// GET: api/Entidade
+		[HttpGet]
+		public async Task<Response> Get([FromQuery] PageableQueryParam pageableQuery,
+										[FromQuery] string codigoTipoEntidade)
+		{
+			var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size), queryable =>
+			{
+
+				// Including the default table
+				queryable = queryable.Include(x => x.Pessoa).ThenInclude(x => x.Genero)
+									 .Include(x => x.Pessoa).ThenInclude(x => x.Titulo)
+									 .Include(x => x.TipoEntidade);
+
+				if (string.IsNullOrEmpty(codigoTipoEntidade))
+					return queryable;
+
+				queryable = queryable.Where(x => x.TipoEntidade.Codigo == codigoTipoEntidade);
+
+				return queryable;
+			});
+
+			return new Response
+			{
+				Data = dbData.Data,
+				Pagination = dbData.Pageable,
+				Message = "Listed"
+			};
+		}
+
+		// GET: api/Entidade/5:12837918237
+		[HttpGet("{uid}")]
+		public async Task<Response> Get(string uid)
+		{
+            var dbData = await service.FindById(uid);
+
+            return new Response
             {
-                var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size), queryable => {
+                Data = dbData,
+                Message = "Response Object",
+                Errors = dbData == null ? new[] { "Not Found" } : new string[] { }
+            };
+		}
 
-                    // Including the default table
-                    queryable = queryable.Include(x => x.Pessoa).ThenInclude(x => x.Genero)
-                                         .Include(x => x.Pessoa).ThenInclude(x => x.Titulo)
-                                         .Include(x => x.TipoEntidade);
+		// POST: api/Entidade
+		[HttpPost]
+		public async Task<Response> Post([FromBody] EntidadeDto model)
+		{
+            if (model == null)
+                throw new AppException("Objecto inválido!", true);
 
-                    if (string.IsNullOrEmpty(codigoTipoEntidade))
-                        return queryable;
+            await service.Save(model);
+            return new Response { Message = "Created" };
+		}
 
-                    queryable = queryable.Where(x => x.TipoEntidade.Codigo == codigoTipoEntidade);
+		// PUT: api/Entidade/5:12837918237
+		[HttpPut("{uid}")]
+		public async Task<Response> Put(string uid, [FromBody] EntidadeDto model)
+		{
+			try
+			{
+				if (model == null)
+					throw new AppException("Objecto inválido!", true);
 
-                    return queryable;
-                });
+				await service.Update(uid, model);
 
-                return new Response
-                {
-                    Data = dbData.Data,
-                    Pagination = dbData.Pageable,
-                    Message = "Listed"
-                };
-            }
-            catch (AppException ex)
-            {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
-        }
+				return new Response { Message = "Updated" };
+			}
+			catch (AppException ex)
+			{
+				return new Response
+				{
+					Errors = ex.Errors
+				};
+			}
+		}
 
-        // GET: api/Entidade/5:12837918237
-        [HttpGet("{uid}")]
-        public async Task<Response> Get(string uid)
-        {
-            try
-            {
-                var dbData = await service.FindById(uid);
-
-                return new Response
-                {
-                    Data = dbData,
-                    Message = "Response Object",
-                    Errors = dbData == null ? new[] { "Not Found" } : new string[] { }
-                };
-            }
-            catch (AppException ex)
-            {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
-        }
-
-        // POST: api/Entidade
-        [HttpPost]
-        public async Task<Response> Post([FromBody] EntidadeDto model)
-        {
-            try
-            {
-                if (model == null)
-                    throw new AppException("Objecto inválido!", true);
-
-                await service.Save(model);
-
-                return new Response { Message = "Created" };
-            }
-            catch (AppException ex)
-            {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
-        }
-
-        // PUT: api/Entidade/5:12837918237
-        [HttpPut("{uid}")]
-        public async Task<Response> Put(string uid, [FromBody] EntidadeDto model)
-        {
-            try
-            {
-                if (model == null)
-                    throw new AppException("Objecto inválido!", true);
-
-                await service.Update(uid, model);
-             
-                return new Response { Message = "Updated" };
-            }
-            catch (AppException ex)
-            {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
-        }
-
-        // DELETE: api/Entidade/5:12837918237
-        [HttpDelete("{uid}")]
-        public async Task<Response> Delete(string uid)
-        {
-            try
-            {
-                await service.Remove(uid);
-            
-                return new Response { Message = "Deleted" };
-            }
-            catch (AppException ex)
-            {
-                return new Response
-                {
-                    Errors = ex.Errors
-                };
-            }
-        }
-    }
+		// DELETE: api/Entidade/5:12837918237
+		[HttpDelete("{uid}")]
+		public async Task<Response> Delete(string uid)
+		{
+            await service.Remove(uid);
+            return new Response { Message = "Deleted" };
+		}
+	}
 }

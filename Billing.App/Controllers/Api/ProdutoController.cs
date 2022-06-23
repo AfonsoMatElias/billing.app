@@ -179,76 +179,55 @@ namespace Billing.App.Controllers.Api
 		[HttpPut("{uid}")]
 		public async Task<Response> Put(string uid, [FromForm] Attachments model)
 		{
-			try
-			{
-				if (model == null)
-					throw new AppException("Objecto inválido!", true);
+			if (model == null)
+				throw new AppException("Objecto inválido!", true);
 
-				var builtModel = model.Build<ProdutoDto>();
-				var images = new List<ProdutoImagemDto>();
+			var builtModel = model.Build<ProdutoDto>();
+			var images = new List<ProdutoImagemDto>();
 
-				// Building the image items
-				var files = model.Files.ToList()
-					.Select(item =>
-					{
-						// Building the file name
-						var fileName = $"{ Guid.NewGuid().ToString("N") }.{ item.ToExtension() }";
-
-						images.Add(new ProdutoImagemDto
-						{
-							ImageUrl = $"/download/product/{fileName}",
-						});
-
-						return new
-						{
-							fileData = item,
-							fileName = fileName
-						};
-					}).ToList();
-
-				if (images.Any())
+			// Building the image items
+			var files = model.Files.ToList()
+				.Select(item =>
 				{
-					if (builtModel.ProdutoImagens != null)
-						images.AddRange(builtModel.ProdutoImagens);
-					builtModel.ProdutoImagens = images;
-				}
+					// Building the file name
+					var fileName = $"{ Guid.NewGuid().ToString("N") }.{ item.ToExtension() }";
 
-				await service.Update(uid, builtModel)
-					.ContinueWith(async then =>
+					images.Add(new ProdutoImagemDto
 					{
-						foreach (var item in files)
-							await fileHandler.Folder("product")
-								.SaveAsync(item.fileData, item.fileName);
+						ImageUrl = $"/download/product/{fileName}",
 					});
 
-				return new Response { Message = "Updated" };
-			}
-			catch (AppException ex)
+					return new
+					{
+						fileData = item,
+						fileName = fileName
+					};
+				}).ToList();
+
+			if (images.Any())
 			{
-				return new Response
-				{
-					Errors = ex.Errors
-				};
+				if (builtModel.ProdutoImagens != null)
+					images.AddRange(builtModel.ProdutoImagens);
+				builtModel.ProdutoImagens = images;
 			}
+
+			await service.Update(uid, builtModel)
+				.ContinueWith(async then =>
+				{
+					foreach (var item in files)
+						await fileHandler.Folder("product")
+							.SaveAsync(item.fileData, item.fileName);
+				});
+
+			return new Response { Message = "Updated" };
 		}
 
 		// DELETE: api/Produto/5:12837918237
 		[HttpDelete("{uid}")]
 		public async Task<Response> Delete(string uid)
 		{
-			try
-			{
-				await service.Remove(uid);
-
-				return new Response { Message = "Deleted" };
-			}
-			catch (AppException ex)
-			{
-				return new Response
-				{
-					Errors = ex.Errors
-				};
-			}
+			await service.Remove(uid);
+			return new Response { Message = "Deleted" };
 		}
 	}
 }
