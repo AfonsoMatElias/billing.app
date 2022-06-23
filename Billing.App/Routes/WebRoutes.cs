@@ -11,5 +11,6 @@ namespace Billing.App.Routes
         public const string Roles = "api/Sign/Roles";
         public const string UserRoles = "api/Sign/UserRoles/{userId}";
         public const string Download = "/Download/{folderName}/{fileName}";
+        public const string ChangePreference = "api/Preferences/{prefName}";
     }
 }
