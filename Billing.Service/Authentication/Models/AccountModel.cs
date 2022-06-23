@@ -9,6 +9,7 @@ namespace Billing.Service.Authentication
         public string UserName { get; set; }
         public string Email { get; set; }
         public dynamic User { get; set; }
+        public dynamic Preferences { get; set; }
         public bool HasEstabelecimento { get; set; }
         public long? EstabelecimentoId { get; set; }
     }
