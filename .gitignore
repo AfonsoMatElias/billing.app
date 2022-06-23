@@ -18,9 +18,5 @@ Billing.Tests/obj
 Billing.Reports/bin
 Billing.Reports/obj
 
-Scaffolder/bin
-Scaffolder/obj
-Scaffolder/.vscode
-
 .fake
 .ionide

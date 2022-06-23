@@ -8,28 +8,25 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\afonso.matumona\\.nuget\\packages\\": {}
+    "/home/afonsomatelias/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\dev\\dotnet\\billing.app\\Billing.Reports\\Billing.Reports.csproj",
+      "projectUniqueName": "/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/Billing.Reports.csproj",
       "projectName": "Billing.Reports",
-      "projectPath": "C:\\dev\\dotnet\\billing.app\\Billing.Reports\\Billing.Reports.csproj",
-      "packagesPath": "C:\\Users\\afonso.matumona\\.nuget\\packages\\",
-      "outputPath": "C:\\dev\\dotnet\\billing.app\\Billing.Reports\\obj\\",
+      "projectPath": "/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/Billing.Reports.csproj",
+      "packagesPath": "/home/afonsomatelias/.nuget/packages/",
+      "outputPath": "/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\afonso.matumona\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/afonsomatelias/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://nuget.telerik.com/nuget": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
@@ -61,7 +58,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.408/RuntimeIdentifierGraph.json"
       }
     }
   }
