@@ -10,77 +10,77 @@ var app = new Bouer("body", {
         showProfile: false,
 
         products: [{
-                id: 1,
-                code: "prod1",
-                name: "Água",
-                nameSecondary: "Água Pura",
-                price: 150,
-                stock: 1000,
-                subCategory: "Comida",
-                estado: "Activo",
-            },
-            {
-                id: 2,
-                code: "prod2",
-                name: "Arroz",
-                nameSecondary: "Arroz Branco",
-                price: 250,
-                stock: 100,
-                subCategory: "Comida",
-                estado: "Activo",
-            },
-            {
-                id: 3,
-                code: "prod3",
-                name: "Massa",
-                nameSecondary: "Massa Amarela",
-                price: 200,
-                stock: 120,
-                subCategory: "Comida",
-                estado: "Activo",
-            },
-            {
-                id: 4,
-                code: "prod4",
-                name: "Feijão",
-                nameSecondary: "Feijão Preto",
-                price: 500,
-                stock: 10,
-                subCategory: "Comida",
-                estado: "Activo",
-            },
+            id: 1,
+            code: "prod1",
+            name: "Água",
+            nameSecondary: "Água Pura",
+            price: 150,
+            stock: 1000,
+            subCategory: "Comida",
+            estado: "Activo",
+        },
+        {
+            id: 2,
+            code: "prod2",
+            name: "Arroz",
+            nameSecondary: "Arroz Branco",
+            price: 250,
+            stock: 100,
+            subCategory: "Comida",
+            estado: "Activo",
+        },
+        {
+            id: 3,
+            code: "prod3",
+            name: "Massa",
+            nameSecondary: "Massa Amarela",
+            price: 200,
+            stock: 120,
+            subCategory: "Comida",
+            estado: "Activo",
+        },
+        {
+            id: 4,
+            code: "prod4",
+            name: "Feijão",
+            nameSecondary: "Feijão Preto",
+            price: 500,
+            stock: 10,
+            subCategory: "Comida",
+            estado: "Activo",
+        },
         ],
         conversations: [{
-                id: 1,
-                user: "António Ferraz Lopes",
-                message: "Rato, viste como?",
-                seen: false,
-                date: "2020-09-05T18:30:50.102",
-            },
-            {
-                id: 2,
-                user: "Salomão Satuta",
-                message: "Fruta, viste como?",
-                seen: false,
-                date: "2020-09-09T20:30:50.10Z",
-            },
+            id: 1,
+            user: "António Ferraz Lopes",
+            message: "Rato, viste como?",
+            seen: false,
+            date: "2020-09-05T18:30:50.102",
+        },
+        {
+            id: 2,
+            user: "Salomão Satuta",
+            message: "Fruta, viste como?",
+            seen: false,
+            date: "2020-09-09T20:30:50.10Z",
+        },
         ],
         notifications: [{
-                id: 1,
-                message: "Stock de `Água` está em 5 itens!",
-                date: "2020-09-09T18:41:50.102",
-            },
-            {
-                id: 2,
-                type: "fa-warning",
-                message: "Stock de `Rede` está em 0 itens!",
-                date: "2020-09-09T18:26:50.102",
-            },
-            {
-                id: 3,
-                message: "Stock de `Rede` está em 5 itens!",
-                date: "2020-09-09T18:20:50.102",
-            },
+            id: 1,
+            message: "Stock de `Água` está em 5 itens!",
+            date: "2020-09-09T18:41:50.102",
+        },
+        {
+            id: 2,
+            type: "fa-warning",
+            message: "Stock de `Rede` está em 0 itens!",
+            date: "2020-09-09T18:26:50.102",
+        },
+        {
+            id: 3,
+            message: "Stock de `Rede` está em 5 itens!",
+            date: "2020-09-09T18:20:50.102",
+        },
         ],
 
         // preferences
@@ -217,7 +217,37 @@ var app = new Bouer("body", {
 
         this.deps['web']('sign/account')
             .then(function (response) {
-                bouer.set(response.data, bouer.data.application.user);
+                var data = response.data;
+
+                var preferences = data.preferences;
+                delete data.preferences;
+
+                // Setting user data
+                bouer.set(data, bouer.data.application.user);
+
+                // Setting preferences
+                bouer.set(preferences, bouer.data.preferences);
+
+                function addWatch(preferences, prefName) {
+                    bouer.watch(prefName, (v) => {
+                        bouer.deps['web']('preferences/' + prefName + '/?prefValue=' + v, 'PUT', {})
+                            .then().catch(function (error) {
+                                if (error.message === 'Unauthorized')
+                                    return;
+
+                                notify({
+                                    type: 'error',
+                                    message: error.message || error
+                                });
+                            });
+                    }, preferences);
+                }
+
+                // Updates uuser preferences in the server if it changes
+                var preferences = bouer.data.preferences;
+                for (var key of Object.keys(preferences)) {
+                    addWatch(preferences, key);
+                }
             })
             .catch(function (error) {
                 if (error.message === 'Unauthorized')
@@ -254,7 +284,7 @@ var app = new Bouer("body", {
             }).then(serverResponse => {
                 if (!serverResponse.success)
                     throw new Error(serverResponse.errors.join('\n'));
-                
+
                 return serverResponse;
             }).catch(error => {
                 notify({
@@ -421,17 +451,17 @@ function getPartialData(input = {
     controls: null,
     pagination: null,
     search: '',
-    beforeRequest: function () {},
-    onReponse: function () {},
-    onCatch: function () {},
-    onFinish: function () {}
+    beforeRequest: function () { },
+    onReponse: function () { },
+    onCatch: function () { },
+    onFinish: function () { }
 }) {
 
     // `this` keyword is the bouer instance
     if (!input.controls)
         return console.log("controls and pagination need to be defined");
 
-    (input.beforeRequest || function () {}).call(this);
+    (input.beforeRequest || function () { }).call(this);
 
     if (!input.url.includes("?"))
         input.url += '?';
@@ -439,20 +469,20 @@ function getPartialData(input = {
         input.url += '&';
 
     var web = this.deps['web'];
-    web(input.url + 'page=' + input.controls.page + '&size=' + 
+    web(input.url + 'page=' + input.controls.page + '&size=' +
         input.controls.size + '&search=' + (input.search || ''))
         .then(function (response) {
             input.onReponse(response);
         })
         .catch(function (error) {
-            (input.onCatch || function () {}).call(this);
+            (input.onCatch || function () { }).call(this);
             notify({
                 type: 'error',
                 message: error.message || error
             });
         })
         .finally(function () {
-            (input.onFinish || function () {}).call(this);
+            (input.onFinish || function () { }).call(this);
         });
 }
 
