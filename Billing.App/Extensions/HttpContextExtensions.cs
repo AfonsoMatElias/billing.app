@@ -12,5 +12,13 @@ namespace Billing.App.Extensions
             if (string.IsNullOrEmpty(claim.Value)) return null;
             return claim.Value;
         }
+
+        public static string GetKey(this HttpContext context, string key)
+        {
+            var claim = context.User?.Claims.FirstOrDefault(x => x.Type == key);
+            if (claim == null) return null;
+            if (string.IsNullOrEmpty(claim.Value)) return null;
+            return claim.Value;
+        }
     }
 }
