@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Billing.Service.Extensions;
 using Newtonsoft.Json;
 using Billing.App.Handlers;
+using Billing.App.Middleware;
 
 namespace Billing.App
 {
@@ -129,6 +130,7 @@ namespace Billing.App
 
             // Adding the application services
             services.AddAppServices();
+            services.AddScoped<PreferenceHandler>();
 
             services.AddScoped<IAuth, Auth>();
 
@@ -182,6 +184,8 @@ namespace Billing.App
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
