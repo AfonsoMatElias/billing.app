@@ -92,12 +92,12 @@ namespace Billing.Service.Services.Implementations
         {
             var _uid = uid.FromUID();
             if(_uid == null)
-                throw new AppException("Identificador Inválido!");
+                throw new AppException("Identificador Inválido!", true);
 
             var dbModel = await this.dbSet.FindAsync(_uid.Id);
 
             if (dbModel == null)
-                throw new AppException("Registrado não encontrado!");
+                throw new AppException("Registrado não encontrado!", true);
 
             // DB Model Update
             dbModel.UpdateFrom(mapper.Map<License>(model), new[] {
@@ -116,12 +116,12 @@ namespace Billing.Service.Services.Implementations
         {
             var _uid = uid.FromUID();
             if(_uid == null)
-                throw new AppException("Identificador Inválido!");
+                throw new AppException("Identificador Inválido!", true);
 
             var dbModel = await this.dbSet.FindAsync(_uid.Id);
 
             if (dbModel == null)
-                throw new AppException("Registrado não encontrado!");
+                throw new AppException("Registrado não encontrado!", true);
 
             dbSet.Remove(dbModel);
 

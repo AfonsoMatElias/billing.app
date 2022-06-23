@@ -24,7 +24,8 @@ namespace Billing.App.Middleware
 				context.Response.StatusCode = 200;
 				await context.Response.WriteAsJsonAsync(new Response
 				{
-					Errors = ex.Errors
+					Errors = ex.Errors,
+					Message = ex.Message,
 				});
 			}
 		}
