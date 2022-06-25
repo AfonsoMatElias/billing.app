@@ -14,7 +14,7 @@
                 <span class="pointer shadow-it"> # </span>
             </div>
             <div class="pointer table-cell mid hidable" e-content="{{ item.pessoa.titulo.nome }}"> Loading... </div>
-            <div class="pointer table-cell" e-content="{{ item.pessoa.primeiroNome }}"> Loading... </div>
+            <div class="pointer table-cell" e-content="{{ tofullName(item.pessoa) }}"> Loading... </div>
             <div class="pointer table-cell" e-content="{{ item.pessoa.ultimoNome }}"> Loading... </div>
             <div class="pointer table-cell" e-content="{{ item.pessoa.identificacao }}"> Loading... </div>
             <div class="pointer table-cell hidable" e-content="{{ item.pessoa.genero.nome }}"> Loading... </div>

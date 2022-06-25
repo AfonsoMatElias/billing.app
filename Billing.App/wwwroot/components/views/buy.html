@@ -15,7 +15,7 @@
                                 <select name="FornecedorId" validate="select">
                                     <option selected value="">None</option>
                                     <option e-req="item of Entidade?codigoTipoEntidade=tef" e-value="{{ item.id }}"
-                                        e-content="{{ item.pessoa.primeiroNome + (item.pessoa.ultimoNome ? ' ' + item.pessoa.ultimoNome : '') }}">
+                                        e-content="{{ tofullName(item.pessoa) }}">
                                         Loading...</option>
                                 </select>
                                 <a :href="/providers/create/tef?src={{ '/buy' }}">Criar</a>

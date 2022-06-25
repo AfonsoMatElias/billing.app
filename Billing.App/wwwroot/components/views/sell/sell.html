@@ -1,0 +1,487 @@
+<div class="main-body sell-product base-divide-structure fit-content">
+    <div class="content">
+        <div class="input-side card">
+            <div class="up-side">
+                <div class="search-area" e-def="{ findProduct: '' }">
+                    <div class="search-field">
+                        <span class="fa fa-search"></span>
+                        <input type="text" tabindex="1" e-bind="findProduct" placeholder="Nome do Produto ou Codigo">
+                    </div>
+                    <div class="actions">
+                        <button id="reset" on:click="cancelSell" class="cancel-type">CANCELAR</button>
+                        <button class="next-type">PAUSAR</button>
+                        <button class="next-type paused-selling">
+                            <a :href="/sell/paused">Vendas</a>
+                        </button>
+                        <button class="submit-type" on:click="submit(event, 'vpp', 'fpf')">PROFORMA</button>
+                    </div>
+                </div>
+                <div class="product-list product-card-container">
+                    <div class="item" e-req="product of produto/withStock | where:findProduct:nome,codigo"
+                        on:click="addProductToBusket(product)">
+                        <div class="cover" e-style="background-image: url({{ selectOneImage(product) }});"></div>
+                        <div class="description">
+                            <span class="main" e-content="{{ product.nome }}">Loading...</span>
+                            <span class="detail1" e-content="{{ product.precoUnitario }} Kz">Loading...</span>
+                            <span class="detail2"
+                                e-content="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="down-side">
+                <app-table class="search-off nav-off" data="$data">
+                    <slot slot="table-head">
+                        <div class="table-cell" style="flex: 2;"> Produto </div>
+                        <div class="table-cell"> Preço </div>
+                        <div class="table-cell"> Quantd. </div>
+                        <div class="table-cell"> Desc. </div>
+                        <div class="table-cell"> IVA </div>
+                        <div class="table-cell"> Subtotal </div>
+                        <div class="table-cell" style="flex: .5;"></div>
+                    </slot>
+                    <slot slot="table-body">
+                        <div class="table-row flex-it" e-skeleton e-for="product of busketProducts">
+                            <div class="card-cover"></div>
+                            <div class="pointer table-cell" style="flex: 2;"> {{ product.name }} </div>
+                            <div class="pointer table-cell"> {{ product.price }} kz </div>
+                            <div class="pointer table-cell">
+                                <span class="complex-cell editable simple">
+                                    <input type="number" e-bind="product.qty" value="0">
+                                </span>
+                            </div>
+                            <div class="pointer table-cell">
+                                <span class="complex-cell editable descount">
+                                    <input type="number" e-bind="product.descount" value="0"><label>%</label>
+                                </span>
+                            </div>
+                            <div class="pointer table-cell"> {{ product.iva }} % </div>
+                            <div class="pointer table-cell hidable"> {{ product.subtotal }} Kz </div>
+                            <div class="table-cell" style="flex: .5;">
+                                <span class="remove-line">
+                                    <span class="center-icon icon-type fa fa-remove"
+                                        on:click="removeProductFromBusket(product)"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </slot>
+                </app-table>
+            </div>
+        </div>
+        <div class="resume-side default-side card nice-scroll">
+            <span title="Fechar Resumo" class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
+                onclick="event.target.parentNode.classList.remove('show-right')"></span>
+
+            <!-- Customer mini card -->
+            <div class="customer-card">
+                <div class="left">
+                    <div class="start">
+                        <div class="image"></div>
+                    </div>
+                    <div class="remain">
+                        <div class="main-name" e-content="{{ customer.name }}">Selecione Um Cliente</div>
+                        <div class="detail" e-content="{{ customer.type }}">Clique em `?` para Selecionar</div>
+                    </div>
+                </div>
+                <div class="right">
+                    <span class="center-icon icon-type fa"
+                        e-class="{ 'fa-question': customer.id == '', 'fa-check': customer.id != '' }"
+                        on:click="handleCustomerSelection"></span>
+                </div>
+            </div>
+
+            <!-- Sale Resume -->
+            <div class="sell-resume">
+                <div class="row total" e-show="reference">
+                    <div class="left">
+                        <div>
+                            <h3 e-content="Ref: {{ reference }}">Ref: ############</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row double">
+                    <div class="left">
+                        <h4>Subtotal</h4>
+                        <h3 e-content="{{ sellingResume.subtotal }} Kz">0 Kz</h3>
+                    </div>
+                    <div class="right">
+                        <h4>Desconto</h4>
+                        <h3 e-content="{{ sellingResume.descount }} Kz">0 Kz</h3>
+                    </div>
+                </div>
+
+                <div class="row total">
+                    <div class="left">
+                        <h3>Total</h3>
+                    </div>
+                    <div class="right">
+                        <h3 e-content="{{ sellingResume.total }} Kz">0 Kz</h3>
+                    </div>
+                </div>
+
+                <div class="row input">
+                    <div class="input-field">
+                        <label>Forma de Pagamento</label>
+                        <select e-bind="formaPagamentoId" name="FormaPagamentoId" validate="select">
+                            <option value="">Selecione a Forma</option>
+                            <option e-req="item of FormaPagamento" value="{{ item.id }}" e-content="{{ item.nome }}">Loading...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="calc">
+                    <div class="calc-screen">
+                        <div class="top">
+                            <h4>Valor Pago Em Kz</h4>
+                        </div>
+                        <div class="remain">
+                            <input type="text" e-bind="sellingResume.paid">
+                        </div>
+                    </div>
+                    <div class="calc-buttons">
+                        <div class="calc-btn" e-for="item of $calculatorButtons" e-content="{{ item }}"
+                            on:click="calcButtonClick" val="{{ item }}">?</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="left">
+                        <h3>Troco</h3>
+                    </div>
+                    <div class="right" data="sellingResume">
+                        <h3 e-class="{ 'negative' : exchange < 0 }" e-content="{{ exchange }} Kz">0 Kz</h3>
+                    </div>
+                </div>
+
+                <div class="row action-area">
+                    <div class="area center">
+                        <button on:click="submit(event, 'vpp', 'fpp')" class="primary-button">FINALIZAR</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fit-content customers-container" e-def="{ findCustomer: '', showCustomerSelection: false }"
+                e-show="showCustomerSelection">
+                <div class="label-back-button">
+                    <div class="back-button">
+                        <span class="center-icon fa fa-arrow-left" on:click="showCustomerSelection = false"></span>
+                    </div>
+                    <div class="text">
+                        <h3>Selecione um Cliente</h3>
+                    </div>
+                </div>
+
+                <div class="search-field">
+                    <span class="fa fa-search"></span>
+                    <input type="text" tabindex="1" e-bind="findCustomer" placeholder="Pesquise por Cliente">
+                </div>
+
+                <div class="list-container">
+                    <div class="list fit-content-nonspace nice-scroll">
+                        <div e-for="item of customers | findCustomer" class="item customer-card"
+                            on:click="handleCustomerItemClick(item)">
+                            <div class="left">
+                                <div class="start">
+                                    <div class="image"></div>
+                                </div>
+                                <div class="remain">
+                                    <div class="main-name" e-content="{{ item.name }}">Nome Cliente</div>
+                                    <div class="detail" e-content="{{ item.company }}">Empresa</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <span title="Resumo da Venda" class="reduced-screen-button center-icon fa fa-calculator resume-calculador"
+            onclick="event.target.previousElementSibling.classList.add('show-right');"></span>
+    </div>
+</div>
+<script>
+    function toFixed(number) {
+        return (number || 0).toFixed(2)
+    }
+    
+    var bouer = this.bouer;
+    var web = bouer.deps['web']; 
+    var component = this;
+    var calcScreen;
+    var watches = [];
+    var customer = {
+        id: '',
+        name: 'Cliente Não Selecionado',
+        type: 'Clique em `?` para Selecionar'
+    };
+    
+    var calculateResume = (function () {
+        var subtotal = 0;
+        var descount = 0;
+        // Shortcut
+        var resume = component.data.sellingResume;
+        this.data.busketProducts.filter(function (b, acc) {
+            var _iva = ((b.price * b.qty) * (b.iva / 100));
+            var _descount = ((b.price * b.qty) * (b.descount / 100));
+            var _subtotal = ((b.price * b.qty) - _descount + _iva);
+
+            b.subtotal = toFixed(_subtotal);
+            descount += (_descount);
+            subtotal += (_subtotal);
+        });
+
+        resume.subtotal = toFixed(subtotal);
+        resume.descount = toFixed(descount);
+        resume.total = toFixed(subtotal);
+        resume.exchange = toFixed(resume.paid - resume.total);
+    }).bind(this)
+
+    this.on('mounted', function () {
+        web("entidade/?codigoTipoEntidade=tec")
+            .then(function (response) {
+                component.data.customers = response.data.map(function (item) {
+                    return {
+                        id: item.id,
+                        image: item.pessoa.profileImageUrl,
+                        name: tofullName(item.pessoa),
+                        company: item.nomeEmpresa
+                    };
+                });
+            })
+    });
+
+    this.on('loaded', function (el) {
+        // Marking the menu
+        bouer.data.currentPage = 'Venda';
+        calcScreen = component.el.querySelector('.calc input');
+    });
+
+    this.on('destroyed', function () {
+        // Destroying all watches
+        for (const watch of watches)
+            watch.destroy();
+    });
+
+    // Data Exportation
+    this.export({
+        // Variable
+        $calculatorButtons: [
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9,
+            'C', '0', '⇐'
+        ],
+        busketProducts: [],
+        reference: '',
+        sellingResume: {
+            subtotal: 0,
+            descount: 0,
+            exchange: 0,
+            total: 0,
+            paid: 0
+        },
+        customer: {
+            id: '',
+            name: customer.name,
+            type: customer.type
+        },
+        customers: [],
+        formaPagamentoId: '',
+        // Methods
+        calcButtonClick: function (evt) {
+            var value = evt.currentTarget.getAttribute('val');
+            var data = component.data.sellingResume;
+            switch (value) {
+                case 'C': // Clear everything
+                    calcScreen.value = data.paid = 0;
+                    break;
+                case '⇐': // Remove the last digit
+                    if (calcScreen.value.length === 1)
+                        calcScreen.value = data.paid = 0;
+                    else {
+                        var $value = calcScreen.value;
+                        calcScreen.value = $value.substring(0, $value.length - 1);
+                        data.paid = calcScreen.value * 1;
+                    }
+                    break;
+                default: // Default add
+                    if (calcScreen.value === '0')
+                        calcScreen.value = data.paid = value * 1;
+                    else {
+                        calcScreen.value += value;
+                        data.paid = calcScreen.value * 1;
+                    }
+                    break;
+            }
+        },
+        addProductToBusket: function (product) {
+            var onBusket = component.data.busketProducts.find(function (x) {
+                return x.id === product.id;
+            });
+
+            if (onBusket)
+                return onBusket.qty++;
+
+            if (product.compras[0] == null || (product.compras[0].quantidade == 0 && product.isStock)) {
+                return;
+            }
+
+            // Creating the buckect object
+            var busketProduct = {
+                id: product.id,
+                busketId: 'removeId' + product.id,
+                name: product.nome,
+                price: product.precoUnitario,
+                stock: (product.compras[0] || {}).quantidade || 0,
+                subtotal: product.precoUnitario,
+                descount: 0,
+                qty: 1,
+                iva: product.iva || 0
+            };
+
+            // Adding to the UI
+            component.data.busketProducts.push(busketProduct);
+
+            // Updating the resume fields
+            calculateResume();
+
+            // Decreasing the stock value
+            product.compras[0].quantidade--;
+
+            // Watching qty property
+            var $wQty = bouer.watch("qty", function (qty, oldQuantity) {
+                // Shortcut
+                var b = busketProduct;
+                var newStock = b.stock - qty;
+
+                if (newStock < 0) {
+                    busketProduct.qty = b.stock;
+                    return notify({
+                        type: 'warn',
+                        message: 'Stock insuficiente'
+                    });
+                }
+
+                product.compras[0].quantidade = newStock;
+                // b.subtotal = (b.price * qty) - (b.price * (b.descount / 100));
+                // Updating the resume fields
+                calculateResume();
+            }, busketProduct);
+
+            // Watching descount property
+            var $wDescount = bouer.watch("descount", function (descount) {
+                // // Shortcut
+                // var b = busketProduct;
+                // b.subtotal = (b.price * b.qty) - (b.price * (descount / 100));
+                // Updating the resume fields
+                calculateResume();
+            }, busketProduct);
+
+            // Watching paid property
+            var $wPaid = bouer.watch("paid", function (paid) {
+                component.data.sellingResume.exchange = toFixed(paid - component.data.sellingResume.total);
+            }, component.data.sellingResume);
+
+            watches.push($wQty, $wDescount, $wPaid);
+            // Addind the remove event emitter 
+            bouer.on(busketProduct.busketId, function () {
+                $wQty.destroy();
+                $wPaid.destroy();
+                $wDescount.destroy();
+            });
+        },
+        removeProductFromBusket: function (busketProduct) {
+            // Rmemoving from the list
+
+            var index = this.data.busketProducts.indexOf(busketProduct);
+
+            this.data.busketProducts.splice(index, 1);
+
+            // Updating quantity
+            // It will resote the old value of the product
+            busketProduct.qty = 0;
+
+            // Destroying the busket watch
+            bouer.emit(busketProduct.busketId, null, true);
+        },
+        cancelSell: function () {
+            while (this.data.busketProducts.length != 0)
+                this.data.removeProductFromBusket(this.data.busketProducts[0]);
+
+            var keys = Object.keys(this.data.sellingResume);
+            for (var k of keys)
+                this.data.sellingResume[k] = 0;
+
+            this.data.customer.id = customer.id;
+            this.data.customer.name = customer.name;
+            this.data.customer.type = customer.type;
+        },
+        handleCustomerSelection: function (evt) {
+            if (!this.data.customer.id)
+                return this.data.showCustomerSelection = true;
+
+            this.data.customer.id = customer.id;
+            this.data.customer.name = customer.name;
+            this.data.customer.type = customer.type;
+        },
+        handleCustomerItemClick: function (item) {
+            this.data.customer.id = item.id;
+            this.data.customer.name = item.name;
+            this.data.customer.type = item.type;
+            this.data.showCustomerSelection = false;
+        },
+        submit: function (evt, tipoVenda, tipoFactura) {
+            var btn = evt.currentTarget;
+
+            if (this.data.busketProducts.length === 0)
+                return notify({
+                    type: 'warn',
+                    message: 'Carrinho Vazio!'
+                });
+
+            if (!this.data.formaPagamentoId)
+                return notify({
+                    type: 'warn',
+                    message: 'Selecione a Forma de Pagamento!'
+                });
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            var form = {
+                CodigoTipoVenda: tipoVenda,
+                FormaPagamentoId: this.data.formaPagamentoId,
+                ClienteId: this.data.customer.id || undefined,
+                Total: this.data.sellingResume.total,
+                Factura: {
+                    CodigoTipoFactura: tipoFactura
+                },
+                VendaItens: this.data.busketProducts
+                    .map(function (item) {
+                        return {
+                            ProdutoId: item.id,
+                            Quantidade: item.qty,
+                            Preco: item.price,
+                            Desconto: item.descount
+                        };
+                    })
+            }
+
+            web('venda', 'post', JSON.stringify(form))
+                .then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Operação Efectuada!'
+                    });
+
+                    component.data.busketProducts = [];
+                    component.data.formaPagamentoId = '';
+                    component.el.querySelector('#reset').click();
+                })
+                .finally(function () {
+                    addOrRemSpinner(btn, true);
+                })
+        },
+    });
+</script>

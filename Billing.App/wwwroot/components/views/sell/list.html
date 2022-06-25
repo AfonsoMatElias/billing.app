@@ -1,0 +1,94 @@
+<app-table class="fit-content" data="$data">
+    <slot slot="table-head">
+        <div class="table-cell"> Referencia </div>
+        <div class="table-cell"> Cliente </div>
+        <div class="table-cell"> Venda </div>
+        <div class="table-cell cell-2"> Total de Itens </div>
+        <div class="table-cell"> Total </div>
+        <div class="table-cell"> Estado </div>
+    </slot>
+    <slot slot="table-body">
+        <div class="table-row flex-it" e-skeleton
+            e-for="item of dataList | where:search:referencia,item.cliente.pessoa.primeiroNome,item.cliente.pessoa.ultimoNome">
+            <div class="card-cover"></div>
+
+            <div class="pointer table-cell">
+                <a :href="/products/view/{{ item.uid }}" e-content="{{ item.referencia }}"> Loading... </a>
+            </div>
+            <div class="pointer table-cell" e-content="{{ tofullName(item.cliente.pessoa) }}"> Loading... </div>
+            <div class="pointer table-cell" e-content="{{ item.tipoVenda.nome }}"> Loading... </div>
+            <div class="table-cell cell-2 hidable" e-content="{{ item.vendaItens.length }}"> Loading... </div>
+            <div class="table-cell hidable" e-content="{{ item.total }} Akz"> Loading... </div>
+            <div class="table-cell">
+                <span e-content="{{ item.isPausada ? 'Em Pausa' : 'Concluída' }}"> Loading... </span>
+                <div>
+                    <div class="item-options flex-it hide-it">
+                        <div>
+                            <a :href="/products/view/{{ item.uid }}">
+                                <button class="see">Ver</button>
+                            </a>
+                        </div>
+                        <div>
+                            <button class="rem">Eliminar</button>
+                        </div>
+                    </div>
+                    <span title="Opções" onclick="event.target.previousElementSibling.classList.toggle('hide-it')"
+                        class="fa fa-dot-circle-o"></span>
+                </div>
+            </div>
+        </div>
+    </slot>
+</app-table>
+<script>
+    var bouer = this.bouer;
+    var component = this;
+    var getData = (function (control, searcher) {
+        getPartialData.call(bouer, {
+            url: 'Venda',
+            search: this.data.search,
+            controls: this.data.navControl = control,
+            beforeRequest: function () {
+                if (searcher) searcher.classList.add('loading-input');
+            },
+            onReponse: function (response) {
+                component.data.dataList = response.data;
+                component.data.navControl.pages = response.pagination.totalPages;
+            },
+            onFinish: function () {
+                if (searcher) searcher.classList.remove('loading-input');
+            }
+        });
+    }).bind(this);
+
+    this.on('mounted', function () {
+        getData(this.data.navControl);
+    });
+
+    this.on('loaded', function () {
+        // Marking the menu
+        bouer.data.currentPage = 'Lista de Vendas';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.sell-link'));
+    });
+
+    this.export({
+        search: '',
+        dataList: [],
+        navControl: {
+            page: 1,
+            size: 13,
+            pages: 0
+        },
+        onSearch: function (str, input) {
+            component.data.search = str;
+            bouer.$skeleton.clear('data-loading')
+            return; // TODO: Request in the server
+            getData({ page: 1, size: 13 }, input);
+        },
+        onNextPage: function (control) {
+            getData(control);
+        },
+        onPrevPage: function (control) {
+            getData(control);
+        }
+    });
+</script>

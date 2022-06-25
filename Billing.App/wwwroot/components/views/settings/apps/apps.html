@@ -71,7 +71,7 @@
             if (pessoa.primeiroNome && pessoa.ultimoNome)
                 return 'N/A';
 
-            return [pessoa.primeiroNome, pessoa.ultimoNome].join(' ');
+            return tofullName(pessoa);
         }
     });
 </script>
