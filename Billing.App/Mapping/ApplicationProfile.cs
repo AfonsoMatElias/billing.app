@@ -255,7 +255,40 @@ namespace Billing.App.Mapping
 				.ForPath(dst => dst.Pessoa, xps => xps.MapFrom(src => src.Pessoa));
 			CreateMap<UsuarioDto, Usuario>();
 
-			CreateMap<Venda, VendaDto>();
+			CreateMap<Venda, VendaDto>()
+				.ForMember(dst => dst.Cliente, xps => xps.MapFrom(src => new Entidade
+				{
+					Id = src.Cliente.Id,
+					CreatedAt = src.Cliente.CreatedAt,
+					UpdatedAt = src.Cliente.UpdatedAt,
+					TipoEntidadeId = src.Cliente.TipoEntidadeId,
+					PessoaId = src.Cliente.PessoaId,
+					Visibility = src.Cliente.Visibility,
+					NomeEmpresa = src.Cliente.NomeEmpresa,
+					Pessoa = new Pessoa
+					{
+						Id = src.Cliente.Pessoa.Id,
+						CreatedAt = src.Cliente.Pessoa.CreatedAt,
+						UpdatedAt = src.Cliente.Pessoa.UpdatedAt,
+						Visibility = src.Cliente.Pessoa.Visibility,
+						DataNascimento = src.Cliente.Pessoa.DataNascimento,
+						GeneroId = src.Cliente.Pessoa.GeneroId,
+						Identificacao = src.Cliente.Pessoa.Identificacao,
+						PrimeiroNome = src.Cliente.Pessoa.PrimeiroNome,
+						UltimoNome = src.Cliente.Pessoa.UltimoNome,
+						ProfileImageUrl = src.Cliente.Pessoa.ProfileImageUrl,
+						TituloId = src.Cliente.Pessoa.TituloId,
+					},
+				}))
+				.ForMember(dst => dst.TipoVenda, xps => xps.MapFrom(src => new TipoVenda
+				{
+					Id = src.TipoVenda.Id,
+					Nome = src.TipoVenda.Nome,
+					Codigo = src.TipoVenda.Codigo,
+					CreatedAt = src.TipoVenda.CreatedAt,
+					UpdatedAt = src.TipoVenda.UpdatedAt,
+					Visibility = src.TipoVenda.Visibility,
+				}));
 			CreateMap<VendaDto, Venda>();
 
 			CreateMap<VendaItem, VendaItemDto>();
