@@ -82,6 +82,20 @@ namespace Billing.App.Handlers
 
 			await Task.FromResult(0);
 		}
+		
+		public async Task RemoveUser(string user)
+		{
+			// Getting user preferences
+			var pref = this.GetUserPreferences(user);
+
+			// Checking if exists
+			if (pref == null)
+				return;
+			
+			this.data.Remove(user);
+
+			await Task.FromResult(0);
+		}
 
 		public async Task Save()
 		{
