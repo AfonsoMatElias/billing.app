@@ -534,3 +534,7 @@ function toCode(len) {
     }
     return result;
 }
+
+function tofullName(pessoa) {
+    return [pessoa.primeiroNome, pessoa.ultimoNome].join(' ').trim()
+}
