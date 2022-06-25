@@ -6,6 +6,7 @@ using Billing.App.Models;
 using Billing.Service.Services.Interfaces;
 using Billing.Service.Responses;
 using Billing.Service.Pageable;
+using Microsoft.EntityFrameworkCore;
 
 namespace Billing.App.Controllers.Api
 {
@@ -25,7 +26,11 @@ namespace Billing.App.Controllers.Api
         [HttpGet]
         public async Task<Response> Get([FromQuery] PageableQueryParam pageableQuery)
         {
-            var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size));
+            var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size), 
+            queryable => {
+                return queryable.Include(x => x.Cliente.Pessoa)
+                                .Include(x => x.TipoVenda);
+            });
 
             return new Response
             {
