@@ -204,7 +204,9 @@ namespace Billing.Service.Authentication
 					Data = new AccountModel
 					{
 						Id = user.Id.ToString(),
-						Nome = pessoa?.PrimeiroNome != null ? $"{pessoa.PrimeiroNome} {pessoa.UltimoNome}" : user.UserName,
+						Nome = pessoa?.PrimeiroNome != null 
+							? string.Join(" ", new[]{ pessoa.PrimeiroNome, pessoa.UltimoNome }).Trim() :
+							user.UserName,
 						UserName = user.UserName,
 						Email = user.Email,
 						User = pessoa,
