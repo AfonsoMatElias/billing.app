@@ -122,25 +122,32 @@ function AppComponents() {
 			path: "/components/views/product/list.html",
 			title: "Produto • Listagem",
 			children: [{
-					route: "/create",
-					path: "/components/views/product/create.html",
-					title: "Produto • Cadastrar",
-					// keepAlive: true,
-				},
-				{
-					route: "/view/{id}",
-					path: "/components/views/product/view.html",
-					title: "Produto • Visualizar",
-				}
+				route: "/create",
+				path: "/components/views/product/create.html",
+				title: "Produto • Cadastrar",
+				// keepAlive: true,
+			},
+			{
+				route: "/view/{id}",
+				path: "/components/views/product/view.html",
+				title: "Produto • Visualizar",
+			}
 			]
 		},
 
 		// Sell
 		{
 			route: "/sell",
-			path: "/components/views/sell.html",
+			path: "/components/views/sell/sell.html",
 			title: "Venda",
 			// keepAlive: true,
+			children: [
+				{
+					route: "/list",
+					path: "/components/views/sell/list.html",
+					title: "Vendas Em Pausa",
+				}
+			]
 		},
 
 		// Buy
@@ -171,152 +178,152 @@ function AppComponents() {
 			path: "/components/views/settings/profile/profile.html",
 			title: "Config • Perfil",
 			children: [{
-					title: "Config • Funcionários",
-					route: "/employees",
-					path: "/components/views/settings/employees/employees.html",
+				title: "Config • Funcionários",
+				route: "/employees",
+				path: "/components/views/settings/employees/employees.html",
+				children: [{
+					title: "Config • Criar Funcionário",
+					route: "/create",
+					path: "/components/views/settings/employees/create.html",
+				}]
+			},
+			{
+				title: "Config • Aplicações",
+				route: "/apps",
+				path: "/components/views/settings/apps/apps.html",
+			},
+			{
+				title: "Config • Preferências",
+				route: "/preferences",
+				path: "/components/views/settings/preferences/preferences.html",
+			},
+			{
+				title: "Config • Estabelecimento",
+				route: "/establishment",
+				path: "/components/views/settings/establishment/establishment.html",
+				children: [{
+					title: "Config • Criar Estabelecimento",
+					route: "/create",
+					path: "/components/views/settings/establishment/create.html",
+				}]
+			},
+			{
+				title: "Config • Licença",
+				route: "/license",
+				path: "/components/views/settings/license/license.html",
+			},
+			{
+				title: "Config • Sobre",
+				route: "/about",
+				path: "/components/views/settings/about.html",
+			},
+			{
+				name: 'settings-management-wrapper',
+				title: "Config • Dados de Referência",
+				route: "/management",
+				path: "/components/views/settings/management/management-wrapper.html",
+				children: [{
+					title: "Config • Lista de Armazens",
+					route: "/armazem",
+					path: "/components/views/settings/management/sections/armazem/list.html",
 					children: [{
-						title: "Config • Criar Funcionário",
+						title: "Config • Criar Armazem",
 						route: "/create",
-						path: "/components/views/settings/employees/create.html",
+						path: "/components/views/settings/management/sections/armazem/create.html",
 					}]
 				},
 				{
-					title: "Config • Aplicações",
-					route: "/apps",
-					path: "/components/views/settings/apps/apps.html",
-				},
-				{
-					title: "Config • Preferências",
-					route: "/preferences",
-					path: "/components/views/settings/preferences/preferences.html",
-				},
-				{
-					title: "Config • Estabelecimento",
-					route: "/establishment",
-					path: "/components/views/settings/establishment/establishment.html",
+					title: "Config • Lista de Secções",
+					route: "/seccao",
+					path: "/components/views/settings/management/sections/seccao/list.html",
 					children: [{
-						title: "Config • Criar Estabelecimento",
+						title: "Config • Criar Secção",
 						route: "/create",
-						path: "/components/views/settings/establishment/create.html",
+						path: "/components/views/settings/management/sections/seccao/create.html",
 					}]
 				},
 				{
-					title: "Config • Licença",
-					route: "/license",
-					path: "/components/views/settings/license/license.html",
-				},
-				{
-					title: "Config • Sobre",
-					route: "/about",
-					path: "/components/views/settings/about.html",
-				},
-				{
-					name: 'settings-management-wrapper',
-					title: "Config • Dados de Referência",
-					route: "/management",
-					path: "/components/views/settings/management/management-wrapper.html",
+					title: "Config • Lista de Categorias",
+					route: "/categoria",
+					path: "/components/views/settings/management/sections/categoria/list.html",
 					children: [{
-							title: "Config • Lista de Armazens",
-							route: "/armazem",
-							path: "/components/views/settings/management/sections/armazem/list.html",
-							children: [{
-								title: "Config • Criar Armazem",
-								route: "/create",
-								path: "/components/views/settings/management/sections/armazem/create.html",
-							}]
-						},
-						{
-							title: "Config • Lista de Secções",
-							route: "/seccao",
-							path: "/components/views/settings/management/sections/seccao/list.html",
-							children: [{
-								title: "Config • Criar Secção",
-								route: "/create",
-								path: "/components/views/settings/management/sections/seccao/create.html",
-							}]
-						},
-						{
-							title: "Config • Lista de Categorias",
-							route: "/categoria",
-							path: "/components/views/settings/management/sections/categoria/list.html",
-							children: [{
-								title: "Config • Criar Categoria",
-								route: "/create",
-								path: "/components/views/settings/management/sections/categoria/create.html",
-							}]
-						},
-						{
-							title: "Config • Lista de Formas de Pagamento",
-							route: "/formaPagamento",
-							path: "/components/views/settings/management/sections/formaPagamento/list.html",
-							children: [{
-								title: "Config • Criar Forma de Pagamento",
-								route: "/create",
-								path: "/components/views/settings/management/sections/formaPagamento/create.html",
-							}]
-						},
-						{
-							title: "Config • Lista de Paises",
-							route: "/pais",
-							path: "/components/views/settings/management/sections/pais/list.html",
-							children: [{
-								title: "Config • Criar Pais",
-								route: "/create",
-								path: "/components/views/settings/management/sections/pais/create.html",
-							}]
-						},
-						{
-							title: "Config • Lista de SubCategorias",
-							route: "/subcategoria",
-							path: "/components/views/settings/management/sections/subcategoria/list.html",
-							children: [{
-								title: "Config • Criar Subcategoria",
-								route: "/create",
-								path: "/components/views/settings/management/sections/subcategoria/create.html",
-							}]
-						},
-						{
-							title: "Config • Lista de Tipo de Venda",
-							route: "/tipovenda",
-							path: "/components/views/settings/management/sections/tipovenda/list.html",
-							children: [{
-								title: "Config • Criar Tipo de Venda",
-								route: "/create",
-								path: "/components/views/settings/management/sections/tipovenda/create.html",
-							}]
-						},
-						{
-							title: "Config • Lista de Tipo de Factura",
-							route: "/tipofactura",
-							path: "/components/views/settings/management/sections/tipofactura/list.html",
-							children: [{
-								title: "Config • Criar Tipo de Factura",
-								route: "/create",
-								path: "/components/views/settings/management/sections/tipofactura/create.html",
-							}]
-						},
-						{
-							title: "Config • Lista de Tipo de Contacto",
-							route: "/tipocontacto",
-							path: "/components/views/settings/management/sections/tipocontacto/list.html",
-							children: [{
-								title: "Config • Criar Tipo de Contacto",
-								route: "/create",
-								path: "/components/views/settings/management/sections/tipocontacto/create.html",
-							}]
-						},
-						{
-							title: "Config • Lista de Tipo de Entidade",
-							route: "/tipoentidade",
-							path: "/components/views/settings/management/sections/tipoentidade/list.html",
-							children: [{
-								title: "Config • Criar Tipo de Entidade",
-								route: "/create",
-								path: "/components/views/settings/management/sections/tipoentidade/create.html",
-							}]
-						},
-					]
+						title: "Config • Criar Categoria",
+						route: "/create",
+						path: "/components/views/settings/management/sections/categoria/create.html",
+					}]
 				},
+				{
+					title: "Config • Lista de Formas de Pagamento",
+					route: "/formaPagamento",
+					path: "/components/views/settings/management/sections/formaPagamento/list.html",
+					children: [{
+						title: "Config • Criar Forma de Pagamento",
+						route: "/create",
+						path: "/components/views/settings/management/sections/formaPagamento/create.html",
+					}]
+				},
+				{
+					title: "Config • Lista de Paises",
+					route: "/pais",
+					path: "/components/views/settings/management/sections/pais/list.html",
+					children: [{
+						title: "Config • Criar Pais",
+						route: "/create",
+						path: "/components/views/settings/management/sections/pais/create.html",
+					}]
+				},
+				{
+					title: "Config • Lista de SubCategorias",
+					route: "/subcategoria",
+					path: "/components/views/settings/management/sections/subcategoria/list.html",
+					children: [{
+						title: "Config • Criar Subcategoria",
+						route: "/create",
+						path: "/components/views/settings/management/sections/subcategoria/create.html",
+					}]
+				},
+				{
+					title: "Config • Lista de Tipo de Venda",
+					route: "/tipovenda",
+					path: "/components/views/settings/management/sections/tipovenda/list.html",
+					children: [{
+						title: "Config • Criar Tipo de Venda",
+						route: "/create",
+						path: "/components/views/settings/management/sections/tipovenda/create.html",
+					}]
+				},
+				{
+					title: "Config • Lista de Tipo de Factura",
+					route: "/tipofactura",
+					path: "/components/views/settings/management/sections/tipofactura/list.html",
+					children: [{
+						title: "Config • Criar Tipo de Factura",
+						route: "/create",
+						path: "/components/views/settings/management/sections/tipofactura/create.html",
+					}]
+				},
+				{
+					title: "Config • Lista de Tipo de Contacto",
+					route: "/tipocontacto",
+					path: "/components/views/settings/management/sections/tipocontacto/list.html",
+					children: [{
+						title: "Config • Criar Tipo de Contacto",
+						route: "/create",
+						path: "/components/views/settings/management/sections/tipocontacto/create.html",
+					}]
+				},
+				{
+					title: "Config • Lista de Tipo de Entidade",
+					route: "/tipoentidade",
+					path: "/components/views/settings/management/sections/tipoentidade/list.html",
+					children: [{
+						title: "Config • Criar Tipo de Entidade",
+						route: "/create",
+						path: "/components/views/settings/management/sections/tipoentidade/create.html",
+					}]
+				},
+				]
+			},
 			]
 		},
 
