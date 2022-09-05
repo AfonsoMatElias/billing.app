@@ -13,13 +13,13 @@
             <div class="card-cover">
                 <span class="pointer shadow-it"> # </span>
             </div>
-            <div class="pointer table-cell mid hidable" e-content="{{ item.pessoa.titulo.nome }}"> Loading... </div>
-            <div class="pointer table-cell" e-content="{{ tofullName(item.pessoa) }}"> Loading... </div>
-            <div class="pointer table-cell" e-content="{{ item.pessoa.ultimoNome }}"> Loading... </div>
-            <div class="pointer table-cell" e-content="{{ item.pessoa.identificacao }}"> Loading... </div>
-            <div class="pointer table-cell hidable" e-content="{{ item.pessoa.genero.nome }}"> Loading... </div>
+            <div class="pointer table-cell mid hidable" e-text="{{ item.pessoa.titulo.nome }}"> Loading... </div>
+            <div class="pointer table-cell" e-text="{{ tofullName(item.pessoa) }}"> Loading... </div>
+            <div class="pointer table-cell" e-text="{{ item.pessoa.ultimoNome }}"> Loading... </div>
+            <div class="pointer table-cell" e-text="{{ item.pessoa.identificacao }}"> Loading... </div>
+            <div class="pointer table-cell hidable" e-text="{{ item.pessoa.genero.nome }}"> Loading... </div>
             <div class="table-cell">
-                <span e-content="{{ 'Activo' }}"> Loading... </span>
+                <span e-text="{{ 'Activo' }}"> Loading... </span>
                 <div>
                     <div class="item-options flex-it hide-it">
                         <div>

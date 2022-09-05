@@ -36,7 +36,7 @@
                     <label>Titulo</label>
                     <select name="TituloId">
                         <option selected>Seleccione o Titulo</option>
-                        <option e-req="item of Titulo" e-content="{{ item.nome }}" e-value="{{ item.id }}">Loading...</option>
+                        <option e-req="item of Titulo" e-text="{{ item.nome }}" e-value="{{ item.id }}">Loading...</option>
                     </select>
                 </div>
 
@@ -44,7 +44,7 @@
                     <label>Gênero</label>
                     <select name="GeneroId">
                         <option selected>Seleccione o Gênero</option>
-                        <option e-req="item of Genero" e-content="{{ item.nome }}" e-value="{{ item.id }}">Loading...</option>
+                        <option e-req="item of Genero" e-text="{{ item.nome }}" e-value="{{ item.id }}">Loading...</option>
                     </select>
                 </div>
 
@@ -52,7 +52,7 @@
                     <label>Estabelecimento</label>
                     <select name="EstabelecimentoId">
                         <option value="" selected>Seleccione o Estabelecimento</option>
-                        <option e-req="item of estabelecimento" e-content="{{ item.nome }}" e-value="{{ item.id }}">Loading...</option>
+                        <option e-req="item of estabelecimento" e-text="{{ item.nome }}" e-value="{{ item.id }}">Loading...</option>
                     </select>
                 </div>
 
@@ -66,7 +66,7 @@
                         })(event)">
                             <span data="{ item: item, code: toCode(5) }">
                                 <input class="app-checkbox" e-array name="Roles" id="check-{{ code }}" value="{{ item }}" type="checkbox">
-                                <label for="check-{{ code }}" e-content="{{ item }}">Loading...</label>
+                                <label for="check-{{ code }}" e-text="{{ item }}">Loading...</label>
                             </span>
                         </span>
 
@@ -104,14 +104,8 @@
                         type: 'success',
                         message: 'Registro Criado',
                         run: function () {
-                            bouer.routing.navegate("/settings/employees");
+                            bouer.$routing.navigate("/settings/employees");
                         }
-                    });
-                })
-                .catch(function (error) {
-                    notify({
-                        type: 'error',
-                        message: error.message || error
                     });
                 })
                 .finally(function () {

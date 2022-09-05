@@ -68,7 +68,7 @@ select {
 .light-mode:root {
     /* Colors */
     --color-light: #f9f9f9;
-    --color-light-1: #f2f2f4;
+    --color-light-1: #e8e8ea;
     --color-light-gray: #efefef88;
     --color-primary: #f9f9f9;
     --color-secondary: #f0f0f0;
@@ -98,9 +98,9 @@ select {
 .dark-mode:root {
     /* Colors */
     --color-light: #16171b;
-    --color-light-1: #252628;
+    --color-light-1: #343537;
     --color-primary: #242526;
-    --color-secondary: #18191a;
+    --color-secondary: #202122;
     --color-light-gray: #222223;
     --color-text: #b4b6bb;
     --color-soft-text: #8c8c90;
@@ -1570,6 +1570,20 @@ button:active {
     overflow-y: auto;
 }
 
+.sell-product .next-type.paused-selling {
+	margin-left: 10px;
+	background-color: #faf958;
+	border: 1px solid var(--color-near-orange);
+}
+
+.sell-product .next-type.paused-selling i {
+	margin-right: 4px;
+}
+
+.sell-product .next-type.paused-selling * { 
+	color: #af772d;
+}
+
 .product-card-container .item {
     box-shadow: 0 0 3px .2px var(--color-border);
     border-radius: 5px;
@@ -1578,7 +1592,7 @@ button:active {
     display: flex;
     flex-direction: column;
     width: 120px;
-    height: 140px;
+    height: 150px;
     margin: 8px;
     float: left;
     cursor: pointer;
@@ -1589,12 +1603,12 @@ button:active {
 }
 
 .product-card-container .item .cover {
-    height: 85px;
+    height: 96px;
     background-image: url(../images/box.svg);
     background-color: var(--color-img-bg);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 70%;
+    background-size: cover;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
@@ -1667,7 +1681,7 @@ button:active {
     background-position: center;
     background-repeat: no-repeat;
     background-origin: content-box;
-    background-size: 85%;
+    background-size: cover;
 }
 
 .buy-product .product-card-container .description {
@@ -2628,7 +2642,7 @@ button:active {
 }
 
 .message-bubble-container {
-    margin: 6px 0;
+    margin: 10px 0;
 }
 
 .message-bubble-container .message-bubble {
@@ -2862,7 +2876,7 @@ button:active {
 }
 
 .dashboard .first-section .total-collected .element-label .input-field {
-    width: 145px;
+    width: 165px;
 }
 
 .dashboard .first-section .total-collected .element-label .input-field select {

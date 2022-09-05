@@ -17,15 +17,10 @@
         person: 'cliente',
 
         // Methods
-        submit: function (evt) {
-            // Getting the exposed method   
-            sharedPersonMethods =  sharedPersonMethods || bouer.$wait.get('shared-person-methods');
-
-            var redirectTo = "/customers/" + params.typeEntity;
-            redirectTo = params.src || redirectTo;
-
+        localSubmit: function (genericSubmit) {
+            var redirectTo = params.src || "/customers/" + params.typeEntity;
             // Submiting
-            sharedPersonMethods.submitPerson(evt, "pessoa", redirectTo);
+            genericSubmit("pessoa", redirectTo);
         }
     });
 </script>

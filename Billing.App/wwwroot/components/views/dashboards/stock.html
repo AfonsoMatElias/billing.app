@@ -27,14 +27,14 @@
                         <div class="item-wrapper" e-for="item of produtoStocks">
                             <a class="item" :href="{{ '/buy?p=' + item.produto.codigo }}" e-skeleton="prods">
                                 <div class="icon">
-                                    <span e-content="{{ getAchronym(item.produto.nome) }}">#</span>
+                                    <span e-text="{{ getAchronym(item.produto.nome) }}">#</span>
                                 </div>
-                                <div class="name" e-content="{{ item.produto.nome }}">
+                                <div class="name" e-text="{{ item.produto.nome }}">
                                     Loading...
                                 </div>
                                 <div class="value">
                                     <h3 
-                                        e-content="{{ item.quantidade + ' ' + (item.quantidade <= 1 ? 'Item' : 'Itens') }}">
+                                        e-text="{{ item.quantidade + ' ' + (item.quantidade <= 1 ? 'Item' : 'Itens') }}">
                                         Loading...
                                     </h3>
                                 </div>
@@ -48,7 +48,7 @@
                     <div class="nav-area">
                         <span class="nav center-icon fa fa-angle-left" on:click="prevPage"></span>
                         <span class="description"
-                            e-content="{{ paginationControls.page }} de {{ pagination.totalPages || '#' }}">
+                            e-text="{{ paginationControls.page }} de {{ pagination.totalPages || '#' }}">
                             # de #
                         </span>
                         <span class="nav center-icon fa fa-angle-right" on:click="nextPage"></span>
@@ -83,12 +83,6 @@
             .then(function (response) {
                 component.data.produtoStocks = response.data;
                 component.data.pagination = response.pagination;
-            })
-            .catch(function (error) {
-                notify({
-                    type: 'error',
-                    message: error.message || error
-                });
             })
             .finally(function () {
                 finish();

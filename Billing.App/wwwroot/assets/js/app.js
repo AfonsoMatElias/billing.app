@@ -207,8 +207,17 @@ var app = new Bouer("body", {
             function (v) {
                 var dark = "dark-mode",
                     light = "light-mode";
-                if (v) document.documentElement.classList.replace(light, dark);
-                else document.documentElement.classList.replace(dark, light);
+                if (v) {
+                    document.documentElement.classList.replace(light, dark);
+                    bouer.$skeleton.set({
+                        backgroud: '#252628',
+                        wave: '#16171b'
+                    })
+                } else {
+                    document.documentElement.classList.replace(dark, light);
+                    bouer.$skeleton.set({})
+                }
+
             },
             this.data.preferences
         );
@@ -231,15 +240,7 @@ var app = new Bouer("body", {
                 function addWatch(preferences, prefName) {
                     bouer.watch(prefName, (v) => {
                         bouer.deps['web']('preferences/' + prefName + '/?prefValue=' + v, 'PUT', {})
-                            .then().catch(function (error) {
-                                if (error.message === 'Unauthorized')
-                                    return;
-
-                                notify({
-                                    type: 'error',
-                                    message: error.message || error
-                                });
-                            });
+                            .then();
                     }, preferences);
                 }
 
@@ -248,15 +249,6 @@ var app = new Bouer("body", {
                 for (var key of Object.keys(preferences)) {
                     addWatch(preferences, key);
                 }
-            })
-            .catch(function (error) {
-                if (error.message === 'Unauthorized')
-                    return;
-
-                notify({
-                    type: 'error',
-                    message: error.message || error
-                });
             });
 
         var jwtObj = JSON.parse(atob(sessionStorage.token.split(' ')[1].split('.')[1]))
@@ -287,6 +279,9 @@ var app = new Bouer("body", {
 
                 return serverResponse;
             }).catch(error => {
+                if (error.message === 'Unauthorized')
+                    return;
+
                 notify({
                     type: 'error',
                     message: error.message || error
@@ -312,6 +307,7 @@ var app = new Bouer("body", {
     }
 });
 
+// Out Functions
 function notify(obj) {
     if (!obj || !obj.message) return;
 
@@ -474,12 +470,8 @@ function getPartialData(input = {
         .then(function (response) {
             input.onReponse(response);
         })
-        .catch(function (error) {
+        .catch(function () {
             (input.onCatch || function () { }).call(this);
-            notify({
-                type: 'error',
-                message: error.message || error
-            });
         })
         .finally(function () {
             (input.onFinish || function () { }).call(this);
@@ -490,7 +482,7 @@ function selectOneImage(product) {
     if (product.produtoImagens.length == 0)
         return '/assets/images/box.svg';
 
-    return product.produtoImagens[0].imageUrl;
+    return product.produtoImagens[0].downloadUrl;
 }
 
 function aboveMe(me, selector) {

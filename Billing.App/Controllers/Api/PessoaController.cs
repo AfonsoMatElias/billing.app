@@ -22,15 +22,15 @@ namespace Billing.App.Controllers.Api
 	// [Authorize]
 	public class PessoaController : ControllerBase
 	{
-		private FileHandler fileHandler = null;
 		private IPessoaService service = null;
+		private IPessoaImagemService pessoaImagemService = null;
 		private UserManager<Usuario> userManager;
 
-		public PessoaController(IPessoaService service, UserManager<Usuario> userManager, FileHandler fileHandler)
+		public PessoaController(IPessoaService service, UserManager<Usuario> userManager, IPessoaImagemService pessoaImagemService)
 		{
 			this.service = service;
 			this.userManager = userManager;
-			this.fileHandler = fileHandler;
+			this.pessoaImagemService = pessoaImagemService;
 		}
 
 		// GET: api/Pessoa
@@ -82,56 +82,66 @@ namespace Billing.App.Controllers.Api
 			if (model == null)
 				throw new AppException("Objecto inválido!", true);
 
-			var builtModel = model.Build<PessoaDto>();
 			var hasPhoto = model.File != null;
-			var fileName = "";
 
-			if (hasPhoto)
+			var builtModel = model.Compile<PessoaDto>((model, fileBytes, fileForm) =>
 			{
-				fileName = $"{ Guid.NewGuid().ToString("N") }.{ model.File.ToExtension() }";
-				builtModel.ProfileImageUrl = $"/download/pessoa/{fileName}";
-			}
-
-			await service.Save(builtModel).ContinueWith(async then =>
-			{
-				if (hasPhoto)
-					await fileHandler.Folder("pessoa").SaveAsync(model.File, fileName);
+				model.PessoaImagem = new PessoaImagemDto
+				{
+					Content = fileBytes,
+					Extension = fileForm.FileName.ToExtension(),
+					Name = fileForm.FileName,
+					UniqueName = Guid.NewGuid().ToString("N"),
+				};
 			});
-			
+
+			await service.Save(builtModel);
+
 			return new Response { Message = "Created" };
 		}
 
 		// PUT: api/Pessoa/5:12837918237
 		[HttpPut("{uid}")]
-		public async Task<Response> Put(string uid, [FromForm] Attachment model)
+		public async Task<Response> Put(string uid, [FromForm] PessoaDto model)
 		{
 			if (model == null)
 				throw new AppException("Objecto inválido!", true);
 
-			var builtModel = model.Build<PessoaDto>();
+			await service.Update(uid, model);
 
-			var fileName = "";
-			var hasPhoto = model.File != null;
-			bool toRemove = model.ToRemove == true && builtModel.ProfileImageUrl != null;
+			return new Response { Message = "Updated" };
+		}
 
-			if (hasPhoto && builtModel.ProfileImageUrl == null)
-			{
-				fileName = $"{ Guid.NewGuid().ToString("N") }.{ model.File.ToExtension() }";
-				builtModel.ProfileImageUrl = $"/download/pessoa/{fileName}";
-			}
+		// PUT: api/Pessoa/5:12837918237
+		[HttpPut("{uid}")]
+		public async Task<Response> PutImages(string uid, [FromForm] Attachment model)
+		{
+			if (model == null)
+				throw new AppException("Objecto inválido!", true);
 
-			if (toRemove) {
-				fileName = builtModel.ProfileImageUrl.Replace("/download/pessoa/", "");
-				builtModel.ProfileImageUrl = "";
-			}
+			var pessoa = await service.FindById(uid);
 
-			await service.Update(uid, builtModel).ContinueWith(async then =>
-			{
-				if (hasPhoto)
-					await fileHandler.Folder("pessoa").SaveAsync(model.File, fileName);
-				else if (toRemove)
-					await fileHandler.Folder("pessoa").DeleteAsync(fileName);
-			});
+			if (pessoa == null)
+				throw new AppException("Registro não encontrado!", true);
+
+			PessoaImagemDto fileToSave = null;
+			var filesToRemove = model.Compile<long[]>((model, fileBytes, fileForm) =>
+				{
+					fileToSave = new PessoaImagemDto
+					{
+						Content = fileBytes,
+						Extension = fileForm.FileName.ToExtension(),
+						Name = fileForm.FileName,
+						UniqueName = Guid.NewGuid().ToString("N"),
+						PessoaId = pessoa.Id
+					};
+				});
+
+			// Removing all the requested images
+			await pessoaImagemService.RemoveMany(filesToRemove);
+
+			// Saving all the new images
+			await pessoaImagemService.Save(fileToSave);
 
 			return new Response { Message = "Updated" };
 		}

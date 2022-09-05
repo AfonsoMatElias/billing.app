@@ -48,7 +48,7 @@
                         <label>Genero</label>
                         <select name="GeneroId" e-disabled="{ 'true': locked }" validate="select"
                             e-bind="user.generoId">
-                            <option e-req="item of Genero" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                            <option e-req="item of Genero" e-value="{{ item.id }}" e-text="{{ item.nome }}">
                                 Loading...</option>
                         </select>
                     </div>
@@ -57,7 +57,7 @@
                         <label>Titulo</label>
                         <select name="TituloId" e-disabled="{ 'true': locked }" validate="select"
                             e-bind="user.tituloId">
-                            <option e-req="item of Titulo" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                            <option e-req="item of Titulo" e-value="{{ item.id }}" e-text="{{ item.nome }}">
                                 Loading...</option>
                         </select>
                     </div>
@@ -75,7 +75,7 @@
         <div class="main-body-action hide-it-f" e-class="{ 'hide-it-f': isRequesting }">
             <button type="reset" class="remove-type" on:click="remove">Eliminar</button>
             <button type="button" class="blue-type" on:click="locked = !locked"
-                e-content="{{ locked ? 'Editar' : 'Cancelar' }}">Editar</button>
+                e-text="{{ locked ? 'Editar' : 'Cancelar' }}">Editar</button>
             <button type="button" class="submit-type" e-show="!locked" on:click="save">Salvar</button>
         </div>
     </div>
@@ -92,13 +92,13 @@
                         <span class="fa fa-remove icon-type center-icon" on:click="remContact(contacto)"></span>
                     </div>
                     <label>
-                        <h3 e-content="{{ contacto.tipoContacto.nome }}"> Loading... </h3>
+                        <h3 e-text="{{ contacto.tipoContacto.nome }}"> Loading... </h3>
                     </label>
 
                     <select e-show="!locked" e-bind="contacto.tipoContactoId"
                         on:change="onTipoContactoChange(contacto, event.target)" class="hide-it-f"
                         e-class="{ 'hide-it-f': locked }">
-                        <option e-for="tipo of tipoContactos" e-value="{{ tipo.id }}" e-content="{{ tipo.nome }}">
+                        <option e-for="tipo of tipoContactos" e-value="{{ tipo.id }}" e-text="{{ tipo.nome }}">
                             Loading...</option>
                     </select>
                 </div>

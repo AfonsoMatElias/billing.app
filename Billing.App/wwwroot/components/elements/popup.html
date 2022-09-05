@@ -1,7 +1,7 @@
 <div class="popup shadow-it">
     <span class="center-icon icon fa {{ icon[type] }}"></span>
     <div class="message">
-        <p e-content="{{ unescape(message) }}" on:click="url ? location.href = url; : null">Loading...</p>
+        <p e-text="{{ unescape(message) }}" on:click="url ? location.href = url; : null">Loading...</p>
     </div>
     <div class="close">
         <span title="Clique para fechar!" class="fa fa-times-circle" on:click="this.destroy()"></span>

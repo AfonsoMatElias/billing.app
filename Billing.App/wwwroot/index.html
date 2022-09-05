@@ -131,13 +131,15 @@
             <div class="top top-bar-container">
                 <div class="top-bar">
                     <div class="page-detail">
-                        <h2 e-content="{{ currentPage }}"></h2>
+                        <h2 e-text="{{ currentPage }}"></h2>
                     </div>
                     <div class="controlls">
                         <div class="icon-field-container">
                             <div class="icon-field">
-                                <div class="icon" on:click="showNotification=false; showConversation=!showConversation">
-                                    <span class="hide-it counter" e-content="{{ conversations.length > 9 ? '9+' : conversations.length }}" e-class="{ 'hide-it' : conversations.length == 0 }">0</span>
+                                <div class="icon" on:click="showConversation = !showConversation">
+                                    <span class="hide-it counter"
+                                        e-text="{{ conversations.length > 9 ? '9+' : conversations.length }}"
+                                        e-class="{ 'hide-it' : conversations.length == 0 }">0</span>
                                     <span class="fa fa-comment-o"></span>
                                 </div>
                                 <div class="wrapper card hide-it" e-class="{ 'hide-it':!showConversation }">
@@ -158,12 +160,13 @@
                                             <span class="header-icon">
                                                 <span class="center-icon fa fa-comments-o"></span>
                                             </span>
-                                            <span class="message" e-title="{{ calculateNotificationPeriod(item.date) }}">
+                                            <span class="message"
+                                                e-title="{{ calculateNotificationPeriod(item.date) }}">
                                                 <small>
-                                                    <b e-content="{{ item.user }}">User</b>
+                                                    <b e-text="{{ item.user }}">User</b>
                                                 </small>
                                                 <div>
-                                                    <small e-content="{{ item.message }}">Message </small>
+                                                    <small e-text="{{ item.message }}">Message </small>
                                                 </div>
                                             </span>
                                             <span class="footer-icon">
@@ -185,8 +188,10 @@
                                 </div>
                             </div>
                             <div class="icon-field">
-                                <div class="icon" on:click="showConversation=false; showNotification=!showNotification">
-                                    <span class="hide-it counter diff" e-content="{{ notifications.length > 9 ? '9+' : notifications.length }}" e-class="{ 'hide-it' : notifications.length == 0 }">0</span>
+                                <div class="icon" on:click="showNotification = !showNotification">
+                                    <span class="hide-it counter diff"
+                                        e-text="{{ notifications.length > 9 ? '9+' : notifications.length }}"
+                                        e-class="{ 'hide-it' : notifications.length == 0 }">0</span>
                                     <span class="fa fa-bell-o"></span>
                                 </div>
                                 <div class="wrapper card hide-it" e-class="{ 'hide-it':!showNotification }">
@@ -210,11 +215,12 @@
                                             <span class="message">
                                                 <div>
                                                     <small>
-                                                        <p e-content="{{ item.message }}">Message</p>
+                                                        <p e-text="{{ item.message }}">Message</p>
                                                     </small>
                                                 </div>
                                                 <div>
-                                                    <small e-content="{{ calculateNotificationPeriod(item.date) }}">Calculating...</small>
+                                                    <small
+                                                        e-text="{{ calculateNotificationPeriod(item.date) }}">Calculating...</small>
                                                 </div>
                                             </span>
                                             <span class="footer-icon"></span>
@@ -238,15 +244,16 @@
 
                         <div class="mini-card card">
                             <div class="card-button" on:click="showProfile = true">
-                                <div class="desc" e-content="{{ application.user.userName || 'Loading...' }}">Loading...</div>
+                                <div class="desc" e-text="{{ application.user.userName || 'Loading...' }}">Loading...
+                                </div>
                                 <div class="image"></div>
                             </div>
 
                             <div class="wrapper card hide-it" e-class="{ 'hide-it' : !showProfile }">
                                 <div class="header" on:click="showProfile = false">
                                     <div class="desc">
-                                        <h3 e-content="{{ application.user.nome || 'Loading...' }}">Loading...</h3>
-                                        <p e-content="{{ application.role }}">Loading...</p>
+                                        <h3 e-text="{{ application.user.nome || 'Loading...' }}">Loading...</h3>
+                                        <p e-text="{{ application.role }}">Loading...</p>
                                     </div>
                                     <div class="image-container">
                                         <div class="image"></div>

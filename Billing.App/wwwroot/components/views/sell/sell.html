@@ -10,10 +10,11 @@
                     <div class="actions">
                         <button id="reset" on:click="cancelSell" class="cancel-type">CANCELAR</button>
                         <button class="next-type">PAUSAR</button>
+                        <button class="submit-type" on:click="submit(event, 'vpp', 'fpf')">PROFORMA</button>
                         <button class="next-type paused-selling">
+                            <i class="fa fa-list-ol"></i>
                             <a :href="/sell/paused">Vendas</a>
                         </button>
-                        <button class="submit-type" on:click="submit(event, 'vpp', 'fpf')">PROFORMA</button>
                     </div>
                 </div>
                 <div class="product-list product-card-container">
@@ -21,10 +22,10 @@
                         on:click="addProductToBusket(product)">
                         <div class="cover" e-style="background-image: url({{ selectOneImage(product) }});"></div>
                         <div class="description">
-                            <span class="main" e-content="{{ product.nome }}">Loading...</span>
-                            <span class="detail1" e-content="{{ product.precoUnitario }} Kz">Loading...</span>
+                            <span class="main" e-text="{{ product.nome }}">Loading...</span>
+                            <span class="detail1" e-text="{{ product.precoUnitario }} Kz">Loading...</span>
                             <span class="detail2"
-                                e-content="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
+                                e-text="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
                         </div>
                     </div>
                 </div>
@@ -79,8 +80,8 @@
                         <div class="image"></div>
                     </div>
                     <div class="remain">
-                        <div class="main-name" e-content="{{ customer.name }}">Selecione Um Cliente</div>
-                        <div class="detail" e-content="{{ customer.type }}">Clique em `?` para Selecionar</div>
+                        <div class="main-name" e-text="{{ customer.name }}">Selecione Um Cliente</div>
+                        <div class="detail" e-text="{{ customer.type }}">Clique em `?` para Selecionar</div>
                     </div>
                 </div>
                 <div class="right">
@@ -95,7 +96,7 @@
                 <div class="row total" e-show="reference">
                     <div class="left">
                         <div>
-                            <h3 e-content="Ref: {{ reference }}">Ref: ############</h3>
+                            <h3 e-text="Ref: {{ reference }}">Ref: ############</h3>
                         </div>
                     </div>
                 </div>
@@ -103,11 +104,11 @@
                 <div class="row double">
                     <div class="left">
                         <h4>Subtotal</h4>
-                        <h3 e-content="{{ sellingResume.subtotal }} Kz">0 Kz</h3>
+                        <h3 e-text="{{ sellingResume.subtotal }} Kz">0 Kz</h3>
                     </div>
                     <div class="right">
                         <h4>Desconto</h4>
-                        <h3 e-content="{{ sellingResume.descount }} Kz">0 Kz</h3>
+                        <h3 e-text="{{ sellingResume.descount }} Kz">0 Kz</h3>
                     </div>
                 </div>
 
@@ -116,7 +117,7 @@
                         <h3>Total</h3>
                     </div>
                     <div class="right">
-                        <h3 e-content="{{ sellingResume.total }} Kz">0 Kz</h3>
+                        <h3 e-text="{{ sellingResume.total }} Kz">0 Kz</h3>
                     </div>
                 </div>
 
@@ -125,7 +126,7 @@
                         <label>Forma de Pagamento</label>
                         <select e-bind="formaPagamentoId" name="FormaPagamentoId" validate="select">
                             <option value="">Selecione a Forma</option>
-                            <option e-req="item of FormaPagamento" value="{{ item.id }}" e-content="{{ item.nome }}">Loading...</option>
+                            <option e-req="item of FormaPagamento" value="{{ item.id }}" e-text="{{ item.nome }}">Loading...</option>
                         </select>
                     </div>
                 </div>
@@ -140,7 +141,7 @@
                         </div>
                     </div>
                     <div class="calc-buttons">
-                        <div class="calc-btn" e-for="item of $calculatorButtons" e-content="{{ item }}"
+                        <div class="calc-btn" e-for="item of $calculatorButtons" e-text="{{ item }}"
                             on:click="calcButtonClick" val="{{ item }}">?</div>
                     </div>
                 </div>
@@ -150,7 +151,7 @@
                         <h3>Troco</h3>
                     </div>
                     <div class="right" data="sellingResume">
-                        <h3 e-class="{ 'negative' : exchange < 0 }" e-content="{{ exchange }} Kz">0 Kz</h3>
+                        <h3 e-class="{ 'negative' : exchange < 0 }" e-text="{{ exchange }} Kz">0 Kz</h3>
                     </div>
                 </div>
 
@@ -186,8 +187,8 @@
                                     <div class="image"></div>
                                 </div>
                                 <div class="remain">
-                                    <div class="main-name" e-content="{{ item.name }}">Nome Cliente</div>
-                                    <div class="detail" e-content="{{ item.company }}">Empresa</div>
+                                    <div class="main-name" e-text="{{ item.name }}">Nome Cliente</div>
+                                    <div class="detail" e-text="{{ item.company }}">Empresa</div>
                                 </div>
                             </div>
                         </div>
@@ -243,7 +244,7 @@
                 component.data.customers = response.data.map(function (item) {
                     return {
                         id: item.id,
-                        image: item.pessoa.profileImageUrl,
+                        image: (item.pessoa.pessoaImagem || {}).downloadUrl,
                         name: tofullName(item.pessoa),
                         company: item.nomeEmpresa
                     };

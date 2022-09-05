@@ -15,7 +15,7 @@
                             <div class="input-field">
                                 <select e-bind="selectedYear">
                                     <option e-for="item of anualInterval" value="{{ item }}"
-                                        e-content="{{ currentYear == item ? 'Este Ano (' + item + ')' : item }}">Years
+                                        e-text="{{ currentYear == item ? 'Este Ano (' + item + ')' : item }}">Years
                                     </option>
                                 </select>
                             </div>
@@ -41,7 +41,7 @@
 
                     <div class="card chart graph">
                         <div class="head">
-                            <p e-content="Vendas de {{ selectedYear }}">Graph Chart</p>
+                            <p e-text="Vendas de {{ selectedYear }}">Graph Chart</p>
                         </div>
                         <div class="body">
                             <div id="total-sells">
@@ -60,7 +60,7 @@
                     <div class="card-container-wrapper">
                         <div class="card-container">
                             <div class="card">
-                                <span class="center-icon icon fa fa-cubes"></span>
+                                <span class="center-icon icon fa fa-money"></span>
                                 <div class="row top">
                                     <p>Total de Vendas (Hoje)</p>
                                 </div>
@@ -149,15 +149,15 @@
         <div class="default-side">
             <div class="top-selling dash-section">
                 <div class="header">
-                    <h3>Top 10 Vendas (<span e-content="{{ currentMonth }}">Mês</span>)</h3>
+                    <h3>Top 10 Vendas (<span e-text="{{ currentMonth }}">Mês</span>)</h3>
                 </div>
 
                 <div class="card">
                     <ol>
                         <li e-for="item of items | order:desc:selling">
                             <div class="li-container">
-                                <span class="li-name" e-content="{{ item.name }}">Name</span>
-                                <span class="li-value" e-content="{{ item.selling }}">#0</span>
+                                <span class="li-name" e-text="{{ item.name }}">Name</span>
+                                <span class="li-value" e-text="{{ item.selling }}">#0</span>
                             </div>
                         </li>
                     </ol>
@@ -177,15 +177,15 @@
                         <div class="bubble flex-it">
                             <div class="line" e-style="background-color: {{ product.color }}96"></div>
                             <div class="marker flex-it" e-style="background-color: {{ product.color }}96">
-                                <p e-content="{{ acronym(product.name) }}">#</p>
+                                <p e-text="{{ acronym(product.name) }}">#</p>
                             </div>
                             <div class="text flex-it">
                                 <span class="flex-it">
-                                    <label class="high" e-content="{{ product.name }}">#</label>
+                                    <label class="high" e-text="{{ product.name }}">#</label>
                                 </span>
                                 <span class="flex-it">
                                     <label
-                                        e-content="{{ product.qty > 1 ? (product.qty + ' Itens') : (product.qty + ' Item') }}">0
+                                        e-text="{{ product.qty > 1 ? (product.qty + ' Itens') : (product.qty + ' Item') }}">0
                                         Item</label>
                                 </span>
                             </div>

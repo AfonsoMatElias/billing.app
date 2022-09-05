@@ -13,14 +13,14 @@
             <div class="card-cover"></div>
 
             <div class="pointer table-cell">
-                <a :href="/products/view/{{ item.uid }}" e-content="{{ item.referencia }}"> Loading... </a>
+                <a :href="/products/view/{{ item.uid }}" e-text="{{ item.referencia }}"> Loading... </a>
             </div>
-            <div class="pointer table-cell" e-content="{{ tofullName(item.cliente.pessoa) }}"> Loading... </div>
-            <div class="pointer table-cell" e-content="{{ item.tipoVenda.nome }}"> Loading... </div>
-            <div class="table-cell cell-2 hidable" e-content="{{ item.vendaItens.length }}"> Loading... </div>
-            <div class="table-cell hidable" e-content="{{ item.total }} Akz"> Loading... </div>
+            <div class="pointer table-cell" e-text="{{ tofullName(item.cliente.pessoa) }}"> Loading... </div>
+            <div class="pointer table-cell" e-text="{{ item.tipoVenda.nome }}"> Loading... </div>
+            <div class="table-cell cell-2 hidable" e-text="{{ item.vendaItens.length }}"> Loading... </div>
+            <div class="table-cell hidable" e-text="{{ item.total }} Akz"> Loading... </div>
             <div class="table-cell">
-                <span e-content="{{ item.isPausada ? 'Em Pausa' : 'Concluída' }}"> Loading... </span>
+                <span e-text="{{ item.isPausada ? 'Em Pausa' : 'Concluída' }}"> Loading... </span>
                 <div>
                     <div class="item-options flex-it hide-it">
                         <div>

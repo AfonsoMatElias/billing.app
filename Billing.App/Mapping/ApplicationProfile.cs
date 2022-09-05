@@ -1,6 +1,7 @@
 using System.Linq;
 using AutoMapper;
 using Billing.Service.Dto;
+using Billing.Service.Extensions;
 using Billing.Service.Models;
 
 namespace Billing.App.Mapping
@@ -157,11 +158,20 @@ namespace Billing.App.Mapping
 
 			CreateMap<PessoaDto, Pessoa>();
 
+			CreateMap<PessoaImagem, PessoaImagemDto>()
+				.AfterMap((s, d) =>
+				{
+					d.DownloadUrl = d.ToDownloadableUrl();
+				});
+			CreateMap<PessoaImagemDto, PessoaImagem>();
+
 			CreateMap<Produto, ProdutoDto>()
 				.ForPath(dst => dst.ProdutoImagens, src => src.MapFrom(x => x.ProdutoImagens.Select(y => new ProdutoImagem
 				{
 					Id = y.Id,
-					ImageUrl = y.ImageUrl,
+					Extension = y.Extension,
+					Name = y.Name,
+					UniqueName = y.UniqueName,
 					ProdutoId = y.ProdutoId,
 					CreatedAt = y.CreatedAt,
 					UpdatedAt = y.UpdatedAt,
@@ -201,9 +211,14 @@ namespace Billing.App.Mapping
 					SeccaoId = y.SeccaoId,
 					Visibility = y.Visibility
 				})));
+
 			CreateMap<ProdutoDto, Produto>();
 
-			CreateMap<ProdutoImagem, ProdutoImagemDto>();
+			CreateMap<ProdutoImagem, ProdutoImagemDto>()
+				.AfterMap((s, d) =>
+				{
+					d.DownloadUrl = d.ToDownloadableUrl();
+				});
 			CreateMap<ProdutoImagemDto, ProdutoImagem>();
 
 			CreateMap<Regime, RegimeDto>();
@@ -276,7 +291,6 @@ namespace Billing.App.Mapping
 						Identificacao = src.Cliente.Pessoa.Identificacao,
 						PrimeiroNome = src.Cliente.Pessoa.PrimeiroNome,
 						UltimoNome = src.Cliente.Pessoa.UltimoNome,
-						ProfileImageUrl = src.Cliente.Pessoa.ProfileImageUrl,
 						TituloId = src.Cliente.Pessoa.TituloId,
 					},
 				}))

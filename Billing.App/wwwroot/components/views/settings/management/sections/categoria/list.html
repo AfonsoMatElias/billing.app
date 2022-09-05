@@ -23,20 +23,20 @@
                 </slot>
                 <slot slot="table-body">
                     <div class="table-row flex-it" e-skeleton e-req="item of categoria | where:search:nome">
-                        <div class="card-cover" e-content="{{ getAchronym(item.nome) }}"></div>
+                        <div class="card-cover" e-text="{{ getAchronym(item.nome) }}"></div>
 
-                        <div class="pointer table-cell mid" e-content="{{ (item.id + '').padStart(3, '0') }}">
+                        <div class="pointer table-cell mid" e-text="{{ (item.id + '').padStart(3, '0') }}">
                             Loading...
                         </div>
 
-                        <div class="pointer table-cell" e-content="{{ item.nome }}">Loading...
+                        <div class="pointer table-cell" e-text="{{ item.nome }}">Loading...
                         </div>
 
-                        <div class="pointer table-cell hidable" e-content="{{ toDate(item.createdAt) }}"> Loading...
+                        <div class="pointer table-cell hidable" e-text="{{ toDate(item.createdAt) }}"> Loading...
                         </div>
 
                         <div class="table-cell">
-                            <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
+                            <span e-text="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading...
                             </span>
                             <div class="buttons-area" data="{}">
                                 <div class="item-options flex-it hide-it" e-def="{ showOptions: false }"

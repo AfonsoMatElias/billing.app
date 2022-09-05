@@ -12,14 +12,14 @@
             e-for="item of dataList | where:search:nome,nomeSecundario,codigo,subCategoria.nome">
             <div class="card-cover"></div>
             <div class="pointer table-cell">
-                <a :href="/products/view/{{ item.uid }}" e-content="{{ item.nome }}"> Loading... </a>
+                <a :href="/products/view/{{ item.uid }}" e-text="{{ item.nome }}"> Loading... </a>
             </div>
-            <div class="pointer table-cell" e-content="{{ item.nomeSecundario }}"> Loading... </div>
-            <div class="table-cell hidable" e-content="{{ item.codigo }}"> Loading... </div>
-            <div class="table-cell hidable" e-content="{{ item.precoUnitario }} Akz"> Loading... </div>
-            <div class="table-cell hidable" e-content="{{ item.subCategoria.nome }}"> Loading... </div>
+            <div class="pointer table-cell" e-text="{{ item.nomeSecundario }}"> Loading... </div>
+            <div class="table-cell hidable" e-text="{{ item.codigo }}"> Loading... </div>
+            <div class="table-cell hidable" e-text="{{ item.precoUnitario }} Akz"> Loading... </div>
+            <div class="table-cell hidable" e-text="{{ item.subCategoria.nome }}"> Loading... </div>
             <div class="table-cell">
-                <span e-content="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading... </span>
+                <span e-text="{{ item.visibility ? 'Activo' : 'Inactivo' }}"> Loading... </span>
                 <div>
                     <div class="item-options flex-it hide-it">
                         <div>

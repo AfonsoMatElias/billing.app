@@ -4,7 +4,6 @@ using Billing.Shared;
 using Billing.Service.Dto;
 using Billing.Service.Data;
 using Billing.Service.Models;
-using Billing.Shared.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Billing.Service.Services.Implementations.Base;

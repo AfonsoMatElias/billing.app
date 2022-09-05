@@ -10,7 +10,7 @@
             <select name="GerenteId">
                 <option value="" selected disabled>Selecione a opção</option>
                 <option e-req="item of funcionario" on:add="onFuncionarioAdded" e-value="{{ item.id }}"
-                    e-content="{{ tofullName(item.usuario.pessoa) }}">
+                    e-text="{{ tofullName(item.usuario.pessoa) }}">
                     Loading...
                 </option>
             </select>
@@ -47,12 +47,6 @@
                         run: function () {
                             location.reload();
                         }
-                    });
-                })
-                .catch(function (error) {
-                    notify({
-                        type: 'error',
-                        message: error.message || error
                     });
                 })
                 .finally(function () {

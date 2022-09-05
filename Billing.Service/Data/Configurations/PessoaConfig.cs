@@ -13,9 +13,6 @@ namespace Billing.Service.Data.Configurations
             new BaseConfig().Configure(builder);
 
             // Pessoa Base
-            builder.Property(e => e.ProfileImageUrl)
-                    .HasMaxLength(500);
-
             builder.Property(e => e.DataNascimento)
                     .IsRequired();
 

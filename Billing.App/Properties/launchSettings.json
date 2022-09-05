@@ -9,13 +9,31 @@
     }
   },
   "profiles": {
-    "Billing.App": {
+    "dev": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "/index.html",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "dev"
+      }
+    },
+    "qa": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "/index.html",
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "qa"
+      }
+    },
+    "prod": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "/index.html",
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "prod"
       }
     }
   }

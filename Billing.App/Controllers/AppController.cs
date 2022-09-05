@@ -8,23 +8,27 @@ using Billing.App.Extensions;
 using Billing.App.Handlers;
 using Billing.App.Routes;
 using Billing.Service.Authentication;
+using Billing.Service.Data;
+using Billing.Service.Extensions;
+using Billing.Service.Models.Base;
 using Billing.Service.Responses;
 using Billing.Shared.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Billing.App.Controllers
 {
 	public class AppController : Controller
 	{
 		private IAuth mAuth;
-		private FileHandler fileHandler;
+		private DataContext context;
 		private PreferenceHandler preferenceHandler;
 
-		public AppController(IAuth mAuth, FileHandler fileHandler, PreferenceHandler preferenceHandler)
+		public AppController(IAuth mAuth, DataContext context, PreferenceHandler preferenceHandler)
 		{
 			this.mAuth = mAuth;
-			this.fileHandler = fileHandler;
+			this.context = context;
 			this.preferenceHandler = preferenceHandler;
 		}
 
@@ -86,18 +90,18 @@ namespace Billing.App.Controllers
 					Errors = result.Errors.ToList()
 				});
 
-            var userName = result.Data.UserName;
+			var userName = result.Data.UserName;
 
 			try
 			{
-                if (!this.preferenceHandler.HasPreferences(userName)) 
-                {
-                    // Creating the preferencies
-                    this.preferenceHandler.InitPreferences(userName);
-                    await this.preferenceHandler.Save();
-                }
+				if (!this.preferenceHandler.HasPreferences(userName))
+				{
+					// Creating the preferencies
+					this.preferenceHandler.InitPreferences(userName);
+					await this.preferenceHandler.Save();
+				}
 
-                result.Data.Preferences = await this.preferenceHandler.Get(userName);
+				result.Data.Preferences = await this.preferenceHandler.Get(userName);
 			}
 			catch (AppException)
 			{
@@ -112,21 +116,23 @@ namespace Billing.App.Controllers
 		[HttpPut(WebRoutes.ChangePreference)]
 		public async Task<IActionResult> ChangeRoles(string prefName, [FromQuery] string prefValue)
 		{
-            var userName = this.HttpContext.GetKey("name");
-            
-            if (prefValue == null)
-                return Ok(new Response {
-                    Errors = new[] { "Invalid value provided" }
-                });
+			var userName = this.HttpContext.GetKey("name");
 
-            await this.preferenceHandler.Set(userName, prefName, prefValue);
+			if (prefValue == null)
+				return Ok(new Response
+				{
+					Errors = new[] { "Invalid value provided" }
+				});
 
-            await this.preferenceHandler.Save();
+			await this.preferenceHandler.Set(userName, prefName, prefValue);
 
-			return Ok(new Response {
-                Data = true,
-                Message = "Updated"
-            });
+			await this.preferenceHandler.Save();
+
+			return Ok(new Response
+			{
+				Data = true,
+				Message = "Updated"
+			});
 		}
 
 		[Authorize]
@@ -171,24 +177,45 @@ namespace Billing.App.Controllers
 
 		// [Authorize]
 		[HttpGet(WebRoutes.Download)]
-		public async Task<IActionResult> Download(string folderName, string fileName)
+		public async Task<IActionResult> Download(string source, string uniqueName)
 		{
+			if (source is null)
+				return NotFound();
+			
+			if (uniqueName is null)
+				return NotFound();
 
-			var file = Path.Combine(fileHandler.Folder(folderName).folderPath, fileName);
+			// Getting the DataContext DbSet property
+			var dbSetProperty = this.context.GetType().GetProperties()
+				.FirstOrDefault(x => x.Name.ToLower() == source.ToLower());
 
-			// IF file does no exist
-			if (!System.IO.File.Exists(file))
+			var _table = this.context.Model.GetEntityTypes().FirstOrDefault(x => 
+				x.GetTableName().ToLower() == source.ToLower()
+			);
+
+			if (_table == null)
+				return BadRequest("Invalid source");
+
+			// Getting the table name
+			var tableName = _table.GetTableName();
+
+			var dbResult = (await this.context.ExecuteAsync(
+				$"SELECT [Content] from [dbo].[{tableName}] where UniqueName='{uniqueName}'"
+			)).FirstOrDefault();
+
+			// If file does no exist
+			if (dbResult == null)
 				return NotFound();
 
 			// Get all the data as bytes
-			var dataBytes = await System.IO.File.ReadAllBytesAsync(file);
+			var dataBytes = dbResult["Content"] as byte[];
 
 			// If the bytes is empty 
 			if (dataBytes.Count() == 0)
 				return NoContent();
 
 			// Stream out the data
-			return File(dataBytes, MimeTypeMapping.Get(fileName.ToExtension()));
+			return File(dataBytes, MimeTypeMapping.Get(uniqueName.ToExtension()));
 		}
 	}
 }

@@ -26,11 +26,13 @@
 <script>
     var bouer = this.bouer;
     var component = this;
-    
+
     this.export({
         active: 'Categoria',
         submit: function (evt) {
-            bouer.$wait.get('setting-manag-methods').submitShared(evt, 'categoria', '/settings/management/categoria');
+            var src = component.params().src;
+            bouer.$wait.get('setting-manag-methods')
+                .submitShared(evt, 'categoria', src || '/settings/management/categoria');
         }
     });
 </script>

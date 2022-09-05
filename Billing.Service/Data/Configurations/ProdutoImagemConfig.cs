@@ -10,8 +10,19 @@ namespace Billing.Service.Data.Configurations
         {
             new BaseConfig().Configure(builder);
 
-            builder.Property(e => e.ImageUrl)
-                    .HasMaxLength(400)
+            builder.Property(e => e.Content)
+                    .IsRequired();
+
+            builder.Property(e => e.Extension)
+                    .HasMaxLength(8)
+                    .IsRequired();
+
+            builder.Property(e => e.Name)
+                    .HasMaxLength(200)
+                    .IsRequired();
+
+            builder.Property(e => e.UniqueName)
+                    .HasMaxLength(80)
                     .IsRequired();
 
             builder.Property(e => e.ProdutoId)

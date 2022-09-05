@@ -21,15 +21,19 @@ namespace Billing.App.Controllers.Api
 	// [Authorize]
 	public class ProdutoController : ControllerBase
 	{
-		private FileHandler fileHandler = null;
 		private IProdutoService service = null;
 		private IFuncionarioService funcionarioService = null;
+		private IProdutoImagemService produtoImagemService = null;
 
-		public ProdutoController(IProdutoService service, IFuncionarioService funcionarioService, FileHandler fileHandler)
+		public ProdutoController(
+			IProdutoService service,
+			IFuncionarioService funcionarioService,
+			IProdutoImagemService produtoImagemService
+		)
 		{
 			this.service = service;
 			this.funcionarioService = funcionarioService;
-			this.fileHandler = fileHandler;
+			this.produtoImagemService = produtoImagemService;
 		}
 
 		// GET: api/Produto
@@ -119,29 +123,16 @@ namespace Billing.App.Controllers.Api
 				if (model == null)
 					throw new AppException("Objecto inválido!", true);
 
-				var builtModel = model.Build<ProdutoDto>();
-				var images = new List<ProdutoImagemDto>();
-
-				// Building the image items
-				var files = model.Files.ToList()
-					.Select(item =>
+				var builtModel = model.Compile<ProdutoDto>((model, filesByte, filesForm) =>
+				{
+					model.ProdutoImagens = filesByte.Select((_bytes, index) => new ProdutoImagemDto
 					{
-						// Building the file name
-						var fileName = $"{ Guid.NewGuid().ToString("N") }.{ item.ToExtension() }";
-
-						images.Add(new ProdutoImagemDto
-						{
-							ImageUrl = $"/download/product/{fileName}",
-						});
-
-						return new
-						{
-							fileData = item,
-							fileName = fileName
-						};
+						Content = _bytes,
+						Extension = filesForm[index].FileName.ToExtension(),
+						Name = filesForm[index].FileName,
+						UniqueName = Guid.NewGuid().ToString("N"),
 					}).ToList();
-
-				builtModel.ProdutoImagens = images;
+				});
 
 				if (builtModel.Compras != null && builtModel.Compras.Any())
 				{
@@ -156,13 +147,7 @@ namespace Billing.App.Controllers.Api
 					compra.IsActiva = true;
 				}
 
-				await service.Save(builtModel)
-					.ContinueWith(async then =>
-					{
-						foreach (var item in files)
-							await fileHandler.Folder("product")
-								.SaveAsync(item.fileData, item.fileName);
-					});
+				await service.Save(builtModel);
 
 				return new Response { Message = "Created" };
 			}
@@ -177,47 +162,46 @@ namespace Billing.App.Controllers.Api
 
 		// PUT: api/Produto/5:12837918237
 		[HttpPut("{uid}")]
-		public async Task<Response> Put(string uid, [FromForm] Attachments model)
+		public async Task<Response> Put(string uid, [FromForm] ProdutoDto model)
 		{
 			if (model == null)
 				throw new AppException("Objecto inválido!", true);
 
-			var builtModel = model.Build<ProdutoDto>();
-			var images = new List<ProdutoImagemDto>();
+			await service.Update(uid, model);
 
-			// Building the image items
-			var files = model.Files.ToList()
-				.Select(item =>
+			return new Response { Message = "Updated" };
+		}
+
+		// PUT: api/Produto/5:12837918237
+		[HttpPut("UpdateImages/{uid}")]
+		public async Task<Response> PutImages(string uid, [FromForm] Attachments model)
+		{
+			if (model == null)
+				throw new AppException("Objecto inválido!", true);
+
+			var product = await service.FindById(uid);
+
+			if (product == null)
+				throw new AppException("Registro não encontrado!", true);
+
+			ProdutoImagemDto[] filesToSave = new ProdutoImagemDto[] { };
+			var filesToRemove = model.Compile<long[]>((model, filesBytes, filesForm) =>
 				{
-					// Building the file name
-					var fileName = $"{ Guid.NewGuid().ToString("N") }.{ item.ToExtension() }";
-
-					images.Add(new ProdutoImagemDto
+					filesToSave = filesBytes.Select((_bytes, index) => new ProdutoImagemDto
 					{
-						ImageUrl = $"/download/product/{fileName}",
-					});
-
-					return new
-					{
-						fileData = item,
-						fileName = fileName
-					};
-				}).ToList();
-
-			if (images.Any())
-			{
-				if (builtModel.ProdutoImagens != null)
-					images.AddRange(builtModel.ProdutoImagens);
-				builtModel.ProdutoImagens = images;
-			}
-
-			await service.Update(uid, builtModel)
-				.ContinueWith(async then =>
-				{
-					foreach (var item in files)
-						await fileHandler.Folder("product")
-							.SaveAsync(item.fileData, item.fileName);
+						Content = _bytes,
+						Extension = filesForm[index].FileName.ToExtension(),
+						Name = filesForm[index].FileName,
+						UniqueName = Guid.NewGuid().ToString("N"),
+						ProdutoId = product.Id
+					}).ToArray();
 				});
+
+			// Removing all the requested images
+			await produtoImagemService.RemoveMany(filesToRemove);
+
+			// Saving all the new images
+			await produtoImagemService.SaveMany(filesToSave);
 
 			return new Response { Message = "Updated" };
 		}

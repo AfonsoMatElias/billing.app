@@ -41,7 +41,7 @@
                     <div class="input-field hide-it-f" e-class="{ 'hide-it-f': locked }">
                         <label>Categoria</label>
                         <select e-bind="product.subCategoria.categoriaId">
-                            <option e-for="item of categorias" e-value="{{ item.id }}" e-content="{{ item.nome }}"
+                            <option e-for="item of categorias" e-value="{{ item.id }}" e-text="{{ item.nome }}"
                                 on:click="selectCategoria(event.currentTarget)">
                                 Loading...</option>
                         </select>
@@ -50,12 +50,12 @@
                     <div class="input-field hide-it-f" e-class="{ 'hide-it-f': locked }">
                         <label>SubCategoria</label>
                         <select e-bind="product.subCategoriaId">
-                            <option e-for="item of subCategorias" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                            <option e-for="item of subCategorias" e-value="{{ item.id }}" e-text="{{ item.nome }}">
                                 None</option>
                         </select>
                     </div>
 
-                    <div class="input-field">
+                    <div class="input-field" e-class="{ 'hide-it-f': !locked }">
                         <label>SubCategoria</label>
                         <input type="text" disabled e-value="{{ product.subCategoria.nome }}"
                             placeholder="Loading..." />
@@ -83,14 +83,13 @@
 
                     <div class="input-container">
                         <textarea class="description-field" e-disabled="{ 'true': locked }" style="resize: none;"
-                            e-bind="product.descricao"
-                            placeholder="Descrições do Produto">Loading...</textarea>
+                            e-bind="product.descricao" placeholder="Descrições do Produto">Loading...</textarea>
 
                         <div class="action-container">
                             <div class="main-body-action hide-it-f" e-class="{ 'hide-it-f': isRequesting }">
                                 <button type="reset" class="remove-type" on:click="remove">Eliminar</button>
                                 <button type="button" class="blue-type" on:click="locked = !locked"
-                                    e-content="{{ locked ? 'Editar' : 'Cancelar' }}">Editar</button>
+                                    e-text="{{ locked ? 'Editar' : 'Cancelar' }}">Editar</button>
                                 <button type="button" class="submit-type" e-show="!locked"
                                     on:click="save">Salvar</button>
                             </div>
@@ -114,12 +113,17 @@
                     e-show="thumbnails.length < 3"
                     onclick="aboveMe(this, '.images-side').querySelector('input[type=\'file\']').click()"></span>
 
-                <div e-for="tn of thumbnails" on:click="thumbnail = tn.imageUrl"
-                    e-style="background-image: url({{ tn.imageUrl }});" class="photo-thumbnail center-icon"
-                    e-show="tn.visibility">
+                <div e-for="tn of thumbnails" on:click="thumbnail = tn.downloadUrl"
+                    e-style="background-image: url({{ tn.downloadUrl }});" class="photo-thumbnail center-icon">
                     <span e-show="!locked" class="icon-type center-icon fa fa-remove" title="Remover Imagem"
                         on:click="removeImage(tn)"></span>
                 </div>
+            </div>
+
+            <div class="action-area">
+                <button type="button" class="submit-type" e-show="!locked" on:click="saveImages">
+                    Actualizar
+                </button>
             </div>
         </div>
     </div>
@@ -152,7 +156,7 @@
         isRequesting: true,
         thumbnail: '',
         thumbnails: [],
-
+        removedImages: [],
         categorias: [],
         subCategorias: [],
 
@@ -177,7 +181,7 @@
                 var reader = new FileReader();
                 reader.addEventListener('load', function (data) {
                     component.data.thumbnails.push({
-                        imageUrl: data.target.result,
+                        downloadUrl: data.target.result,
                     });
                 });
                 reader.readAsDataURL(file);
@@ -192,21 +196,44 @@
         },
         removeImage: function (tn) {
 
-            if ('id' in tn)
-                return tn.visibility = false;
-
             var index = this.data.thumbnails.indexOf(tn);
-            this.data.thumbnails.splice(this.data.thumbnails, 1);
+            this.data.thumbnails.splice(index, 1);
 
             this.data.thumbnail = '';
             var thumbnail = this.data.thumbnails[0];
-            if (thumbnail) this.data.thumbnail = thumbnail.imageUrl;
+            if (thumbnail) this.data.thumbnail = thumbnail.downloadUrl;
+
+            if ((tn || {}).id)
+                this.data.removedImages.push(tn.id);
+
+            console.log(this.data.removedImages);
         },
         loadUrl: function (data) {
             return !data ? '' : ' url(' + data + ')';
         },
-        
+
         save: function (evt) {
+            var productData = bouer.$req.get('product-data').data;
+            var btn = evt.currentTarget;
+
+            if (hasSpinner(btn)) return;
+            addOrRemSpinner(btn);
+
+            web('produto/' + params.id, 'put', JSON.stringify(productData), {
+                'Authorization': sessionStorage.token || undefined
+            }).then(function () {
+                notify({
+                    type: 'success',
+                    message: 'Registro Actualizado'
+                });
+
+                component.data.locked = true;
+            }).finally(function () {
+                addOrRemSpinner(btn, true);
+            })
+        },
+
+        saveImages: function (evt) {
             var productData = bouer.$req.get('product-data').data;
             var btn = evt.currentTarget;
 
@@ -217,12 +244,12 @@
 
             productData.produtoImagens = this.data.thumbnails.filter(x => x.id);
 
-            formData.append("json", JSON.stringify(productData));
+            formData.append("json", JSON.stringify(this.data.removedImages));
             for (var file of inputFile.files) {
-                formData.append("file", file);
+                formData.append("files", file);
             }
 
-            web('produto/' + params.id, 'put', formData, {
+            web('produto/updateImages/' + params.id, 'put', formData, {
                 'Authorization': sessionStorage.token || undefined
             }).then(function () {
                 notify({
@@ -257,16 +284,14 @@
                     addOrRemSpinner(btn, true);
                 })
         },
-        
+
         onResponse: function () {
             this.data.isRequesting = false;
 
             var productData = bouer.$req.get('product-data').data;
-            this.data.thumbnails.push.apply(this.data.thumbnails, productData.produtoImagens.filter(function (x) {
-                return x.visibility;
-            }));
+            this.data.thumbnails.push.apply(this.data.thumbnails, productData.produtoImagens);
             var thumbnail = this.data.thumbnails[0];
-            if (thumbnail) this.data.thumbnail = thumbnail.imageUrl;
+            if (thumbnail) this.data.thumbnail = thumbnail.downloadUrl;
         },
         onRequestFail: function (evt) {
             notify({

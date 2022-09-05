@@ -21,7 +21,7 @@ namespace Billing.App.Middleware
 			}
 			catch (AppException ex)
 			{
-				context.Response.StatusCode = 200;
+				context.Response.StatusCode = ex.StatusCode;
 				await context.Response.WriteAsJsonAsync(new Response
 				{
 					Errors = ex.Errors,

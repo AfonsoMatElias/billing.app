@@ -15,7 +15,7 @@
                                 <select name="FornecedorId" validate="select">
                                     <option selected value="">None</option>
                                     <option e-req="item of Entidade?codigoTipoEntidade=tef" e-value="{{ item.id }}"
-                                        e-content="{{ tofullName(item.pessoa) }}">
+                                        e-text="{{ tofullName(item.pessoa) }}">
                                         Loading...</option>
                                 </select>
                                 <a :href="/providers/create/tef?src={{ '/buy' }}">Criar</a>
@@ -25,7 +25,7 @@
                         <div class="input-field">
                             <label>Quantidade | <b style="color: var(--color-app);" name="ProdutoId"
                                     field-value="{{ selectedProduct.id }}"
-                                    e-content="{{ selectedProduct.nome }}">?</b></label>
+                                    e-text="{{ selectedProduct.nome }}">?</b></label>
                             <input type="number" name="Quantidade" validate="number" placeholder="Quantidade" />
                         </div>
 
@@ -44,7 +44,7 @@
                             <select validate="select" e-show="hasStore"
                                 on:change="selectArmazem(event.currentTarget.selectedOptions[0])">
                                 <option selected value="">None</option>
-                                <option e-for="item of armazens" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                <option e-for="item of armazens" e-value="{{ item.id }}" e-text="{{ item.nome }}">
                                     Loading...</option>
                             </select>
                         </div>
@@ -73,7 +73,7 @@
                             </div>
                             <select validate="select" name="SeccaoId">
                                 <option selected value="">None</option>
-                                <option e-for="item of seccoes" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                                <option e-for="item of seccoes" e-value="{{ item.id }}" e-text="{{ item.nome }}">
                                     Loading...</option>
                             </select>
                         </div>
@@ -105,17 +105,17 @@
                     <slot slot="table-body">
                         <div class="table-row flex-it" e-skeleton e-for="buy of buyList">
                             <div class="card-cover"></div>
-                            <div class="pointer table-cell" e-content="{{ buy.row.Provider }}"> Loading...
+                            <div class="pointer table-cell" e-text="{{ buy.row.Provider }}"> Loading...
                             </div>
-                            <div class="pointer table-cell" e-content="{{ buy.row.Product }}"> Loading...
+                            <div class="pointer table-cell" e-text="{{ buy.row.Product }}"> Loading...
                             </div>
-                            <div class="pointer table-cell" e-content="{{ buy.PrecoUnitarioCompra }}">
+                            <div class="pointer table-cell" e-text="{{ buy.PrecoUnitarioCompra }}">
                                 Loading... </div>
-                            <div class="pointer table-cell" e-content="{{ buy.Quantidade }}"> Loading...
+                            <div class="pointer table-cell" e-text="{{ buy.Quantidade }}"> Loading...
                             </div>
-                            <div class="pointer table-cell hidable" e-content="{{ buy.DataEntrada }}">
+                            <div class="pointer table-cell hidable" e-text="{{ buy.DataEntrada }}">
                                 Loading...</div>
-                            <div class="pointer table-cell hidable" e-content="{{ buy.DataValidade || 'N/A' }}">
+                            <div class="pointer table-cell hidable" e-text="{{ buy.DataValidade || 'N/A' }}">
                                 Loading... </div>
                             <div class="table-cell" style="flex: .5;">
                                 <span class="remove-line">
@@ -150,10 +150,10 @@
                         on:add="markActive(event.currentTarget, product)">
                         <div class="cover" e-style="background-image: url({{ selectOneImage(product) }});"></div>
                         <div class="description">
-                            <span class="main" e-content="{{ product.nome }}">Loading...</span>
-                            <span class="detail1" e-content="{{ product.precoUnitario }} Kz">Loading...</span>
+                            <span class="main" e-text="{{ product.nome }}">Loading...</span>
+                            <span class="detail1" e-text="{{ product.precoUnitario }} Kz">Loading...</span>
                             <span class="detail2"
-                                e-content="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
+                                e-text="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
                         </div>
                         <div class="action-area">
                             <span class="area center">

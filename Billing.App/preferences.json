@@ -1,1 +1,14 @@
-{"Admin":{"messagePopup":true,"notificationPopup":true,"cashBoxOpenCloseConfirmation":true,"darkMode":true}}
+{
+  "Admin": {
+    "messagePopup": true,
+    "notificationPopup": true,
+    "cashBoxOpenCloseConfirmation": true,
+    "darkMode": false
+  },
+  "Afonso.Matumona": {
+    "messagePopup": true,
+    "notificationPopup": true,
+    "cashBoxOpenCloseConfirmation": false,
+    "darkMode": true
+  }
+}

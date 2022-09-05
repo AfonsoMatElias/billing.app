@@ -82,7 +82,7 @@ namespace Billing.App.Handlers
 
 			await Task.FromResult(0);
 		}
-		
+
 		public async Task RemoveUser(string user)
 		{
 			// Getting user preferences
@@ -91,7 +91,7 @@ namespace Billing.App.Handlers
 			// Checking if exists
 			if (pref == null)
 				return;
-			
+
 			this.data.Remove(user);
 
 			await Task.FromResult(0);
@@ -100,7 +100,12 @@ namespace Billing.App.Handlers
 		public async Task Save()
 		{
 			// Saving all the changes
-			await File.WriteAllTextAsync(this.path, JsonConvert.SerializeObject(this.data));
+			await File.WriteAllTextAsync(this.path,
+				JsonConvert.SerializeObject(
+					this.data,
+					Formatting.Indented
+				)
+			);
 		}
 	}
 }

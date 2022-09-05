@@ -22,7 +22,7 @@
                     <label>Regime</label>
                     <select>
                         <option value="" selected>Seleccione um Regime</option>
-                        <option e-req="item of Regime" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                        <option e-req="item of Regime" e-value="{{ item.id }}" e-text="{{ item.nome }}">
                             Loading...</option>
                     </select>
                 </div>
@@ -64,14 +64,8 @@
                         type: 'success',
                         message: 'Registro Criado',
                         run: function () {
-                            bouer.routing.navegate("/settings/apps");
+                            bouer.$routing.navigate("/settings/apps");
                         }
-                    });
-                })
-                .catch(function (error) {
-                    notify({
-                        type: 'error',
-                        message: error.message || error
                     });
                 })
                 .finally(function () {

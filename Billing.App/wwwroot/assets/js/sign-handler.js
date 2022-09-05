@@ -45,12 +45,6 @@ function signHandler() {
                     sessionStorage.token = response.data.type + ' ' + response.data.token;
                     window.location.href = '/';
                 })
-                .catch(function (error) {
-                    notify({
-                        type: 'error',
-                        message: error.message
-                    });
-                })
                 .finally(function () {
                     addOrRemSpinner(btn, true);
                 });

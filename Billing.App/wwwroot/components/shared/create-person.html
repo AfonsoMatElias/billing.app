@@ -11,8 +11,7 @@
                     <input type="file" name="Imagem" id="image" accept="image/gif, image/jpeg, image/png, image/jpg"
                         class="hide-it" />
                     <div class="customer image">
-                        <span title="Clique para alterar a imagem"
-                            class="icon-type center-icon fa fa-camera"></span>
+                        <span title="Clique para alterar a imagem" class="icon-type center-icon fa fa-camera"></span>
                     </div>
                     <div class="description">
                         <p> Carregue uma imagem para o {{ person }}.</p>
@@ -44,7 +43,7 @@
                         <label>Genero</label>
                         <select name="GeneroId" validate="select">
                             <option selected disabled value="1">None</option>
-                            <option e-req="item of Genero" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                            <option e-req="item of Genero" e-value="{{ item.id }}" e-text="{{ item.nome }}">
                                 Loading...</option>
                         </select>
                     </div>
@@ -53,7 +52,7 @@
                         <label>Titulo</label>
                         <select name="TituloId" validate="select">
                             <option selected disabled value="">None</option>
-                            <option e-req="item of Titulo" e-value="{{ item.id }}" e-content="{{ item.nome }}">
+                            <option e-req="item of Titulo" e-value="{{ item.id }}" e-text="{{ item.nome }}">
                                 Loading...</option>
                         </select>
                     </div>
@@ -109,41 +108,42 @@
     var component = this;
     var web = bouer.deps['web'];
 
+    var formSumission = this.data.localSubmit;
 
+    this.export({
+        submit: function (evt) {
+            formSumission(function (url, redirectTo) {
+                var btn = evt.currentTarget;
 
-    // Exposing the data that will be used in the mais 
-    bouer.$wait.set('shared-person-methods', {
-        submitPerson: function (evt, url, redirectTo) {
-            var btn = evt.currentTarget;
+                var form = aboveMe(evt.currentTarget, '[post-form]');
+                var formObj = bouer.toJsObj(form);
 
-            var form = aboveMe(evt.currentTarget, '[post-form]');
-            var formObj = bouer.toJsObj(form);
+                if (hasSpinner(btn)) return;
+                addOrRemSpinner(btn);
 
-            if (hasSpinner(btn)) return;
-            addOrRemSpinner(btn);
+                var formData = new FormData();
 
-            var formData = new FormData();
+                formData.append("json", JSON.stringify(formObj));
+                for (var file of component.el.querySelector('#image').files) {
+                    formData.append("file", file);
+                }
 
-            formData.append("json", JSON.stringify(formObj));
-            for (var file of component.el.querySelector('#image').files) {
-                formData.append("file", file);
-            }
+                web(url, 'post', formData, {
+                    'Authorization': sessionStorage.token || undefined
+                }).then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Efectuado'
+                    });
 
-            web(url, 'post', formData, {
-                'Authorization': sessionStorage.token || undefined
-            }).then(function (data) {
-                notify({
-                    type: 'success',
-                    message: 'Registro Efectuado'
-                });
-
-                // Waiting 2s to got the next page
-                setTimeout(function () {
-                    bouer.routing.navegate(redirectTo);
-                }, 500);
-            }).finally(function () {
-                addOrRemSpinner(btn, true);
-            })
+                    // Waiting 2s to got the next page
+                    setTimeout(function () {
+                        bouer.$routing.navigate(redirectTo);
+                    }, 500);
+                }).finally(function () {
+                    addOrRemSpinner(btn, true);
+                })
+            });
         }
     });
 </script>

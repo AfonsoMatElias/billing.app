@@ -334,6 +334,5 @@ function AppComponents() {
 			title: "404 Page Not Found",
 			isNotFound: true,
 		},
-
 	]
 }

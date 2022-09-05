@@ -5,7 +5,6 @@ namespace Billing.Service.Models
 {
     public class Pessoa : Base.Properties
     {
-        public string ProfileImageUrl { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Identificacao { get; set; }
 
@@ -18,6 +17,7 @@ namespace Billing.Service.Models
         public virtual Genero Genero { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual Entidade Entidade { get; set; }
+        public virtual PessoaImagem PessoaImagem { get; set; }
         public virtual ICollection<Contacto> Contactos { get; set; }
     }
 }

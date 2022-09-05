@@ -40,7 +40,7 @@
                         <span on:click="showPanel(event, 'left')" class="reduced-screen-bottom center-icon fa fa-comments chat-panel"></span>
                     </div>
                     <div class="middle">
-                        <span class="user-presentation" e-content="{{ user.name }}"></span>
+                        <span class="user-presentation" e-text="{{ user.name }}"></span>
                     </div>
                     <div class="right">
                         <span on:click="showPanel(event, 'right')" class="reduced-screen-bottom center-icon fa fa-users users-panel"></span>
@@ -61,9 +61,9 @@
                             class="message-bubble-container">
                             <div class="message-bubble">
                                 <div class="owner">
-                                    <span e-content="{{ getAchronym(item.usuarioToName) }}">##</span>
+                                    <span e-text="{{ getAchronym(item.usuarioToName) }}">##</span>
                                 </div>
-                                <div class="message" e-content="{{ item.content }}">
+                                <div class="message" e-text="{{ item.content }}">
                                     Loading...
                                 </div>
                             </div>
@@ -160,18 +160,18 @@
             establishment: 'Loja Central',
         },
         messages: [
-
-            // {
-            //     usuarioToName: 'Afonso Matumona',
-            //     usuarioToId: 2,
-            //     usuarioFromId: 1,
-            //     content: 'Fala aí, meu mano?'
-            // }, {
-            //     usuarioToName: 'Antonio Ferraz',
-            //     usuarioToId: 1,
-            //     usuarioFromId: 2,
-            //     content: 'Nas calmas, brozy. E aí?'
-            // }
+            {
+                usuarioToName: 'Afonso Matumona',
+                usuarioToId: 2,
+                usuarioFromId: 1,
+                content: 'Fala aí, meu mano?'
+            }, 
+            {
+                usuarioToName: 'Antonio Ferraz',
+                usuarioToId: 1,
+                usuarioFromId: 2,
+                content: 'Nas calmas, brozy. E aí?'
+            }
         ],
 
         // Methods

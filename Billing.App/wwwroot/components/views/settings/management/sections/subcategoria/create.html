@@ -16,7 +16,7 @@
                     <label>Categoria</label>
                     <select name="CategoriaId">
                         <option value="" selected>Seleccione a Categoria</option>
-                        <option e-req="item of Categoria" e-content="{{ item.nome }}" value="{{ item.id }}">Loading...</option>
+                        <option e-req="item of Categoria" e-text="{{ item.nome }}" value="{{ item.id }}">Loading...</option>
                     </select>
                 </div>
             </div>
@@ -38,7 +38,8 @@
     this.export({
         active: 'SubCategoria',
         submit: function (evt) {
-            bouer.$wait.get('setting-manag-methods').submitShared(evt, 'Subcategoria', '/settings/management/Subcategoria');
+            bouer.$wait.get('setting-manag-methods')
+                 .submitShared(evt, 'Subcategoria', '/settings/management/subcategoria');
         }
     });
 </script>

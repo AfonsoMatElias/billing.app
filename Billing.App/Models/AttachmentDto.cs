@@ -47,7 +47,7 @@ namespace Billing.App.Models
                 }
             }
 
-            if (modelResolver != null)
+            if (modelResolver != null && bytes != null)
                 modelResolver.Invoke(model, bytes, this.File);
 
             return model;
@@ -81,7 +81,7 @@ namespace Billing.App.Models
                 }).ToList();
             }
 
-            if (modelResolver != null)
+            if (modelResolver != null && files.Any())
                 modelResolver.Invoke(model, files, this.Files);
 
             return model;

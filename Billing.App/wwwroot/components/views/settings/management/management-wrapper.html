@@ -12,7 +12,7 @@
         <div e-for="menu of menus | order:asc:name" class="row" 
              e-class="{ 'mark-point': active == menu.name }">
             <a :href="{{ menu.url }}">
-                <p e-content="{{ menu.text }}">Menu Name</p>
+                <p e-text="{{ menu.text }}">Menu Name</p>
             </a>
         </div>
 
@@ -35,10 +35,13 @@
 
     this.on('loaded', function () {
         bouer.data.currentPage = 'Gestão de Dados';
-        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.settings-link'));
+        setTimeout(function () {
+            bouer.$routing.markActiveAnchor(bouer.el.querySelector('.settings-link'));
+        }, 100);
 
         bouer.$wait.set('setting-manag-methods', {
             submitShared: function (evt, route, redirectTo) {
+                debugger
                 var btn = evt.currentTarget;
                 var form = aboveMe(btn, 'form');
 
@@ -61,13 +64,13 @@
                 if (hasSpinner(btn)) return;
                 addOrRemSpinner(btn);
 
-                web(route, 'post', formData)
+                web(route, 'post', JSON.stringify(formData))
                     .then(function (data) {
                         notify({
                             type: 'success',
                             message: 'Registro Criado',
                             run: function () {
-                                bouer.routing.navegate(redirectTo);
+                                bouer.$routing.navigate(redirectTo);
                             }
                         });
                     })

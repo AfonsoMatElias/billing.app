@@ -10,7 +10,7 @@
             <select name="GerenteId">
                 <option value="" selected disabled>Selecione a opção</option>
                 <option e-req="item of regime" on:add="onRegimeAdded" e-value="{{ item.id }}"
-                    e-content="{{ item.usuario.pessoa.primeiroNome + ' ' + item.usuario.pessoa.ultimoNome }}">
+                    e-text="{{ item.usuario.pessoa.primeiroNome + ' ' + item.usuario.pessoa.ultimoNome }}">
                     Loading...
                 </option>
             </select>
@@ -47,12 +47,6 @@
                         run: function () {
                             location.reload();
                         }
-                    });
-                })
-                .catch(function (error) {
-                    notify({
-                        type: 'error',
-                        message: error.message || error
                     });
                 })
                 .finally(function () {

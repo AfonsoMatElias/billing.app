@@ -53,7 +53,9 @@
 
     this.on('loaded', function () {
         bouer.data.currentPage = 'Configurações';
-        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.settings-link'));
+        setTimeout(function () {
+            bouer.$routing.markActiveAnchor(bouer.el.querySelector('.settings-link'));
+        }, 100);
 
         bouer.$wait.set('setting-methods', {
             loadSectionShared: function (loadableComponents, name, data) {
