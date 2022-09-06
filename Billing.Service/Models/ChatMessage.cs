@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 namespace Billing.Service.Models
 {
-    public class ChatMessage
+    public class ChatMessage : Base.Properties
     {
-        public long Id { get; set; }
-        public DateTime CreatedAt { get; set; }
         public String Content { get; set; }
-        public bool? Visibility { get; set; } = true;
         public long ChatId { get; set; }
         public long UsuarioToId { get; set; }
         public long UsuarioFromId { get; set; }

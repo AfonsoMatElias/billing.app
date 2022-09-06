@@ -32,7 +32,9 @@ namespace Billing.Service.Services.Interfaces.Base
         ///<summary>
         /// Finds the first element having the id value
         ///</summary>
+        Task<TDto> FindById(long id, Func<IQueryable<TModel>, IQueryable<TModel>> queryable = null);
         Task<TDto> FindById(string uid, Func<IQueryable<TModel>, IQueryable<TModel>> queryable = null);
+
 
         ///<summary>
         /// Saves a model to the database
@@ -42,11 +44,13 @@ namespace Billing.Service.Services.Interfaces.Base
         ///<summary>
         /// Updates a model from the database
         ///</summary>
+        Task Update(long id, TDto model, bool isCommit = true);
         Task Update(string uid, TDto model, bool isCommit = true);
 
         ///<summary>
         /// Removes a model from the database
         ///</summary>
+        Task Remove(long id, bool isCommit = true);
         Task Remove(string uid, bool isCommit = true);
 
         ///<summary>
@@ -81,22 +85,22 @@ namespace Billing.Service.Services.Interfaces.Base
         ///<summary>
         /// Finds the first element having the id value
         ///</summary>
-        Task<TDtoResponse> FindById(string uid, Func<IQueryable<TModel>, IQueryable<TModel>> queryable = null);
+        Task<TDtoResponse> FindById(long id, Func<IQueryable<TModel>, IQueryable<TModel>> queryable = null);
 
         ///<summary>
         /// Saves a model to the database
         ///</summary>
-        Task Save(TDtoRequest model, bool isCommit = true);
+        Task Save(TDtoRequest model, bool autoCommit = true);
 
         ///<summary>
         /// Updates a model from the database
         ///</summary>
-        Task Update(string uid, TDtoRequest model, bool isCommit = true);
+        Task Update(long id, TDtoRequest model, bool autoCommit = true);
 
         ///<summary>
         /// Removes a model from the database
         ///</summary>
-        Task Remove(string uid, bool isCommit = true);
+        Task Remove(long id, bool autoCommit = true);
 
         ///<summary>
         /// Counts the number of elements in database

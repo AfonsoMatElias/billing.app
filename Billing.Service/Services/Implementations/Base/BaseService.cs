@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Billing.Service.Data;
@@ -39,6 +40,11 @@ namespace Billing.Service.Services.Implementations.Base
 		{
 			var isAnyAffectedRows = false;
 
+			Action<Exception> RaiseException = (Exception ex) =>
+			{
+				throw new AppException(ex.InnerException?.Message ?? ex.Message, false, (int)HttpStatusCode.InternalServerError);
+			};
+
 			try
 			{
 				isAnyAffectedRows = await mContext.SaveChangesAsync() > 0 ? true : false;
@@ -48,15 +54,18 @@ namespace Billing.Service.Services.Implementations.Base
 						(int)Microsoft.Extensions.Logging.LogLevel.Warning, "Server: ", "No rows affected"
 					);
 			}
-			// Catch the base Exceptions
+			catch (DbUpdateConcurrencyException ex)
+			{
+				RaiseException(ex);
+			}
 			catch (DbUpdateException ex)
 			{
-				throw new AppException(ex.InnerException?.Message ?? ex.Message);
+				RaiseException(ex);
 			}
 			// Catch the base Exceptions
 			catch (Exception ex)
 			{
-				throw new AppException(ex.InnerException?.Message ?? ex.Message);
+				RaiseException(ex);
 			}
 
 			return isAnyAffectedRows;
@@ -67,8 +76,8 @@ namespace Billing.Service.Services.Implementations.Base
 	/// A base class shared by all the app implementations
 	///</summary>    
 	public class BaseService<TModel, TDtoModel> : BaseService<TModel>
-		where TModel : Billing.Service.Models.Base.Properties, new()
-		where TDtoModel : Billing.Service.Dto.Base.Properties, new()
+		where TModel : Models.Base.Properties, new()
+		where TDtoModel : Dto.Base.Properties, new()
 	{
 		///<summary>
 		/// Default Controller
@@ -94,7 +103,9 @@ namespace Billing.Service.Services.Implementations.Base
 			if (queryable == null)
 				queryable = func => func;
 
-			var dbModels = await queryable(dbSet).ToListAsync();
+			var dbModels = await queryable(dbSet).Where(x => (bool)x.Visibility)
+				.OrderByDescending(x => x.CreatedAt)
+				.ToListAsync();
 
 			// Mapping and returning the values
 			return mapper.Map<List<TDtoModel>>(dbModels);
@@ -108,13 +119,28 @@ namespace Billing.Service.Services.Implementations.Base
 					Data = await this.FindAll(queryable)
 				};
 
-			var pagination = await dbSet.ToPagedListAsync(range, queryable);
+			var pagination = await dbSet.Where(x => (bool)x.Visibility)
+				.OrderByDescending(x => x.CreatedAt)
+				.ToPagedListAsync(range, queryable);
 
 			return new Pagination<TDtoModel>
 			{
 				Pageable = pagination.Pageable,
 				Data = mapper.Map<List<TDtoModel>>(pagination.Data)
 			};
+		}
+
+		public virtual async Task<TDtoModel> FindById(long id, Func<IQueryable<TModel>, IQueryable<TModel>> queryable = null)
+		{
+			// If the queryable argument is null define the default one
+			if (queryable == null)
+				queryable = func => func;
+
+			// Applying the queryable value and the predicate to the expression
+			var dbModel = await queryable(dbSet).FirstOrDefaultAsync(item => item.Id == id);
+
+			// Mapping and returning the values
+			return mapper.Map<TDtoModel>(dbModel);
 		}
 
 		public virtual async Task<TDtoModel> FindById(string uid, Func<IQueryable<TModel>, IQueryable<TModel>> queryable = null)
@@ -135,16 +161,41 @@ namespace Billing.Service.Services.Implementations.Base
 			return mapper.Map<TDtoModel>(dbModel);
 		}
 
-		public virtual async Task Save(TDtoModel model, bool isCommit = true)
+		public virtual async Task Save(TDtoModel model, bool autoCommit = true)
 		{
 			var dbModel = mapper.Map<TModel>(model);
 			// Adding the result to the local storage
 			await dbSet.AddAsync(dbModel);
 
-			if (!isCommit)
+			if (!autoCommit)
 				return;
 
-			await this.Commit();
+			await Commit();
+		}
+
+		public virtual async Task Update(long id, TDtoModel model, bool autoCommit = true)
+		{
+			var dbModel = await dbSet.FindAsync(id);
+
+			if (dbModel == null)
+				throw new AppException("Registrado não encontrado!", true, (int)HttpStatusCode.NotFound);
+
+			var fieldsToIgnore = typeof(Models.Base.Properties).GetProperties().Select(x => x.Name).ToHashSet();
+
+			// Db Model Update
+			dbModel.UpdateFrom(mapper.Map<TModel>(model), fieldsToIgnore);
+
+			// Setting the new date
+			dbModel.UpdatedAt = DateTime.Now;
+
+			// Updating the local db
+			dbSet.Update(dbModel);
+
+			if (!autoCommit)
+				return;
+
+			// Commting all the changes
+			await Commit();
 		}
 
 		public virtual async Task Update(string uid, TDtoModel model, bool isCommit = true)
@@ -153,15 +204,17 @@ namespace Billing.Service.Services.Implementations.Base
 			if (_uid == null)
 				throw new AppException("Identificador Inválido!", true);
 
-			var dbModel = await this.dbSet.FindAsync(_uid.Id);
+			var dbModel = await this.dbSet.FirstOrDefaultAsync(item =>
+				item.Id == _uid.Id && item.CreatedAt == _uid.CreatedAt);
 
 			if (dbModel == null)
 				throw new AppException("Registrado não encontrado!", true);
 
 			// DB Model Update
-			dbModel.UpdateFrom(mapper.Map<TModel>(model), new[] {
-				"id"
-			});
+			var fieldsToIgnore = typeof(Models.Base.Properties).GetProperties().Select(x => x.Name).ToHashSet();
+
+			// Db Model Update
+			dbModel.UpdateFrom(mapper.Map<TModel>(model), fieldsToIgnore);
 
 			dbSet.Update(dbModel);
 
@@ -171,13 +224,29 @@ namespace Billing.Service.Services.Implementations.Base
 			await this.Commit();
 		}
 
+		public virtual async Task Remove(long id, bool autoCommit = true)
+		{
+			var dbModel = await dbSet.FindAsync(id);
+
+			if (dbModel == null)
+				throw new AppException("Registrado não encontrado!", true, (int)HttpStatusCode.NotFound);
+
+			dbModel.Visibility = true;
+
+			if (!autoCommit)
+				return;
+
+			await Commit();
+		}
+
 		public virtual async Task Remove(string uid, bool isCommit = true)
 		{
 			var _uid = uid.FromUID();
 			if (_uid == null)
 				throw new AppException("Identificador Inválido!", true);
 
-			var dbModel = await this.dbSet.FindAsync(_uid.Id);
+			var dbModel = await this.dbSet.FirstOrDefaultAsync(item =>
+				item.Id == _uid.Id && item.CreatedAt == _uid.CreatedAt);
 
 			if (dbModel == null)
 				throw new AppException("Registrado não encontrado!", true);

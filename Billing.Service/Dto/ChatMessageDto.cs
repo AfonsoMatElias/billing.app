@@ -3,13 +3,10 @@ using System.Collections.Generic;
 
 namespace Billing.Service.Dto
 {
-    public class ChatMessageDto
+    public class ChatMessageDto : Base.Properties
     {
         public string uid { get; set; }
-        public long Id { get; set; }
-        public DateTime CreatedAt { get; set; }
         public String Content { get; set; }
-        public bool? Visibility { get; set; } = true;
         public long UsuarioToId { get; set; }
         public long UsuarioFromId { get; set; }
 

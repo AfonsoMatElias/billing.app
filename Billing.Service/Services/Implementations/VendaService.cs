@@ -15,72 +15,12 @@ using Billing.Service.Pageable;
 
 namespace Billing.Service.Services.Implementations
 {
-    public class VendaService : BaseService<Venda>, IVendaService
+    public class VendaService : BaseService<Venda, VendaDto>, IVendaService
     {
         public VendaService(DataContext mContext, IMapper mapper) : base(mapper, mContext) { }
 
-        public async Task<VendaDto> Find(Expression<Func<Venda, bool>> predicate, Func<IQueryable<Venda>, IQueryable<Venda>> queryable = null)
+        public override async Task Save(VendaDto model, bool isCommit = true)
         {
-            // If the queryable argument is null define the default one
-            if (queryable == null)
-                queryable = func => func;
-
-            // Applying the queryable value and the predicate to the expression
-            var dbModel = await queryable(dbSet).FirstOrDefaultAsync(predicate);
-
-            // Mapping and returning the value
-            return mapper.Map<VendaDto>(dbModel);
-        }
-
-        public async Task<List<VendaDto>> FindAll(Func<IQueryable<Venda>, IQueryable<Venda>> queryable = null)
-        {
-            // If the queryable argument is null define the default one
-            if (queryable == null)
-                queryable = func => func;
-
-            var dbModels = await queryable(dbSet).ToListAsync();
-
-            // Mapping and returning the values
-            return mapper.Map<List<VendaDto>>(dbModels);
-        }
-
-        public async Task<Pagination<VendaDto>> FindAll(PageRange range, Func<IQueryable<Venda>, IQueryable<Venda>> queryable = null)
-        {
-            if (range == null)
-                return new Pagination<VendaDto>
-                {
-                    Data = await this.FindAll(queryable)
-                };
-
-            var pagination = await dbSet.ToPagedListAsync(range, queryable);
-
-            return new Pagination<VendaDto>
-            {
-                Pageable = pagination.Pageable,
-                Data = mapper.Map<List<VendaDto>>(pagination.Data)
-            };
-        }
-
-        public async Task<VendaDto> FindById(string uid, Func<IQueryable<Venda>, IQueryable<Venda>> queryable = null)
-        {
-            // If the queryable argument is null define the default one
-            if (queryable == null)
-                queryable = func => func;
-
-            var _uid = uid.FromUID();
-            if (_uid == null)
-                throw new AppException("Identificador Inválido!", true);
-
-            // Applying the queryable value and the predicate to the expression
-            var dbModel = await queryable(dbSet).FirstOrDefaultAsync(item => item.Id == _uid.Id && item.CreatedAt == _uid.CreatedAt);
-
-            // Mapping and returning the values
-            return mapper.Map<VendaDto>(dbModel);
-        }
-
-        public async Task Save(VendaDto model, bool isCommit = true)
-        {
-
             if (model.Factura == null)
                 throw new AppException($"Modelo inválido, falta de factura.", true);
 
@@ -131,50 +71,5 @@ namespace Billing.Service.Services.Implementations
 
             await this.Commit();
         }
-
-        public async Task Update(string uid, VendaDto model, bool isCommit = true)
-        {
-            var _uid = uid.FromUID();
-            if (_uid == null)
-                throw new AppException("Identificador Inválido!", true);
-
-            var dbModel = await this.dbSet.FindAsync(_uid.Id);
-
-            if (dbModel == null)
-                throw new AppException("Registrado não encontrado!", true);
-
-            // DB Model Update
-            dbModel.UpdateFrom(mapper.Map<Venda>(model), new[] {
-                "id"
-            });
-
-            dbSet.Update(dbModel);
-
-            if (!isCommit)
-                return;
-
-            await this.Commit();
-        }
-
-        public async Task Remove(string uid, bool isCommit = true)
-        {
-            var _uid = uid.FromUID();
-            if (_uid == null)
-                throw new AppException("Identificador Inválido!", true);
-
-            var dbModel = await this.dbSet.FindAsync(_uid.Id);
-
-            if (dbModel == null)
-                throw new AppException("Registrado não encontrado!", true);
-
-            dbModel.Visibility = false;
-
-            if (!isCommit)
-                return;
-
-            await this.Commit();
-        }
-
-        public async Task<long> Count() => await dbSet.LongCountAsync();
     }
 }

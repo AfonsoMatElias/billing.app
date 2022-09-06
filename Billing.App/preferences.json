@@ -3,7 +3,7 @@
     "messagePopup": true,
     "notificationPopup": true,
     "cashBoxOpenCloseConfirmation": true,
-    "darkMode": false
+    "darkMode": true
   },
   "Afonso.Matumona": {
     "messagePopup": true,

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using AutoMapper;
 using Billing.Service.Pageable;
+using System.Net;
 
 namespace Billing.Service.Services.Implementations
 {
@@ -19,120 +20,179 @@ namespace Billing.Service.Services.Implementations
     {
         public UsuarioService(DataContext mContext, IMapper mapper) : base(mapper, mContext) { }
 
-        public async Task<UsuarioDto> Find(Expression<Func<Usuario, bool>> predicate, Func<IQueryable<Usuario>, IQueryable<Usuario>> queryable = null)
-        {
-            // If the queryable argument is null define the default one
-            if (queryable == null)
-                queryable = func => func;
+		public virtual async Task<UsuarioDto> Find(Expression<Func<Usuario, bool>> predicate, Func<IQueryable<Usuario>, IQueryable<Usuario>> queryable = null)
+		{
+			// If the queryable argument is null define the default one
+			if (queryable == null)
+				queryable = func => func;
 
-            // Applying the queryable value and the predicate to the expression
-            var dbModel = await queryable(dbSet).FirstOrDefaultAsync(predicate);
+			// Applying the queryable value and the predicate to the expression
+			var dbModel = await queryable(dbSet).FirstOrDefaultAsync(predicate);
 
-            // Mapping and returning the value
-            return mapper.Map<UsuarioDto>(dbModel);
-        }
+			// Mapping and returning the value
+			return mapper.Map<UsuarioDto>(dbModel);
+		}
 
-        public async Task<List<UsuarioDto>> FindAll(Func<IQueryable<Usuario>, IQueryable<Usuario>> queryable = null)
-        {
-            // If the queryable argument is null define the default one
-            if (queryable == null)
-                queryable = func => func;
+		public virtual async Task<List<UsuarioDto>> FindAll(Func<IQueryable<Usuario>, IQueryable<Usuario>> queryable = null)
+		{
+			// If the queryable argument is null define the default one
+			if (queryable == null)
+				queryable = func => func;
 
-            var dbModels = await queryable(dbSet).ToListAsync();
+			var dbModels = await queryable(dbSet).Where(x => (bool)x.Visibility)
+				.OrderByDescending(x => x.CreatedAt)
+				.ToListAsync();
 
-            // Mapping and returning the values
-            return mapper.Map<List<UsuarioDto>>(dbModels);
-        }
+			// Mapping and returning the values
+			return mapper.Map<List<UsuarioDto>>(dbModels);
+		}
 
-        public async Task<Pagination<UsuarioDto>> FindAll(PageRange range, Func<IQueryable<Usuario>, IQueryable<Usuario>> queryable = null)
-        {
-            if (range == null)
-                return new Pagination<UsuarioDto>
-                {
-                    Data = await this.FindAll(queryable)
-                };
+		public virtual async Task<Pagination<UsuarioDto>> FindAll(PageRange range, Func<IQueryable<Usuario>, IQueryable<Usuario>> queryable = null)
+		{
+			if (range == null)
+				return new Pagination<UsuarioDto>
+				{
+					Data = await this.FindAll(queryable)
+				};
 
-            var pagination = await dbSet.ToPagedListAsync(range, queryable);
+			var pagination = await dbSet.Where(x => (bool)x.Visibility)
+				.OrderByDescending(x => x.CreatedAt)
+				.ToPagedListAsync(range, queryable);
 
-            return new Pagination<UsuarioDto>
-            {
-                Pageable = pagination.Pageable,
-                Data = mapper.Map<List<UsuarioDto>>(pagination.Data)
-            };
-        }
+			return new Pagination<UsuarioDto>
+			{
+				Pageable = pagination.Pageable,
+				Data = mapper.Map<List<UsuarioDto>>(pagination.Data)
+			};
+		}
 
-        public async Task<UsuarioDto> FindById(string uid, Func<IQueryable<Usuario>, IQueryable<Usuario>> queryable = null)
-        {
-            // If the queryable argument is null define the default one
-            if (queryable == null)
-                queryable = func => func;
+		public virtual async Task<UsuarioDto> FindById(long id, Func<IQueryable<Usuario>, IQueryable<Usuario>> queryable = null)
+		{
+			// If the queryable argument is null define the default one
+			if (queryable == null)
+				queryable = func => func;
 
-            var _uid = uid.FromUID();
-            if(_uid == null)
-                throw new AppException("Identificador Inválido!", true);
+			// Applying the queryable value and the predicate to the expression
+			var dbModel = await queryable(dbSet).FirstOrDefaultAsync(item => item.Id == id);
 
-            // Applying the queryable value and the predicate to the expression
-            var dbModel = await queryable(dbSet).FirstOrDefaultAsync(item => item.Id == _uid.Id && item.CreatedAt == _uid.CreatedAt);
+			// Mapping and returning the values
+			return mapper.Map<UsuarioDto>(dbModel);
+		}
+		public virtual async Task<UsuarioDto> FindById(string uid, Func<IQueryable<Usuario>, IQueryable<Usuario>> queryable = null)
+		{
+			// If the queryable argument is null define the default one
+			if (queryable == null)
+				queryable = func => func;
 
-            // Mapping and returning the values
-            return mapper.Map<UsuarioDto>(dbModel);
-        }
+			var _uid = uid.FromUID();
+			if (_uid == null)
+				throw new AppException("Identificador Inválido!", true);
 
-        public async Task Save(UsuarioDto model, bool isCommit = true)
-        {
-            var dbModel = mapper.Map<Usuario>(model);
-            // Adding the result to the local storage
-            await dbSet.AddAsync(dbModel);
+			// Applying the queryable value and the predicate to the expression
+			var dbModel = await queryable(dbSet).FirstOrDefaultAsync(item =>
+				item.Id == _uid.Id && item.CreatedAt == _uid.CreatedAt);
 
-            if (!isCommit)
-                return;
+			// Mapping and returning the values
+			return mapper.Map<UsuarioDto>(dbModel);
+		}
 
-            await this.Commit();
-        }
 
-        public async Task Update(string uid, UsuarioDto model, bool isCommit = true)
-        {
-            var _uid = uid.FromUID();
-            if(_uid == null)
-                throw new AppException("Identificador Inválido!", true);
+		public virtual async Task Save(UsuarioDto model, bool autoCommit = true)
+		{
+			var dbModel = mapper.Map<Usuario>(model);
+			// Adding the result to the local storage
+			await dbSet.AddAsync(dbModel);
 
-            var dbModel = await this.dbSet.FindAsync(_uid.Id);
+			if (!autoCommit)
+				return;
 
-            if (dbModel == null)
-                throw new AppException("Registrado não encontrado!", true);
+			await Commit();
+		}
 
-            // DB Model Update
-            dbModel.UpdateFrom(mapper.Map<Usuario>(model), new[] {
-                "id"
-            });
+		public virtual async Task Update(long id, UsuarioDto model, bool autoCommit = true)
+		{
+			var dbModel = await dbSet.FindAsync(id);
 
-            dbSet.Update(dbModel);
+			if (dbModel == null)
+				throw new AppException("Registrado não encontrado!", true, (int)HttpStatusCode.NotFound);
 
-            if (!isCommit)
-                return;
+			var fieldsToIgnore = typeof(Models.Base.Properties).GetProperties().Select(x => x.Name).ToHashSet();
 
-            await this.Commit();
-        }
+			// Db Model Update
+			dbModel.UpdateFrom(mapper.Map<Usuario>(model), fieldsToIgnore);
 
-        public async Task Remove(string uid, bool isCommit = true)
-        {
-            var _uid = uid.FromUID();
-            if(_uid == null)
-                throw new AppException("Identificador Inválido!", true);
+			// Setting the new date
+			dbModel.UpdatedAt = DateTime.Now;
 
-            var dbModel = await this.dbSet.FindAsync(_uid.Id);
+			// Updating the local db
+			dbSet.Update(dbModel);
 
-            if (dbModel == null)
-                throw new AppException("Registrado não encontrado!", true);
+			if (!autoCommit)
+				return;
 
-            dbModel.Visibility = false;
+			// Commting all the changes
+			await Commit();
+		}
+		public virtual async Task Update(string uid, UsuarioDto model, bool isCommit = true)
+		{
+			var _uid = uid.FromUID();
+			if (_uid == null)
+				throw new AppException("Identificador Inválido!", true);
 
-            if (!isCommit)
-                return;
+			var dbModel = await this.dbSet.FirstOrDefaultAsync(item =>
+				item.Id == _uid.Id && item.CreatedAt == _uid.CreatedAt);
 
-            await this.Commit();
-        }
+			if (dbModel == null)
+				throw new AppException("Registrado não encontrado!", true);
 
-        public async Task<long> Count() => await dbSet.LongCountAsync();
+			// DB Model Update
+			var fieldsToIgnore = typeof(Models.Base.Properties).GetProperties().Select(x => x.Name).ToHashSet();
+
+			// Db Model Update
+			dbModel.UpdateFrom(mapper.Map<Usuario>(model), fieldsToIgnore);
+
+			dbSet.Update(dbModel);
+
+			if (!isCommit)
+				return;
+
+			await this.Commit();
+		}
+
+		public virtual async Task Remove(long id, bool autoCommit = true)
+		{
+			var dbModel = await dbSet.FindAsync(id);
+
+			if (dbModel == null)
+				throw new AppException("Registrado não encontrado!", true, (int)HttpStatusCode.NotFound);
+
+			dbModel.Visibility = true;
+
+			if (!autoCommit)
+				return;
+
+			await Commit();
+		}
+		public virtual async Task Remove(string uid, bool isCommit = true)
+		{
+			var _uid = uid.FromUID();
+			if (_uid == null)
+				throw new AppException("Identificador Inválido!", true);
+
+			var dbModel = await this.dbSet.FirstOrDefaultAsync(item =>
+				item.Id == _uid.Id && item.CreatedAt == _uid.CreatedAt);
+
+			if (dbModel == null)
+				throw new AppException("Registrado não encontrado!", true);
+
+			dbModel.Visibility = false;
+
+			if (!isCommit)
+				return;
+
+			await this.Commit();
+		}
+
+		public virtual async Task<long> Count() => await dbSet.LongCountAsync();
     }
 }
