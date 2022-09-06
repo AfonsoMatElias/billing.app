@@ -50,7 +50,7 @@ namespace Billing.Service.Services.Implementations
             var uIndentifier = Guid.NewGuid().ToString().Split("-").First();
 
             // Generating the Selling Reference
-            dbModel.Referencia = $"Ref:{uIndentifier}-{ DateTime.Now.ToString("yyMMdd") }";
+            dbModel.Referencia = $"REF:{uIndentifier}-{ DateTime.Now.ToString("yyMMdd") }";
 
             // Adding the Factura
             dbModel.Factura = new Factura
