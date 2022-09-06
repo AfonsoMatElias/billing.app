@@ -1,17 +1,13 @@
 using System;
 using System.Linq;
-using Billing.Shared;
 using Billing.Service.Dto;
 using Billing.Service.Data;
 using Billing.Service.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Billing.Service.Services.Implementations.Base;
 using Billing.Service.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using AutoMapper;
-using Billing.Service.Pageable;
 
 namespace Billing.Service.Services.Implementations
 {
@@ -22,7 +18,7 @@ namespace Billing.Service.Services.Implementations
         public override async Task Save(VendaDto model, bool isCommit = true)
         {
             if (model.Factura == null)
-                throw new AppException($"Modelo inválido, falta de factura.", true);
+                throw new AppException($"Modelo inválido, dados da factura em falta.", true);
 
             var tipoVenda = await mContext.TipoVenda.FirstOrDefaultAsync(x => x.Codigo == model.CodigoTipoVenda);
             var tipoFactura = await mContext.TipoFactura.FirstOrDefaultAsync(x => x.Codigo == model.Factura.CodigoTipoFactura);
@@ -39,7 +35,9 @@ namespace Billing.Service.Services.Implementations
             {
                 var lastCompra = await mContext.Compra
                                                .Include(x => x.Produto)
-                                               .FirstOrDefaultAsync(x => x.ProdutoId == item.ProdutoId && x.IsActiva);
+                                               .FirstOrDefaultAsync(
+                                                    x => x.ProdutoId == item.ProdutoId && x.IsActiva
+                                                );
 
                 var stock = lastCompra.Quantidade;
 
