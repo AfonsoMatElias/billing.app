@@ -9,23 +9,6 @@ namespace Billing.Service.Extensions
 {
     public static class DbContextExtensions
     {
-        public static async Task ExecuteAsync(this DbContext context, string sql, Action<System.Data.Common.DbDataReader> action = null)
-        {
-            using (var command = context.Database.GetDbConnection().CreateCommand())
-            {
-                command.CommandText = sql;
-                command.CommandTimeout = 3600;
-                context.Database.OpenConnection();
-                using (var reader = await command.ExecuteReaderAsync())
-                {
-                    if (action == null) return;
-
-                    while (await reader.ReadAsync())
-                        action.Invoke(reader);
-                }
-            }
-        }
-
         public static void Execute(this DbContext context, string sql, Action<System.Data.Common.DbDataReader> action = null)
         {
             using (var command = context.Database.GetDbConnection().CreateCommand())
@@ -38,6 +21,23 @@ namespace Billing.Service.Extensions
                     if (action == null) return;
 
                     while (reader.Read())
+                        action.Invoke(reader);
+                }
+            }
+        }
+        
+        public static async Task ExecuteAsync(this DbContext context, string sql, Action<System.Data.Common.DbDataReader> action = null)
+        {
+            using (var command = context.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = sql;
+                command.CommandTimeout = 3600;
+                context.Database.OpenConnection();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (action == null) return;
+
+                    while (await reader.ReadAsync())
                         action.Invoke(reader);
                 }
             }

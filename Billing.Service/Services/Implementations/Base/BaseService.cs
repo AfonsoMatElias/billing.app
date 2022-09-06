@@ -1,15 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
+using System.Linq;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using Billing.Service.Data;
-using Billing.Service.Models.Base;
 using Billing.Service.Pageable;
-using Billing.Shared;
 using Microsoft.EntityFrameworkCore;
+using Billing.Service.Services.Interfaces.Base;
+using AutoMapper;
 
 namespace Billing.Service.Services.Implementations.Base
 {
@@ -32,6 +31,8 @@ namespace Billing.Service.Services.Implementations.Base
 		protected IMapper mapper;
 		protected DataContext mContext;
 		protected DbSet<TModel> dbSet;
+
+		public virtual async Task<long> Count() => await dbSet.LongCountAsync();
 
 		///<summary>
 		/// Commits/Saves changes made to the database catching all the errors ocurred in the process
@@ -75,13 +76,13 @@ namespace Billing.Service.Services.Implementations.Base
 	///<summary>
 	/// A base class shared by all the app implementations
 	///</summary>    
-	public class BaseService<TModel, TDtoModel> : BaseService<TModel>
+	public class BaseService<TModel, TDtoModel> : BaseService<TModel>, IBaseService<TModel, TDtoModel>
 		where TModel : Models.Base.Properties, new()
 		where TDtoModel : Dto.Base.Properties, new()
 	{
 		///<summary>
 		/// Default Controller
-		///</summary>    
+		///</summary>
 		public BaseService(IMapper mapper, DataContext mContext) : base(mapper, mContext) { }
 
 		public virtual async Task<TDtoModel> Find(Expression<Func<TModel, bool>> predicate, Func<IQueryable<TModel>, IQueryable<TModel>> queryable = null)
@@ -258,7 +259,5 @@ namespace Billing.Service.Services.Implementations.Base
 
 			await this.Commit();
 		}
-
-		public virtual async Task<long> Count() => await dbSet.LongCountAsync();
 	}
 }
