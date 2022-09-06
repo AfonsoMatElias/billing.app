@@ -4,14 +4,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Billing.Service.Dto
 {
-    public class UsuarioDto
+    public class UsuarioDto : Base.Properties
     {
         public string uid { get; set; }
-        public bool? Visibility { get; set; } = true;
         public string Codigo { get; set; }
         public long? PessoaId { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
 
         public virtual PessoaDto Pessoa { get; set; }
         public virtual FuncionarioDto Funcionario { get; set; }
