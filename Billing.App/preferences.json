@@ -18,7 +18,7 @@
     "DarkMode": {
       "Name": "Modo Escuro",
       "Description": "Mudar o ambiente para o modo escuro dando um novo visual",
-      "Value": false
+      "Value": true
     }
   }
 }

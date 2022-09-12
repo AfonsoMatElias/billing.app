@@ -3809,6 +3809,7 @@
                 '@-webkit-keyframes loading { 100% { transform: translateX(100%); } }'
             ];
             forEach(rules, function (rule) { return _this.style.sheet.insertRule(rule); });
+            this.style.innerText = rules.join(' ');
         };
         Skeleton.prototype.insertItems = function (node) {
             var parentNode = node.parentElement || node.parentNode;

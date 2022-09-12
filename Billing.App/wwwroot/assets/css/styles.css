@@ -109,7 +109,7 @@ select {
     --color-ico: #65656b;
     --color-hover: #1e1f21;
     --color-input: #3a3b3c;
-    --color-separator: #212122;
+    --color-separator: #323233;
     --color-card: var(--color-primary);
     --color-very-light-gray: #171819;
     --color-disable: #151619;
@@ -2002,7 +2002,7 @@ button:active {
 }
 
 .calc {
-    margin: 4px 0;
+    margin: 12px 0;
 }
 
 .calc .calc-screen {
@@ -2011,7 +2011,7 @@ button:active {
     display: flex;
     flex-flow: column;
     height: 55px;
-    padding: 4px;
+    padding: 4px 0;
 }
 
 .calc .calc-screen .top h4 {
@@ -2027,8 +2027,9 @@ button:active {
 .calc .calc-screen .remain input {
     flex: 1;
     border: none;
-    font-size: 20pt;
+    font-size: 18pt;
     padding: 0 3px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .calc .calc-screen {
