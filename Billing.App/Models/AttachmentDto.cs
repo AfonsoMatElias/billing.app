@@ -38,7 +38,7 @@ namespace Billing.App.Models
                 });
 
             byte[] bytes = null;
-            if (this.File == null)
+            if (this.File != null)
             {
                 using (var ms = new System.IO.MemoryStream())
                 {
