@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "j2n+5LzEPlE/uKEWrHI0oAllsrE9wgSLxct4mRqzvYr2Yg+tjOEEAmd2AfiPw20cGi0X6crX0EXfGHqR80Zq2Q==",
+  "dgSpecHash": "rGfcHj9miSC5vSRJx/CakNjwuOl9FLLYaAZRaOQuDMLDq1f7HeCxRFVO6OYXXWn/Xu6Adz7LeBTs/b8FhB3+GA==",
   "success": true,
-  "projectFilePath": "/mnt/E64D00274CFFEFE3/dev/dotnet/billing.app/Billing.Reports/Billing.Reports.csproj",
+  "projectFilePath": "C:\\Users\\Administrador\\source\\repos\\billing.app\\Billing.Reports\\Billing.Reports.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
