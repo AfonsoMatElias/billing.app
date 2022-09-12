@@ -14,6 +14,9 @@ namespace Billing.Service.Dto
         public long TipoVendaId { get; internal set; }
         public string CodigoTipoVenda { get; set; }
         public bool? IsPausada { get; set; }
+
+        public virtual int TotalVendaItens { get; set; }
+        
         public virtual FacturaDto Factura { get; set; }
         public virtual FormaPagamentoDto FormaPagamento { get; set; }
         public virtual EntidadeDto Cliente { get; set; }
