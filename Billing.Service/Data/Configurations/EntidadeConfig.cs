@@ -40,13 +40,13 @@ namespace Billing.Service.Models
                     .WithMany(e => e.EntidadeEnderecoExpedocao)
                     .HasForeignKey(e => e.EnderecoExpedicaoId)
                     .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired();
+                    .IsRequired(false);
 
             builder.HasOne(e => e.EnderecoFacturacao)
                     .WithMany(e => e.EntidadeEnderecoFacturacao)
                     .HasForeignKey(e => e.EnderecoFacturacaoId)
                     .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired();
+                    .IsRequired(false);
         }
     }
 }
