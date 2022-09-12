@@ -1,14 +1,24 @@
 {
-  "Admin": {
-    "messagePopup": true,
-    "notificationPopup": true,
-    "cashBoxOpenCloseConfirmation": true,
-    "darkMode": false
-  },
   "Afonso.Matumona": {
-    "messagePopup": true,
-    "notificationPopup": true,
-    "cashBoxOpenCloseConfirmation": false,
-    "darkMode": false
+    "MessagePopup": {
+      "Name": "Popup de Mensagem",
+      "Description": "Mostrar popup quando receber uma mensagem",
+      "Value": true
+    },
+    "NotificationPopup": {
+      "Name": "Popup de Notificação",
+      "Description": "Mostrar popup quando receber uma notificação",
+      "Value": true
+    },
+    "cashBoxOpenCloseConfirmation": {
+      "Name": "Confirmar Abertura/Fecho do Caixa",
+      "Description": "Mostrar uma caixa de confirmação sempre que for Abrir/Fechar o caixa",
+      "Value": false
+    },
+    "DarkMode": {
+      "Name": "Modo Escuro",
+      "Description": "Mudar o ambiente para o modo escuro dando um novo visual",
+      "Value": false
+    }
   }
 }
