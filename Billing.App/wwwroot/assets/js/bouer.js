@@ -31,32 +31,28 @@
             for (var _i = 0; _i < arguments.length; _i++) {
                 content[_i] = arguments[_i];
             }
-            content.unshift(Logger.prefix);
-            console.log.apply(null, content);
+            console.log.apply(null, [Logger.prefix].concat(content));
         };
         Logger.error = function () {
             var content = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 content[_i] = arguments[_i];
             }
-            content.unshift(Logger.prefix);
-            console.error.apply(null, content);
+            console.error.apply(null, [Logger.prefix].concat(content));
         };
         Logger.warn = function () {
             var content = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 content[_i] = arguments[_i];
             }
-            content.unshift(Logger.prefix);
-            console.warn.apply(null, content);
+            console.warn.apply(null, [Logger.prefix].concat(content));
         };
         Logger.info = function () {
             var content = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 content[_i] = arguments[_i];
             }
-            content.unshift(Logger.prefix);
-            console.info.apply(null, content);
+            console.info.apply(null, [Logger.prefix].concat(content));
         };
         Logger.prefix = '[Bouer]';
         return Logger;
@@ -517,7 +513,6 @@
         };
         /**
          * Resolve and Retrieve the instance registered
-         * @param app the application
          * @param name the name of the service
          * @returns the instance of the class
          */
@@ -526,7 +521,6 @@
         };
         /**
          * Destroy an instance registered
-         * @param key the name of the class registered
          */
         ServiceProvider.prototype.clear = function () {
             return ServiceProvider.clear(this.app);
@@ -542,6 +536,11 @@
                     _a));
             services[name] = instance;
         };
+        /**
+         * Resolve and Retrieve the instance registered
+         * @param name the name of the service
+         * @returns the instance of the class
+         */
         ServiceProvider.get = function (app, name) {
             if (app.isDestroyed)
                 throw new Error('Application already disposed.');
@@ -550,9 +549,17 @@
                 throw new Error('Application not registered!');
             return services[name];
         };
+        /**
+         * Destroy an instance registered
+         * @param app the application
+         */
         ServiceProvider.clear = function (app) {
             return ServiceProvider.serviceCollection.delete(app);
         };
+        /**
+         * Generates a unique Id for the application
+         * @returns The next integer from the last one generated
+         */
         ServiceProvider.genId = function () {
             return ServiceProvider.bouerId++;
         };
@@ -636,6 +643,7 @@
                 number: 'valueAsNumber',
                 checkbox: 'checked',
                 radio: 'value',
+                contenteditable: 'textContent',
             };
             _this.BindingDirection = {
                 fromInputToData: 'fromInputToData',
@@ -748,7 +756,10 @@
             };
             var $BindTwoWay = function () {
                 var propertyNameToBind = '';
-                var binderTarget = ownerNode.type || ownerNode.localName;
+                var binderTarget = ownerNode.type;
+                if (ownerNode.hasAttribute('contenteditable'))
+                    binderTarget = 'contenteditable';
+                binderTarget = binderTarget || ownerNode.localName;
                 if (Constants.bind === originalName)
                     propertyNameToBind =
                         _this.DEFAULT_BINDER_PROPERTIES[binderTarget] || 'value';
@@ -770,7 +781,11 @@
                                 return (ownerNode.checked =
                                     ownerNode[propertyNameToBind] == value);
                             // Default Binding
-                            return (ownerNode[propertyNameToBind] = isObject(value) ? toStr(value) : isNull(value) ? '' : value);
+                            var _valueToSet = isObject(value) ? toStr(value) : isNull(value) ? '' : value;
+                            var _valueSet = ownerNode[propertyNameToBind];
+                            if (_valueToSet === _valueSet)
+                                return;
+                            return ownerNode[propertyNameToBind] = _valueToSet;
                         }
                         // Array Set
                         boundModelValue =
@@ -974,8 +989,7 @@
                 var indexOfThis = _this.reactive.watches.indexOf(_this);
                 if (indexOfThis !== -1)
                     _this.reactive.watches.splice(indexOfThis, 1);
-                if (_this.onDestroy)
-                    _this.onDestroy();
+                (_this.onDestroy || (function () { }))();
             };
             _this.reactive = reactive;
             _this.property = reactive.propName;
@@ -1210,14 +1224,14 @@
                 var attr = findAttribute(currentEl, ['e-if', 'e-else-if', 'e-else']);
                 if (!attr)
                     return "break";
-                var firstCondition = conditions[0]; // if it already got an if,
-                if (attr.name === 'e-if' && firstCondition && (attr.name === firstCondition.node.name))
+                var firstCondition = conditions[0]; // if it already got an 'if',
+                if (attr.name === 'e-if' && firstCondition && (attr.name === firstCondition.attr.name))
                     return "break";
                 if ((attr.nodeName !== 'e-else') && (trim(ifNullReturn(attr.nodeValue, '')) === ''))
                     return { value: Logger.error(this_1.errorMsgEmptyNode(attr)) };
                 if (this_1.delimiter.run(ifNullReturn(attr.nodeValue, '')).length !== 0)
                     return { value: Logger.error(this_1.errorMsgNodeValue(attr)) };
-                conditions.push({ node: attr, element: currentEl });
+                conditions.push({ attr: attr, node: currentEl });
                 if (attr.nodeName === ('e-else')) {
                     currentEl.removeAttribute(attr.nodeName);
                     return "break";
@@ -1233,7 +1247,7 @@
                     _this.evaluator.exec({
                         data: data,
                         code: attr.value,
-                        context: _this.context
+                        context: _this.context,
                     });
                 });
                 currentEl.removeAttribute(attr.nodeName);
@@ -1246,7 +1260,7 @@
                 if (state_1 === "break")
                     break;
             } while (currentEl = currentEl.nextElementSibling);
-            var isChainConnected = function () { return !isNull(Extend.array(conditions.map(function (x) { return x.element; }), comment).find(function (el) { return el.isConnected; })); };
+            var isChainConnected = function () { return !isNull(Extend.array(conditions.map(function (x) { return x.node; }), comment).find(function (el) { return el.isConnected; })); };
             forEach(reactives, function (item) {
                 _this.binder.binds.push({
                     // Binder is connected if at least one of the chain and the comment is still connected
@@ -1256,19 +1270,19 @@
             });
             (execute = function () {
                 forEach(conditions, function (chainItem) {
-                    if (!chainItem.element.parentElement)
+                    if (!chainItem.node.parentElement)
                         return;
                     if (comment.isConnected)
-                        container.removeChild(chainItem.element);
+                        container.removeChild(chainItem.node);
                     else
-                        container.replaceChild(comment, chainItem.element);
+                        container.replaceChild(comment, chainItem.node);
                 });
                 var conditionalExpression = conditions.map(function (item, index) {
-                    var $value = item.node.value;
-                    switch (item.node.name) {
-                        case Constants.if: return 'if(' + $value + '){ _cb(' + index + '); }';
-                        case Constants.elseif: return 'else if(' + $value + '){ _cb(' + index + '); }';
-                        case Constants.else: return 'else{ _cb(' + index + '); }';
+                    var $value = item.attr.value;
+                    switch (item.attr.name) {
+                        case Constants.if: return 'if(' + $value + '){ __cb(' + index + '); }';
+                        case Constants.elseif: return 'else if(' + $value + '){ __cb(' + index + '); }';
+                        case Constants.else: return 'else{ __cb(' + index + '); }';
                     }
                 }).join(' ');
                 _this.evaluator.exec({
@@ -1277,8 +1291,8 @@
                     code: conditionalExpression,
                     context: _this.context,
                     aditional: {
-                        _cb: function (chainIndex) {
-                            var element = conditions[chainIndex].element;
+                        __cb: function (chainIndex) {
+                            var element = conditions[chainIndex].node;
                             container.replaceChild(element, comment);
                             _this.compiler.compile({
                                 el: element,
@@ -1309,12 +1323,11 @@
                 onUpdate: function () { return execute(ownerNode); }
             });
             (execute = function (element) {
-                var value = _this.evaluator.exec({
+                element.style.display = _this.evaluator.exec({
                     data: data,
                     code: nodeValue,
                     context: _this.context,
-                });
-                element.style.display = value ? '' : 'none';
+                }) ? '' : 'none';
             })(ownerNode);
             ownerNode.removeAttribute(bindResult.node.nodeName);
         };
@@ -1323,6 +1336,8 @@
             var ownerNode = this.toOwnerNode(node);
             var container = ownerNode.parentElement;
             if (!container)
+                return;
+            if (ownerNode.hasAttribute('skeleton-cloned'))
                 return;
             var comment = $CreateComment();
             var nodeName = node.nodeName;
@@ -1378,7 +1393,7 @@
                     forEach(list, function (item) {
                         var isValid = false;
                         if (isNull(wKeys)) {
-                            isValid = toStr(item).includes(wValue);
+                            isValid = toStr(item).toLowerCase().includes(wValue.toLowerCase());
                         }
                         else {
                             for (var _i = 0, _a = wKeys.split(',').map(function (m) { return trim(m); }); _i < _a.length; _i++) {
@@ -1388,7 +1403,7 @@
                                     code: prop,
                                     context: _this.context
                                 });
-                                if (toStr(propValue).includes(wValue)) {
+                                if (toStr(propValue).toLowerCase().includes(wValue.toLowerCase())) {
                                     isValid = true;
                                     break;
                                 }
@@ -1897,6 +1912,8 @@
             if (!nodeValue.includes(' of ') && !nodeValue.includes(' as '))
                 return Logger.error(('Expected a valid “for” expression in “' + nodeName
                     + '” and got “' + nodeValue + '”.' + '\nValid: e-req="item of url".'));
+            if (ownerNode.hasAttribute('skeleton-cloned'))
+                return;
             var delimiters = this.delimiter.run(nodeValue);
             var localDataStore = {};
             var dataKey = (node.nodeName.split(':')[1] || '').replace(/\[|\]/g, '');
@@ -1914,6 +1931,10 @@
             };
             // Inserting the comment node
             container.insertBefore(comment, ownerNode);
+            var skeleton = this.serviceProvider.get('Skeleton');
+            // Only insert if the type is `of
+            if (nodeValue.includes(' of '))
+                skeleton.insertItems(ownerNode);
             if (delimiters.length !== 0)
                 binderConfig = this.binder.create({
                     data: data,
@@ -2024,10 +2045,11 @@
                         });
                     }
                     if (expObject.type === 'of') {
+                        skeleton.clearItems(ownerNode);
                         var resUniqueName = code(8, 'res');
                         var forDirectiveContent = expObject.expression.replace(expObject.path, resUniqueName);
                         var mData = Extend.obj((_a = {}, _a[resUniqueName] = response.data, _a), data);
-                        ownerNode.setAttribute(Constants.for, forDirectiveContent);
+                        ownerNode.setAttribute(Constants.for, Extend.array([forDirectiveContent], expObject.filters).join(' | '));
                         Prop.set(mData, resUniqueName, Prop.descriptor(response, 'data'));
                         return _this.compiler.compile({
                             el: ownerNode,
@@ -2155,11 +2177,19 @@
             return false;
         };
         Directive.prototype.skeleton = function (node) {
+            var _a;
             var nodeValue = trim(ifNullReturn(node.nodeValue, ''));
             if (nodeValue !== '')
                 return;
             var ownerNode = this.toOwnerNode(node);
             ownerNode.removeAttribute(node.nodeName);
+            var uid = ownerNode.getAttribute('skeleton-clone-code');
+            if (!uid)
+                return;
+            ownerNode.removeAttribute('skeleton-clone-code');
+            forEach([].slice.call((_a = this.bouer.el) === null || _a === void 0 ? void 0 : _a.querySelectorAll('[="' + uid + '"]')), function (el) {
+                (el.parentElement || el.parentNode).removeChild(el);
+            });
         };
         return Directive;
     }(Base));
@@ -2406,14 +2436,14 @@
             // Remove `[ ]` and `,` and return an array of the names provided
             var mNames = (options.names || '[name]').replace(/\[|\]/g, '').split(',');
             var mValues = (options.values || '[value]').replace(/\[|\]/g, '').split(',');
-            var getter = function (el, fieldName) {
+            var getValue = function (el, fieldName) {
                 if (fieldName in el)
                     return el[fieldName];
                 return el.getAttribute(fieldName) || el.innerText;
             };
             var tryGetValue = function (el) {
                 var val = undefined;
-                mValues.find(function (field) { return (val = getter(el, field)) ? true : false; });
+                mValues.find(function (field) { return (val = getValue(el, field)) ? true : false; });
                 return val;
             };
             var objBuilder = function (element) {
@@ -2432,19 +2462,21 @@
                         var propOldValue = builtObject[propName];
                         var isBuildAsArray = el.hasAttribute(Constants.array);
                         var value = tryGetValue(el);
-                        if (isBuildAsArray) {
-                            (propOldValue) ?
-                                // Add item to the array
-                                builtObject[propName] = Extend.array(propOldValue, value) :
-                                // Set the new value
-                                builtObject[propName] = [value];
-                        }
-                        else {
-                            (propOldValue) ?
-                                // Spread and add properties
-                                builtObject[propName] = Extend.array(propOldValue, value) :
-                                // Set the new value
-                                builtObject[propName] = value;
+                        if (value !== '') {
+                            if (isBuildAsArray) {
+                                (propOldValue) ?
+                                    // Add item to the array
+                                    builtObject[propName] = Extend.array(propOldValue, value) :
+                                    // Set the new value
+                                    builtObject[propName] = [value];
+                            }
+                            else {
+                                (propOldValue) ?
+                                    // Spread and add properties
+                                    builtObject[propName] = Extend.array(propOldValue, value) :
+                                    // Set the new value
+                                    builtObject[propName] = value;
+                            }
                         }
                         // Calling on set function
                         if (isFunction(onSet))
@@ -2461,7 +2493,7 @@
             var builds = toArray(element.querySelectorAll("[".concat(Constants.build, "]")));
             forEach(builds, function (buildElement) {
                 // Getting the e-build attr value
-                var buildPath = getter(buildElement, Constants.build);
+                var buildPath = getValue(buildElement, Constants.build);
                 var isBuildAsArray = buildElement.hasAttribute(Constants.array);
                 var builtObjValue = objBuilder(buildElement);
                 // If the object is empty (has all fields with `null` value)
@@ -2541,7 +2573,7 @@
                     urlPartsReversed_1.shift();
                 var urlPatternReversed = urlPattern.split('/').reverse();
                 forEach(urlPatternReversed, function (value, index) {
-                    var valueExec = RegExp('{([\\S\\s]*?)}').exec(value);
+                    var valueExec = RegExp('{([\\S\\s]*?)}', 'ig').exec(value);
                     if (Array.isArray(valueExec))
                         mParams[valueExec[1]] = urlPartsReversed_1[index];
                 });
@@ -2584,8 +2616,8 @@
             else {
                 _path = optionsOrPath;
             }
-            _this.name = _name;
-            _this.path = _path;
+            _this.name = _name || '';
+            _this.path = _path || '';
             _this.data = Reactive.transform({
                 context: _this,
                 data: _data || {}
@@ -2799,10 +2831,15 @@
                     component.name = componentName;
                 }
                 component.name = component.name.toLowerCase();
+                var parentRoute = '';
                 if (_this.components[component.name])
                     return Logger.warn('The component name “' + component.name + '” is already define, try changing the name.');
+                if (!isNull(parent)) {
+                    /** TODO: Inherit the parent info */
+                    parentRoute = parent.route || '';
+                }
                 if (!isNull(component.route)) { // Completing the route
-                    component.route = '/' + urlCombine((isNull(parent) ? '' : parent.route), component.route);
+                    component.route = '/' + urlCombine(parentRoute, component.route);
                 }
                 if (Array.isArray(component.children))
                     _this.prepare(component.children, component);
@@ -2864,7 +2901,7 @@
                             mComponents[$name] = component;
                     },
                     fail: function (error) {
-                        Logger.error('Failed to request <' + $name + '></' + $name + '> component with path “' +
+                        Logger.error('Failed to request <' + $name + '/> component with path “' +
                             component.path + '”.');
                         Logger.error(buildError(error));
                         _this.addEvent('failed', componentElement, component, _this.bouer).emit();
@@ -2955,7 +2992,7 @@
             if (!container)
                 return;
             if (isNull(component.template))
-                return Logger.error('The <' + $name + '></' + $name + '> component is not ready yet to be inserted.');
+                return Logger.error('The <' + $name + '/> component is not ready yet to be inserted.');
             var elementSlots = $CreateAnyEl('SlotContainer', function (el) {
                 el.innerHTML = componentElement.innerHTML;
                 componentElement.innerHTML = '';
@@ -2972,10 +3009,10 @@
                         htmlSnippet.removeChild(asset);
                     });
                     if (htmlSnippet.children.length === 0)
-                        return Logger.error(('The component <' + $name + '></' + $name + '> seems to be empty or it ' +
+                        return Logger.error(('The component <' + $name + '/> seems to be empty or it ' +
                             'has not a root element. Example: <div></div>, to be included.'));
                     if (htmlSnippet.children.length > 1)
-                        return Logger.error(('The component <' + $name + '></' + $name + '> seems to have multiple ' +
+                        return Logger.error(('The component <' + $name + '/> seems to have multiple ' +
                             'root element, it must have only one root.'));
                     component.el = htmlSnippet.children[0];
                 });
@@ -3049,7 +3086,7 @@
                         var attr = dataAttr;
                         if (_this.delimiter.run(attr.value).length !== 0) {
                             Logger.error(('The “data” attribute cannot contain delimiter, source element: ' +
-                                '<' + $name + '></' + $name + '>.'));
+                                '<' + $name + '/>.'));
                         }
                         else {
                             processDataAttr(attr);
@@ -3186,7 +3223,7 @@
                     });
                 }
                 catch (error) {
-                    Logger.error('Error in <' + $name + '></' + $name + '> component.');
+                    Logger.error('Error in <' + $name + '/> component.');
                     Logger.error(buildError(error));
                 }
             };
@@ -3229,7 +3266,7 @@
                 }).catch(function (error) {
                     error.stack = '';
                     Logger.error(('Error loading the <script src=\'' + url + '\'></script> in ' +
-                        '<' + $name + '></' + $name + '> component, remove it in order to be compiled.'));
+                        '<' + $name + '/> component, remove it in order to be compiled.'));
                     Logger.log(error);
                 });
             });
@@ -3307,8 +3344,7 @@
         Evaluator.prototype.execRaw = function (code, context) {
             // Executing the expression
             try {
-                Function('(function(){ ' + code + ' }).call(this)')
-                    .call(context || this.bouer);
+                Function(code).call(context || this.bouer);
             }
             catch (error) {
                 Logger.error(buildError(error));
@@ -3351,7 +3387,7 @@
             var nodeName = node.nodeName;
             if (isNull(ownerNode))
                 return Logger.error('Invalid ParentElement of “' + nodeName + '”');
-            // <button on:submit.once.stop="times++"></button>
+            // <button on:submit.once.stop="times++"/>
             var nodeValue = trim(ifNullReturn(node.nodeValue, ''));
             var eventNameWithModifiers = nodeName.substring(Constants.on.length);
             var allModifiers = eventNameWithModifiers.split('.');
@@ -3619,7 +3655,7 @@
             var page = this.toPage(navigatoTo);
             this.clear();
             if (!page)
-                return; // Page Not Found and NotFound Page Not Defined
+                return; // Page Not Found or Page Not Defined
             // If it's not found and the url matches .html do nothing
             if (!page && route.endsWith('.html'))
                 return;
@@ -3673,13 +3709,16 @@
             var anchors = appEl.querySelectorAll('a');
             if (isNull(route))
                 return;
+            // Removing the active mark
             forEach(this.activeAnchors, function (anchor) {
                 return anchor.classList.remove(className);
             });
+            // Removing the active mark
             forEach([].slice.call(appEl.querySelectorAll('a.' + className)), function (anchor) {
                 return anchor.classList.remove(className);
             });
             this.activeAnchors = [];
+            // Adding the className and storing all the active anchors
             forEach(toArray(anchors), function (anchor) {
                 if (anchor.href.split('?')[0] !== route.split('?')[0])
                     return;
@@ -3725,6 +3764,7 @@
             _this.defaultBackgroudColor = '#E2E2E2';
             _this.defaultWaveColor = '#ffffff5d';
             _this.identifier = 'bouer';
+            _this.numberOfItems = 1;
             _this.reset();
             _this.bouer = bouer;
             _this.style = $CreateEl('style', function (el) { return el.id = _this.identifier; }).build();
@@ -3748,6 +3788,7 @@
             if (color) {
                 this.backgroudColor = color.background || this.defaultBackgroudColor;
                 this.waveColor = color.wave || this.defaultWaveColor;
+                this.numberOfItems = color.numberOfItems || this.numberOfItems;
             }
             else {
                 this.reset();
@@ -3768,6 +3809,34 @@
                 '@-webkit-keyframes loading { 100% { transform: translateX(100%); } }'
             ];
             forEach(rules, function (rule) { return _this.style.sheet.insertRule(rule); });
+        };
+        Skeleton.prototype.insertItems = function (node) {
+            var parentNode = node.parentElement || node.parentNode;
+            var mNode = node;
+            if (parentNode == null)
+                return;
+            if (this.numberOfItems <= 1)
+                return;
+            if (!mNode.hasAttribute('e-skeleton') && isNull(mNode.querySelector('[e-skeleton]')))
+                return;
+            var uid = code(6);
+            node.setAttribute('skeleton-clone-code', uid);
+            for (var i = 0; i < (this.numberOfItems - 1); i++) {
+                var cloned = node.cloneNode(true);
+                cloned.setAttribute('skeleton-cloned', uid);
+                parentNode.insertBefore(cloned, node);
+            }
+        };
+        Skeleton.prototype.clearItems = function (node) {
+            var mNode = node;
+            var container = (node.parentElement || node.parentNode);
+            var uid = mNode.getAttribute('skeleton-clone-code');
+            if (!uid)
+                return;
+            mNode.removeAttribute('skeleton-clone-code');
+            forEach([].slice.call(container.querySelectorAll('[skeleton-cloned="' + uid + '"]')), function (node) {
+                container.removeChild(node);
+            });
         };
         Skeleton.prototype.clear = function (id) {
             id = (id ? ('="' + id + '"') : '');
@@ -3887,7 +3956,7 @@
             };
             _this_1.$wait = {
                 get: function (key) {
-                    if (key)
+                    if (!key)
                         return undefined;
                     var waitedData = dataStore.wait[key];
                     if (!waitedData)
@@ -4013,7 +4082,7 @@
             (options.config || {}).autoOffEvent = true;
             (options.config || {}).autoComponentDestroy = true;
             routing.init();
-            skeleton.init();
+            skeleton.init((options.config || {}).skeleton);
             binder.cleanup();
             eventHandler.cleanup();
             this.isInitialized = true;
@@ -4083,7 +4152,7 @@
                 ReactiveEvent.once('AfterGet', function (evt) {
                     evt.onemit = function (reactive) { return destination = reactive; };
                     var desc = Prop.descriptor(targetObject, key);
-                    if (desc)
+                    if (desc && isFunction(desc.get))
                         desc.get();
                 });
                 Prop.transfer(targetObject, inputData, key);
