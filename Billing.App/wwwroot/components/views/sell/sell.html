@@ -13,19 +13,19 @@
                         <button class="submit-type" on:click="submit(event, 'vpp', 'fpf')">PROFORMA</button>
                         <button class="next-type paused-selling">
                             <i class="fa fa-list-ol"></i>
-                            <a :href="/sell/paused">Vendas</a>
+                            <a :href="/sell/list">Vendas</a>
                         </button>
                     </div>
                 </div>
                 <div class="product-list product-card-container">
                     <div class="item" e-req="product of produto/withStock | where:findProduct:nome,codigo"
                         on:click="addProductToBusket(product)">
-                        <div class="cover" e-style="background-image: url({{ selectOneImage(product) }});"></div>
+                        <div class="cover" e-style="background-image: url({{ selectOneImage(product) }});" e-skeleton></div>
                         <div class="description">
-                            <span class="main" e-text="{{ product.nome }}">Loading...</span>
+                            <span class="main" e-text="{{ product.nome }}" e-skeleton>Loading...</span>
                             <span class="detail1" e-text="{{ product.precoUnitario }} Kz">Loading...</span>
                             <span class="detail2"
-                                e-text="Stock {{ (product.compras[0] || {}).quantidade || 0 }}">Loading...</span>
+                                e-text="Stock {{ (product.compras[0] || {}).quantidade || 0 }}" e-skeleton>Loading...</span>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="pointer table-cell">
                                 <span class="complex-cell editable descount">
-                                    <input type="number" e-bind="product.descount" value="0"><label>%</label>
+                                    <label>%</label><input style="text-align: left;" type="number" e-bind="product.descount" value="0">
                                 </span>
                             </div>
                             <div class="pointer table-cell"> {{ product.iva }} % </div>

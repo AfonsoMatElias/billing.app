@@ -7,15 +7,28 @@ using Newtonsoft.Json;
 
 namespace Billing.App.Handlers
 {
+	public class PreferenceItem
+	{
+		public string Name { get; set; }
+		public string Description { get; set; }
+		public object Value { get; set; }
+	}
+
 	public class PreferenceHandler
 	{
+		private Dictionary<string, Dictionary<string, PreferenceItem>> data = new Dictionary<string, Dictionary<string, PreferenceItem>>();
+		private string defaultStringPrefData = null;
 
-		private Dictionary<string, Dictionary<string, object>> data = new Dictionary<string, Dictionary<string, object>>();
 		private string path;
+		private string defaultPath;
 
 		public PreferenceHandler()
 		{
 			this.path = IoC.Configuration["Preferences"];
+			this.defaultPath = IoC.Configuration["DefaultPreferences"];
+
+			if (!File.Exists(this.defaultPath))
+				throw new AppException("Default Preferences file not found", false, 500);
 
 			// Create file if it does not exists
 			if (!File.Exists(path)) File.WriteAllText(path, "{}");
@@ -25,7 +38,7 @@ namespace Billing.App.Handlers
 
 			// Converting to the object
 			this.data = JsonConvert
-				.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(content);
+				.DeserializeObject<Dictionary<string, Dictionary<string, PreferenceItem>>>(content);
 		}
 
 		public bool HasPreferences(string user)
@@ -33,30 +46,26 @@ namespace Billing.App.Handlers
 			return this.GetUserPreferences(user) != null;
 		}
 
-		public Dictionary<string, object> InitPreferences(string user)
+		public Dictionary<string, PreferenceItem> InitPreferences(string user)
 		{
-			// Creating new preferences for the user
-			Dictionary<string, object> pref = new Dictionary<string, object>
-			{
-				{"messagePopup", true},
-				{"notificationPopup", true},
-				{"cashBoxOpenCloseConfirmation", false},
-				{"darkMode", false},
-			} as Dictionary<string, object>;
+			var newPreference = JsonConvert
+				.DeserializeObject<Dictionary<string, PreferenceItem>>(
+					File.ReadAllText(this.defaultPath)
+			);
 
 			// Adding to the object
-			this.data.TryAdd(user, pref);
+			this.data.TryAdd(user, newPreference);
 
-			return pref;
+			return newPreference;
 		}
 
-		private Dictionary<string, object> GetUserPreferences(string user)
+		private Dictionary<string, PreferenceItem> GetUserPreferences(string user)
 		{
 			// Getting the value from the storage
 			return this.data.GetValueOrDefault(user);
 		}
 
-		public async Task<Dictionary<string, object>> Get(string user)
+		public async Task<Dictionary<string, PreferenceItem>> Get(string user)
 		{
 			// Getting user preferences
 			var pref = this.GetUserPreferences(user);
@@ -78,7 +87,8 @@ namespace Billing.App.Handlers
 			}
 
 			// Setting the wanted value
-			pref[name] = Convert.ChangeType(value, pref[name].GetType());
+			var item = pref[name];
+			item.Value = Convert.ChangeType(value, item.Value.GetType());
 
 			await Task.FromResult(0);
 		}

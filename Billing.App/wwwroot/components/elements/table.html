@@ -4,7 +4,7 @@
             <div class="table-row flex-it">
                 <div class="search-field">
                     <span class="fa fa-search"></span>
-                    <input type="text" name="seacher" placeholder="Pesquisar por..." on:input="searchInput">
+                    <input type="text" name="seacher" placeholder="Pesquisar por..." e-bind="search" on:input="searchInput">
                 </div>
             </div>
         </div>
@@ -28,7 +28,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -38,6 +37,7 @@
     var bouer = this.bouer;
 
     this.export({
+        search: '',
         searchInput: function (evt) {
             if (!this.data.onSearch) return;
             this.data.onSearch(evt.target.value, evt.target);
@@ -117,6 +117,7 @@
     .app-table .table-body .table-row .table-cell {
         display: flex;
         align-items: center;
+        font-size: 11pt;
     }
 
     .app-table .table-body .table-row .table-cell:last-child {

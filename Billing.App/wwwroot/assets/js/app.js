@@ -83,25 +83,6 @@ var app = new Bouer("body", {
         },
         ],
 
-        // preferences
-        preferences: {
-            messagePopup: true,
-            notificationPopup: true,
-            cashBoxOpenCloseConfirmation: false,
-            darkMode: false,
-        },
-
-        application: {
-            token: '',
-            role: 'Perfil',
-            user: {
-                id: '',
-                nome: '',
-                userName: '',
-                user: {}
-            }
-        },
-
         // Methods
         SignOut: function () {
             this.data.application.token = '';
@@ -132,6 +113,18 @@ var app = new Bouer("body", {
     },
 
     globalData: {
+        application: {
+            token: '',
+            role: 'Perfil',
+            user: {
+                id: '',
+                nome: '',
+                userName: '',
+                user: {}
+            }
+        },
+        preferences: [],
+
         notify: notify,
         toDate: toDate,
         signOut: signOut,
@@ -149,6 +142,9 @@ var app = new Bouer("body", {
     config: {
         usehash: false,
         prefetch: true,
+        skeleton: {
+            numberOfItems: 5
+        }
     },
 
     beforeLoad: function () {
@@ -202,26 +198,6 @@ var app = new Bouer("body", {
             });
         });
 
-        this.watch(
-            "darkMode",
-            function (v) {
-                var dark = "dark-mode",
-                    light = "light-mode";
-                if (v) {
-                    document.documentElement.classList.replace(light, dark);
-                    bouer.$skeleton.set({
-                        backgroud: '#252628',
-                        wave: '#16171b'
-                    })
-                } else {
-                    document.documentElement.classList.replace(dark, light);
-                    bouer.$skeleton.set({})
-                }
-
-            },
-            this.data.preferences
-        );
-
         if (isInNoTokenRequiredPages) return;
 
         this.deps['web']('sign/account')
@@ -232,28 +208,47 @@ var app = new Bouer("body", {
                 delete data.preferences;
 
                 // Setting user data
-                bouer.set(data, bouer.data.application.user);
+                bouer.set(data, bouer.globalData.application.user);
 
-                // Setting preferences
-                bouer.set(preferences, bouer.data.preferences);
-
-                function addWatch(preferences, prefName) {
-                    bouer.watch(prefName, (v) => {
+                function addWatch(preference, prefName, bindKey) {
+                    bouer.watch(bindKey, (v) => {
                         bouer.deps['web']('preferences/' + prefName + '/?prefValue=' + v, 'PUT', {})
                             .then();
-                    }, preferences);
+                    }, preference);
                 }
 
                 // Updates uuser preferences in the server if it changes
-                var preferences = bouer.data.preferences;
                 for (var key of Object.keys(preferences)) {
-                    addWatch(preferences, key);
+                    var pref = preferences[key];
+
+                    pref.key = key;
+
+                    bouer.globalData.preferences.push(pref);
+                    addWatch(pref, key, 'value');
+
+                    if (key === 'DarkMode') {
+                        bouer.watch("value", function watchDarkModelValue (v) {
+                            var dark = "dark-mode",
+                                light = "light-mode";
+                            if (v) {
+                                document.documentElement.classList.replace(light, dark);
+                                bouer.$skeleton.set({
+                                    backgroud: '#252628',
+                                    wave: '#16171b'
+                                })
+                            } else {
+                                document.documentElement.classList.replace(dark, light);
+                                bouer.$skeleton.set({})
+                            }
+
+                        }, pref);
+                    }
                 }
             });
 
         var jwtObj = JSON.parse(atob(sessionStorage.token.split(' ')[1].split('.')[1]))
 
-        this.data.application.role = Array.isArray(jwtObj.role) ? jwtObj.role[0] : jwtObj.role;
+        this.globalData.application.role = Array.isArray(jwtObj.role) ? jwtObj.role[0] : jwtObj.role;
     },
     loaded: function () {
         if (typeof signHandler === 'function') signHandler.call(this);
@@ -528,5 +523,6 @@ function toCode(len) {
 }
 
 function tofullName(pessoa) {
+    if (!pessoa) return '';
     return [pessoa.primeiroNome, pessoa.ultimoNome].join(' ').trim()
 }

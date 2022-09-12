@@ -86,6 +86,9 @@ namespace Billing.App.Controllers.Api
 
 			var builtModel = model.Compile<PessoaDto>((model, fileBytes, fileForm) =>
 			{
+				if (fileBytes == null || fileForm == null)
+					return;
+
 				model.PessoaImagem = new PessoaImagemDto
 				{
 					Content = fileBytes,

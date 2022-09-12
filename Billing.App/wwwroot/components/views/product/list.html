@@ -9,7 +9,8 @@
     </slot>
     <slot slot="table-body">
         <div class="table-row flex-it" e-skeleton
-            e-for="item of dataList | where:search:nome,nomeSecundario,codigo,subCategoria.nome">
+            e-req="item of produto?page={{navControl.page}}&size={{navControl.size}} | where:search:nome,nomeSecundario,codigo,subCategoria.nome"
+            on:request="onRequest" on:response="onResponse">
             <div class="card-cover"></div>
             <div class="pointer table-cell">
                 <a :href="/products/view/{{ item.uid }}" e-text="{{ item.nome }}"> Loading... </a>
@@ -41,27 +42,6 @@
 <script>
     var bouer = this.bouer;
     var component = this;
-    var getData = (function (control, searcher) {
-        getPartialData.call(bouer, {
-            url: 'Produto',
-            search: this.data.search,
-            controls: this.data.navControl = control,
-            beforeRequest: function () {
-                if (searcher) searcher.classList.add('loading-input');
-            },
-            onReponse: function (response) {
-                component.data.dataList = response.data;
-                component.data.navControl.pages = response.pagination.totalPages;
-            },
-            onFinish: function () {
-                if (searcher) searcher.classList.remove('loading-input');
-            }
-        });
-    }).bind(this);
-
-    this.on('mounted', function () {
-        getData(this.data.navControl);
-    });
 
     this.on('loaded', function () {
         // Marking the menu
@@ -71,7 +51,6 @@
 
     this.export({
         search: '',
-        dataList: [],
         navControl: {
             page: 1,
             size: 13,
@@ -79,15 +58,23 @@
         },
         onSearch: function (str, input) {
             component.data.search = str;
-            bouer.$skeleton.clear('data-loading')
             return; // TODO: Request in the server
-            getData({ page: 1, size: 13 }, input);
+            bouer.$skeleton.clear('data-loading');
         },
         onNextPage: function (control) {
-            getData(control);
+            component.data.navControl = control;
         },
         onPrevPage: function (control) {
-            getData(control);
+            component.data.navControl = control;
+        },
+        onRequest: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+        },
+        onResponse: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+            var response = evt.detail.response;
+            component.data.navControl.pages =
+                response.pagination.totalPages;
         }
     });
 </script>

@@ -8,23 +8,27 @@
         <div class="table-cell"> Estado </div>
     </slot>
     <slot slot="table-body">
-        <div class="table-row flex-it" e-skeleton
-            e-for="item of dataList | where:search:referencia,item.cliente.pessoa.primeiroNome,item.cliente.pessoa.ultimoNome">
+        <div class="table-row flex-it" e-skeleton 
+            e-req="item of venda?page={{navControl.page}}&size={{navControl.size}} 
+            | where:search:referencia,tipoVenda.nome"
+            on:request="onRequest" on:response="onResponse">
             <div class="card-cover"></div>
 
             <div class="pointer table-cell">
-                <a :href="/products/view/{{ item.uid }}" e-text="{{ item.referencia }}"> Loading... </a>
+                <a :href="/sell/view/{{ item.uid }}" e-text="{{ item.referencia }}"> Loading... </a>
             </div>
-            <div class="pointer table-cell" e-text="{{ tofullName(item.cliente.pessoa) }}"> Loading... </div>
+            <div class="pointer table-cell" e-text="{{ tofullName((item.cliente || {}).pessoa) || 'N/A' }}"> 
+                Loading...
+            </div>
             <div class="pointer table-cell" e-text="{{ item.tipoVenda.nome }}"> Loading... </div>
-            <div class="table-cell cell-2 hidable" e-text="{{ item.vendaItens.length }}"> Loading... </div>
+            <div class="table-cell cell-2 hidable" e-text="{{ item.totalVendaItens }}"> Loading... </div>
             <div class="table-cell hidable" e-text="{{ item.total }} Akz"> Loading... </div>
             <div class="table-cell">
                 <span e-text="{{ item.isPausada ? 'Em Pausa' : 'Concluída' }}"> Loading... </span>
                 <div>
                     <div class="item-options flex-it hide-it">
                         <div>
-                            <a :href="/products/view/{{ item.uid }}">
+                            <a :href="/sell/view/{{ item.uid }}">
                                 <button class="see">Ver</button>
                             </a>
                         </div>
@@ -42,27 +46,6 @@
 <script>
     var bouer = this.bouer;
     var component = this;
-    var getData = (function (control, searcher) {
-        getPartialData.call(bouer, {
-            url: 'Venda',
-            search: this.data.search,
-            controls: this.data.navControl = control,
-            beforeRequest: function () {
-                if (searcher) searcher.classList.add('loading-input');
-            },
-            onReponse: function (response) {
-                component.data.dataList = response.data;
-                component.data.navControl.pages = response.pagination.totalPages;
-            },
-            onFinish: function () {
-                if (searcher) searcher.classList.remove('loading-input');
-            }
-        });
-    }).bind(this);
-
-    this.on('mounted', function () {
-        getData(this.data.navControl);
-    });
 
     this.on('loaded', function () {
         // Marking the menu
@@ -72,7 +55,6 @@
 
     this.export({
         search: '',
-        dataList: [],
         navControl: {
             page: 1,
             size: 13,
@@ -80,15 +62,23 @@
         },
         onSearch: function (str, input) {
             component.data.search = str;
-            bouer.$skeleton.clear('data-loading')
             return; // TODO: Request in the server
-            getData({ page: 1, size: 13 }, input);
+            bouer.$skeleton.clear('data-loading');
         },
         onNextPage: function (control) {
-            getData(control);
+            component.data.navControl = control;
         },
         onPrevPage: function (control) {
-            getData(control);
+            component.data.navControl = control;
+        },
+        onRequest: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+        },
+        onResponse: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+            var response = evt.detail.response;
+            component.data.navControl.pages =
+                response.pagination.totalPages;
         }
     });
 </script>

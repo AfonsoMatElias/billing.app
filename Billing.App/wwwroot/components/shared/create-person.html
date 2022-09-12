@@ -8,10 +8,12 @@
                         <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
                     </div>
 
-                    <input type="file" name="Imagem" id="image" accept="image/gif, image/jpeg, image/png, image/jpg"
-                        class="hide-it" />
-                    <div class="customer image">
-                        <span title="Clique para alterar a imagem" class="icon-type center-icon fa fa-camera"></span>
+                    <div class="customer image" on:click="removeImage" title="Clique para remover a imagem">
+                        <input type="file" on:change="loadImage" name="Imagem" id="image" accept="image/gif, image/jpeg, image/png, image/jpg"
+                            class="hide-it" />
+                        <span title="Clique para alterar a imagem" 
+                            class="icon-type center-icon fa fa-camera"
+                            onclick="event.target.previousElementSibling.click()"></span>
                     </div>
                     <div class="description">
                         <p> Carregue uma imagem para o {{ person }}.</p>
@@ -144,6 +146,28 @@
                     addOrRemSpinner(btn, true);
                 })
             });
+        },
+        loadImage: function (evt) {
+            // Getting position to use in the UI
+            var inputFile = evt.target;
+            var imageContainer = inputFile.parentNode;
+            
+            var file = inputFile.files[0];
+            if (file == null) return;
+            
+            var reader = new FileReader();
+            reader.addEventListener('load', function (data) {
+                imageContainer.style.backgroundImage = 'url(' + data.target.result + ')';
+            });
+            reader.readAsDataURL(file);
+        },
+        removeImage: function (evt) {
+            var imageContainer = evt.target;
+            var inputFile = imageContainer.querySelector('input');
+            if (inputFile == null) return;
+
+            inputFile.value = '';
+            imageContainer.setAttribute('style', '');
         }
     });
 </script>

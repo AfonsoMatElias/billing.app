@@ -23,15 +23,14 @@
                         </div>
 
                         <div class="input-field">
-                            <label>Quantidade | <b style="color: var(--color-app);" name="ProdutoId"
-                                    field-value="{{ selectedProduct.id }}"
-                                    e-text="{{ selectedProduct.nome }}">?</b></label>
-                            <input type="number" name="Quantidade" validate="number" placeholder="Quantidade" />
+                            <label>Preço Unitário de Compra</label>
+                            <input type="text" name="PrecoUnitarioCompra" validate="number"
+                                placeholder="Preço de Compra" />
                         </div>
 
                         <div class="input-field">
-                            <label>Preço Unitário de Compra</label>
-                            <input type="text" name="PrecoUnitarioCompra" validate="number"
+                            <label>Preço Unitário de Venda</label>
+                            <input type="text" name="PrecoUnitarioVenda" validate="number"
                                 placeholder="Preço de Compra" />
                         </div>
 
@@ -51,9 +50,10 @@
                     </div>
                     <div class="right">
                         <div class="input-field">
-                            <label>Preço Unitário de Venda</label>
-                            <input type="text" name="PrecoUnitarioVenda" validate="number"
-                                placeholder="Preço de Compra" />
+                            <label>Quantidade | <b style="color: var(--color-app);" name="ProdutoId"
+                                    field-value="{{ selectedProduct.id }}"
+                                    e-text="{{ selectedProduct.nome }}">?</b></label>
+                            <input type="number" name="Quantidade" validate="number" placeholder="Quantidade" />
                         </div>
 
                         <div class="input-field">
@@ -250,7 +250,10 @@
                 .then(function (data) {
                     notify({
                         type: 'success',
-                        message: 'Registro Efectuado'
+                        message: 'Registro Efectuado',
+                        run: function () {
+                            component.data.buyList = [];
+                        }
                     });
 
                     var productList = bouer.$req.get('product-list');
@@ -306,6 +309,9 @@
 
             obj.EstabelecimentoId = this.data.application.user.estabelecimentoId;
 
+            if ((obj.SeccaoId || '').trim() === 'None')
+                delete obj.SeccaoId;
+
             // Addintg to the list
             this.data.buyList.push(obj);
 
@@ -313,7 +319,8 @@
             clearForm(form);
         },
         removeBuyItem: function (buy) {
-            this.data.buyList.remove(buy.$id);
+            var buyList = this.data.buyList;
+            buyList.splice(buyList.indexOf(buy), 1);
         },
         cancelBuy: function (form) {
             clearForm(form);
