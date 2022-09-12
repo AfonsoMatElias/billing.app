@@ -23,7 +23,7 @@
                     <div class="table-cell"> Estado </div>
                 </slot>
                 <slot slot="table-body">
-                    <div class="table-row flex-it" e-skeleton e-req="item of estabelecimento">
+                    <div class="table-row flex-it" e-skeleton e-req="item of estabelecimento | where:search:nome">
                         <div class="card-cover" e-text="{{ getAchronym(item.nome) }}"></div>
                         <div class="pointer table-cell" e-text="{{ item.nome }}"> Loading... </div>
                         <div class="pointer table-cell"

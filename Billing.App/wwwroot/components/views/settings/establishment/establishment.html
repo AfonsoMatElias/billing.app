@@ -96,7 +96,7 @@
     this.on('mounted', function (el) {
         var estabelecimento = component.data.establishment;
 
-        if (bouer.data.application.user.hasEstabelecimento == false) {
+        if (bouer.globalData.application.user.hasEstabelecimento == false) {
             var keys = Object.keys(estabelecimento);
             for (var k of keys) {
                 if (k == 'id') continue;

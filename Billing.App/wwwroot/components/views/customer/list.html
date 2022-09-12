@@ -9,7 +9,9 @@
     </slot>
     <slot slot="table-body">
         <div class="table-row flex-it" e-skeleton
-            e-for="item of dataList | where:search:pessoa.titulo.nome,pessoa.primeiroNome,pessoa.ultimoNome,pessoa.identificacao">
+            e-req="item of Entidade?codigoTipoEntidade=tec&page={{navControl.page}}&size={{navControl.size}} | 
+                where:search:pessoa.titulo.nome,pessoa.primeiroNome,pessoa.ultimoNome,pessoa.identificacao"
+                on:request="onRequest" on:response="onResponse">
             <div class="card-cover">
                 <span class="pointer shadow-it"> # </span>
             </div>
@@ -42,27 +44,6 @@
     var table;
     var bouer = this.bouer;
     var component = this;
-    var getData = (function (control, searcher) {
-        getPartialData.call(bouer, {
-            url: 'Entidade?codigoTipoEntidade=tec',
-            search: this.data.search,
-            controls: this.data.navControl = control,
-            beforeRequest: function () {
-                if (searcher) searcher.classList.add('loading-input');
-            },
-            onReponse: function (response) {
-                component.data.dataList = response.data;
-                component.data.navControl.pages = response.pagination.totalPages;
-            },
-            onFinish: function () {
-                if (searcher) searcher.classList.remove('loading-input');
-            }
-        });
-    }).bind(this);
-
-    this.on('mounted', function () {
-        getData(this.data.navControl);
-    });
 
     this.on('loaded', function (el) {
         bouer.data.currentPage = 'Lista de Clientes';
@@ -71,7 +52,6 @@
 
     this.export({
         search: '',
-        dataList: [],
         navControl: {
             page: 1,
             size: 13,
@@ -80,13 +60,22 @@
         onSearch: function (str, input) {
             component.data.search = str;
             return; // TODO: Request in the server
-            getData({ page: 1, size: 13 }, input);
+            bouer.$skeleton.clear('data-loading');
         },
         onNextPage: function (control) {
-            getData(control);
+            component.data.navControl = control;
         },
         onPrevPage: function (control) {
-            getData(control);
+            component.data.navControl = control;
+        },
+        onRequest: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+        },
+        onResponse: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+            var response = evt.detail.response;
+            component.data.navControl.pages =
+                response.pagination.totalPages;
         }
     });
 </script>
