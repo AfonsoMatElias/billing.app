@@ -91,17 +91,6 @@ var app = new Bouer("body", {
             darkMode: false,
         },
 
-        application: {
-            token: '',
-            role: 'Perfil',
-            user: {
-                id: '',
-                nome: '',
-                userName: '',
-                user: {}
-            }
-        },
-
         // Methods
         SignOut: function () {
             this.data.application.token = '';
@@ -132,6 +121,16 @@ var app = new Bouer("body", {
     },
 
     globalData: {
+        application: {
+            token: '',
+            role: 'Perfil',
+            user: {
+                id: '',
+                nome: '',
+                userName: '',
+                user: {}
+            }
+        },
         notify: notify,
         toDate: toDate,
         signOut: signOut,
@@ -149,6 +148,9 @@ var app = new Bouer("body", {
     config: {
         usehash: false,
         prefetch: true,
+        skeleton: {
+            numberOfItems: 5
+        }
     },
 
     beforeLoad: function () {
@@ -232,7 +234,7 @@ var app = new Bouer("body", {
                 delete data.preferences;
 
                 // Setting user data
-                bouer.set(data, bouer.data.application.user);
+                bouer.set(data, bouer.globalData.application.user);
 
                 // Setting preferences
                 bouer.set(preferences, bouer.data.preferences);
@@ -253,7 +255,7 @@ var app = new Bouer("body", {
 
         var jwtObj = JSON.parse(atob(sessionStorage.token.split(' ')[1].split('.')[1]))
 
-        this.data.application.role = Array.isArray(jwtObj.role) ? jwtObj.role[0] : jwtObj.role;
+        this.globalData.application.role = Array.isArray(jwtObj.role) ? jwtObj.role[0] : jwtObj.role;
     },
     loaded: function () {
         if (typeof signHandler === 'function') signHandler.call(this);
@@ -528,5 +530,6 @@ function toCode(len) {
 }
 
 function tofullName(pessoa) {
+    if (!pessoa) return '';
     return [pessoa.primeiroNome, pessoa.ultimoNome].join(' ').trim()
 }
