@@ -3,12 +3,12 @@
     "messagePopup": true,
     "notificationPopup": true,
     "cashBoxOpenCloseConfirmation": true,
-    "darkMode": true
+    "darkMode": false
   },
   "Afonso.Matumona": {
     "messagePopup": true,
     "notificationPopup": true,
     "cashBoxOpenCloseConfirmation": false,
-    "darkMode": true
+    "darkMode": false
   }
 }
