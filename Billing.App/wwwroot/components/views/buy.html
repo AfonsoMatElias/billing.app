@@ -147,7 +147,7 @@
 
                     <div class="item" e-req:[product-list]="product of produto/withStock | where:findProduct:nome,codigo"
                         on:click="chooseProduct(event.currentTarget, product)"
-                        on:add="markActive(event.currentTarget, product)">
+                        on:add="markActive(event.currentTarget, product)" e-skeleton>
                         <div class="cover" e-style="background-image: url({{ selectOneImage(product) }});"></div>
                         <div class="description">
                             <span class="main" e-text="{{ product.nome }}">Loading...</span>

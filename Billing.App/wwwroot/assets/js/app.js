@@ -227,21 +227,25 @@ var app = new Bouer("body", {
                     addWatch(pref, key, 'value');
 
                     if (key === 'DarkMode') {
-                        bouer.watch("value", function watchDarkModelValue (v) {
+                        // Defining and adding calling the function to apply the mode
+                        function setDarkMode(v) {
                             var dark = "dark-mode",
                                 light = "light-mode";
                             if (v) {
                                 document.documentElement.classList.replace(light, dark);
+                                
                                 bouer.$skeleton.set({
-                                    backgroud: '#252628',
+                                    background: '#3a3b3b',
                                     wave: '#16171b'
-                                })
+                                });
                             } else {
                                 document.documentElement.classList.replace(dark, light);
                                 bouer.$skeleton.set({})
                             }
+                        }
 
-                        }, pref);
+                        setDarkMode(pref.value);
+                        bouer.watch("value", setDarkMode, pref);
                     }
                 }
             });
