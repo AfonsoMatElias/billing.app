@@ -242,6 +242,10 @@ var app = new Bouer("body", {
                                 document.documentElement.classList.replace(dark, light);
                                 bouer.$skeleton.set({})
                             }
+
+                            bouer.emit('onDarkModeChange', {
+                                init: { detail: { value: v } }
+                            });
                         }
 
                         setDarkMode(pref.value);

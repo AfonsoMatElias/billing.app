@@ -99,6 +99,27 @@
                                 e-value="{{ isStock }}" name="IsStock">
                             <label for="stock-check">Controlar Stock do Produto?</label>
                         </div>
+
+                        <div class="input-field">
+                            <label>IVA</label>
+                            <input type="number" name="IVA" validate="text" placeholder="IVA" value="14" />
+                        </div>
+                        
+                        <div class="input-field">
+                            <label class="default-label block-it">Motivo Isenção</label>
+                            <div class="default-container" e-build="ProdutoMotivoIsencoes" e-array>
+        
+                                <span class="check-field" e-req="item of MotivoIsencao">
+                                    <span data="{ item: item, code: toCode(5) }" title="{{ item.descricao }}">
+                                        <input class="app-check" name="MotivoIsencaoId" id="check-{{ code }}"
+                                            value="{{ item.id }}" type="check">
+                                        <label for="check-{{ code }}"
+                                            e-text="{{ item.nome }}">Loading...</label>
+                                    </span>
+                                </span>
+        
+                            </div>
+                        </div>
                     </div>
 
                     <div class="check-field field-space" e-def="{ buyInfo: true }">

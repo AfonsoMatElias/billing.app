@@ -10,7 +10,7 @@ Billing.Shared/obj
 Billing.App/bin
 Billing.App/obj
 
-Billing.App/Attachments
+Billing.App/preferences.json
 
 Billing.Tests/bin
 Billing.Tests/obj
