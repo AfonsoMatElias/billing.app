@@ -29,7 +29,7 @@ namespace Billing.App.Controllers.Api
 		public async Task<Response> Get([FromQuery] PageableQueryParam pageableQuery,
 										[FromQuery] string codigoTipoEntidade)
 		{
-			var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size), queryable =>
+			var dbData = await service.FindAll(pageableQuery, queryable =>
 			{
 
 				// Including the default table

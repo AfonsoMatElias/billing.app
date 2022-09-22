@@ -28,7 +28,7 @@ namespace Billing.App.Controllers.Api
 		[HttpGet]
 		public async Task<Response> Get([FromQuery] PageableQueryParam pageableQuery, [FromQuery] string search)
 		{
-			var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size), queryable =>
+			var dbData = await service.FindAll(pageableQuery, queryable =>
 			{
 				queryable = queryable.Include(x => x.Produto).Where(x => x.IsActiva).OrderBy(x => x.Quantidade);
 

@@ -42,7 +42,7 @@ namespace Billing.App.Controllers.Api
 		{
 			try
 			{
-				var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size),
+				var dbData = await service.FindAll(pageableQuery,
 					queryable => queryable.Include(x => x.ProdutoImagens)
 										  .Include(x => x.SubCategoria));
 
@@ -68,7 +68,7 @@ namespace Billing.App.Controllers.Api
 		{
 			try
 			{
-				var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size),
+				var dbData = await service.FindAll(pageableQuery,
 					queryable => queryable.Include(x => x.ProdutoImagens)
 										  .Include(x => x.Compras.Where(y => y.IsActiva)));
 

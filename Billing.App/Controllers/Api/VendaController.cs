@@ -27,7 +27,7 @@ namespace Billing.App.Controllers.Api
 		[HttpGet]
 		public async Task<Response> Get([FromQuery] PageableQueryParam pageableQuery, bool ignoreVendaItens = true)
 		{
-			var dbData = await service.FindAll(Pagination.Of(pageableQuery.Page, pageableQuery.Size),
+			var dbData = await service.FindAll(pageableQuery,
 			queryable =>
 			{
 				return queryable.Include(x => x.Cliente.Pessoa)

@@ -114,15 +114,20 @@ namespace Billing.Service.Services.Implementations.Base
 
 		public virtual async Task<Pagination<TDtoModel>> FindAll(PageRange range, Func<IQueryable<TModel>, IQueryable<TModel>> queryable = null)
 		{
-			if (range == null)
+			if (!PageRange.IsValid(range))
 				return new Pagination<TDtoModel>
 				{
 					Data = await this.FindAll(queryable)
 				};
 
-			var pagination = await dbSet.Where(x => (bool)x.Visibility)
+			// If the queryable argument is null define the default one
+			if (queryable == null)
+				queryable = func => func;
+
+			var pagination = await queryable(dbSet)
 				.OrderByDescending(x => x.CreatedAt)
-				.ToPagedListAsync(range, queryable);
+				.ToPagedListAsync(range);
+
 
 			return new Pagination<TDtoModel>
 			{
