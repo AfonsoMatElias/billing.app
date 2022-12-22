@@ -4,7 +4,8 @@
             <div class="table-row flex-it">
                 <div class="search-field">
                     <span class="fa fa-search"></span>
-                    <input type="text" name="seacher" placeholder="Pesquisar por..." e-bind="search" on:input="searchInput">
+                    <input type="text" name="seacher" placeholder="Pesquisar por..." e-bind="search"
+                        on:input="searchInput">
                 </div>
             </div>
         </div>
@@ -259,5 +260,52 @@
 
     .pointer {
         cursor: pointer;
+    }
+
+    .table-cell .complex-cell.editable {
+        width: 46px;
+        height: 18px;
+        display: flex;
+        padding: 2px;
+        background-color: var(--color-border);
+        color: var(--color-white-text);
+        font-size: 10.5pt;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .table-cell .complex-cell.editable.simple {
+        display: flex;
+        justify-content: center;
+    }
+
+    .table-cell .complex-cell.editable.descount * {
+        color: var(--color-red);
+    }
+
+    .table-cell .complex-cell input {
+        color: var(--color-black-text);
+        text-align: center;
+        font-size: 10.5pt;
+        width: 25px;
+        height: auto;
+        border: none;
+        background-color: transparent;
+        -moz-appearance: textfield;
+    }
+
+    .table-cell .complex-cell input::-webkit-outer-spin-button,
+    .table-cell .complex-cell input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .table-cell .remove-line {
+        display: flex;
+        align-items: center;
+    }
+
+    .table-cell.warn {
+        color: var(--color-red);
     }
 </style>

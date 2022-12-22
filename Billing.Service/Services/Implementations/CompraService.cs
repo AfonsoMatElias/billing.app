@@ -11,74 +11,85 @@ using AutoMapper;
 
 namespace Billing.Service.Services.Implementations
 {
-    public class CompraService : BaseService<Compra, CompraDto>, ICompraService
-    {
-        public CompraService(DataContext mContext, IMapper mapper) : base(mapper, mContext) { }
+	public class CompraService : BaseService<Compra, CompraDto>, ICompraService
+	{
+		public CompraService(DataContext mContext, IMapper mapper) : base(mapper, mContext) { }
 
-        public override async Task Save(CompraDto model, bool isCommit = true)
-        {
-            var dbModel = mapper.Map<Compra>(model);
+		public override async Task Save(CompraDto model, bool isCommit = true)
+		{
+			var dbModel = mapper.Map<Compra>(model, action =>
+			{
+				action.AfterMap((src, dst) =>
+				{
+					dst.QuantidadeEntrada = dst.Quantidade;
+				});
+			});
 
-            var lastCompra = await dbSet.FirstOrDefaultAsync(x => x.ProdutoId == model.ProdutoId && x.IsActiva);
+			var lastCompra = await dbSet.FirstOrDefaultAsync(x => x.ProdutoId == model.ProdutoId && x.IsActiva);
 
-            if (lastCompra == null)
-                return;
+			if (lastCompra == null)
+				return;
 
-            var product = await mContext.Produto.FirstOrDefaultAsync(x => x.Id == model.ProdutoId);
+			var product = await mContext.Produto.FirstOrDefaultAsync(x => x.Id == model.ProdutoId);
 
-            // The last compra is not active anymore
-            lastCompra.IsActiva = false;
+			// The last compra is not active anymore
+			lastCompra.IsActiva = false;
 
-            // If there is any Quantidade at last compra, add it to the new one
-            if (lastCompra.Quantidade > 0)
-                dbModel.Quantidade += lastCompra.Quantidade;
+			// If there is any Quantidade at last compra, add it to the new one
+			if (lastCompra.Quantidade > 0)
+				dbModel.Quantidade += lastCompra.Quantidade;
 
-            // Updating the PrecoUnitario field 
-            product.PrecoUnitario = lastCompra.PrecoUnitarioVenda;
+			// Updating the PrecoUnitario field 
+			product.PrecoUnitario = lastCompra.PrecoUnitarioVenda;
 
-            dbModel.IsActiva = true;
+			dbModel.IsActiva = true;
 
-            // Adding the result to the local storage
-            await dbSet.AddAsync(dbModel);
+			// Adding the result to the local storage
+			await dbSet.AddAsync(dbModel);
 
-            if (!isCommit)
-                return;
+			if (!isCommit)
+				return;
 
-            await this.Commit();
-        }
+			await this.Commit();
+		}
 
-        public async Task SaveAll(CompraDto[] models)
-        {
-            foreach (var model in models)
-            {
-                var dbModel = mapper.Map<Compra>(model);
+		public async Task SaveAll(CompraDto[] models)
+		{
+			foreach (var model in models)
+			{
+				var dbModel = mapper.Map<Compra>(model, action =>
+				{
+					action.AfterMap((src, dst) =>
+					{
+						dst.QuantidadeEntrada = dst.Quantidade;
+					});
+				});
 
-                var lastCompra = await dbSet.FirstOrDefaultAsync(x => x.ProdutoId == model.ProdutoId && x.IsActiva);
+				var lastCompra = await dbSet.FirstOrDefaultAsync(x => x.ProdutoId == model.ProdutoId && x.IsActiva);
 
-                if (lastCompra != null) {
-                    var product = await mContext.Produto.FirstOrDefaultAsync(x => x.Id == model.ProdutoId);
+				if (lastCompra != null)
+				{
+					var product = await mContext.Produto.FirstOrDefaultAsync(x => x.Id == model.ProdutoId);
 
-                    // The last compra is not active anymore
-                    lastCompra.IsActiva = false;
+					// The last compra is not active anymore
+					lastCompra.IsActiva = false;
 
-                    dbModel.QuantidadeEntrada = dbModel.Quantidade;
+					// If there is any Quantidade at last compra, add it to the new one
+					if (lastCompra.Quantidade > 0)
+						dbModel.Quantidade += lastCompra.Quantidade;
 
-                    // If there is any Quantidade at last compra, add it to the new one
-                    if (lastCompra.Quantidade > 0)
-                        dbModel.Quantidade += lastCompra.Quantidade;
+					// Updating the PrecoUnitario field 
+					product.PrecoUnitario = lastCompra.PrecoUnitarioVenda;
+				}
 
-                    // Updating the PrecoUnitario field 
-                    product.PrecoUnitario = lastCompra.PrecoUnitarioVenda;
-                }
+				dbModel.IsActiva = true;
 
-                dbModel.IsActiva = true;
+				// Adding the result to the local storage
+				await dbSet.AddAsync(dbModel);
+			}
 
-                // Adding the result to the local storage
-                await dbSet.AddAsync(dbModel);
-            }
-
-            if (dbSet.Local.Any())
-                await this.Commit();
-        }
-    }
+			if (dbSet.Local.Any())
+				await this.Commit();
+		}
+	}
 }

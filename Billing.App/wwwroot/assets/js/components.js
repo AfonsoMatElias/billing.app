@@ -153,9 +153,16 @@ function AppComponents() {
 		// Buy
 		{
 			route: "/buy",
-			path: "/components/views/buy.html",
+			path: "/components/views/buy/buy.html",
 			title: "Compra",
 			// keepAlive: true,
+			children: [
+				{
+					route: "/list",
+					path: "/components/views/buy/list.html",
+					title: "Compras Efectuadas",
+				}
+			]
 		},
 
 		// Chat

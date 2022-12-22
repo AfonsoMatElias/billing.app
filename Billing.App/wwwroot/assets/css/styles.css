@@ -1581,7 +1581,7 @@ button:active {
     margin-right: 4px;
 }
 
-.sell-product .next-type.paused-selling * {
+.next-type.paused-selling * {
     color: #af772d;
 }
 
@@ -1795,50 +1795,6 @@ button:active {
     background-color: var(--color-row);
     margin: 6px 0;
 }
-
-.table-cell .complex-cell.editable {
-    width: 46px;
-    height: 18px;
-    display: flex;
-    padding: 2px;
-    background-color: var(--color-border);
-    color: var(--color-white-text);
-    font-size: 10.5pt;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.table-cell .complex-cell.editable.simple {
-    display: flex;
-    justify-content: center;
-}
-
-.table-cell .complex-cell.editable.descount * {
-    color: var(--color-red);
-}
-
-.table-cell .complex-cell input {
-    color: var(--color-black-text);
-    text-align: center;
-    font-size: 10.5pt;
-    width: 25px;
-    height: auto;
-    border: none;
-    background-color: transparent;
-    -moz-appearance: textfield;
-}
-
-.table-cell .complex-cell input::-webkit-outer-spin-button,
-.table-cell .complex-cell input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.table-cell .remove-line {
-    display: flex;
-    align-items: center;
-}
-
 
 /* Styling the scroll-bar */
 
@@ -3174,10 +3130,11 @@ button:active {
 }
 
 .stock-page .remain .product-stock-container .items-container .item-wrapper {
-    display: grid;
+    display: grid inline;
     grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
     grid-column-gap: 8px;
     grid-row-gap: 8px;
+    margin: 8px;
 }
 
 .product-stock-container .items-container .item {
@@ -3186,6 +3143,7 @@ button:active {
     border-radius: 4px;
     width: 164px;
     min-height: 185px;
+    max-height: 205px;
     display: inline-block;
 }
 

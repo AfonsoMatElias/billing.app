@@ -30,7 +30,11 @@ namespace Billing.App.Controllers.Api
 		{
 			var dbData = await service.FindAll(pageableQuery, queryable =>
 			{
-				queryable = queryable.Include(x => x.Produto).Where(x => x.IsActiva).OrderBy(x => x.Quantidade);
+				queryable = queryable.Include(x => x.Produto)
+									 .Include(x => x.Fornecedor)
+									 .Include(x => x.Seccao)
+									 .Where(x => x.IsActiva)
+									 .OrderBy(x => x.Quantidade);
 
 				if (string.IsNullOrEmpty(search))
 					return queryable;

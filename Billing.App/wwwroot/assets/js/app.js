@@ -406,13 +406,14 @@ function toHumanBirthday(data) {
     ];
 
     var day = date[2];
-    var month = monthMap[(date[1] * 1 - 1)];
+    var month = monthMap[(Number(date[1]) - 1)];
     var year = date[0];
 
     return day + ' de ' + month + ' de ' + year;
 }
 
 function toDate(jsonDate) {
+    if (!jsonDate) return 'N/A';
     return new Date(Date.parse(jsonDate))
         .toLocaleDateString('pt');
 }

@@ -80,6 +80,26 @@ namespace Billing.App.Mapping
 					TipoProduto = src.Produto.TipoProduto,
 					TemRetencaoFonte = src.Produto.TemRetencaoFonte,
 					TipoProdutoId = src.Produto.TipoProdutoId,
+				}))
+				.ForPath(dst => dst.Fornecedor, xps => xps.MapFrom(src => new Entidade {
+				 	Id = src.Fornecedor.Id,
+				 	CreatedAt = src.Fornecedor.CreatedAt,
+				 	EnderecoExpedicaoId = src.Fornecedor.EnderecoExpedicaoId,
+				 	EnderecoFacturacaoId = src.Fornecedor.EnderecoFacturacaoId,
+				 	NomeEmpresa = src.Fornecedor.NomeEmpresa,
+				 	NomePessoaContactoEmpresa = src.Fornecedor.NomePessoaContactoEmpresa,
+				 	PessoaId = src.Fornecedor.PessoaId,
+				 	TipoEntidadeId = src.Fornecedor.TipoEntidadeId,
+				 	UpdatedAt = src.Fornecedor.UpdatedAt,
+				 	Visibility = src.Fornecedor.Visibility,
+					Pessoa = new Pessoa {
+						Id = src.Fornecedor.Pessoa.Id,
+						CreatedAt = src.Fornecedor.Pessoa.CreatedAt,
+						DataNascimento = src.Fornecedor.Pessoa.DataNascimento,
+						Identificacao = src.Fornecedor.Pessoa.Identificacao,
+						PrimeiroNome = src.Fornecedor.Pessoa.PrimeiroNome,
+						UltimoNome = src.Fornecedor.Pessoa.UltimoNome,
+					}
 				}));
 			CreateMap<CompraDto, Compra>();
 
