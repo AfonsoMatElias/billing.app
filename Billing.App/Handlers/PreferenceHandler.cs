@@ -17,7 +17,6 @@ namespace Billing.App.Handlers
 	public class PreferenceHandler
 	{
 		private Dictionary<string, Dictionary<string, PreferenceItem>> data = new Dictionary<string, Dictionary<string, PreferenceItem>>();
-		private string defaultStringPrefData = null;
 
 		private string path;
 		private string defaultPath;

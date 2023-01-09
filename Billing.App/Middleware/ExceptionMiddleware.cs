@@ -22,11 +22,12 @@ namespace Billing.App.Middleware
 			catch (AppException ex)
 			{
 				context.Response.StatusCode = ex.StatusCode;
-				await context.Response.WriteAsJsonAsync(new Response
-				{
-					Errors = ex.Errors,
-					Message = ex.Message,
-				});
+				await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(
+					new Response
+					{
+						Errors = ex.Errors,
+						Message = ex.Message,
+					}));
 			}
 		}
 	}
