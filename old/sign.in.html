@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="light-mode">
+
+<head>
+	<base href="/">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="assets/css/styles.css" />
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+	<link rel="shortcut icon" href="assets/images/logo/ico.svg" type="image/x-icon">
+	<title>Sign In | Billing</title>
+</head>
+
+<body>
+	<!-- The Main app background -->
+	<div class="background">
+		<!-- The Center content of sign in page -->
+		<form id="signin-form" method="post">
+			<!-- The Top Content -->
+			<div class="sign-main-content card">
+				<div class="card-body">
+					<!-- Logo Section -->
+					<div class="top logo-container">
+						<div class="logo">
+							<a>
+								<img src="assets/images/logo/ico.svg" alt="Billing icon">
+								<label>Billing</label>
+							</a>
+						</div>
+					</div>
+
+					<div class="info-area center-text">
+						<p>Bem-vindo de volta!</p>
+						<p>Use a sua conta Billing para ter acesso.</p>
+					</div>
+
+					<!-- Text Section -->
+					<div class="input-area">
+						<div class="input-field">
+							<label>Email</label>
+							<input type="text" name="User" maxlength="45" placeholder="Digite seu Email"
+								validate="email" />
+						</div>
+
+						<div class="input-field">
+							<div class="label-area">
+								<label>Senha</label>
+							</div>
+							<div class="input-w-ico" data="{}">
+								<input e-def="{ isShown: false }" 
+										name="Password" 
+										e-type="{{ isShown ? 'text' : 'password' }}" 
+										maxlength="45" 
+										placeholder="Digite sua Senha"
+									validate="password" validate-unset />
+								<span class="center-icon fa {{ isShown ? 'fa-eye-slash': 'fa-eye' }}" 
+										on:click="isShown = !isShown"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="action-area section-space">
+						<div class="keep-signed area">
+							<span class="check-field">
+								<input class="app-checkbox" id="check-keep" disabled type="checkbox">
+								<label for="check-keep" on:click="event.currentTarget.previousElementSibling.checked = false;">
+									Manter a sessão
+								</label>
+							</span>
+						</div>
+						<div class="area">
+							<button class="primary-button">Entrar</button>
+						</div>
+					</div>
+
+					<div class="extra-area  section-space">
+						<div class="mob-center">
+							<a href="sign.recover.html">
+								<span class="fa fa-lock">&nbsp;&nbsp;</span><span>Esqueceu sua senha?</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- The Bottom content -->
+			<div class="hide-it sign-sec-content section-space">
+				<p> Quer efectuar um registro? <a href="sign.up.html">Clique aqui!</a></p>
+			</div>
+		</form>
+	</div>
+
+	<div class="popup-container"></div>
+	<script src="assets/js/bouer.js"></script>
+	<script src="assets/js/sign-handler.js"></script>
+	<script src="assets/js/components.js"></script>
+	<script src="assets/js/app.js"></script>
+	<script>
+		var first = localStorage.getItem('first-time');
+		if (!first) {
+			var el = document.querySelector('.info-area');
+			el.children[0].innerHTML = 'Bem-vindo!';
+			// el.children[1].innerHTML = 'Primeira vez aqui? Cria uma conta!';
+		}
+	</script>
+</body>
+
+</html>

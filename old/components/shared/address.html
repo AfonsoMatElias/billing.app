@@ -1,0 +1,44 @@
+<div find-me class="divider">
+    <div class="input-field">
+        <label>Pais</label>
+        <select name="PaisId" >
+            <option value="">None</option>
+            <option e-req="item of pais"  
+                    e-value="{{ item.id }}" 
+                    e-text="{{ item.nome }}">Loading...</option>
+        </select>
+    </div>
+
+    <div class="input-field">
+        <label>Cidade</label>
+        <input type="text" name="Cidade" placeholder="Digite a cidade" />
+    </div>
+
+    <div class="input-field">
+        <label>Rua</label>
+        <input type="text" name="Rua" placeholder="Digite a Nome da Rua" />
+    </div>
+
+    <div class="input-field">
+        <label>Porta</label>
+        <input type="text" name="Porta" placeholder="Digite o Numero da Porta" />
+    </div>
+
+    <div class="input-field">
+        <label>Detalhado</label>
+        <input type="text" name="Detalhado" placeholder="Digite Endereço Detalhado" />
+    </div>
+
+    <div class="input-field">
+        <label>CodigoPostal</label>
+        <input type="text" name="CodigoPostal" placeholder="Digite o Codigo Postal" />
+    </div>
+</div>
+<script>
+    var bouer = this.bouer;
+    this.on('mounted', function () {
+       
+        if (!('pais' in this.data))
+            bouer.set({ pais: [] }, this.data);
+    });
+</script>

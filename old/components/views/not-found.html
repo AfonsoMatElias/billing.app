@@ -1,0 +1,19 @@
+<div class="main-body not-found">
+    <div class="center card">
+        <div class="main-image"></div>
+        <div class="main-description">
+            <h2> Página não encontrada!</h2>
+            <p class="high-light"> A rota `<i class="app-color">{{ url }}</i>` não está disponível na aplicação! </p>
+        </div>
+    </div>
+</div>
+<script>
+    var bouer = this.bouer;
+    this.mounted = function (el) {
+        bouer.data.currentPage = '🤷‍♂️ 404';
+    }
+    this.export({
+        // Return the path
+        url: location.hash ? location.hash : location.pathname
+    })
+</script>

@@ -1,0 +1,173 @@
+<div class="card fit-content create-customer" post-form>
+    <div class="base-info">
+        <div class="content">
+            <div class="fit-content nice-scroll">
+                <!-- Photo -->
+                <div class="photo-field">
+                    <div class="back-button hide-it">
+                        <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
+                    </div>
+
+                    <div class="customer image" on:click="removeImage" title="Clique para remover a imagem">
+                        <input type="file" on:change="loadImage" name="Imagem" id="image" accept="image/gif, image/jpeg, image/png, image/jpg"
+                            class="hide-it" />
+                        <span title="Clique para alterar a imagem" 
+                            class="icon-type center-icon fa fa-camera"
+                            onclick="event.target.previousElementSibling.click()"></span>
+                    </div>
+                    <div class="description">
+                        <p> Carregue uma imagem para o {{ person }}.</p>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-field">
+                        <label>Identificação</label>
+                        <input type="text" name="Identificacao" validate="text"
+                            placeholder="Digite a sua Identificação" />
+                    </div>
+                </div>
+
+                <!-- Pessoa Singular -->
+                <div class="input-area">
+                    <div class="input-field">
+                        <label>Primeiro Nome</label>
+                        <input type="text" name="PrimeiroNome" validate="text"
+                            placeholder="Digite o seu Primeiro Nome" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Último Nome</label>
+                        <input type="text" name="UltimoNome" validate="text" placeholder="Digite o seu Último Nome" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Genero</label>
+                        <select name="GeneroId" validate="select">
+                            <option selected disabled value="1">None</option>
+                            <option e-req="item of Genero" e-value="{{ item.id }}" e-text="{{ item.nome }}">
+                                Loading...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <label>Titulo</label>
+                        <select name="TituloId" validate="select">
+                            <option selected disabled value="">None</option>
+                            <option e-req="item of Titulo" e-value="{{ item.id }}" e-text="{{ item.nome }}">
+                                Loading...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-field">
+                        <label>Nascimento</label>
+                        <input type="date" name="DataNascimento" validate="age" />
+                    </div>
+                </div>
+
+                <div class="input-area" e-build="Entidade">
+
+                    <div class="input-field">
+                        <label>Nome da Empresa</label>
+                        <input type="text" name="NomeEmpresa" validate="text" placeholder="Digite o Nome da Empresa" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Nome da Pessoa de Contacto da Empresa</label>
+                        <input type="text" name="NomePessoaContactoEmpresa" validate="text"
+                            placeholder="Digite o seu o Nome" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-body-action">
+            <button type="reset" class="cancel-type">CANCELAR</button>
+            <button type="button" class="submit-type" on:click="submit">SUBMETER</button>
+        </div>
+    </div>
+    <div class="address addables nice-scroll" e-build="Entidade">
+        <input style="display: none;" type="text" name="TipoEntidadeCodigo" e-value="{{ typeEntity }}" />
+
+        <div class="content fit-content">
+            <p class="high-light"> Endereço de Facturação</p>
+            <app-address e-build="Entidade.EnderecoFacturacao"></app-address>
+            <br>
+            <p class="high-light"> Endereço de Expedição</p>
+            <app-address e-build="Entidade.EnderecoExpedicao"></app-address>
+        </div>
+    </div>
+    <div class="contacts addables nice-scroll">
+        <div class="content fit-content">
+            <p class="high-light"> Adicione Contactos</p>
+            <app-contact e-build="Contactos" e-array></app-contact>
+        </div>
+    </div>
+</div>
+<script>
+    var bouer = this.bouer;
+    var component = this;
+    var web = bouer.deps['web'];
+
+    var formSumission = this.data.localSubmit;
+
+    this.export({
+        submit: function (evt) {
+            formSumission(function (url, redirectTo) {
+                var btn = evt.currentTarget;
+
+                var form = aboveMe(evt.currentTarget, '[post-form]');
+                var formObj = bouer.toJsObj(form);
+
+                if (hasSpinner(btn)) return;
+                addOrRemSpinner(btn);
+
+                var formData = new FormData();
+
+                formData.append("json", JSON.stringify(formObj));
+                for (var file of component.el.querySelector('#image').files) {
+                    formData.append("file", file);
+                }
+
+                web(url, 'post', formData, {
+                    'Authorization': sessionStorage.token || undefined
+                }).then(function (data) {
+                    notify({
+                        type: 'success',
+                        message: 'Registro Efectuado'
+                    });
+
+                    // Waiting 2s to got the next page
+                    setTimeout(function () {
+                        bouer.$routing.navigate(redirectTo);
+                    }, 500);
+                }).finally(function () {
+                    addOrRemSpinner(btn, true);
+                })
+            });
+        },
+        loadImage: function (evt) {
+            // Getting position to use in the UI
+            var inputFile = evt.target;
+            var imageContainer = inputFile.parentNode;
+            
+            var file = inputFile.files[0];
+            if (file == null) return;
+            
+            var reader = new FileReader();
+            reader.addEventListener('load', function (data) {
+                imageContainer.style.backgroundImage = 'url(' + data.target.result + ')';
+            });
+            reader.readAsDataURL(file);
+        },
+        removeImage: function (evt) {
+            var imageContainer = evt.target;
+            var inputFile = imageContainer.querySelector('input');
+            if (inputFile == null) return;
+
+            inputFile.value = '';
+            imageContainer.setAttribute('style', '');
+        }
+    });
+</script>

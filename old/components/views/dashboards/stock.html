@@ -1,0 +1,101 @@
+<div class="main-body fit-content stock-page card">
+    <div class="navegatable-view content">
+
+        <div class="top">
+            <div class="back-button">
+                <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
+            </div>
+
+            <div class="description">
+                <h3>Quantidade em stock de cada produto</h3>
+            </div>
+        </div>
+
+        <div class="middle">
+            <div class="search-field">
+                <span class="fa fa-search"></span>
+                <input type="text" placeholder="Pesquisar por Produtos" e-bind="search">
+            </div>
+        </div>
+
+        <div class="remain">
+
+            <div class="product-stock-container">
+                <div class="items-container nice-scroll">
+                    <div class="fit-content-nonspace nice-scroll">
+
+                        <div class="item-wrapper" e-req="item of produto/withStock?page={{navControl.page}}&size={{navControl.size}} 
+                        | where:search:nome,nomeSecundario,codigo" on:request="onRequest" on:response="onResponse">
+
+                            <a class="item" :href="{{ '/buy?p=' + item.codigo }}" e-skeleton
+                                title="Clique para Adicionar em items em Stock">
+                                <div class="icon">
+                                    <span e-text="{{ getAchronym(item.nome) }}">#</span>
+                                </div>
+                                <div class="name" e-text="{{ item.nome }}">
+                                    Loading...
+                                </div>
+                                <div class="value">
+                                    <h3 e-text="{{ showItemsDescription((item.compras[0] || {}).quantidade) }}">
+                                        Loading...
+                                    </h3>
+                                </div>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="items-nav-button">
+                    <div class="nav-area">
+                        <span class="nav center-icon fa fa-angle-left" on:click="prevPage"></span>
+                        <span data="{ control: typeof navControl === 'undefined' ? {} : navControl }"
+                            class="description">
+                            {{ control.pages == 0 ? 0 : (control.page || 0) }} de {{ control.pages || 0 }}
+                        </span>
+                        <span class="nav center-icon fa fa-angle-right" on:click="nextPage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var bouer = this.bouer;
+    var component = this;
+
+    this.export({
+        search: '',
+        produtoStocks: [],
+        navControl: {
+            page: 1,
+            size: 13,
+            pages: 0
+        },
+        showItemsDescription: function (qty) {
+            if (qty == null) return '0 Item';
+            return qty + ' ' + (qty <= 1 ? 'Item' : 'Itens')
+        },
+        onSearch: function (str, input) {
+            component.data.search = str;
+            return; // TODO: Request in the server
+            bouer.$skeleton.clear('data-loading');
+        },
+        onNextPage: function (control) {
+            component.data.navControl = control;
+        },
+        onPrevPage: function (control) {
+            component.data.navControl = control;
+        },
+        onRequest: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+        },
+        onResponse: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+            var response = evt.detail.response;
+            component.data.navControl.pages =
+                response.pagination.totalPages;
+        }
+    });
+</script>

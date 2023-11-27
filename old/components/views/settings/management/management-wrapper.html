@@ -1,0 +1,168 @@
+<div class="main-body fit-content settings-page card">
+    <div class="inner-menu nice-scroll">
+        <div class="row">
+            <a :href="/settings">
+                <div class="back-button">
+                    <span class="center-icon fa fa-arrow-left"></span>
+                </div>
+                <p>Configurações</p>
+            </a>
+        </div>
+
+        <div e-for="menu of menus | order:asc:name" class="row" 
+             e-class="{ 'mark-point': active == menu.name }">
+            <a :href="{{ menu.url }}">
+                <p e-text="{{ menu.text }}">Menu Name</p>
+            </a>
+        </div>
+
+    </div>
+    <div class="inner-menu-content">
+        <span title="Menu" class="reduced-screen-button center-icon fa fa-bars setting-menu-btn" 
+              on:click="aboveMe(event.currentTarget, '.settings-page').querySelector('.inner-menu').classList.toggle('show-left')"></span>
+        <slot default></slot>
+    </div>
+</div>
+<script>
+    var bouer = this.bouer;
+    var component = this;
+    var web = bouer.deps['web'];
+
+    this.on('mounted', function () {
+        if (!('active' in this.data))
+            bouer.set({ active: '' }, this.data);
+    });
+
+    this.on('loaded', function () {
+        bouer.data.currentPage = 'Gestão de Dados';
+        setTimeout(function () {
+            bouer.$routing.markActiveAnchor(bouer.el.querySelector('.settings-link'));
+        }, 100);
+
+        bouer.$wait.set('setting-manag-methods', {
+            submitShared: function (evt, route, redirectTo) {
+                debugger
+                var btn = evt.currentTarget;
+                var form = aboveMe(btn, 'form');
+
+                var formData = bouer.toJsObj(form);
+                var valid = true;
+
+                var keys = Object.keys(formData);
+                for (var k of keys) {
+                    var v = formData[k];
+                    if (valid == true && (v == '' || v == null))
+                        valid = false;
+                }
+
+                if (valid == false)
+                    return notify({
+                        type: 'warn',
+                        message: 'Todos os campos devem ser preenchidos!'
+                    });
+
+                if (hasSpinner(btn)) return;
+                addOrRemSpinner(btn);
+
+                web(route, 'post', JSON.stringify(formData))
+                    .then(function (data) {
+                        notify({
+                            type: 'success',
+                            message: 'Registro Criado',
+                            run: function () {
+                                bouer.$routing.navigate(redirectTo);
+                            }
+                        });
+                    })
+                    .finally(function () {
+                        addOrRemSpinner(btn, true);
+                    });
+            }
+        });
+    })
+
+    this.export({
+        menus: [
+            {
+                name: 'Armazem',
+                url: '/settings/management/armazem',
+                text: 'Armazens'
+            },
+            {
+                name: 'Seccao',
+                url: '/settings/management/seccao',
+                text: 'Secções'
+            },
+            {
+                name: 'FormaPagamento',
+                url: '/settings/management/formaPagamento',
+                text: 'Formas de Pagamento'
+            },
+            {
+                name: 'Pais',
+                url: '/settings/management/pais',
+                text: 'Paises'
+            },
+            {
+                name: 'Categoria',
+                url: '/settings/management/categoria',
+                text: 'Categorias'
+            },
+            {
+                name: 'SubCategoria',
+                url: '/settings/management/subcategoria',
+                text: 'SubCategorias'
+            },
+            {
+                name: 'TipoContacto',
+                url: '/settings/management/tipocontacto',
+                text: 'Tipos de Contacto'
+            },
+            {
+                name: 'TipoEntidade',
+                url: '/settings/management/tipoentidade',
+                text: 'Tipos de Entidade'
+            },
+            {
+                name: 'TipoFactura',
+                url: '/settings/management/tipofactura',
+                text: 'Tipos de Factura'
+            },
+            {
+                name: 'TipoVenda',
+                url: '/settings/management/tipovenda',
+                text: 'Tipos de Venda'
+            }
+        ],
+    });
+</script>
+<style scoped>
+    .inner-menu-content {
+        position: relative;
+    }
+
+    .inner-menu-content slot[default]:empty::after {
+        content: 'Selecione um item no menu da lateral';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--color-soft-text);
+        margin-top: 80px;
+        text-align: center;
+    }
+
+    .inner-menu-content slot[default]:empty::before {
+        content: '';
+        background-image: url(../assets/images/select.svg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+    }
+</style>

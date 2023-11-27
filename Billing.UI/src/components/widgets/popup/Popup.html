@@ -1,0 +1,9 @@
+<div class="popup shadow-it">
+    <span class="center-icon icon fa {{ icon[alert.type] }}"></span>
+    <div class="message">
+        <p e-text="{{ unescape(alert.message) }}" on:click="alert.url ? location.href = alert.url; : null">Loading...</p>
+    </div>
+    <div class="close">
+        <span title="Clique para fechar!" class="fa fa-times-circle" on:click="this.destroy()"></span>
+    </div>
+</div>

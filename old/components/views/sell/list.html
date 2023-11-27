@@ -1,0 +1,84 @@
+<app-table class="fit-content" data="$data">
+    <slot slot="table-head">
+        <div class="table-cell"> Referencia </div>
+        <div class="table-cell"> Cliente </div>
+        <div class="table-cell"> Venda </div>
+        <div class="table-cell cell-2"> Total de Itens </div>
+        <div class="table-cell"> Total </div>
+        <div class="table-cell"> Estado </div>
+    </slot>
+    <slot slot="table-body">
+        <div class="table-row flex-it" e-skeleton 
+            e-req="item of venda?page={{navControl.page}}&size={{navControl.size}} 
+            | where:search:referencia,tipoVenda.nome"
+            on:request="onRequest" on:response="onResponse">
+            <div class="card-cover"></div>
+
+            <div class="pointer table-cell">
+                <a :href="/sell/view/{{ item.uid }}" e-text="{{ item.referencia }}"> Loading... </a>
+            </div>
+            <div class="pointer table-cell" e-text="{{ tofullName((item.cliente || {}).pessoa) || 'N/A' }}"> 
+                Loading...
+            </div>
+            <div class="pointer table-cell" e-text="{{ item.tipoVenda.nome }}"> Loading... </div>
+            <div class="table-cell cell-2 hidable" e-text="{{ item.totalVendaItens }}"> Loading... </div>
+            <div class="table-cell hidable" e-text="{{ item.total }} Akz"> Loading... </div>
+            <div class="table-cell">
+                <span e-text="{{ item.isPausada ? 'Em Pausa' : 'Concluída' }}"> Loading... </span>
+                <div>
+                    <div class="item-options flex-it hide-it">
+                        <div>
+                            <a :href="/sell/view/{{ item.uid }}">
+                                <button class="see">Ver</button>
+                            </a>
+                        </div>
+                        <div>
+                            <button class="rem">Eliminar</button>
+                        </div>
+                    </div>
+                    <span title="Opções" onclick="event.target.previousElementSibling.classList.toggle('hide-it')"
+                        class="fa fa-dot-circle-o"></span>
+                </div>
+            </div>
+        </div>
+    </slot>
+</app-table>
+<script>
+    var bouer = this.bouer;
+    var component = this;
+
+    this.on('loaded', function () {
+        // Marking the menu
+        bouer.data.currentPage = 'Lista de Vendas';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.sell-link'));
+    });
+
+    this.export({
+        search: '',
+        navControl: {
+            page: 1,
+            size: 13,
+            pages: 0
+        },
+        onSearch: function (str, input) {
+            component.data.search = str;
+            return; // TODO: Request in the server
+            bouer.$skeleton.clear('data-loading');
+        },
+        onNextPage: function (control) {
+            component.data.navControl = control;
+        },
+        onPrevPage: function (control) {
+            component.data.navControl = control;
+        },
+        onRequest: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+        },
+        onResponse: function (evt) {
+            // if (searcher) searcher.classList.add('loading-input');
+            var response = evt.detail.response;
+            component.data.navControl.pages =
+                response.pagination.totalPages;
+        }
+    });
+</script>

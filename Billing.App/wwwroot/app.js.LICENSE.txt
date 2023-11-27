@@ -1,0 +1,5 @@
+/*!
+ * Bouer.js v3.1.0
+ * Copyright Easy.js 2018-2020 | 2021-2023 Afonso Matumona
+ * Released under the MIT License.
+ */

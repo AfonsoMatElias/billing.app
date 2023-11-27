@@ -1,0 +1,339 @@
+<div class="main-body fit-content base-divide-structure dashboard nice-scroll">
+    <div class="content">
+        <div class="input-side">
+            <div class="first-section dash-section">
+                <div class="header">
+                    <h3>Resumo Anual</h3>
+                </div>
+
+                <div class="dash-content">
+                    <div class="card total-collected">
+                        <div class="element-label">
+                            <div class="label-container">
+                                <label>Total Arrecadado</label>
+                            </div>
+                            <div class="input-field">
+                                <select e-bind="selectedYear">
+                                    <option e-for="item of anualInterval" value="{{ item }}"
+                                        e-text="{{ currentYear == item ? 'Este Ano (' + item + ')' : item }}">Years
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="display-value">
+                            <h2>34.607.000,00 AOA</h2>
+                            <span class="center-icon fa fa-arrow-down"></span>
+                        </div>
+
+                        <div class="display-value">
+                            <label>Ano: 2019</label>
+                            <h3>40.618.000,00 AOA</h3>
+                            <span class="center-icon fa fa-arrow-up"></span>
+                        </div>
+
+                        <div class="display-value">
+                            <label>Ano: 2018</label>
+                            <h4>26.689.000,00 AOA</h4>
+                            <span class="center-icon fa fa-circle"></span>
+                        </div>
+                    </div>
+
+                    <div class="card chart graph">
+                        <div class="head">
+                            <p e-text="Vendas de {{ selectedYear }}">Graph Chart</p>
+                        </div>
+                        <div class="body">
+                            <div id="total-sells">
+                                <img src="/assets/images/gif/load_gray.svg" class="ld-chart">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sec-section dash-section">
+                <div class="header">
+                    <h3>Resumo Geral</h3>
+                </div>
+
+                <div class="dash-content">
+                    <div class="card-container-wrapper">
+                        <div class="card-container">
+                            <div class="card">
+                                <span class="center-icon icon fa fa-money"></span>
+                                <div class="row top">
+                                    <p>Total de Vendas (Hoje)</p>
+                                </div>
+                                <div class="row main">
+                                    <h2>87.385 AOA</h2>
+                                </div>
+                                <div class="row extra">
+                                    <h3>189 Itens</h3>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <span class="center-icon icon fa fa-cube"></span>
+                                <div class="row top">
+                                    <p>Total de Compras (Novembro)</p>
+                                </div>
+                                <div class="row main">
+                                    <h2>538 Itens</h2>
+                                </div>
+                                <div class="row extra">
+                                    <h3>121 Produtos</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-container">
+                            <div class="card">
+                                <span class="center-icon icon fa fa-users"></span>
+                                <div class="row top">
+                                    <p>Total de Fornecedores</p>
+                                </div>
+                                <div class="row main">
+                                    <h2>150 Entidade(s)</h2>
+                                </div>
+                                <div class="row extra">
+                                    <div class="parallel-cells">
+                                        <div class="cell">
+                                            <h3>95</h3>
+                                            <p>Singulares</p>
+                                        </div>
+                                        <div class="cell">
+                                            <h3>55</h3>
+                                            <p>Colectivos</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <span class="center-icon icon fa fa-user"></span>
+                                <div class="row top">
+                                    <p>Total de Clientes</p>
+                                </div>
+                                <div class="row main">
+                                    <h2>1540 Entidade(s)</h2>
+                                </div>
+                                <div class="row extra">
+                                    <div class="parallel-cells">
+                                        <div class="cell">
+                                            <h3>1040</h3>
+                                            <p>Singulares</p>
+                                        </div>
+                                        <div class="cell">
+                                            <h3>500</h3>
+                                            <p>Colectivos</p>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card chart graph">
+                        <div class="head">
+                            <p><b>%</b> Vendas de Funcionarios</p>
+                        </div>
+                        <div class="body">
+                            <div id="selling-levels">
+                                <img src="/assets/images/gif/load_gray.svg" class="ld-chart">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="default-side">
+            <div class="top-selling dash-section">
+                <div class="header">
+                    <h3>Top 10 Vendas (<span e-text="{{ currentMonth }}">Mês</span>)</h3>
+                </div>
+
+                <div class="card">
+                    <ol>
+                        <li e-for="item of items | order:desc:selling">
+                            <div class="li-container">
+                                <span class="li-name" e-text="{{ item.name }}">Name</span>
+                                <span class="li-value" e-text="{{ item.selling }}">#0</span>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="total-items dash-section">
+
+                <div class="header">
+                    <h3>Stock</h3>
+                </div>
+
+                <div class="card total-items-container bubble-container">
+
+                    <div class="head-bubble" e-for="product of items">
+                        <div class="bubble-filler" e-style="background-color: {{ product.color }}40"></div>
+                        <div class="bubble flex-it">
+                            <div class="line" e-style="background-color: {{ product.color }}96"></div>
+                            <div class="marker flex-it" e-style="background-color: {{ product.color }}96">
+                                <p e-text="{{ acronym(product.name) }}">#</p>
+                            </div>
+                            <div class="text flex-it">
+                                <span class="flex-it">
+                                    <label class="high" e-text="{{ product.name }}">#</label>
+                                </span>
+                                <span class="flex-it">
+                                    <label
+                                        e-text="{{ product.qty > 1 ? (product.qty + ' Itens') : (product.qty + ' Item') }}">0
+                                        Item</label>
+                                </span>
+                            </div>
+                            <div class="ico flex-it">
+                                <span class=""></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="show-all">
+                        <a :href="/dashboard/stock">Visualizar Tudo</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/canvasjs.min.js"></script>
+
+<script>
+    var component = this;
+    var bouer = this.bouer;
+    var currentYear = new Date().toLocaleDateString('pt').split('/').reverse()[0] * 1;
+    var currentMonth = new Date().toLocaleDateString('pt').split('/')[1] * 1;
+    var months = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
+        'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+
+    this.on('loaded', function (evt) {
+        var el = evt.currentTarget;
+        bouer.data.currentPage = 'Dashboard';
+
+        // Chart Loading
+        var charts = [];
+        var totalSells = new CanvasJS.Chart("total-sells", {
+            animationEnabled: true,
+            theme: (false ? 'dark1' : 'light2'),
+            axisX: {
+                labelFontColor: '#878787',
+                crosshair: {
+                    enabled: true,
+                    snapToDataPoint: true,
+                    labelBackgroundColor: '#aaaaaf'
+                },
+            },
+            axisY: {
+                gridColor: "#f2f2f2",
+                labelFontColor: '#878787',
+                crosshair: {
+                    enabled: true,
+                    snapToDataPoint: true,
+                    labelBackgroundColor: '#aaaaaf'
+                }
+            },
+            data: [{
+                type: "splineArea",
+                line: true,
+                color: 'rgba(81, 160, 213, 0.6)',
+                markerColor: 'rgba(81, 160, 213)',
+                lineColor: 'rgba(81, 160, 213)',
+                dataPoints: months.map(function (item, index) {
+                    var _index = index + 1;
+                    return {
+                        label: item.substr(0, 3),
+                        y: (_index * 10000000) + Math.floor(Math.random() * 50500009)
+                    };
+                })
+            }]
+        });
+        var sellingLevels = new CanvasJS.Chart("selling-levels", {
+            animationEnabled: true,
+            data: [{
+                type: "doughnut",
+                startAngle: 60,
+                innerRadius: 86,
+                indexLabel: "{label} - #percent%",
+                toolTipContent: "<b>{label}:</b> {y} Itens (#percent%)",
+                dataPoints: [{
+                    y: 57,
+                    label: "Afonso Matumona"
+                }, {
+                    y: 13,
+                    label: "Isabel Formosa Matumona"
+                }, {
+                    y: 10,
+                    label: "Maria Matumona"
+                }, {
+                    y: 24,
+                    label: "Sebastião Matumona"
+                }, {
+                    y: 6,
+                    label: "Pereira Matumona"
+                }]
+            }]
+        });
+
+        // Adding all charts in the list
+        [].push.apply(charts, [totalSells, sellingLevels]);
+        // Rendering all the charts
+        charts.forEach(function (chart) {
+            chart.render();
+        });
+    });
+
+    this.export({
+        items: [{
+            name: 'Dell E7077',
+            qty: 120,
+            color: '#fcaec1',
+            selling: 1000
+        }, {
+            name: 'Sony TV 4k UHD',
+            qty: 189,
+            color: '#cc6b00',
+            selling: 235
+        }, {
+            name: 'iPhone XR',
+            qty: 58,
+            color: '#3caba1',
+            selling: 292
+        }, {
+            name: 'Samsung Ultra 20',
+            qty: 88,
+            color: '#ca6aa1',
+            selling: 14
+        }],
+
+        currentMonth: months[currentMonth - 1],
+        currentYear: currentYear,
+        selectedYear: currentYear,
+        anualInterval: Array(3).fill(currentYear)
+            .map(function (item, index) {
+                return (item - index)
+            }),
+
+        acronym: function (name) {
+            if (!name) return '#';
+            var chunck = name.toUpperCase().split(' '),
+                first, last;
+
+            first = chunck[0];
+            last = chunck[chunck.length - 1];
+
+            if (first == last) return first[0] + first[1];
+            else return first[0] + last[0];
+        }
+    });
+</script>

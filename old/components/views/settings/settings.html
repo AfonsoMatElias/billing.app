@@ -1,0 +1,110 @@
+<div class="main-body fit-content settings-page card">
+    <div class="inner-menu nice-scroll">
+        <div class="row" e-class="{ 'mark-point': active == 'profile' }">
+            <a :href="/settings">
+                <p>Perfil</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'employees' }">
+            <a :href="/settings/employees">
+                <p>Funcionários</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'apps' }">
+            <a :href="/settings/apps">
+                <p>Aplicações</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'establishment' }">
+            <a :href="/settings/establishment">
+                <p>Estabelecimento</p>
+            </a>
+        </div>
+        <div class="row">
+            <a :href="/settings/management">
+                <p>Dados de Referência</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'preferences' }">
+            <a :href="/settings/preferences">
+                <p>Preferências</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'license' }">
+            <a :href="/settings/license">
+                <p>Licença</p>
+            </a>
+        </div>
+        <div class="row" e-class="{ 'mark-point': active == 'about' }">
+            <a :href="/settings/about">
+                <p>Sobre</p>
+            </a>
+        </div>
+    </div>
+    <div class="inner-menu-content">
+        <span title="Menu" class="reduced-screen-button center-icon fa fa-bars setting-menu-btn"
+            on:click="aboveMe(event.target, '.settings-page').querySelector('.inner-menu').classList.toggle('show-left')"></span>
+        <slot default></slot>
+    </div>
+</div>
+<script>
+    var bouer = this.bouer;
+    var componentObj = this;
+
+    this.on('loaded', function () {
+        bouer.data.currentPage = 'Configurações';
+        setTimeout(function () {
+            bouer.$routing.markActiveAnchor(bouer.el.querySelector('.settings-link'));
+        }, 100);
+
+        bouer.$wait.set('setting-methods', {
+            loadSectionShared: function (loadableComponents, name, data) {
+                // Checking if the name is ok
+                if (!name) return;
+
+                // Getting the container
+                var container = componentObj.el.querySelector('#loadable');
+
+                // Checking if the container is ok
+                if (!container) return;
+
+                // Checking if the component is valid
+                if (!loadableComponents[name]) {
+                    return notify({
+                        message: 'Secção Inexistente ou em criação.',
+                        type: 'warn'
+                    });
+                }
+
+                // Clearing the container
+                container.innerHTML = '';
+
+                // Creating the INC element
+                var component = document.createElement(name);
+
+                if (!componentObj.el.querySelector('.setting-panel-closer')) {
+                    var content = '<span title="Fechar Painel" class="reduced-screen-button center-icon fa fa-remove setting-panel-closer"' +
+                        'onclick="event.target.previousElementSibling.classList.remove(\'show-right-zero\')"></span>';
+                    var _div = document.createElement('div');
+                    _div.innerHTML = content;
+
+                    aboveMe(container).appendChild(_div.children[0]);
+                }
+
+                if (!container.classList.contains('show-right-zero'))
+                    container.classList.add('show-right-zero');
+
+                component.setAttribute('data', '$data');
+
+                // Adding in the container
+                container.appendChild(component);
+
+                bouer.compile({
+                    el: component,
+                    data: data || {},
+                    context: componentObj
+                })
+            }
+        })
+    });
+</script>

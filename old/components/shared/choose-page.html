@@ -1,0 +1,90 @@
+<div class="main-body choose-page">
+    <div class="center card">
+        <div class="top-description">
+            <h3 e-text="{{ text }}"> Text </h3>
+        </div>
+        <div class="content">
+            <div class="area customer">
+                <a :href="{{ urlSingular }}">
+                    <div class="type"></div>
+                    <div class="link">
+                        <label>Pessoa Singular</label>
+                    </div>
+                </a>
+            </div>
+
+            <div class="area company">
+                <a :href="{{ urlCompany }}">
+                    <div class="type"></div>
+                    <div class="link">
+                        <label>Pessoa Colectiva</label>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var container = this;
+    var bouer = this.bouer;
+    this.loaded = function (el) {
+        var params = this.params();
+        var src = params.src || '';
+
+        var setProps = (function (options) {
+            bouer.data.currentPage = options.header;
+            this.data.text = options.text;
+
+            this.data.urlSingular = options.urlSingular + (src ? '?src=' + src : '');
+            this.data.urlCompany = options.urlCompany + (src ? '?src=' + src : '');
+        }).bind(this);
+        
+        switch (params.type) {
+            case 'customer': // Creation
+                setProps({
+                    header: 'Cadastro',
+                    text: 'Qual tipo de Cliente?',
+                    urlSingular: '/customers/create/tps/tec',
+                    urlCompany: '/customers/create/tpc/tec',
+                });
+                break;
+
+            case 'customers': // Listing
+                setProps({
+                    header: 'Listagem',
+                    text: 'Qual tipo de Cliente?',
+                    urlSingular: '/customers/tps',
+                    urlCompany: '/customers/tpc',
+                });
+                break;
+
+            case 'provider': // Creation
+                setProps({
+                    header: 'Cadastro',
+                    text: 'Qual tipo de Fornecedor?',
+                    urlSingular: '/providers/create/tps/tef',
+                    urlCompany: '/providers/create/tpc/tef',
+                });
+
+                break;
+
+            case 'providers': // Listing
+                setProps({
+                    header: 'Listagem',
+                    text: 'Qual tipo de Cliente?',
+                    urlSingular: '/providers/tps',
+                    urlCompany: '/providers/tpc',
+                });
+
+                break;
+
+            default:break;
+        }
+    }
+
+    this.export({
+        text: '',
+        urlSingular: '',
+        urlCompany: ''
+    });
+</script>

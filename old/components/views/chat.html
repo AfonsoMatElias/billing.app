@@ -1,0 +1,287 @@
+<div class="main-body chat base-divide-structure fit-content">
+    <div class="content">
+        <div class="input-side card">
+            <div class="left conversations hiddable-panel-left">
+                <span title="Fechar Resumo"
+                    class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
+                    onclick="event.target.parentNode.classList.remove('show-left');"></span>
+
+                <div class="header">
+                    <h3>Conversações</h3>
+                </div>
+                <div class="body">
+                    <div class="conversations-container fit-content-nonspace nice-scroll">
+
+                        <div class="row" e-for="cht of chat" on:click="selectChat(event, cht)">
+                            <div class="user-info" data="cht">
+                                <div class="icon">
+                                    <p e-text="{{ getAchronym(tofullName(criador.pessoa)) }}">#</p>
+                                    <span class="is-online"></span>
+                                </div>
+                                <div class="info">
+                                    <h4 e-text="{{ tofullName(criador.pessoa) }}">Funcionario</h4>
+                                    <small
+                                        e-text="{{ criador.funcionario.estabelecimento.nome }}">Estabelecimento</small>
+                                </div>
+                                <div class="time">
+                                    <small
+                                        e-text="{{ calculateNotificationPeriod(chatMessages[0].createdAt) }}">00:00</small>
+                                </div>
+                            </div>
+                            <div class="message-info" e-text="{{ messageResume(cht) }}"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="right message-container">
+                <div class="user-description-bar">
+                    <div class="left">
+                        <span on:click="showPanel(event, 'left')"
+                            class="reduced-screen-bottom center-icon fa fa-comments chat-panel"></span>
+                    </div>
+                    <div class="middle">
+                        <span class="user-presentation" e-text="{{
+                            tofullName(
+                                ((selectedChat||{}).criador||{}).pessoa
+                            ) || 'Seleccione uma conversa' }}"></span>
+                    </div>
+                    <div class="right">
+                        <span on:click="showPanel(event, 'right')"
+                            class="reduced-screen-bottom center-icon fa fa-users users-panel"></span>
+                    </div>
+                </div>
+
+                <div class="body">
+                    <div class="messages-container fit-content-nonspace nice-scroll">
+
+                        <div class="no-messages" e-if="messages.length === 0">
+                            <span class="icon-wrapper">
+                                <span class="fa fa-comments center-icon"></span>
+                            </span>
+                            <p>Sem mensagens ainda</p>
+                        </div>
+
+                        <div e-for="item of messages" e-class="{ 'is-user': item.usuarioFromId == ref }"
+                            class="message-bubble-container">
+                            <div class="message-bubble">
+                                <div class="owner">
+                                    <span e-text="{{ getAchronym(item.usuarioToName) }}">##</span>
+                                </div>
+                                <div class="message" e-text="{{ item.content }}">
+                                    Loading...
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="loading-section" e-if="loadingMessages">
+                    <span class="is-loading"></span> <span>Loading Messages...</span>
+                </div>
+
+                <div class="compose-container" e-if="Object.keys(((selectedChat||{}).criador||{}).pessoa || {}).length !== 0">
+                    <div class="left">
+                        <span class="fa fa-plus" title="Adicionar Anexo"></span>
+                    </div>
+                    <div class="middle">
+                        <div class="composer nice-scroll" contenteditable="true" spellcheck="false" tabindex="-1"
+                            e-bind="typedContent" on:keydown="onCtrlEnter"></div>
+                    </div>
+                    <div class="right">
+                        <span class="fa fa-paper-plane-o center-icon" title="Enviar Mensagem"
+                            on:click="sendMessage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="images-side default-side hiddable-panel-right">
+            <span title="Fechar Resumo" class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
+                onclick="event.target.parentNode.classList.remove('show-right');"></span>
+
+            <div class="card user-info-v-card">
+                <div class="icon">
+                    <p e-text="{{ getAchronym(application.user.userName) }}">U</p>
+                    <span class="is-online"></span>
+                </div>
+
+                <div class="info">
+                    <h4 e-text="{{ application.user.userName }}">Usuario</h4>
+                </div>
+
+                <div class="info">
+                    <label e-text="{{ application.role }}">Perfil</label>
+                </div>
+            </div>
+            <div class="online-users card">
+                <div class="header">
+                    <h4>Usuários</h4>
+                </div>
+                <div class="body">
+                    <div class="users-container fit-content-nonspace nice-scroll">
+
+                        <div class="row">
+                            <div class="user-info">
+                                <div class="icon">
+                                    <p>AM</p>
+                                    <span class="is-online"></span>
+                                </div>
+                                <div class="info">
+                                    <h4>Afonso Matumona</h4>
+                                    <small>Loja Central</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var component = this;
+    var bouer = this.bouer;
+
+    this.loaded = function (el) {
+        bouer.data.currentPage = 'Chat';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.chat-link'));
+
+        if (bouer.data.showConversation)
+            bouer.data.showConversation = false;
+    }
+
+    var selectedChatElement = null;
+
+    this.export({
+        ref: 1, // The logged user Id
+        loadingMessages: false,
+        chat: [
+            {
+                criador: {
+                    id: 2,
+                    pessoa: {
+                        primeiroNome: 'Antonio',
+                        ultimoNome: 'Lopes'
+                    },
+                    funcionario: {
+                        estabelecimento: {
+                            nome: 'Loja Central'
+                        }
+                    }
+                },
+                chatMessages: [
+                    {
+                        usuarioToName: 'Afonso Matumona',
+                        usuarioToId: 2,
+                        usuarioFromId: 1,
+                        content: 'Fala aí, meu mano?',
+                        createdAt: '2022-09-09T18:41:50.102',
+                    },
+                    {
+                        usuarioToName: 'Antonio Ferraz',
+                        usuarioToId: 1,
+                        usuarioFromId: 2,
+                        content: 'Nas calmas, brozy. E aí?',
+                        createdAt: '2022-09-09T22:41:50.102',
+                    }
+                ]
+            },
+            {
+                criador: {
+                    id: 3,
+                    pessoa: {
+                        primeiroNome: 'Maria',
+                        ultimoNome: 'Matumona'
+                    },
+                    funcionario: {
+                        estabelecimento: {
+                            nome: 'Loja Central'
+                        }
+                    }
+                },
+                chatMessages: [
+                    {
+                        usuarioToName: 'Afonso Matumona',
+                        usuarioToId: 3,
+                        usuarioFromId: 1,
+                        content: 'Minha kota, falaram como?',
+                        createdAt: '2022-09-09T18:41:50.102',
+                    },
+                    {
+                        usuarioToName: 'Maria Matumona',
+                        usuarioToId: 1,
+                        usuarioFromId: 3,
+                        content: 'Maninho, tudo bala. E aí?',
+                        createdAt: '2022-09-09T22:41:50.102',
+                    },
+                    {
+                        usuarioToName: 'Maria Matumona',
+                        usuarioToId: 1,
+                        usuarioFromId: 3,
+                        content: 'Trabalhando?',
+                        createdAt: '2022-09-09T22:41:50.102',
+                    }
+                ]
+            }
+        ],
+        onlineUsers: [],
+        messages: [],
+        selectedChat: {},
+
+        typedContent: '',
+
+        // Methods
+        showPanel: function (evt, prop) {
+            var container = this.el;
+            container.querySelector('.hiddable-panel-' + prop).classList.add('show-' + prop);
+        },
+        messageResume: function (chat) {
+            var message = chat.chatMessages[0];
+            if (!message) return;
+
+            var content = message.content;
+            var limit = 34;
+
+            if (content.length >= limit)
+                content = content.substr(0, limit) + '...';
+
+            if (message.usuarioFromId == this.data.ref)
+                content = 'Você: ' + content;
+
+            return content;
+        },
+        selectChat: function (evt, cht) {
+            var cls = 'is-selected';
+
+            if (selectedChatElement) {
+                selectedChatElement.classList.remove(cls);
+            }
+
+            selectedChatElement = evt.currentTarget;
+            selectedChatElement.classList.add(cls);
+            this.data.selectedChat = JSON.parse(JSON.stringify(cht));
+
+            this.data.messages = cht.chatMessages;
+        },
+        sendMessage: function () {
+            var typedContent = this.data.typedContent.trim();
+            if (!typedContent) return;
+
+            this.data.typedContent = '';
+
+            this.data.messages.push({
+                usuarioToName: 'Afonso Matumona',
+                usuarioToId: this.data.selectedChat.criador.id,
+                usuarioFromId: this.data.ref,
+                content: typedContent,
+                createdAt: new Date().toJSON(),
+            });
+        },
+        onCtrlEnter: function (evt) {
+            if ((evt.keyCode == 10 || evt.keyCode == 13) && evt.ctrlKey)
+                this.data.sendMessage.call(this);
+        }
+    });
+</script>

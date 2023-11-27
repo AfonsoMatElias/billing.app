@@ -1,0 +1,36 @@
+<settings-wrapper data="$data">
+    <div class="partial settings-about-page">
+        <div class="center">
+            <div class="icon"></div>
+            <div class="name">
+                <h3 e-text="{{ name }}">App Name</h3>
+            </div>
+            <div class="version">
+                <h4 e-text="{{ version }}">Version</h4>
+            </div>
+
+            <div class="desc">
+                <h4 e-text="{{ desc }}">Description</h4>
+            </div>
+
+            <div>
+                <br>
+            </div>
+
+            <div class="version">
+                <h4>Made By <a href='https://www.linkedin.com/in/afonsomatelias' e-text="{{ madeBy }}">@</a></h4>
+            </div>
+        </div>
+    </div>
+</settings-wrapper>
+<script>
+    var component = this;
+
+    this.export({
+        active: 'about',
+        name: 'Billing App',
+        desc: 'Aplicação de Gestão de Stock de Produtos',
+        version: 'v1.0.0',
+        madeBy: '@AfonsoMatElias'
+    });
+</script>

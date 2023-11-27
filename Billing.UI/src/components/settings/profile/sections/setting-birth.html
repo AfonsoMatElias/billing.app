@@ -1,0 +1,34 @@
+<div class="content">
+    <div class="header">
+        <h3>Data de Nascimento</h3>
+        <p>Altere o Data de Nascimento que é apresentado no teu perfil</p>
+    </div>
+
+    <div class="input-area">
+        <div class="input-field cell">
+            <label>Data de Nascimento</label>
+            <input type="date" e-value="{{ birth }}">
+        </div>
+
+        <div class="action-area">
+            <button on:click="this.destroy()" type="reset" class="cancel-type">Cancelar</button>
+            <button type="button" class="submit-type">Salvar</button>
+        </div>
+    </div>
+</div>
+<script>
+    var bouer = this.bouer;
+    var component = this;
+    
+    this.on('loaded', function () { });
+
+    this.export({
+        // Variables
+        birth:'',
+
+        // Methods
+        submit: function (evt) {
+            
+        }
+    })
+</script>

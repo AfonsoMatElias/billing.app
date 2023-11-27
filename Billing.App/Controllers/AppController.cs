@@ -21,9 +21,9 @@ namespace Billing.App.Controllers
 {
 	public class AppController : Controller
 	{
-		private IAuth mAuth;
-		private DataContext context;
-		private PreferenceHandler preferenceHandler;
+		private readonly IAuth mAuth;
+		private readonly DataContext context;
+		private readonly PreferenceHandler preferenceHandler;
 
 		public AppController(IAuth mAuth, DataContext context, PreferenceHandler preferenceHandler)
 		{

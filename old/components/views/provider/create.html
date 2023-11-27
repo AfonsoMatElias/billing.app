@@ -1,0 +1,25 @@
+<div class="main-body">
+    <create-person data="$data"></create-person>
+</div>
+<script>
+    var bouer = this.bouer;
+    var sharedPersonMethods;
+    var params = this.params();
+    this.on('loaded', function (el) {
+        // Marking the menu
+        bouer.data.currentPage = 'Cadastrar um Fornecedor';
+        bouer.$routing.markActiveAnchor(bouer.el.querySelector('.provider-link'));
+    });
+    
+    this.export({
+        typeEntity: params.typeEntity,
+        person: 'fornecedor',
+
+        // Methods
+        localSubmit: function (genericSubmit) {
+            var redirectTo = params.src || "/providers/" + params.typeEntity;
+            // Submiting
+            genericSubmit("pessoa", redirectTo);
+        }
+    })
+</script>

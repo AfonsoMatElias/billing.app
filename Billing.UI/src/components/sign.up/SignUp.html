@@ -1,0 +1,76 @@
+
+<div class="background">
+	<div e-class="{ 'page-loading': pageLoading }"></div>
+	
+	<!-- The Center content of sign in page -->
+	<form id="signup-form" method="post">
+		<!-- The Top Content -->
+		<div class="stepable sign-main-content card" e-build="Usuario.Pessoa">
+			<div class="card-body">
+				<div class="progress-bar"></div>
+	
+				<!-- Logo Section -->
+				<div inc-tmp="logo" class="top logo-container">
+					<div class="logo">
+						<a>
+							<img src="assets/images/logo/ico.svg" alt="Billing icon">
+							<label>Billing</label>
+						</a>
+					</div>
+				</div>
+	
+				<div class="info-area center-text">
+					<p>Registro</p>
+					<p>Vamos começa pelos dados pessoais.</p>
+				</div>
+	
+				<!-- Text Section -->
+				<div class="input-area">
+					<div class="input-field">
+						<label>Primeiro Nome</label>
+						<input type="text" name="PrimeiroNome" validate="text"
+							placeholder="Digite o Primeiro Nome" />
+					</div>
+					<div class="input-field">
+						<label>Último Nome</label>
+						<input type="text" name="UltimoNome" validate="text" placeholder="Digite o Último Nome" />
+					</div>
+	
+					<div class="input-field">
+						<label>Bilhete de Identidade</label>
+						<input type="text" name="Identificacao" maxlength="14" validate="id"
+							placeholder="Digite seu Bilhete de Identidade" />
+					</div>
+	
+					<div class="input-field">
+						<label>Data de Nascimento</label>
+						<input type="date" name="Nascimento" validate="age" />
+					</div>
+	
+					<div class="input-field">
+						<label>Genero</label>
+						<select name="GeneroId" validate="select">
+							<option selected value="#">None</option>
+						</select>
+					</div>
+	
+				</div>
+	
+				<div class="action-area section-space">
+					<div class="area center">
+						<button type="button" class="primary-button send-data">Proximo</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- The Bottom content -->
+		<div class="sign-sec-content section-space">
+			<p> Já tem uma conta? <a href="sign.in.html">Clique aqui!</a></p>
+		</div>
+	</form>
+
+	<div class="popup-container">
+		<PopUp e-for="alert of alerts"></PopUp>
+	</div>
+</div>

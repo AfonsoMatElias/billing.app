@@ -17,7 +17,7 @@ namespace Billing.Service.Pageable
 				queryable = func => func;
 
 			// Querying the elements
-			var query = queryable(dbSet).ToList();
+			var query = queryable(dbSet);
 
 			// Applying the pagination split
 			var paged = query.Skip((((int)range.Size * ((int)range.Page)) - (int)range.Size))
@@ -39,11 +39,11 @@ namespace Billing.Service.Pageable
 				queryable = func => func;
 
 			// Querying the elements
-			var query = await queryable(dbSet).ToListAsync();
+			var query = queryable(dbSet);
 
 			// Applying the pagination split
-			var paged = query.Skip((((int)range.Size * ((int)range.Page)) - (int)range.Size))
-					.Take((int)range.Size).ToList();
+			var paged = await query.Skip((((int)range.Size * ((int)range.Page)) - (int)range.Size))
+					.Take((int)range.Size).ToListAsync();
 
 			// Building the pagination
 			return new Pagination<TModel>

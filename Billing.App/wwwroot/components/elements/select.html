@@ -1,7 +1,0 @@
-<div class="input-field">
-    <label>{{ label }}</label>
-    <select>
-        <option selected value="#">None</option>
-        <option e-for="item of list" on:click="addSelect(event, item.id)" value="{{ item.id }}">{{ item.nome }}</option>
-    </select>
-</div>

@@ -18,5 +18,7 @@ Billing.Tests/obj
 Billing.Reports/bin
 Billing.Reports/obj
 
+Billing.UI/node_modules
+
 .fake
 .ionide

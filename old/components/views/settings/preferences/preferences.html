@@ -1,0 +1,39 @@
+<settings-wrapper data="$data">
+    <div class="partial splitted-editing editable-left">
+        <div class="left nice-scroll">
+
+            <div class="description">
+                <h3>Preferencias</h3>
+            </div>
+
+            <div class="row" e-for="pref of preferences">
+                <div class="value-area" data="pref">
+                    <div class="value">
+                        <p e-text="{{ name }}">Loading...</p>
+                    </div>
+                    <div class="ident">
+                        <small>
+                            <p e-text="{{ description }}">Loading...</p>
+                        </small>
+                    </div>
+                </div>
+                <div class="icon-area switch-container" data="pref">
+                    <div class="switch" e-class="{ 'on': value }"
+                        on:click="value = !value">
+                        <span class="wheel"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="right" id="loadable"></div>
+    </div>
+</settings-wrapper>
+<script>
+    var bouer = this.bouer;
+    var component = this;
+
+    this.export({
+        active: 'preferences'
+    });
+</script>
