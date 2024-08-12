@@ -1,0 +1,17 @@
+<div class="inner-menu nice-scroll">
+	<div class="row">
+		<a :href="/settings">
+			<div class="back-button">
+				<span class="center-icon fa fa-arrow-left"></span>
+			</div>
+			<p>Configurações</p>
+		</a>
+	</div>
+
+	<div e-for="menu of list" class="row" 
+		 e-class="{ 'mark-point': active == menu.name }">
+		<a :href="{{ menu.url }}">
+			<p e-text="{{ menu.text }}">Loading....</p>
+		</a>
+	</div>
+</div>

@@ -1,0 +1,42 @@
+<div class="main-body fit-content settings-page card">
+    <settings-menu></settings-menu>
+
+    <div class="inner-menu-content">    
+        <div class="partial splitted-editing editable-left">
+            <div class="left nice-scroll">
+        
+                <div class="description">
+                    <h3>Preferencias</h3>
+                </div>
+        
+                <div class="row" e-for="pref of preferences">
+                    <div class="value-area">
+                        <div class="value">
+                            <p e-text="{{ pref.name }}">Loading...</p>
+                        </div>
+                        <div class="ident">
+                            <small>
+                                <p e-text="{{ pref.description }}">Loading...</p>
+                            </small>
+                        </div>
+                    </div>
+
+                    <div e-if="pref.type == 'select'" class="icon-area switch-container">
+                        <div class="center">
+                            <span class="pointer" e-text="{{ pref.value }}"></span>
+                        </div>
+                    </div>
+
+                    <div e-if="pref.type == null" class="icon-area switch-container" data="pref">
+                        <div class="switch" e-class="{ 'on': value }"
+                            on:click="value = !value">
+                            <span class="wheel"></span>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+            <div class="right" id="loadable"></div>
+        </div>
+    </div>
+</div>

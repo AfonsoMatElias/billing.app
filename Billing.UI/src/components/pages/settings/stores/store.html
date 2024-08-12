@@ -1,0 +1,60 @@
+<div class="main-body fit-content settings-page card">
+    <settings-menu></settings-menu>
+
+    <div class="inner-menu-content">
+        <div class="partial settings-list-page apps">
+            <div class="header">
+                <div class="vertical-spreader">
+                    <div class="left">
+                        <h3>Aplicações Em Execução</h3>
+                    </div>
+                    <div class="right">
+                        <div class="button-area">
+                            <a :href="/settings/establishment/create" class="blue-type">Adicionar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="remain">
+
+                <app-table data="$data" class="search-on">
+                    <slot slot="table-head">
+                        <div class="table-cell"> Nome </div>
+                        <div class="table-cell"> Código </div>
+                        <div class="table-cell"> Gerente </div>
+                        <div class="table-cell"> Data de Criação </div>
+                        <div class="table-cell"> Endereço </div>
+                    </slot>
+                    <slot slot="table-body">
+                        <div class="table-row flex-it" e-skeleton
+                            e-for="item of stores | where:search:name,ucode,address">
+                            <div class="card-cover"></div>
+                            <div class="pointer table-cell">
+                                <a :href="/settings/store/view/{{item.id}}" e-text="{{ item.name }}">Loading...</a>
+                            </div>
+                            <div class="pointer table-cell" e-text="{{ item.ucode }}">Loading...</div>
+                            <div class="table-cell" e-text="{{ 
+                                    item.manager
+                                    ? toFullName(item.manager.firstName, item.manager.lastName) 
+                                    : 'Não Associado' 
+                                }}">
+                                Loading...
+                            </div>
+                            <div class="table-cell" e-text="{{ toDate(item.createdAt) }}">
+                                Loading... </div>
+
+                            <div class="table-cell" data="{
+                                content: item.address + ' • ' + 
+                                        item.province.name + ' • ' + 
+                                        item.province.country.name 
+                            }" e-text="{{ 
+                                    content
+                                }}" e-title="{{ content }}"> Loading... </div>
+                        </div>
+                    </slot>
+                </app-table>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="main-body fit-content settings-page card">
+    <management-menu></management-menu>
+
+    <div class="partial splitted-editing editable-left">
+        <form class="left nice-scroll">
+
+            <div class="description">
+                <h3>Adicionar Forma de Pagamento
+            </div>
+
+            <div class="row column-type">
+                <div class="input-field">
+                    <label>Nome</label>
+                    <input type="text" name="name" placeholder="Digite o Nome" validate="input" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="action-area btn-ordered">
+                    <button type="reset" class="cancel-type" onclick="window.history.back()">Voltar</button>
+                    <button type="button" class="submit-type" on:click="submit">Criar</button>
+                </div>
+            </div>
+        </form>
+        <div class="right" id="loadable"></div>
+    </div>
+</div>

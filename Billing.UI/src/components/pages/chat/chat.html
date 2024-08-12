@@ -1,0 +1,143 @@
+<div class="main-body chat base-divide-structure fit-content">
+    <div class="content">
+        <div class="input-side card">
+            <div class="left conversations hiddable-panel-left">
+                <span title="Fechar Resumo"
+                    class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
+                    onclick="event.target.parentNode.classList.remove('show-left');"></span>
+
+                <div class="header">
+                    <h3>Conversações</h3>
+                </div>
+                <div class="body">
+                    <div class="conversations-container fit-content-nonspace nice-scroll">
+
+                        <div class="row" e-for="chat of chats" on:click="this.selectChat(event, chat)">
+                            <div class="user-info" data="chat">
+                                <div class="icon" data="creator">
+                                    <p e-text="{{ getAchronym(toFullName(employee.firstName, employee.lastName)) }}">#</p>
+                                    <span class="is-online"></span>
+                                </div>
+                                <div class="info" data="creator">
+                                    <h4 e-text="{{ toFullName(employee.firstName, employee.lastName) }}">Funcionario</h4>
+                                    <small e-text="{{ employee.store.name }}">Estabelecimento</small>
+                                </div>
+                                <div class="time">
+                                    <small e-text="{{ calculateNotificationPeriod(messages[0].createdAt) }}">00:00</small>
+                                </div>
+                            </div>
+                            <div class="message-info" e-text="{{ this.messageResume(chat) }}"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="right message-container">
+                <div class="user-description-bar">
+                    <div class="left">
+                        <span on:click="showPanel(event, 'left')"
+                            class="reduced-screen-bottom center-icon fa fa-comments chat-panel"></span>
+                    </div>
+                    <div class="middle">
+                        <span class="user-presentation"
+                            e-text="{{
+                                toFullName(
+                                    selectedChat.creator?.employee?.firstName,
+                                    selectedChat.creator?.employee?.lastName
+                                ) || 'Seleccione uma conversa'
+                            }}"></span>
+                    </div>
+                    <div class="right">
+                        <span on:click="this.showPanel(event, 'right')"
+                            class="reduced-screen-bottom center-icon fa fa-users users-panel"></span>
+                    </div>
+                </div>
+
+                <div class="body">
+                    <div class="messages-container fit-content-nonspace nice-scroll">
+
+                        <div class="no-messages" e-if="messages.length === 0">
+                            <span class="icon-wrapper">
+                                <span class="fa fa-comments center-icon"></span>
+                            </span>
+                            <p>Sem mensagens ainda</p>
+                        </div>
+
+                        <div e-for="message of messages" e-class="{ 'is-user': message.from == ref }"
+                            class="message-bubble-container">
+                            <div class="message-bubble">
+                                <div class="owner">
+                                    <span e-text="{{ this.getMessageAchronym(message) }}">##</span>
+                                </div>
+                                <div class="message" e-text="{{ message.content }}">
+                                    Loading...
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="loading-section" e-if="loadingMessages">
+                    <span class="is-loading"></span> <span>Loading Messages...</span>
+                </div>
+
+                <div class="compose-container" e-if="Object.keys(selectedChat.creator?.employee || {}).length !== 0">
+                    <div class="left">
+                        <span class="fa fa-plus" title="Adicionar Anexo"></span>
+                    </div>
+                    <div class="middle">
+                        <div class="composer nice-scroll" contenteditable="true" spellcheck="false" tabindex="-1"
+                            e-bind="typedContent" on:keydown="this.onCtrlEnter"></div>
+                    </div>
+                    <div class="right">
+                        <span class="fa fa-paper-plane-o center-icon" title="Enviar Mensagem"
+                            on:click="sendMessage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="images-side default-side hiddable-panel-right">
+            <span title="Fechar Resumo" class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
+                onclick="event.target.parentNode.classList.remove('show-right');"></span>
+
+            <div class="card user-info-v-card">
+                <div class="icon">
+                    <p e-text="{{ getAchronym(user.username) }}">U</p>
+                    <span class="is-online"></span>
+                </div>
+
+                <div class="info">
+                    <h4 e-text="{{ user.username }}">Usuario</h4>
+                </div>
+
+                <div class="info">
+                    <label e-text="{{ user.role }}">Perfil</label>
+                </div>
+            </div>
+            <div class="online-users card">
+                <div class="header">
+                    <h4>Usuários</h4>
+                </div>
+                <div class="body">
+                    <div class="users-container fit-content-nonspace nice-scroll">
+
+                        <div class="row">
+                            <div class="user-info">
+                                <div class="icon">
+                                    <p>AM</p>
+                                    <span class="is-online"></span>
+                                </div>
+                                <div class="info">
+                                    <h4>Afonso Matumona</h4>
+                                    <small>Loja Central</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

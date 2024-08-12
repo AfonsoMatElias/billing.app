@@ -1,0 +1,131 @@
+<div class="create-customer fit-content">
+    <div class="create-page-generic base-divide-structure fit-content">
+        <form class="content" post-form>
+            <div class="input-side card">
+                <div class="left input-area">
+                    <div class="info-section group-items-row">
+                        <div class="back-button hide-it">
+                            <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
+                        </div>
+                        <h3> Informações Base </h3>
+                    </div>
+
+                    <div class="input-wrap nice-scroll">
+                        <div class="input-field">
+                            <label>Primeiro nome</label>
+                            <input placeholder="Loading..." e-disabled="{ 'true': locked }" type="text"
+                                e-bind="model.firstName" validate="text" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Último nome</label>
+                            <input placeholder="Loading..." e-disabled="{ 'true': locked }" type="text"
+                                e-bind="model.lastName" validate="text" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Identificação</label>
+                            <input placeholder="Loading..." e-disabled="{ 'true': locked }" type="text"
+                                e-bind="model.idCard" validate="text" />
+                        </div>
+
+                        <div class="input-field input-area">
+                            <label>Nascimento</label>
+                            <input placeholder="Loading..." e-disabled="{ 'true': locked }" type="date"
+                                e-bind="model.birthday" validate="age" />
+                        </div>
+
+                        <div class="input-field input-area">
+                            <label>Genero</label>
+                            <select e-disabled="{ 'true': locked }" e-bind:value="model.gender" validate="select">
+                                <option selected>Selecione uma opção...</option>
+                                <option e-for="item of genders" e-value="{{ item.id }}" e-text="{{ item.name }}">
+                                    Loading...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="content main-body-action">
+                        <button type="reset" class="cancel-type">CANCELAR</button>
+                        <button type="button" class="submit-type" on:click="submit">SUBMETER</button>
+                    </div>
+                </div>
+
+                <div class="right input-area nice-scroll">
+                    <h3 class="info-section"> Informações Extra </h3>
+                    <div class="input-wrap nice-scroll">
+                        <div class="input-field input-area">
+                            <label>Telefone</label>
+                            <input placeholder="Loading..." e-disabled="{ 'true': locked }" type="text"
+                                e-bind="model.phone" validate="text" />
+                        </div>
+
+                        <div class="input-field input-area">
+                            <label>Email</label>
+                            <input placeholder="Loading..." e-disabled="{ 'true': locked }" type="text"
+                                e-bind="model.email" validate="text" />
+                        </div>
+
+                        <div class="input-field input-area">
+                            <label>Pais</label>
+                            <select e-disabled="{ 'true': locked }" e-bind="((model.province||{}).country ||{}).id">
+                                <option selected>Selecione uma opção...</option>
+                                <option e-for="item of countries" e-value="{{ item.id }}" e-text="{{ item.name }}">
+                                    Loading...</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field input-area">
+                            <label>Provincia</label>
+                            <select e-disabled="{ 'true': locked }" e-bind="model.provinceId" validate="select">
+                                <option selected>Selecione uma opção...</option>
+                                <option e-for="item of provincies" e-value="{{ item.id }}" e-text="{{ item.name }}">
+                                    Loading...</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field input-area">
+                            <label>Endereço</label>
+                            <textarea e-disabled="{ 'true': locked }" e-bind="model.description || 'N/A'" placeholder="Loading..."></textarea>
+                        </div>
+
+                        <div class="input-field input-area">
+                            <label>Última Compra</label>
+                            <input placeholder="Loading..." e-disabled="{ 'true': locked }" type="date"
+                                e-bind="model.birthday" validate="age" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="images-side default-side card">
+                <h3 class="info-section"> Foto </h3>
+
+                <div class="input-wrap nice-scroll">
+
+                    <div class="square">
+                        <div class="top"></div>
+                        <div class="center">
+                            <div class="photo-field">
+                                <div class="customer image" on:click="removeImage" title="Clique para remover a imagem">
+                                    <input type="file" on:change="loadImage" id="image"
+                                        accept="image/gif, image/jpeg, image/png, image/jpg" class="hide-it" />
+                                    <span e-show="locked == false" title="Clique para alterar a imagem"
+                                        class="icon-type center-icon fa fa-camera"
+                                        onclick="event.target.previousElementSibling.click()"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom"></div>
+                    </div>
+
+                    <div class="description">
+                        <p e-text="Sr(a). {{ toFullName(model.firstName, model.lastName) }}">
+                            Loading...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

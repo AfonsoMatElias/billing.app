@@ -1,0 +1,15 @@
+<div class="content nice-scroll">
+    <div class="header">
+        <h3>Nome</h3>
+        <p>Altere o nome do estabelimento</p>
+    </div>
+
+    <div class="input-area">
+        <app-address data="{ actions: false }"></app-address>
+
+        <div class="action-area">
+            <button on:click="this.destroy()" type="reset" class="cancel-type">Cancelar</button>
+            <button type="button" class="submit-type">Salvar</button>
+        </div>
+    </div>
+</div>

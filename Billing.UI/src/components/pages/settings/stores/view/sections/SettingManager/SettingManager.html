@@ -1,0 +1,24 @@
+<div class="content">
+    <div class="header">
+        <h3>Gerente</h3>
+        <p>Altere o Gerente para o estabelimento</p>
+    </div>
+
+    <div form-post class="input-area">
+        <div class="input-field cell">
+            <label>Gerente</label>
+            <select name="GerenteId">
+                <option selected>Selecione uma opção...</option>
+                <option e-req="item of funcionario" on:add="onFuncionarioAdded" e-value="{{ item.id }}"
+                    e-text="{{ toFullName(item.usuario.pessoa) }}">
+                    Loading...
+                </option>
+            </select>
+        </div>
+
+        <div class="action-area">
+            <button on:click="this.destroy()" type="reset" class="cancel-type">Cancelar</button>
+            <button type="button" class="submit-type" on:click="this.submit">Salvar</button>
+        </div>
+    </div>
+</div>

@@ -5,18 +5,20 @@ import './assets';
 // main pages
 import './index.html';
 import './sign.in.html';
-import './sign.up.html';
 import './sign.recover.html';
+import './sign.up.html';
 
 import components from "./components";
-import { AlertModel, ProductModel } from './model';
-import { notify } from "./helpers/utils";
+import defaultPreferences from "./data/default.preferences";
+import AlertIcon from "./data/models/enums/alertIcon";
+import AlertModel from "./data/models/view/AlertModel";
+import UserModel from "./data/models/view/userModel";
+import { addOrRemSpinner, calculateNotificationPeriod, getAchronym, hasSpinner, notify, toDate, toFullName, toHumanBirthday, toObject } from "./helpers/utils";
 
-console.log(new Bouer('body', {
+new Bouer('body', {
 	components,
 	data: {
-		alerts: [] = new Array<AlertModel>,
-		baseUrl: "http://localhost:5000/api/",
+		alerts: [] = new Array<AlertModel>(),
 
 		// Variables
 		currentPage: "None",
@@ -27,7 +29,6 @@ console.log(new Bouer('body', {
 
 		openedMenu: null,
 
-		products: new Array<ProductModel>(),
 		conversations: [{
 			id: 1,
 			user: "António Ferraz Lopes",
@@ -63,8 +64,8 @@ console.log(new Bouer('body', {
 
 		// Methods
 		signOut() {
-			// this.data.application.token = '';
-			// window.location.href = '/index.html';
+			localStorage.removeItem('billing.app.auth');
+			window.location.href = '/sign.in.html';
 		},
 		openable(evt: Event): any {
 			// Toggleable class
@@ -91,21 +92,21 @@ console.log(new Bouer('body', {
 			[].slice.call(current.querySelectorAll('a')).filter(function (item: HTMLAnchorElement) {
 				item.onclick = () => current.classList.remove(cls);
 			});
-		}
+		},
 	},
 
 	globalData: {
-		application: {
-			token: '',
-			role: 'Perfil',
-			user: {
-				id: '',
-				nome: '',
-				userName: '',
-				user: {}
-			}
-		},
-		preferences: []
+		// Vars
+		user: toObject<UserModel>(),
+		preferences: defaultPreferences,
+
+		calculateNotificationPeriod,
+		toHumanBirthday,
+		toDate,
+		addOrRemSpinner,
+		hasSpinner,
+		getAchronym,
+		toFullName
 	},
 
 	config: {
@@ -117,20 +118,22 @@ console.log(new Bouer('body', {
 	},
 
 	beforeLoad() {
-		const noTokenRequiredPages = [
+		const noAuthRequiredPages = [
 			"/sign.in.html",
 			"/sign.up.html",
 			"/sign.recover.html",
 		];
 
-		const isInNoTokenRequiredPages = noTokenRequiredPages.find(
+		const isInNoAuthRequiredPages = noAuthRequiredPages.find(
 			item => window.location.href.includes(item)
 		) != null;
 
-		// if (isInNoTokenRequiredPages && sessionStorage.token)
-		// 	return (window.location.href = "/");
-		// else if (!isInNoTokenRequiredPages && !sessionStorage.token)
-		// 	return (window.location.href = "/sign.in.html");
+		const authTokenData = localStorage['billing.app.auth'];
+
+		if (isInNoAuthRequiredPages && authTokenData)
+			return (window.location.href = "/");
+		else if (!isInNoAuthRequiredPages && !authTokenData)
+			return (window.location.href = "/sign.in.html");
 
 		// Is loading something
 		let pagesLoading = 0;
@@ -161,79 +164,63 @@ console.log(new Bouer('body', {
 
 			notify.call(this as Bouer, {
 				message: "Página ou ficheiro não encontrado!",
-				type: "error",
+				type: AlertIcon.error,
 			});
 		});
 
 		this.on('notify', evt => {
 			notify.call(this as Bouer, {
-				type: evt.detail.type || 'error',
-			 	message: evt.detail.content
+				type: evt.detail.type || AlertIcon.error,
+				message: evt.detail.message,
+				run: evt.detail.run || function () { }
 			});
 		});
 
-		if (isInNoTokenRequiredPages) return;
+		if (isInNoAuthRequiredPages) return;
 
-		// this.deps.web('sign/account')
-		// 	.then(response => { });
-		// 	.then(function (response) {
-		// 		var data = response.data;
+		this.globalData.user = JSON.parse(atob(authTokenData));
 
-		// 		var preferences = data.preferences;
-		// 		delete data.preferences;
+		const preferences = this.globalData.preferences;
 
-		// 		// Setting user data
-		// 		bouer.set(data, bouer.globalData.application.user);
+		// Updates uuser preferences in the server if it changes
+		for (const key of Object.keys(preferences)) {
+			const pref = (preferences as any)[key];
 
-		// 		function addWatch(preference, prefName, bindKey) {
-		// 			bouer.watch(bindKey, (v) => {
-		// 				bouer.deps['web']('preferences/' + prefName + '/?prefValue=' + v, 'PUT', {})
-		// 					.then();
-		// 			}, preference);
-		// 		}
+			pref.key = key;
 
-		// 		// Updates uuser preferences in the server if it changes
-		// 		for (var key of Object.keys(preferences)) {
-		// 			var pref = preferences[key];
+			if (key === 'darkMode') {
+				const setDarkMode = (v: any) => {
+					const dark = "dark-mode";
+					const light = "light-mode";
 
-		// 			pref.key = key;
+					if (v) {
+						document.documentElement.classList
+							.replace(light, dark);
 
-		// 			bouer.globalData.preferences.push(pref);
-		// 			addWatch(pref, key, 'value');
+						this.$skeleton.set({
+							background: '#3a3b3b',
+							wave: '#16171b'
+						});
+					} else {
+						document.documentElement.classList
+							.replace(dark, light);
 
-		// 			if (key === 'DarkMode') {
-		// 				// Defining and adding calling the function to apply the mode
-		// 				function setDarkMode(v) {
-		// 					var dark = "dark-mode",
-		// 						light = "light-mode";
-		// 					if (v) {
-		// 						document.documentElement.classList.replace(light, dark);
+						this.$skeleton.set({})
+					}
 
-		// 						bouer.$skeleton.set({
-		// 							background: '#3a3b3b',
-		// 							wave: '#16171b'
-		// 						});
-		// 					} else {
-		// 						document.documentElement.classList.replace(dark, light);
-		// 						bouer.$skeleton.set({})
-		// 					}
+					this.emit('onThemeChange', { init: { detail: { isDark: v  } } });
+				}
 
-		// 					bouer.emit('onDarkModeChange', {
-		// 						init: { detail: { value: v } }
-		// 					});
-		// 				}
+				setDarkMode(pref.value);
 
-		// 				setDarkMode(pref.value);
-		// 				bouer.watch("value", setDarkMode, pref);
-		// 			}
-		// 		}
-		// 	});
+				this.watch('value', (n) => {
+					setDarkMode(n);
+				}, pref);
+			}
+		}
 
-		// var jwtObj = JSON.parse(atob(sessionStorage.token.split(' ')[1].split('.')[1]))
-
-		// this.globalData.application.role = Array.isArray(jwtObj.role) ? jwtObj.role[0] : jwtObj.role;
 	},
 	loaded() {
 		// if (typeof signHandler === 'function') signHandler.call(this);
 	},
-}));
+});

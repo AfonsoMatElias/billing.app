@@ -1,5 +1,6 @@
 import Bouer, { code, dynamic, webRequest } from "bouerjs";
-import AlertModel from "../model/AlertModel";
+import AlertModel from "../data/models/view/AlertModel";
+import AlertIcon from "../data/models/enums/alertIcon";
 
 export function web(this: Bouer, path: string, method?: string, body?: BodyInit, headers?: HeadersInit) {
 	return webRequest(path, {
@@ -46,7 +47,7 @@ export function notify(this: Bouer, alert: AlertModel) {
 		console.error('[Unknown Error]:', alert.message);
 	}
 
-	if (!alert.type) alert.type = 'info';
+	if (!alert.type) alert.type = AlertIcon.info;
 
 	alert.message = encodeURI(messageData);
 
@@ -100,10 +101,12 @@ export function calculateNotificationPeriod(input: string) {
 	return message || "agora mesmo";
 }
 
-export function toHumanBirthday(jsonDate: string) {
-	if (!jsonDate) return 'N/A';
+export function toHumanBirthday(date: Date | string) {
+	if (!date) return 'N/A';
 
-	const date = jsonDate.split('T')[0].split('-');
+	const jsonDate = date instanceof Date ? date.toJSON() : date; 
+
+	const datePart = jsonDate.split('T')[0].split('-');
 	const monthMap = [
 		'Janeiro', 'Fevereiro', 'Março',
 		'Abril', 'Maio', 'Junho', 'Julho',
@@ -111,20 +114,21 @@ export function toHumanBirthday(jsonDate: string) {
 		'Novembro', 'Dezembro'
 	];
 
-	const day = date[2];
-	const month = monthMap[(Number(date[1]) - 1)];
-	const year = date[0];
+	const day = datePart[2];
+	const month = monthMap[(Number(datePart[1]) - 1)];
+	const year = datePart[0];
 
 	return day + ' de ' + month + ' de ' + year;
 }
 
-export function toDate(jsonDate: string) {
-	if (!jsonDate) return 'N/A';
+export function toDate(date: Date | string) {
+	if (!date) return 'N/A';
+	const jsonDate = date instanceof Date ? date.toJSON() : date; 
 	return new Date(Date.parse(jsonDate))
 		.toLocaleDateString('pt');
 }
 
-export function addOrRemSpinner(btn: Element, isRemove: boolean) {
+export function addOrRemSpinner(btn: Element, isRemove?: boolean) {
 	const classList = btn.classList;
 	const loadingClass = 'is-loading';
 	if (isRemove) {
@@ -151,43 +155,13 @@ export function signOut() {
 	window.location.href = '/sign.in.html';
 }
 
-// getPartialData(input = {
-// 	url: '',
-// 	search: '',
-// 	controls: null,
-// 	pagination: null,
-// 	beforeRequest: function () { },
-// 	onReponse: function (r: any) { },
-// 	onCatch: function () { },
-// 	onFinish: function () { },
-// }) {
+export function toProductImage(product: any) {
+	const defaultImage = '/assets/images/box.svg';
 
-// 	// `this` keyword is the bouer instance
-// 	if (!input.controls)
-// 		return console.log("controls and pagination need to be defined");
+	if (!product || !product.images || product.images.length == 0)
+		return defaultImage;
 
-// 	(input.beforeRequest || function () { }).call(this);
-
-// 	if (!input.url.includes("?"))
-// 		input.url += '?';
-// 	else
-// 		input.url += '&';
-
-// 	const web = this.deps['web'];
-// 	const url = input.url + 'page=' + (input.controls as any).page + '&size=' +
-// 		(input.controls as any).size + '&search=' + (input.search || '');
-
-// 	web(url)
-// 		.then(r => input.onReponse(r))
-// 		.catch(() => (input.onCatch || function () { }).call(this))
-// 		.finally(() => (input.onFinish || function () { }).call(this));
-// },
-
-export function selectOneImage(product: any) {
-	if (product.produtoImagens.length == 0)
-		return '/assets/images/box.svg';
-
-	return product.produtoImagens[0].downloadUrl;
+	return product.images[0].url || defaultImage;
 }
 
 export function aboveMe(me: Element, selector?: string) {
@@ -222,7 +196,16 @@ export function toCode(len?: number) {
 	return code(len);
 }
 
-export function tofullName(pessoa: any) {
-	if (!pessoa) return '';
-	return [pessoa.primeiroNome, pessoa.ultimoNome].join(' ').trim()
+export function toFullName(...names: string[]) {
+	return names.join(' ').trim()
+}
+
+export function toObject<T = dynamic>() {
+	const emptyObject: T = {} as any; 
+	return Object.assign({}, emptyObject);
+}
+
+export function toNullType<T>(init?: any): T | null {
+	const emptyObject: T =  init; 
+	return emptyObject;
 }

@@ -1,0 +1,109 @@
+<div class="main-body fit-content settings-page card">
+    <settings-menu></settings-menu>
+
+    <div class="inner-menu-content">
+        <div class="partial splitted-editing establishment">
+            <div class="left nice-scroll">
+
+                <div class="description label-back-button">
+                    <div class="back-button">
+                        <span class="center-icon fa fa-arrow-left" onclick="window.history.back()"></span>
+                    </div>
+                    <div class="text">
+                        <h3>Informações do Estabelecimento</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="value-area">
+                        <div class="ident">
+                            <p>Identificador</p>
+                        </div>
+                        <div class="value">
+                            <p e-text="{{ store.ucode || 'Loading...' }}">ID</p>
+                        </div>
+                    </div>
+                    <div class="icon-area">
+                        <span class="center-icon fa fa-circle"></span>
+                    </div>
+                </div>
+
+                <div class="row" on:click="this.onSectionClick('name')">
+                    <div class="value-area">
+                        <div class="ident">
+                            <p>Nome</p>
+                        </div>
+                        <div class="value">
+                            <p e-text="{{ store.name || 'Loading...' }}">Nome Loja</p>
+                        </div>
+                    </div>
+                    <div class="icon-area">
+                        <span class="center-icon fa fa-angle-right"></span>
+                    </div>
+                </div>
+
+                <div class="row" on:click="this.onSectionClick('nif')">
+                    <div class="value-area">
+                        <div class="ident">
+                            <p>NIF</p>
+                        </div>
+                        <div class="value">
+                            <p e-text="{{ store.nif || 'Loading...' }}">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="icon-area">
+                        <span class="center-icon fa fa-angle-right"></span>
+                    </div>
+                </div>
+
+                <div class="row" on:click="this.onSectionClick('address')">
+                    <div class="value-area">
+                        <div class="ident">
+                            <p>Endereço</p>
+                        </div>
+                        <div class="value">
+                            <p e-text="{{
+                                store.province ? 
+                                (
+                                    (store.address || 'N/A') + ' • ' + 
+                                    store.province.name + ' • ' + 
+                                    store.province.country.name
+                                ) : 'N/A' 
+                            }}">Endereço</p>
+                        </div>
+                    </div>
+                    <div class="icon-area">
+                        <span class="center-icon fa fa-angle-right"></span>
+                    </div>
+                </div>
+
+                <div class="row" on:click="this.onSectionClick('manager')">
+                    <div class="value-area">
+                        <div class="ident">
+                            <p>Gerente</p>
+                        </div>
+                        <div class="value">
+                            <p e-text="{{ 
+                                store.manager
+                                ? toFullName(
+                                    store.manager.firstName, 
+                                    store.manager.lastName
+                                ) 
+                                : 'N/A'
+                            }}">Gerente da Loja</p>
+                        </div>
+                    </div>
+                    <div class="icon-area">
+                        <span class="center-icon fa fa-angle-right"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="right nice-scroll" id="loadable">
+                <div class="view-content" e-for="sec of section">
+                    <form-dynamic data="sec"></form-dynamic>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

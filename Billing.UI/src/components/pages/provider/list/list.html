@@ -1,0 +1,43 @@
+<app-table class="fit-content search-on" data="$data">
+    <slot slot="table-head">
+        <div class="table-cell"> Nome </div>
+        <div class="table-cell"> Identificação </div>
+        <div class="table-cell"> Genero </div>
+        <div class="table-cell"> Telefone </div>
+        <div class="table-cell"> Email </div>
+        <div class="table-cell"> Última Compra </div>
+    </slot>
+    <slot slot="table-body">
+        <div class="table-row flex-it" e-skeleton
+            e-for="item of providers | where:search:firstName,lastName,gender,email,address">
+            <div class="card-cover"></div>
+            <div class="pointer table-cell">
+                <a :href="/provider/view/{{ item.id }}" e-text="{{ toFullName(item.firstName, item.lastName) }}">
+                    Loading...
+                </a>
+            </div>
+            <div class="pointer table-cell" e-text="{{ item.idCard }}"> Loading... </div>
+            <div class="table-cell hidable" e-text="{{ item.gender || 'N/A' }}"> Loading... </div>
+            <div class="table-cell hidable" e-text="{{ item.phone || 'N/A' }}"> Loading... </div>
+            <div class="table-cell hidable" e-text="{{ item.email || 'N/A' }}">
+                Loading... </div>
+            <div class="table-cell">
+                <span e-text="{{ toDate(item.lastBuy) || 'N/A' }}"> Loading... </span>
+                <div>
+                    <div class="item-options flex-it hide-it">
+                        <div>
+                            <a :href="/provider/view/{{ item.id }}">
+                                <button class="see">Ver</button>
+                            </a>
+                        </div>
+                        <div>
+                            <button class="rem">Eliminar</button>
+                        </div>
+                    </div>
+                    <span title="Opções" onclick="event.target.previousElementSibling.classList.toggle('hide-it')"
+                        class="fa fa-dot-circle-o"></span>
+                </div>
+            </div>
+        </div>
+    </slot>
+</app-table>

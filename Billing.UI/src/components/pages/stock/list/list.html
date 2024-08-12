@@ -1,0 +1,41 @@
+<app-table class="fit-content search-on back-button-on" data="$data">
+    <slot slot="table-head">
+        <div class="table-cell"> Produto </div>
+
+        <div class="table-cell"> Preco de Compra </div>
+        <div class="table-cell"> Preco de Venda </div>
+
+        <div class="table-cell"> Quantd. em Stock </div>
+        <div class="table-cell"> Data de Compra </div>
+        <div class="table-cell"> Data de Validade </div>
+
+        <div class="table-cell"> Fornecedor </div>
+        <div class="table-cell"> Vendas (Akz) </div>
+    </slot>
+    <slot slot="table-body">
+        <div class="table-row flex-it" e-skeleton
+            e-for="item of stocks | where:search:product.name,product.info,product.code">
+            <div class="card-cover"></div>
+
+            <div class="pointer table-cell">
+                <a :href="/stock/view/{{ item.id }}" e-text="{{ item.product.name }}"> Loading... </a>
+            </div>
+
+            <div class="table-cell" e-text="{{ item.priceBuy }} Akz"> Loading... </div>
+            <div class="table-cell" e-text="{{ item.priceSell }} Akz"> Loading... </div>
+
+            <div class="table-cell" e-class="{ 'warn': item.quantity <= item.quantityMin }"
+                e-text="{{ item.quantity }}"> Loading... </div>
+
+
+            <div class="table-cell" e-text="{{ toDate(item.entryDate) }}"> Loading... </div>
+            <div class="table-cell" e-text="{{ toDate(item.validityDate) }}"> Loading... </div>
+            <div class="table-cell"
+                e-text="{{ item.provider ? toFullName(item.provider.firstName, item.provider.lastName) : 'N/A' }}">
+                Loading...
+            </div>
+            <div class="table-cell" e-text="{{ ((item.quantityEntry - item.quantity) * item.priceSell) }} Akz">
+                Loading... </div>
+        </div>
+    </slot>
+</app-table>

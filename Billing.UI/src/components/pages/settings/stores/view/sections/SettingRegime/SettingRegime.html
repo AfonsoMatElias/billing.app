@@ -1,0 +1,24 @@
+<div class="content">
+    <div class="header">
+        <h3>Gerente</h3>
+        <p>Altere o Regime do estabelimento</p>
+    </div>
+
+    <div form-post class="input-area">
+        <div class="input-field cell">
+            <label>Regime</label>
+            <select name="GerenteId">
+                <option selected>Selecione uma opção...</option>
+                <option e-req="item of regime" on:add="this.onRegimeAdded" e-value="{{ item.id }}"
+                    e-text="{{ item.usuario.pessoa.primeiroNome + ' ' + item.usuario.pessoa.ultimoNome }}">
+                    Loading...
+                </option>
+            </select>
+        </div>
+
+        <div class="action-area">
+            <button on:click="this.destroy()" type="reset" class="cancel-type">Cancelar</button>
+            <button type="button" class="submit-type" on:click="this.submit">Salvar</button>
+        </div>
+    </div>
+</div>

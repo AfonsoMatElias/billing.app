@@ -1,0 +1,162 @@
+<div class="main-body buy-product base-divide-structure fit-content">
+    <div class="content">
+        <div class="input-side">
+            <div class="up-side card">
+                <div class="row action-area">
+                    <div class="area">
+                        <h3>Informações da Compra</h3>
+                    </div>
+
+                    <div class="area">
+                        <button class="next-type paused-selling">
+                            <i class="fa fa-cubes"></i>
+                            <a :href="/stock/list">Compras</a>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="input-area h-space-between find-me">
+                    <div class="left">
+                        <div class="input-field">
+                            <div class="field-header">
+                                <label>Fornecedor</label>
+                            </div>
+                            <div class="field-body">
+                                <select name="providerId" validate="select">
+                                    <option selected value="">None</option>
+                                    <option e-for="item of providers" e-value="{{ item.id }}"
+                                        e-text="{{ toFullName(item.firstName, item.lastName) }}">
+                                        Loading...</option>
+                                </select>
+                                <a :href="/providers/create/tef?src={{ '/buy' }}">Criar</a>
+                            </div>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Preço Unitário de Compra</label>
+                            <input type="text" name="priceBuy" validate="number"
+                                placeholder="Preço de Compra" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Preço Unitário de Venda</label>
+                            <input type="text" name="priceSell" validate="number"
+                                placeholder="Preço de Venda" />
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="input-field">
+                            <div class="field-header">
+                                <label>Quantidade | <b style="color: var(--color-app);" name="productId"
+                                        field-value="{{ selectedProduct.id }}"
+                                        e-text="{{ selectedProduct.name || 'Seleccione um produto' }}">?</b></label>
+                            </div>
+                            <div class="field-body">
+                                <input type="number" name="quantity" validate="number" placeholder="Quantidade" />
+                                
+                                <input type="number" name="quantityMin" validate="number" placeholder="Quant. Min (Alerta)" />
+                            </div>
+
+                        </div>
+
+                        <div class="input-field">
+                            <label>Data de Entrada</label>
+                            <input type="date" name="entryDate" d validate="date" />
+                        </div>
+
+                        <div class="input-field">
+                            <label>Data de Validade (Opcional)</label>
+                            <input type="date" name="validityDate" validate="date" />
+                        </div>
+                    </div>
+                </div>
+                <div class="action-area">
+                    <div class="area h-space-between">
+                        <button class="cancel-type" id="reset"
+                            on:click="this.cancelBuy(aboveMe(event.currentTarget, '.up-side').querySelector('.input-area'))">CANCELAR</button>
+                        <button class="primary-button"
+                            on:click="this.addBuyItem(aboveMe(event.currentTarget, '.up-side').querySelector('.input-area'))">ADICIONAR</button>
+                    </div>
+                    <div class="area">
+                        <button class="submit-type" on:click="this.submit">SUBMETER</button>
+                    </div>
+                </div>
+            </div>
+            <div class="down-side">
+                <app-table data="$data">
+                    <slot slot="table-head">
+                        <div class="table-cell"> Fornecedor </div>
+                        <div class="table-cell"> Produto </div>
+                        <div class="table-cell"> Preco (AKZ) </div>
+                        <div class="table-cell"> Quantd. </div>
+                        <div class="table-cell"> Data de Compra </div>
+                        <div class="table-cell"> Data de Validade </div>
+                        <div class="table-cell" style="flex: .5;"></div>
+                    </slot>
+                    <slot slot="table-body">
+                        <div class="table-row flex-it" e-skeleton e-for="buy of stocks">
+                            <div class="card-cover"></div>
+                            <div class="pointer table-cell" e-text="{{ buy.row.Provider }}"> Loading...
+                            </div>
+                            <div class="pointer table-cell" e-text="{{ buy.row.Product }}"> Loading...
+                            </div>
+                            <div class="pointer table-cell" e-text="{{ buy.PrecoUnitarioCompra }}">
+                                Loading... </div>
+                            <div class="pointer table-cell" e-text="{{ buy.Quantidade }}"> Loading...
+                            </div>
+                            <div class="pointer table-cell hidable" e-text="{{ buy.DataEntrada }}">
+                                Loading...</div>
+                            <div class="pointer table-cell hidable" e-text="{{ buy.DataValidade || 'N/A' }}">
+                                Loading... </div>
+                            <div class="table-cell" style="flex: .5;">
+                                <span class="remove-line">
+                                    <span class="center-icon icon-type fa fa-remove"
+                                        on:click="removeBuyItem(buy)"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </slot>
+                </app-table>
+            </div>
+        </div>
+
+        <div class="product-side default-side card nice-scroll">
+            <span title="Fechar Resumo" class="reduced-screen-button center-icon fa fa-remove resume-calculador-closer"
+                onclick="event.currentTarget.parentNode.classList.remove('show-right')"></span>
+
+            <div class="row">
+                <h3>Produtos</h3>
+            </div>
+
+            <div class="search-field">
+                <span class="fa fa-search"></span>
+                <input type="text" e-bind="findProduct" placeholder="Procure e Selecione">
+            </div>
+
+            <div class="product-list">
+                <div class="product-card-container fit-content-nonspace nice-scroll">
+
+                    <div class="item" e-for="product of products | where:findProduct:name,code"
+                        on:click="this.chooseProduct(event.currentTarget, product)"
+                        on:add="this.markActive(event.currentTarget, product)" e-skeleton>
+                        <div class="cover" e-style="background-image: url({{ toProductImage(product) }});"></div>
+                        <div class="description">
+                            <span class="main" e-text="{{ product.name }}">Loading...</span>
+                            <span class="detail1" e-text="{{ product.price }} Kz">Loading...</span>
+                            <span class="detail2"
+                                e-text="Stock {{ (product.stocks[0] || {}).quantity || 0 }}">Loading...</span>
+                        </div>
+                        <div class="action-area">
+                            <span class="area center">
+                                <span class="center-icon icon-type fa"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <span title="Produtos" class="reduced-screen-button center-icon fa fa-product-hunt resume-product"
+            onclick="event.target.previousElementSibling.classList.add('show-right');"></span>
+    </div>
+</div>

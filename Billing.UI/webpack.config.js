@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   const isProd = argv.mode == 'production';
@@ -55,12 +56,12 @@ module.exports = (env, argv) => {
             context: './src',
           }
         },
-          // Extracts the content from css-loader
-          'extract-loader',
+          // Creates `style` nodes from JS strings
+          "style-loader",
           // Translates CSS into CommonJS
-          'css-loader',
+          "css-loader",
           // Compiles Sass to CSS
-          'sass-loader',
+          "sass-loader",
         ],
         exclude: [/node_modules/]
       },
@@ -96,12 +97,21 @@ module.exports = (env, argv) => {
       ],
     },
     watchOptions: {
-      ignored: ['**/node_modules']
+      ignored: '**/node_modules',
     },
     devServer: {
-      historyApiFallback: {
-        index: 'dist/index.html',
-      },
-    },
+      port: 8080,
+      historyApiFallback: true,
+      hot: true,
+      onBeforeSetupMiddleware: devServer => {
+        devServer.app.use((req, res, next) => {
+          if (!req.route) {
+            res.sendFile(path.join(__dirname, 'index.html'));
+          } else {
+            next();
+          }
+        });
+      }
+    }
   }
 };

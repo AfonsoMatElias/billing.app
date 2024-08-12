@@ -1,0 +1,10 @@
+<div class="inner-menu nice-scroll">
+	<span title="Menu" class="reduced-screen-button center-icon fa fa-bars setting-menu-btn"
+            on:click="aboveMe(event.target).querySelector('.inner-menu').classList.toggle('show-left')"></span>
+
+	<div e-for="menu of list" class="row" e-class="{ 'mark-point': active == menu.name }">
+		<a :href="{{ menu.url }}">
+			<p e-text="{{ menu.text }}">Loading...</p>
+		</a>
+	</div>
+</div>

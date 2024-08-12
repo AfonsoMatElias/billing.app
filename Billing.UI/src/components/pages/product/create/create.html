@@ -1,0 +1,187 @@
+<div class="create-product fit-content">
+    <div class="create-page-generic base-divide-structure fit-content">
+        <div class="content">
+            <form class="input-side card" post-form>
+                <div class="left input-area">
+                    <h3 class="info-section"> Informações Base </h3>
+
+                    <div class="input-wrap nice-scroll">
+                        <div class="input-field">
+                            <label>Nome</label>
+                            <input type="text" name="name" validate="text" placeholder="Nome" />
+                        </div>
+                        <div class="input-field">
+                            <label>Info. Resumida</label>
+                            <input type="text" name="info" validate="text" placeholder="Informação básica" />
+                        </div>
+                        <div class="input-field">
+                            <label>Preço Unitário</label>
+                            <input type="text" name="price" validate="number" placeholder="Preco Unitário" />
+                        </div>
+                        <div class="input-field">
+                            <div class="field-header">
+                                <label>Categoria</label>
+                            </div>
+                            <div class="field-body">
+                                <select validate="select"
+                                    on:change="this.selectCategoria(event.currentTarget.selectedOptions[0])">
+                                    <option value="" selected>Selecione uma opção...</option>
+                                    <option e-for="item of categories" e-value="{{ item.id }}" e-text="{{ item.name }}">
+                                        Loading...</option>
+                                </select>
+                                <a :href="/settings/management/categoria/create/?src={{ '/product/create' }}">Criar</a>
+                            </div>
+                        </div>
+
+                        <div class="input-field" e-show="subCategories.length !== 0">
+                            <div class="field-header">
+                                <label>SubCategoria</label>
+                            </div>
+                            <div class="field-body">
+                                <select name="subCategoryId" validate="select">
+                                    <option value="" selected>Selecione uma opção...</option>
+                                    <option e-for="item of subCategories" e-value="{{ item.id }}"
+                                        e-text="{{ item.name }}">
+                                        Loading...</option>
+                                </select>
+                                <a
+                                    :href="/settings/management/subcategoria/create/?src={{ '/product/create' }}">Criar</a>
+                            </div>
+                        </div>
+
+                        <div class="input-area ">
+                            <h3 class="info-section"> Descreva o Produto </h3>
+
+                            <div class="input-field">
+                                <label>Descrição</label>
+                                <textarea name="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="content main-body-action">
+                        <button type="reset" class="cancel-type" on:click="this.cancel">CANCELAR</button>
+                        <button type="button" class="submit-type" on:click="this.submit">SUBMETER</button>
+                    </div>
+                </div>
+                <div class="right input-area">
+                    <h3 class="info-section"> Informações Especificas </h3>
+
+                    <div class="input-wrap nice-scroll">
+
+                        <div class="input-area">
+                            <div class="input-field">
+                                <label>Código</label>
+                                <input type="text" name="code" validate="text" placeholder="Código de Barra" />
+                            </div>
+
+                            <div class="check-field field-space">
+                                <input class="app-checkbox" id="stock-check" type="checkbox" e-bind:checked="isStock"
+                                    e-value="{{ isStock }}" name="isStock">
+                                <label for="stock-check">Controlar Stock do Produto?</label>
+                            </div>
+
+                            <div class="input-field">
+                                <label>IVA</label>
+                                <input type="number" name="IVA" validate="text" placeholder="IVA" value="14" />
+                            </div>
+
+                            <div class="check-field field-space">
+                                <input class="app-checkbox" id="buy-check" e-bind:checked="buyInfo" type="checkbox">
+                                <label for="buy-check">
+                                    <h3 class="info-section section-space"> Informações de Compra </h3>
+                                </label>
+                            </div>
+
+                            <div class="input-area" e-if="buyInfo" e-build="stocks" e-array>
+                                <div class="input-field">
+                                    <label>Fornecedor</label>
+                                    <select name="providerId" validate="select">
+                                        <option value="" selected>None</option>
+                                        <option e-for="item of providers" e-value="{{ item.id }}"
+                                            e-text="{{ [item.firstName, item.lastName].join(' ').trim() }}">
+                                            Loading...</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-field">
+                                    <label>Loja Destino</label>
+                                    <select name="storeId" validate="select" e-bind="userStore">
+                                        <option e-for="item of stores" e-value="{{ item.id }}"
+                                            e-text="{{ item.name + ' • ' + item.address || '@' }}">
+                                            Loading...</option>
+                                    </select>
+                                </div>
+
+                                <div class="group-input-field">
+                                    <div class="input-field">
+                                        <label>Quantidade</label>
+                                        <input type="number" name="quantity" validate="number"
+                                            placeholder="Quantidade " />
+                                    </div>
+
+                                    <div class="input-field">
+                                        <label>Quantidade Mínima</label>
+                                        <input type="number" name="quantityMin" validate="number"
+                                            placeholder="Quantidade Mínima" />
+                                    </div>
+                                </div>
+
+                                <div class="input-field">
+                                    <label>Data de Entrada</label>
+                                    <input type="date" name="registeredAt" validate="date" />
+                                </div>
+
+                                <div class="input-field" e-if="isDestroyable">
+                                    <label>Data de Validade</label>
+                                    <input type="date" name="validUntil" validate="date" />
+                                </div>
+
+                                <div class="input-field">
+                                    <label>Preço Unitário de Compra</label>
+                                    <input type="text" name="PrecoUnitarioCompra" validate="number"
+                                        placeholder="Preço de Compra" />
+                                </div>
+
+                                <div class="input-field">
+                                    <label>Preço Unitário de Venda</label>
+                                    <input type="text" name="PrecoUnitarioVenda" validate="number"
+                                        placeholder="Preço de Venda" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="images-side default-side card">
+                <h3 class="info-section"> Imagens </h3>
+
+                <div class="input-wrap nice-scroll">
+                    <!-- Images -->
+                    <div class="image-load-area" on:dragover.prevent="this.dragIn" on:dragleave.prevent="this.dragOut"
+                        on:drop.prevent="this.drop" on:dragend.prevent="null" on:dragleave.prevent="null">
+                        <span class="image-loaded" e-style="background-image: url({{ img.url }})" e-for="img of boxImages">
+                            <span class="close fa fa-close center-icon" on:click="this.removeImage(img, event)"></span>
+                        </span>
+                    </div>
+
+                    <div class="action-area">
+                        <div class="area center">
+                            <button type="button" onclick="event.target.nextElementSibling.click()"
+                                class="primary-button">Carregar</button>
+                            <input id="product-images" type="file" on:change="this.uploadImages" style="display: none;"
+                                accept="image/png, image/jpeg" multiple>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>
+                            Carregue imagens do produto simplesmente arrastando-as no espaço acinzentado ou clicando no
+                            botão dizendo <span style="color: var(--color-app)">Carregar</span>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

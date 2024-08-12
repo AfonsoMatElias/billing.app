@@ -1,0 +1,102 @@
+<div class="main-body buy-product base-divide-structure fit-content">
+    <div class="content">
+        <app-table class="input-side h-space-between back-button-on search-on" data="$data">
+            <slot slot="table-head">
+                <div class="table-cell"> Fornecedor </div>
+                <div class="table-cell"> Preco de Compra </div>
+                <div class="table-cell"> Preco de Venda </div>
+
+                <div class="table-cell"> Quantd. em Stock </div>
+                <div class="table-cell"> Data de Compra </div>
+                <div class="table-cell"> Data de Validade </div>
+
+                <div class="table-cell"> Vendas </div>
+            </slot>
+            <slot slot="table-body">
+                <div e-for="item of stocks" class="table-row flex-it" e-class="{ 'active-cell': item.isActive }" e-skeleton>
+                    <div class="card-cover"></div>
+                    <div class="table-cell"
+                        e-text="{{ item.provider ? toFullName(item.provider.firstName, item.provider.lastName) : 'N/A' }}">
+                        Loading...
+                    </div>
+
+                    <div class="table-cell" e-text="{{ item.priceBuy }} Akz"> Loading... </div>
+                    <div class="table-cell" e-text="{{ item.priceSell }} Akz"> Loading... </div>
+
+                    <div class="table-cell" e-class="{ 'warn': item.quantity <= item.quantityMin }"
+                        e-text="{{ item.quantity }}"> Loading... </div>
+
+
+                    <div class="table-cell" e-text="{{ toDate(item.entryDate) }}"> Loading... </div>
+                    <div class="table-cell" e-text="{{ toDate(item.validityDate) }}"> Loading... </div>
+                    <div class="table-cell" e-text="{{ ((item.quantityEntry - item.quantity) * item.priceSell) }} Akz">
+                        Loading... </div>
+                </div>
+            </slot>
+        </app-table>
+        <div class="product-side default-side card nice-scroll">
+
+            <div class="input-area h-space-between find-me">
+                <div class="left">
+                    <div class="product-list">
+                        <div class="product-card-container">
+                            <div class="item">
+                                <div class="cover"
+                                    e-style="background-image: url({{ toProductImage(stock.product) }});"></div>
+                                <div class="description">
+                                    <span class="main" e-text="{{ (stock.product || {}).name }}">Loading...</span>
+                                    <span class="detail1" e-text="{{ (stock.product || {}).info }}">Loading...</span>
+                                    <span class="detail2" e-text="{{ (stock.product || {}).code }}">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        <label>Fornecedor</label>
+                        <input
+                            e-value="{{ stock.provider ? toFullName(stock.provider.firstName, stock.provider.lastName) : 'N/A' }}"
+                            disabled />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Preço Unitário de Compra</label>
+                        <input disabled e-value="{{ stock.priceBuy || 'Loading...' }}" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Preço Unitário de Venda</label>
+                        <input disabled e-value="{{ stock.priceSell || 'Loading...' }}" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Quantidade Actual</label>
+                        <input disabled e-value="{{ stock.quantity || 'Loading...' }}" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Quantidade de Entrada</label>
+                        <input disabled e-value="{{ stock.quantityEntry || 'Loading...' }}" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Quantidade de Mínima</label>
+                        <input disabled e-value="{{ stock.quantityMin || 'Loading...' }}" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Data de Entrada</label>
+                        <input disabled type="date" e-bind="stock.entryDate" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Data de Validade (Opcional)</label>
+                        <input disabled type="date" e-bind="stock.validityDate" />
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

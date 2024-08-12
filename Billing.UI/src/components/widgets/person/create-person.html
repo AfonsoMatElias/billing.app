@@ -1,0 +1,116 @@
+<div class="create-page-generic base-divide-structure fit-content">
+    <form class="content" post-form>
+        <div class="input-side card">
+            <div class="left input-area">
+                <h3 class="info-section"> Informações Base </h3>
+
+                <div class="input-wrap nice-scroll">
+                    <div class="input-field">
+                        <label>Primeiro nome</label>
+                        <input type="text" name="firstName" validate="text" placeholder="Digite o primeiro nome" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Último nome</label>
+                        <input type="text" name="lastName" validate="text" placeholder="Digite o último nome" />
+                    </div>
+
+                    <div class="input-field">
+                        <label>Identificação</label>
+                        <input type="text" name="idCard" validate="text" placeholder="Digite a identificação" />
+                    </div>
+
+                    <div class="input-field input-area">
+                        <label>Nascimento</label>
+                        <input type="date" name="birthday" validate="age" />
+                    </div>
+
+                    <div class="input-field input-area">
+                        <label>Genero</label>
+                        <select name="gender" validate="select">
+                            <option selected value="">Selecione uma opção...</option>
+                            <option e-for="item of genders" e-value="{{ item.id }}" e-text="{{ item.name }}">
+                                Loading...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="content main-body-action">
+                    <button type="reset" class="cancel-type">CANCELAR</button>
+                    <button type="button" class="submit-type" on:click="this.submit">SUBMETER</button>
+                </div>
+            </div>
+
+            <div class="right input-area nice-scroll">
+                <h3 class="info-section"> Informações Extra </h3>
+                <div class="input-wrap nice-scroll">
+                    <div class="input-field input-area">
+                        <label>Telefone</label>
+                        <input type="text" name="phone" validate="text" placeholder="Digite o telefone" />
+                    </div>
+
+                    <div class="input-field input-area">
+                        <label>Email</label>
+                        <input type="text" name="email" validate="text" placeholder="Digite o email" />
+                    </div>
+
+                    <div class="input-field input-area">
+                        <label>Pais</label>
+                        <select on:change="this.selectCountry(event.currentTarget.selectedOptions[0])">
+                            <option selected value="">Selecione uma opção...</option>
+                            <option e-for="item of countries" e-value="{{ item.id }}" e-text="{{ item.name }}">
+                                Loading...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field input-area" e-show="provincies.length !== 0">
+                        <label>Provincia</label>
+                        <select name="provinceId" validate="select">
+                            <option value="" selected>Selecione uma opção...</option>
+                            <option e-for="item of provincies" e-value="{{ item.id }}" e-text="{{ item.name }}">
+                                Loading...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field input-area">
+                        <label>Endereço</label>
+                        <textarea name="description" placeholder="Digite o endereço"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="images-side default-side card">
+            <h3 class="info-section"> Foto </h3>
+
+            <div class="input-wrap nice-scroll">
+
+                <div class="square">
+                    <div class="top"></div>
+                    <div class="center">
+                        <div class="photo-field">
+                            <div class="customer image" on:click="removeImage" title="Clique para remover a imagem">
+                                <input type="file" on:change="loadImage" name="Imagem" id="image"
+                                    accept="image/gif, image/jpeg, image/png, image/jpg" class="hide-it" />
+                                <span title="Clique para alterar a imagem"
+                                    class="icon-type center-icon fa fa-camera"
+                                    onclick="event.target.previousElementSibling.click()"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom"></div>
+                </div>
+
+                <div class="description">
+                    <p>
+                        Carregue uma foto para melhor visualização... <br>
+                        Os formatos aceites são: .<i 
+                            style="color: var(--color-blue);">gif</i>, .<i
+                            style="color: var(--color-blue);">jpeg</i>, .<i
+                            style="color: var(--color-blue);">png</i> e .<i
+                            style="color: var(--color-blue);">jpg</i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

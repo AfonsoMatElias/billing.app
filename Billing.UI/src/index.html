@@ -5,10 +5,12 @@
     <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="shortcut icon" href="assets/images/logo/ico.svg" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <title>Billing</title>
+
 </head>
 
 <body>
@@ -18,7 +20,7 @@
             <div class="top logo-container">
                 <div class="logo">
                     <a :href="/">
-                        <img src="assets/images/logo/ico.svg" alt="Billing icon">
+                        <span id="app-main-logo" alt="Billing icon"></span>
                         <label>Billing </label>
                     </a>
                 </div>
@@ -39,14 +41,14 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a :href="/products/create">
+                                    <a :href="/product/create">
                                         <span class="center-icon fa fa-plus-circle"></span>
                                         <span> Criar </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a :href="/products">
-                                        <span class="center-icon fa fa-list"></span>
+                                    <a :href="/product/list">
+                                        <span class="center-icon fa fa-files-o"></span>
                                         <span> Listar </span>
                                     </a>
                                 </li>
@@ -59,14 +61,14 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a :href="/customers/create/tec">
+                                    <a :href="/customer/create">
                                         <span class="center-icon fa fa-plus-circle"></span>
                                         <span> Criar </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a :href="/customers/tec">
-                                        <span class="center-icon fa fa-list"></span>
+                                    <a :href="/customer/list">
+                                        <span class="center-icon fa fa-files-o"></span>
                                         <span> Listar </span>
                                     </a>
                                 </li>
@@ -79,14 +81,14 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a :href="/providers/create/tef">
+                                    <a :href="/provider/create">
                                         <span class="center-icon fa fa-plus-circle"></span>
                                         <span> Criar </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a :href="/providers/tef">
-                                        <span class="center-icon fa fa-list"></span>
+                                    <a :href="/provider/list">
+                                        <span class="center-icon fa fa-files-o"></span>
                                         <span> Listar </span>
                                     </a>
                                 </li>
@@ -99,8 +101,8 @@
                             </a>
                         </li>
                         <li title="Comprar">
-                            <a :href="/buy" class="buy-link">
-                                <span class="center-icon fa fa-cube"></span>
+                            <a :href="/stock" class="buy-link">
+                                <span class="center-icon fa fa-opencart"></span>
                                 <span> Comprar </span>
                             </a>
                         </li>
@@ -112,7 +114,7 @@
                         </li>
                         <li>
                             <a :href="/chat" class="chat-link">
-                                <span class="center-icon fa fa-wechat"></span>
+                                <span class="center-icon fa fa-comments"></span>
                                 <span> Chat </span>
                             </a>
                         </li>
@@ -130,7 +132,7 @@
             <div class="top top-bar-container">
                 <div class="top-bar">
                     <div class="page-detail">
-                        <h2 e-text="{{ currentPage }}"></h2>
+                        <h3 e-text="{{ currentPage }}"></h3>
                     </div>
                     <div class="controlls">
                         <div class="icon-field-container">
@@ -243,7 +245,7 @@
 
                         <div class="mini-card card">
                             <div class="card-button" on:click="showProfile = true">
-                                <div class="desc" e-text="{{ application.user.userName || 'Loading...' }}">Loading...
+                                <div class="desc" e-text="{{ user.username || 'Loading...' }}">Loading...
                                 </div>
                                 <div class="image"></div>
                             </div>
@@ -251,8 +253,10 @@
                             <div class="wrapper card hide-it" e-class="{ 'hide-it' : !showProfile }">
                                 <div class="header" on:click="showProfile = false">
                                     <div class="desc">
-                                        <h3 e-text="{{ application.user.nome || 'Loading...' }}">Loading...</h3>
-                                        <p e-text="{{ application.role }}">Loading...</p>
+                                        <h3
+                                            e-text="{{ [user.employee.firstName, user.employee.lastName].join(' ') || 'Loading...' }}">
+                                            Loading...</h3>
+                                        <p e-text="{{ user.role }}">Loading...</p>
                                     </div>
                                     <div class="image-container">
                                         <div class="image"></div>
@@ -279,6 +283,23 @@
                                         </div>
                                     </span>
                                     <span class="footer-icon"></span>
+                                </div>
+                                <div class="row" data="preferences.darkMode">
+                                    <span class="header-icon">
+                                        <span class="center-icon fa" e-class="{ 'fa-sun-o': !value, 'fa-moon-o': value }"></span>
+                                    </span>
+                                    <span class="message">
+                                        <span>
+                                            <div>
+                                                <p>Dark Mode</p>
+                                            </div>
+                                        </span>
+                                    </span>
+                                    <span class="footer-icon switch-container center-content">
+                                        <div class="switch" e-class="{ 'on': value }" on:click="value = !value">
+                                            <span class="wheel"></span>
+                                        </div>
+                                    </span>
                                 </div>
                                 <div class="row">
                                     <span class="header-icon">

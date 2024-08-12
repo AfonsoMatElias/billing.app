@@ -141,8 +141,8 @@
     </div>
 </div>
 <script>
-    var component = this;
-    var bouer = this.bouer;
+    const component = this;
+    const bouer = this.bouer;
 
     this.loaded = function (el) {
         bouer.data.currentPage = 'Chat';
@@ -152,7 +152,7 @@
             bouer.data.showConversation = false;
     }
 
-    var selectedChatElement = null;
+    const selectedChatElement = null;
 
     this.export({
         ref: 1, // The logged user Id
@@ -234,15 +234,15 @@
 
         // Methods
         showPanel: function (evt, prop) {
-            var container = this.el;
+            const container = this.el;
             container.querySelector('.hiddable-panel-' + prop).classList.add('show-' + prop);
         },
         messageResume: function (chat) {
-            var message = chat.chatMessages[0];
+            const message = chat.chatMessages[0];
             if (!message) return;
 
-            var content = message.content;
-            var limit = 34;
+            const content = message.content;
+            const limit = 34;
 
             if (content.length >= limit)
                 content = content.substr(0, limit) + '...';
@@ -253,7 +253,7 @@
             return content;
         },
         selectChat: function (evt, cht) {
-            var cls = 'is-selected';
+            const cls = 'is-selected';
 
             if (selectedChatElement) {
                 selectedChatElement.classList.remove(cls);
@@ -266,7 +266,7 @@
             this.data.messages = cht.chatMessages;
         },
         sendMessage: function () {
-            var typedContent = this.data.typedContent.trim();
+            const typedContent = this.data.typedContent.trim();
             if (!typedContent) return;
 
             this.data.typedContent = '';

@@ -143,6 +143,7 @@
     this.on('loaded', function (evt) {
         bouer.data.currentPage = 'Visualizar Cliente';
         bouer.$routing.markActiveAnchor(bouer.el.querySelector('.customer-link'));
+        
         this.data.sectionToShow = params.type;
         inputFile = evt.target.querySelector('input[type="file"]');
 

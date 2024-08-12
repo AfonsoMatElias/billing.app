@@ -1,0 +1,82 @@
+<div class="main-body fit-content settings-page card">
+    <settings-menu></settings-menu>
+
+    <div class="inner-menu-content">
+        <div class="partial splitted-editing editable-left">
+            <form class="left nice-scroll">
+
+                <div class="description">
+                    <h3>Adicionar Funcionário</h3>
+                </div>
+
+                <div class="row column-type">
+                    <div class="input-field">
+                        <label>Primeiro Nome</label>
+                        <input type="text" name="firstName" placeholder="Digite o Primeiro Nome">
+                    </div>
+
+                    <div class="input-field">
+                        <label>Ultimo Nome</label>
+                        <input type="text" name="lastName" placeholder="Digite o Ultimo Nome">
+                    </div>
+
+                    <div class="input-field">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="Digite o Email">
+                    </div>
+
+                    <div class="input-field">
+                        <label>Bilhete de Identidade</label>
+                        <input type="text" name="idCard" placeholder="Digite o BI">
+                    </div>
+
+                    <div class="input-field">
+                        <label>Data de Nascimento</label>
+                        <input type="date" name="birthday" placeholder="YYYY-MM-DD">
+                    </div>
+
+                    <div class="input-field">
+                        <label>Gênero</label>
+                        <select name="gender">
+                            <option selected value="">Seleccione o Gênero</option>
+                            <option e-for="item of genders" e-text="{{ item.name }}" e-value="{{ item.id }}">Loading...
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <label>Estabelecimento</label>
+                        <select name="storeId">
+                            <option value="" selected>Seleccione o Estabelecimento</option>
+                            <option e-for="item of stores" e-text="{{ item.name }}" e-value="{{ item.id }}">Loading...
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <label class="default-label block-it">Papeis a desempenhar</label>
+                        <div class="default-container">
+
+                            <span class="check-field" e-for="item of roles" on:add="this.onRoleAdded">
+                                <span data="{ item: item, code: toCode(5) }">
+                                    <input class="app-checkbox" e-array name="roles" id="check-{{ code }}"
+                                        e-value="{{ item.id }}" type="checkbox">
+                                    <label for="check-{{ code }}" e-text="{{ item.name }}">Loading...</label>
+                                </span>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="action-area btn-ordered">
+                        <button type="reset" class="cancel-type" onclick="window.history.back()">Voltar</button>
+                        <button type="button" class="submit-type" on:click="this.submit">Criar</button>
+                    </div>
+                </div>
+            </form>
+            <div class="right" id="loadable"></div>
+        </div>
+    </div>
+</div>

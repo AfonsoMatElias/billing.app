@@ -113,61 +113,6 @@
     var formSumission = this.data.localSubmit;
 
     this.export({
-        submit: function (evt) {
-            formSumission(function (url, redirectTo) {
-                var btn = evt.currentTarget;
 
-                var form = aboveMe(evt.currentTarget, '[post-form]');
-                var formObj = bouer.toJsObj(form);
-
-                if (hasSpinner(btn)) return;
-                addOrRemSpinner(btn);
-
-                var formData = new FormData();
-
-                formData.append("json", JSON.stringify(formObj));
-                for (var file of component.el.querySelector('#image').files) {
-                    formData.append("file", file);
-                }
-
-                web(url, 'post', formData, {
-                    'Authorization': sessionStorage.token || undefined
-                }).then(function (data) {
-                    notify({
-                        type: 'success',
-                        message: 'Registro Efectuado'
-                    });
-
-                    // Waiting 2s to got the next page
-                    setTimeout(function () {
-                        bouer.$routing.navigate(redirectTo);
-                    }, 500);
-                }).finally(function () {
-                    addOrRemSpinner(btn, true);
-                })
-            });
-        },
-        loadImage: function (evt) {
-            // Getting position to use in the UI
-            var inputFile = evt.target;
-            var imageContainer = inputFile.parentNode;
-            
-            var file = inputFile.files[0];
-            if (file == null) return;
-            
-            var reader = new FileReader();
-            reader.addEventListener('load', function (data) {
-                imageContainer.style.backgroundImage = 'url(' + data.target.result + ')';
-            });
-            reader.readAsDataURL(file);
-        },
-        removeImage: function (evt) {
-            var imageContainer = evt.target;
-            var inputFile = imageContainer.querySelector('input');
-            if (inputFile == null) return;
-
-            inputFile.value = '';
-            imageContainer.setAttribute('style', '');
-        }
     });
 </script>

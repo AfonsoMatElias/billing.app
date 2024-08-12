@@ -57,6 +57,7 @@ var patterns = {
 }
 
 patterns['confirm-pass'].forceElement = true;
+
 // Adding especial treatment
 for (var key of ['date', 'select', 'age', 'checkboxes']) {
     patterns[key].isSpecial = true;
@@ -139,7 +140,7 @@ var validation = {
     run: function ($form) {
         var validCounter = 0, fails = [];
         // Getting the validation data
-        var total = validation.addEventListener($form, function () {
+        var total = validation.listen($form, function () {
             validCounter++;
         }, function (el) {
             fails.push(el);

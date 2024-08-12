@@ -1,0 +1,11 @@
+export { default as category } from './category.seed';
+export { default as country } from './country.seed';
+export { default as province } from './province.seed';
+export { default as store } from './store.seed';
+export { default as subCategory } from './subCategory.seed';
+export { default as employee } from './employee.seed';
+export { default as customer } from './customer.seed';
+export { default as product } from './product.seed';
+export { default as provider } from './provider.seed';
+export { default as stock } from './stock.seed';
+export { default as paymentMethod } from './paymentMethod';
