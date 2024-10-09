@@ -18,6 +18,7 @@ Billing.Tests/obj
 Billing.Reports/bin
 Billing.Reports/obj
 
+Billing.UI/dist
 Billing.UI/node_modules
 
 .fake

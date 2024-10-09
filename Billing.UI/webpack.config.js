@@ -7,11 +7,11 @@ const webpack = require('webpack');
 module.exports = (env, argv) => {
   const isProd = argv.mode == 'production';
   return {
-    entry: path.resolve(__dirname, 'src', 'app.ts'),
+    entry: path.resolve(__dirname, 'src', 'index.ts'),
     devtool: 'inline-source-map',
     output: {
       path: path.resolve(__dirname, (isProd ? '../Billing.App/wwwroot' : 'dist')),
-      filename: 'app.js'
+      filename: 'index.js'
     },
     module: {
       rules: [{
